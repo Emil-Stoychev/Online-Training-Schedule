@@ -1,0 +1,48 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css');
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    gap: 10rem;
+    padding: 1rem 0;
+    user-select: none;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    position: absolute;
+}
+
+p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+p span {
+    color: greenyellow;
+    font-size: 32px;
+    padding: 1rem;
+}
+
+footer > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+footer > div > i {
+    font-size: 42px;
+    padding: 1rem;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+footer > div > i:hover {
+    transform: scale(1.3);
+}
