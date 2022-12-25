@@ -134,5 +134,10 @@
     cursor: pointer;
     background-color: #45f3ff;
     margin: 35px auto 0 auto;
+    transition: all 300ms ease-in-out;
+}
+
+.form input:last-child:hover {
+    transform: scale(1.2);
 }
 
