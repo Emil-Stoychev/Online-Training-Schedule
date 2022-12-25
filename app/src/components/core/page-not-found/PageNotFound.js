@@ -5,7 +5,7 @@ export const PageNotFound = () => {
         <div className="page">
             <h1>Page Not Found!!!</h1>
 
-            <i class="fa-duotone fa-laptop-code"></i>
+            <i className="fa-duotone fa-laptop-code"></i>
         </div>
     )
 }

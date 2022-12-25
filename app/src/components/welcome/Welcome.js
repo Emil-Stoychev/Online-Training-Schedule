@@ -1,3 +1,5 @@
+import './welcome.css'
+
 export const WelcomeComponent = () => {
     return (
         <>
