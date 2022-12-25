@@ -37,15 +37,15 @@ nav ul li {
 
 nav ul li:active {
     transform: scale(1.1);
-    color: greenyellow;
+    color: #45f3ff;
 }
 
 nav ul li:hover { 
     transform: scale(1.2);
-    color: greenyellow;
+    color: #45f3ff;
 }
 
 span {
-    color: greenyellow;
+    color: #45f3ff;
     font-size: 32px;
 }
