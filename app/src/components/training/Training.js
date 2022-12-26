@@ -1,12 +1,19 @@
+import { useEffect, useState } from 'react'
 import './training.css'
 
 export const TrainingComponent = () => {
+    let [days, setDays] = useState([])
+    let [cont, setCont] = useState({
+        today: new Date(),
+        month: new Date().getMonth(),
+        year: new Date().getFullYear()
+    })
 
+    useEffect(() => {
+        initCalendar()
+    }, [cont])
 
-    let today = new Date()
     let activeDay;
-    let month = today.getFullMonth()
-    let year = today.getFullYear()
 
     const months = [
         'January',
@@ -24,36 +31,65 @@ export const TrainingComponent = () => {
     ]
 
     const initCalendar = () => {
-        const firstDay = new Date(year, month, 1)
-        const lastDay = new Date(year, month + 1, 0)
-        const prevLastDay = new Date(year, month, 0)
-        const prevDays = prevLastDay.getDate()
-        const lastDate = lastDay.getDate()
-        const day = firstDay.getDay()
-        const nextDays = 7 - lastDate.getDate() - 1
+        setDays([])
 
-        let days = ''
+        const firstDay = new Date(cont.year, cont.month, 1)
+        const lastDay = new Date(cont.year, cont.month + 1, 0)
+        const prevLastDay = new Date(cont.year, cont.month, 0)
 
-        for (let x = day; x > 0; x++) {
-            days += `<div className='day prev-date'>${prevDays - x + 1}</div>`
+        const prevDays = prevLastDay?.getDate()
+        const lastDate = lastDay?.getDate()
+        const day = firstDay?.getDay()
+        const nextDays = 7 - lastDay?.getDay() - 1
+
+        for (let x = day; x > 0; x--) {
+            setDays(state => [...state, <div className='day prev-date' key={Math.random() * 100}>{prevDays - x + 1}</div>])
         }
-
 
         for (let i = 1; i <= lastDate; i++) {
             if (
                 i == new Date().getDate() &&
-                year == new Date().getFullYear() &&
-                month == new Date().getMonth()
+                cont.year == new Date().getFullYear() &&
+                cont.month == new Date().getMonth()
             ) {
-                days += `<div className='day today'>${i}</div>`
+                setDays(state => [...state, <div className='day today' key={Math.random() * 50}>{i}</div>])
             } else {
-                days += `<div className='day'>${i}</div>`
+                setDays(state => [...state, <div className='day ' key={Math.random() * 30}>{i}</div>])
             }
         }
 
         for (let j = 1; j <= nextDays; j++) {
-            days += `<div className='day next-date'>${j}</div>`
+            setDays(state => [...state, <div className='day next-date' key={Math.random() * 67}>{j}</div>])
         }
+    }
+
+    const prevMonth = () => {
+        cont.month--;
+
+        if (cont.month < 0) {
+            cont.month = 11;
+            cont.year--;
+        }
+        initCalendar()
+    }
+
+    const nextMonth = () => {
+        cont.month++;
+
+        if (cont.month > 11) {
+            cont.month = 0;
+            cont.year++;
+        }
+        initCalendar()
+    }
+
+    const todayBtn = () => {
+        setCont({
+            today: new Date(),
+            month: new Date().getMonth(),
+            year: new Date().getFullYear()
+        })
+        initCalendar()
     }
 
     return (
@@ -61,9 +97,9 @@ export const TrainingComponent = () => {
             <div className="left">
                 <div className="calendar">
                     <div className="month">
-                        <i className='fa fa-angle-left prev'>Prev</i>
-                        <div className="date">{{month}}</div>
-                        <i className='fa fa-angle-right next'>Next</i>
+                        <i className='fa fa-angle-left prev' onClick={() => prevMonth()}></i>
+                        <div className="date">{months[cont.month]} {cont.year}</div>
+                        <i className='fa fa-angle-right next' onClick={() => nextMonth()}></i>
                     </div>
 
                     <div className="weekdays">
@@ -77,15 +113,11 @@ export const TrainingComponent = () => {
                     </div>
 
                     <div className="days">
-
+                        {days?.length > 0 ? days.map(x => x) : ''}
                     </div>
 
                     <div className="goto-today">
-                        <div className="goto">
-                            <input type="text" placeholder='mm/yyyy' className='date-input' />
-                            <button className='goto-btn'>Go</button>
-                        </div>
-                        <button className='today-btn'>Today</button>
+                        <button className='today-btn' onClick={() => todayBtn()}>Today</button>
                     </div>
                 </div>
             </div>
