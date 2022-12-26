@@ -121,6 +121,55 @@ export const TrainingComponent = () => {
                     </div>
                 </div>
             </div>
+
+            <div className='right'>
+                <div className='today-date'>
+                    <div className='event-day'>Wed</div>
+                    <div className='event-date'>{new Date().getDate()} {months[cont.month]} {cont.year}</div>
+                </div>
+                <div className='events'>
+                    <div className='event'>
+                        <div className='title'>
+                            <i className='fas fa-circle'></i>
+                            <h3 className='event-title'>Event 1</h3>
+                        </div>
+                        <div className='event-time'>10:00 - 12:00PM</div>
+                    </div>
+                    <div className='event'>
+                        <div className='title'>
+                            <i className='fas fa-circle'></i>
+                            <h3 className='event-title'>Event 2</h3>
+                        </div>
+                        <div className='event-time'>10:00 - 12:00PM</div>
+                    </div>
+                    <div className='event'>
+                        <div className='title'>
+                            <i className='fas fa-circle'></i>
+                            <h3 className='event-title'>Event 3</h3>
+                        </div>
+                        <div className='event-time'>10:00 - 12:00PM</div>
+                    </div>
+                </div>
+
+                <div className='add-event-wrapper'>
+                    <div className='add-event-header'>
+                        <div className='title'>Add Event</div>
+                        <i className='fas fa-times close'></i>
+                    </div>
+
+                    <div className='add-event-body'>
+                        <div className='add-event-input'>
+                            <input type='text' placeholder='Event Name' className='event-name'></input>
+                        </div>
+                        <div className='add-event-input'>
+                            <input type='text' placeholder='Event Time From' className='event-time-from'></input>
+                        </div>
+                        <div className='add-event-input'>
+                            <input type='text' placeholder='Event Tim To' className='event-time-to'></input>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
