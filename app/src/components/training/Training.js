@@ -2,18 +2,17 @@ import { useEffect, useState } from 'react'
 import './training.css'
 
 export const TrainingComponent = () => {
-    let [days, setDays] = useState([])
-    let [cont, setCont] = useState({
+    const [days, setDays] = useState([])
+    const [cont, setCont] = useState({
         today: new Date(),
         month: new Date().getMonth(),
         year: new Date().getFullYear()
     })
+    const [toggleActive, setToggleActive] = useState(false)
 
     useEffect(() => {
         initCalendar()
     }, [cont])
-
-    let activeDay;
 
     const months = [
         'January',
@@ -30,7 +29,7 @@ export const TrainingComponent = () => {
         'December'
     ]
 
-    const initCalendar = () => {
+    const initCalendar = (currDayValue) => {
         setDays([])
 
         const firstDay = new Date(cont.year, cont.month, 1)
@@ -43,44 +42,45 @@ export const TrainingComponent = () => {
         const nextDays = 7 - lastDay?.getDay() - 1
 
         for (let x = day; x > 0; x--) {
-            setDays(state => [...state, <div className='day prev-date' key={Math.random() * 100}>{prevDays - x + 1}</div>])
+            setDays(state => [...state, <div className='day prev-date ' onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 100}>{prevDays - x + 1}</div>])
         }
 
         for (let i = 1; i <= lastDate; i++) {
+
             if (
                 i == new Date().getDate() &&
                 cont.year == new Date().getFullYear() &&
                 cont.month == new Date().getMonth()
             ) {
-                setDays(state => [...state, <div className='day today' key={Math.random() * 50}>{i}</div>])
+                setDays(state => [...state, <div className={'day today ' + (currDayValue == i ? 'active' : '')} onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 50}>{i}</div>])
             } else {
-                setDays(state => [...state, <div className='day ' key={Math.random() * 30}>{i}</div>])
+                setDays(state => [...state, <div className={'day ' + (currDayValue == i ? 'active' : '')} onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 30}>{i}</div>])
             }
         }
 
         for (let j = 1; j <= nextDays; j++) {
-            setDays(state => [...state, <div className='day next-date' key={Math.random() * 67}>{j}</div>])
+            setDays(state => [...state, <div className='day next-date ' onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 67}>{j}</div>])
         }
     }
 
-    const prevMonth = () => {
+    const prevMonth = (currDayValue) => {
         cont.month--;
 
         if (cont.month < 0) {
             cont.month = 11;
             cont.year--;
         }
-        initCalendar()
+        initCalendar(currDayValue)
     }
 
-    const nextMonth = () => {
+    const nextMonth = (currDayValue) => {
         cont.month++;
 
         if (cont.month > 11) {
             cont.month = 0;
             cont.year++;
         }
-        initCalendar()
+        initCalendar(currDayValue)
     }
 
     const todayBtn = () => {
@@ -90,6 +90,26 @@ export const TrainingComponent = () => {
             year: new Date().getFullYear()
         })
         initCalendar()
+    }
+
+    const toggle = () => {
+        setToggleActive(x => !x)
+    }
+
+    const addActiveCurrDay = (e) => {
+        let currDayValue = e.currentTarget
+        let allDays = e.currentTarget.parentElement.childNodes
+        allDays.forEach(x => {
+            x.classList.remove('active')
+        })
+
+        if (currDayValue.classList.value.includes('prev-date')) {
+            prevMonth(currDayValue.innerHTML)
+        } else if (currDayValue.classList.value.includes('next-date')) {
+            nextMonth(currDayValue.innerHTML)
+        }
+
+        currDayValue.classList.add('active')
     }
 
     return (
@@ -151,10 +171,10 @@ export const TrainingComponent = () => {
                     </div>
                 </div>
 
-                <div className='add-event-wrapper'>
+                <div className={"add-event-wrapper " + (toggleActive ? 'active' : '')}>
                     <div className='add-event-header'>
                         <div className='title'>Add Event</div>
-                        <i className='fas fa-times close'></i>
+                        <i className='fas fa-times close' onClick={() => setToggleActive(false)}></i>
                     </div>
 
                     <div className='add-event-body'>
@@ -168,7 +188,14 @@ export const TrainingComponent = () => {
                             <input type='text' placeholder='Event Tim To' className='event-time-to'></input>
                         </div>
                     </div>
+
+                    <div className='add-event-footer'>
+                        <button className='add-event-btn'>Add Event</button>
+                    </div>
                 </div>
+                <button className='add-event' onClick={() => toggle()}>
+                    <i className='fas fa-plus'></i>
+                </button>
             </div>
         </div>
     )
