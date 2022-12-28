@@ -1,0 +1,294 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css");
+
+hr {
+  width: 90%;
+  border-radius: 100%;
+}
+
+section.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 1200px;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* background-color: #28292d85; */
+  padding: 3rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  margin-top: 15%;
+  margin-bottom: 15%;
+}
+
+/* CREATE POST */
+
+section.container .create-post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1% 0 5% 0;
+  background-color: #28292d85;
+  width: 100%;
+  padding: 4rem;
+  border-radius: 1rem;
+}
+
+section.container .create-post .info {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+section.container .create-post .info .profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+section.container .create-post .info .profile-image img {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}
+
+section.container .create-post .info .profile-image textarea {
+  width: 800px;
+  min-width: 600px;
+  max-width: 1000px;
+
+  min-height: 80px;
+  max-height: 100px;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+section.container .create-post .info .buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+  width: 75%;
+}
+
+section.container .create-post .info .buttons button {
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border: none;
+  font-weight: 600;
+}
+
+section.container .create-post .info .buttons button:hover {
+    transform: scale(1.1);
+    background-color: rgba(245, 222, 179, 0.103);
+    color: #45f3ff;
+}
+
+section.container .create-post .info .buttons select {
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* POSTS */
+
+section.container .posts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+section.container .posts .post {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 3rem;
+  background-color: #28292d85;
+  border-radius: 1rem;
+}
+
+section.container .posts .post .profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  width: 100%;
+  background-color: rgba(245, 222, 179, 0.103);
+  padding: 1rem 2.5rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+section.container .posts .post .profile div > i {
+  font-size: 28px;
+  cursor: pointer;
+}
+
+section.container .posts .post .profile .post-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+section.container .posts .post .profile .post-info img {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}
+
+section.container .posts .post .images {
+  margin: 0 auto;
+  width: 100%;
+}
+
+section.container .posts .post .images img {
+  width: 100%;
+  height: 100%;
+  max-width: 1100px;
+  max-height: 800px;
+  margin: 0;
+  padding: 0;
+}
+
+section.container .posts .post > .buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  color: white;
+  gap: 3rem;
+}
+
+section.container .posts .post .buttons i {
+  font-size: 42px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  overflow: hidden;
+}
+
+section.container .posts .post .buttons i:hover {
+  color: #45f3ff;
+}
+
+section.container .posts .post .buttons i:nth-child(1):hover {
+  color: red;
+}
+
+section.container .posts .post > p {
+  color: white;
+  padding: 1rem;
+}
+
+/* COMMENTS */
+
+section.container .comment-main-title {
+  text-align: center;
+  width: 100%;
+  color: white;
+  position: relative;
+  letter-spacing: 1.5px;
+  user-select: none;
+}
+
+section.container .comments,
+section.container .nested-comments {
+  padding: 2rem 2rem 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+section.container .nested-comments {
+  padding: 2rem 2rem 2rem 5rem;
+}
+
+section.container .comments .comment,
+section.container .comments .nested-comments {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+section.container .comments .comment > .top,
+section.container .comments .nested-comments > .nested-comment > .top {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  width: 100%;
+  background-color: rgba(245, 222, 179, 0.103);
+  padding: 1rem 1rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+section.container .comments .comment > .top img,
+section.container .comments .nested-comments > .nested-comment > .top img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+
+section.container .comments .comment > .top > div > h2,
+section.container .comments .comment > .top > div > p,
+section.container
+  .comments
+  .nested-comments
+  > .nested-comment
+  > .top
+  > div
+  > h2,
+section.container
+  .comments
+  .nested-comments
+  > .nested-comment
+  > .top
+  > div
+  > p {
+  font-size: 14px;
+}
+
+section.container .comments .comment > .main,
+section.container .comments .nested-comments > .nested-comment > .main {
+  padding: 1rem;
+  color: white;
+  letter-spacing: 1px;
+  width: 80%;
+}
+
+section.container .comments .comment > .main > p,
+section.container .comments .nested-comments > .nested-comment > .main > p {
+  font-size: 15px;
+}
+
+section.container .comments .comment > .buttons,
+section.container .comments .nested-comments > .nested-comment > .buttons {
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+section.container .comments .comment > .buttons > i,
+section.container .comments .nested-comments > .nested-comment > .buttons > i {
+  font-size: 24px;
+}
