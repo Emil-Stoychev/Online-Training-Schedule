@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import './App.scss';
+import './App.css';
 
 
 import { PageNotFound } from './components/core/page-not-found/PageNotFound';

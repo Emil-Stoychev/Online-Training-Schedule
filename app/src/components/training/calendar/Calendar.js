@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import './calendar.scss'
+import './calendar.css'
 
 export const CalendarComponent = () => {
     const [days, setDays] = useState([])
@@ -50,9 +50,10 @@ export const CalendarComponent = () => {
             if (
                 i == new Date().getDate() &&
                 cont.year == new Date().getFullYear() &&
-                cont.month == new Date().getMonth()
+                cont.month == new Date().getMonth() &&
+                currDayValue == undefined
             ) {
-                setDays(state => [...state, <div className={'day today active' + (currDayValue == i ? 'active' : '')} onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 50}>{i}</div>])
+                setDays(state => [...state, <div className={'day today active'} onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 50}>{i}</div>])
             } else {
                 setDays(state => [...state, <div className={'day ' + (currDayValue == i ? 'active' : '')} onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 30}>{i}</div>])
             }
@@ -110,10 +111,6 @@ export const CalendarComponent = () => {
         }
 
         currDayValue.classList.add('active')
-
-        // console.log(cont);
-
-        // cont.today = currDayValue.innerHTML
     }
 
     return (
@@ -189,7 +186,7 @@ export const CalendarComponent = () => {
                             <input type='text' placeholder='Event Time From' className='event-time-from'></input>
                         </div>
                         <div className='add-event-input'>
-                            <input type='text' placeholder='Event Tim To' className='event-time-to'></input>
+                            <input type='text' placeholder='Event Time To' className='event-time-to'></input>
                         </div>
                     </div>
 

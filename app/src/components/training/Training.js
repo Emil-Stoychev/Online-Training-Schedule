@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CalendarComponent } from './calendar/Calendar'
-import './training.scss'
+import './training.css'
 
 export const TrainingComponent = () => {
     
