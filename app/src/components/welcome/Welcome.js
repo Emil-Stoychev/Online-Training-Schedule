@@ -1,9 +1,11 @@
-import './welcome.css'
+import './welcome.scss'
 
 export const WelcomeComponent = () => {
     return (
-        <>
-            <h1>Welcome page</h1>        
-        </>
+        <div className="container">
+
+
+
+        </div>
     )
 }
