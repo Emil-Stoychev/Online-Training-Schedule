@@ -7,7 +7,7 @@ div.container {
     color: #fff;
     display: flex;
     border-radius: 10px;
-    background-color: #373c4f;
+    background-color: #28292d;
     margin: 12rem 0;
 }
 
@@ -67,7 +67,7 @@ div.container {
 
 .calendar .month .prev:hover,
 .calendar .month .next:hover {
-    color: #b38add;
+    color: #34b0b9
 }
 
 .calendar .weekdays {
@@ -116,19 +116,19 @@ div.container {
 
 .calendar .day:not(.prev-date, .next-date):hover {
     color: #fff;
-    background-color: #b38add;
+    background-color: #34b0b9;
 }
 
 .calendar .days .prev-date,
 .calendar .days .next-date {
-    color: #b38add;
+    color: #a38bbb;
 }
 
 .calendar .days .active {
     position: relative;
     font-size: 2rem;
     color: #fff;
-    background-color: #b38add;
+    background-color: #34b0b9;
 }
 
 .calendar .days .active::before {
@@ -138,7 +138,7 @@ div.container {
     left: 0;
     width: 100%;
     height: 100%;
-    box-shadow: 0 0 10px 2px #b38add;
+    box-shadow: 0 0 10px 2px #34b0b9;
 }
 
 .calendar .days .today {
@@ -184,7 +184,7 @@ div.container {
     gap: 5px;
     padding: 0 20px;
     margin-bottom: 20px;
-    color: #b38add;
+    color: white;
 }
 
 .calendar .goto-today button {
@@ -194,11 +194,12 @@ div.container {
     background-color: transparent;
     cursor: pointer;
     color: #b38add;
+    transition: all 300ms ease-in-out;
 }
 
 .calendar .goto-today button:hover {
     color: #fff;
-    background-color: #b38add;
+    background-color: #34b0b9;
 }
 
 
@@ -269,7 +270,7 @@ div.container .right {
 }
 
 .events .event:hover {
-    background: linear-gradient(90deg, #b38add, transparent);
+    background: linear-gradient(90deg, #34b0b9, transparent);
 }
 
 .events .event .title {
@@ -285,7 +286,7 @@ div.container .right {
 }
 
 .events .event .title i {
-    color: #b38add;
+    color: #34b0b9;
     font-size: 0.5rem;
 }
 
@@ -312,7 +313,7 @@ div.container .right {
     align-items: center;
     justify-content: center;
     opacity: 0.3;
-    color: #b38add;
+    color: #34b0b9;
     transform: translateY(-50%);
 }
 
@@ -354,7 +355,7 @@ div.container .right {
 }
 
 .add-event-header .close:hover {
-    color: #b38add;
+    color: #34b0b9;
 }
 
 .add-event-header .title {
@@ -397,11 +398,11 @@ div.container .right {
 }
 
 .add-event-body .add-event-input input:focus {
-    border-color: #b38add;
+    border-color: #34b0b9;
 }
 
 .add-event-body .add-event-input input:focus::placeholder {
-    color: #b38add;
+    color: #34b0b9;
 }
 
 .add-event-footer {
@@ -417,8 +418,7 @@ div.container .right {
     font-weight: 500;
     outline: none;
     border: none;
-    color: #fff;
-    background-color: #b38add;
+    color: #b38add;
     border-radius: 5px;
     cursor: pointer;
     padding: 5px 10px;
@@ -426,8 +426,8 @@ div.container .right {
 }
 
 .add-event-btn:hover {
-    color: #b38add;
-    background-color: transparent;
+    color: white;
+    background-color: #34b0b9;
 }
 
 .add-event {
