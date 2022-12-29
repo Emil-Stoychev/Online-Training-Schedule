@@ -1,0 +1,82 @@
+/* Add training program */
+
+.add-program {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1.5rem;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #28292d;
+    padding: 2rem;
+    border-radius: 1rem;
+    color: white;
+    margin-bottom: 5rem;
+}
+
+.add-program .last-btn {
+    margin: 2rem auto 0 auto;
+}
+
+.add-program .add-program-buttons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.add-program input,
+.add-program textarea {
+    border-radius: 0.3rem;
+    padding-left: 0.5rem;
+}
+
+.add-program button,
+.add-program select {
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+    border: none;
+    font-weight: 600;
+}
+
+.add-program button:hover,
+.add-program select:hover {
+    transform: scale(1.1);
+    background-color: rgba(245, 222, 179, 0.103);
+    color: #45f3ff;
+}
+
+.add-program .choose-category {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1.5rem;
+}
+
+.add-program .add-option {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1.5rem;
+}
+
+.add-program .add-option > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    max-width: 250%;
+}
+
+.add-program .add-option > div > textarea {
+    width: 300px;
+    max-width: 500px;
+    min-height: 50px;
+    max-height: 300px;
+}
+
+.add-program .add-option > div > h2 {
+    font-size: 18px;
+    cursor: pointer;
+}

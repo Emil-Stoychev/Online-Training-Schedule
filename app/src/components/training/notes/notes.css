@@ -1,0 +1,151 @@
+section.training-notes {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    gap: 0.5rem;
+    width: 100%;
+    margin-bottom: 10rem;
+    min-height: 50vh ;
+}
+
+section.training-notes .notes {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+    background-color: #28292d;
+    padding: 0.2rem 1rem 1.5rem 1rem;
+    border-radius: 1rem;
+    transition: all 300ms ease-in-out;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
+    margin-bottom: 0.5rem;
+}
+
+section.training-notes .notes:hover {
+    background-color: #28292db7;
+}
+
+section.training-notes .notes-category {
+    width: 100%;
+}
+
+section.training-notes .notes-category > h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5rem;
+}
+
+section.training-notes .notes-category > h2 i {
+    font-size: 42px;
+    cursor: pointer;
+    margin: -2%;
+    transition: all 300ms ease-in-out;
+}
+
+section.training-notes .notes-category > h2 i:hover {
+    transform: rotate(-120deg);
+}
+
+section.training-notes .notes > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 42rem;
+}
+
+section.training-notes .notes > div h3 {
+    font-size: 42px;
+    margin: 0;
+    padding-right: 1rem;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+}
+
+section.training-notes .notes > div h3:hover {
+    transform: scale(1.1) rotate(-90deg);
+}
+
+section.training-notes .notes > time {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+section.training-notes .notes > p {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    letter-spacing: 2px;
+    font-size: 12px;
+}
+
+section.training-notes .notes > .notes-more {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 75%;
+    gap: 1rem;
+    margin: 0 auto;
+    padding: 0.5rem 0 2rem 0;
+    /* display: none; */
+}
+
+section.training-notes .notes > .notes-more > .notes-more-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    width: 100%;
+    gap: 1rem;
+}
+
+section.training-notes .notes > .notes-more > .notes-more-buttons > i {
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+    border: none;
+    font-weight: 600;
+}
+
+section.training-notes .notes > .notes-more > .notes-more-buttons > i:hover {
+    transform: scale(1.1);
+    background-color: rgba(245, 222, 179, 0.103);
+    color: #45f3ff;
+}
+
+section.training-notes .notes > .notes-more > .notes-more-buttons > i:last-child:hover {
+    transform: scale(1.1);
+    background-color: rgba(245, 222, 179, 0.103);
+    color: red;
+}
+
+section.training-notes .notes > .notes-more h2 {
+    padding-left: 3rem;
+    font-size: 18px;
+}
+
+section.training-notes .notes > .notes-more p {
+    padding-left: 5rem;
+    font-size: 14px;
+}
+
+.notes-private-p {
+    background-color: red;
+}
+
+.notes-public-p {
+    background-color: green;
+}
+
+.notes-friends-p {
+    background-color: #34b0b9;
+}
+
