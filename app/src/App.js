@@ -11,6 +11,7 @@ import { RegisterComponent } from './components/register/Register';
 import { TrainingComponent } from './components/training/Training';
 import { AboutComponent } from './components/about/About';
 import { ProfileComponent } from './components/profile/Profile';
+import { MainComponent } from './components/main/Main';
 
 function App() {
   return (
@@ -20,7 +21,9 @@ function App() {
 
       <Routes>
 
-        <Route path='/' element={<WelcomeComponent />} />
+        {/* <Route path='/' element={<WelcomeComponent />} /> */}
+
+        <Route path='/' element={<MainComponent />} />
 
         <Route path='/training' element={<TrainingComponent />} />
 

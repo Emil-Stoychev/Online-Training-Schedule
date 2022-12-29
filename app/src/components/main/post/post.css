@@ -1,0 +1,128 @@
+/* POSTS */
+
+section.container .posts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+section.container .posts .post {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 3rem;
+  background-color: #28292d;
+  border-radius: 1rem;
+}
+
+section.container .posts .post .profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  color: white;
+  width: 100%;
+  background-color: rgba(245, 222, 179, 0.103);
+  padding: 1rem 2.5rem;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+section.container .posts .post .profile div > i {
+  font-size: 28px;
+  cursor: pointer;
+}
+
+section.container .posts .post .profile .post-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+section.container .posts .post .profile .post-info img {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}
+
+section.container .posts .post .images {
+  margin: 0 auto;
+  width: 100%;
+  max-height: 750px;
+  min-height: 450px;
+  position: relative;
+}
+
+section.container .posts .post .images img {
+  max-width: 1100px;
+  max-height: 900px;
+  margin: 0 auto;
+}
+
+section.container .posts .post .images > .sliders {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+section.container .posts .post .images > .sliders > button {
+    height: 100%;
+    width: 50px;
+    background-color: #28292d63;
+    color: white;
+    font-weight: 600;
+    font-size: 24px;
+    transition: all 350ms ease-in-out;
+    cursor: pointer;
+    z-index: 3;
+}
+
+section.container .posts .post .images > .sliders > button:nth-child(1) {
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+section.container .posts .post .images > .sliders > button:nth-child(2) {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+section.container .posts .post .images > .sliders > button:hover {
+    background-color: #28292dcb;
+}
+
+section.container .posts .post > .buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  color: white;
+  gap: 3rem;
+}
+
+section.container .posts .post .buttons i {
+  font-size: 42px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  overflow: hidden;
+}
+
+section.container .posts .post .buttons i:hover {
+  color: #45f3ff;
+}
+
+section.container .posts .post .buttons i:nth-child(1):hover {
+  color: red;
+}
+
+section.container .posts .post > p {
+  color: white;
+  padding: 1rem;
+}
