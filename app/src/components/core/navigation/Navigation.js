@@ -15,8 +15,8 @@ export const NavigationComponent = () => {
                 <div className="main">
                     <li onClick={() => navigate('/')}>Home</li>
                     <li onClick={() => navigate('/training')}>Training</li>
-                    <li onClick={() => navigate('/about')}>About</li>
                     <li onClick={() => navigate('/profile')}>Profile</li>
+                    <li onClick={() => navigate('/about')}>About</li>
                 </div>
 
                 <span>|</span>

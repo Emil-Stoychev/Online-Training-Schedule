@@ -10,13 +10,12 @@ section.container {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 1200px;
-  max-width: 1200px;
+  width: 1000px;
+  max-width: 1000px;
   margin: 0 auto;
   /* background-color: #28292d85; */
   padding: 3rem;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
+  border-radius: 1rem;
   margin-top: 15%;
   margin-bottom: 15%;
 }

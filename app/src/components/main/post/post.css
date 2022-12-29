@@ -43,9 +43,14 @@ section.container .posts .post .profile .post-info {
   gap: 0.5rem;
 }
 
+section.container .posts .post .profile .post-info > div > h3,
+section.container .posts .post .profile .post-info > div > p {
+  font-size: 15px;
+}
+
 section.container .posts .post .profile .post-info img {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border-radius: 100%;
 }
 
@@ -64,38 +69,38 @@ section.container .posts .post .images img {
 }
 
 section.container .posts .post .images > .sliders {
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0 auto;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
 }
 
 section.container .posts .post .images > .sliders > button {
-    height: 100%;
-    width: 50px;
-    background-color: #28292d63;
-    color: white;
-    font-weight: 600;
-    font-size: 24px;
-    transition: all 350ms ease-in-out;
-    cursor: pointer;
-    z-index: 3;
+  height: 100%;
+  width: 50px;
+  background-color: #28292d63;
+  color: white;
+  font-weight: 600;
+  font-size: 24px;
+  border: none;
+  transition: all 350ms ease-in-out;
+  cursor: pointer;
+  z-index: 3;
 }
 
 section.container .posts .post .images > .sliders > button:nth-child(1) {
-    border-top-right-radius: 1rem;
-    border-bottom-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 section.container .posts .post .images > .sliders > button:nth-child(2) {
-    border-top-left-radius: 1rem;
-    border-bottom-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+
 }
 section.container .posts .post .images > .sliders > button:hover {
-    background-color: #28292dcb;
+  background-color: #45f3ff2f;
 }
 
 section.container .posts .post > .buttons {
@@ -108,7 +113,7 @@ section.container .posts .post > .buttons {
 }
 
 section.container .posts .post .buttons i {
-  font-size: 42px;
+  font-size: 24px;
   cursor: pointer;
   transition: all 300ms ease-in-out;
   overflow: hidden;
@@ -125,4 +130,6 @@ section.container .posts .post .buttons i:nth-child(1):hover {
 section.container .posts .post > p {
   color: white;
   padding: 1rem;
+  width: 85%;
+  font-size: 16px;
 }
