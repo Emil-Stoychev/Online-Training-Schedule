@@ -1,0 +1,200 @@
+section.profile-cont {
+  margin: 20% 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 1000px;
+  min-height: 700px;
+  color: white;
+}
+
+section.profile-cont .profile-info-up {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 80%;
+}
+
+section.profile-cont .profile-info-up > div:nth-child(1) {
+  width: 20%;
+}
+
+section.profile-cont .profile-info-up > div:nth-child(2) {
+  width: 80%;
+}
+
+section.profile-cont .profile-info-up > div > img {
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+}
+
+section.profile-cont .profile-info-up .profile-info-in {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+section.profile-cont .profile-info-up .profile-info-in > div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.5rem;
+  user-select: none;
+}
+
+section.profile-cont .profile-info-up .profile-info-in .profile-name > button {
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border: none;
+  font-weight: 600;
+}
+
+section.profile-cont
+  .profile-info-up
+  .profile-info-in
+  .profile-name
+  > button:hover {
+  transform: scale(1.1);
+  background-color: rgba(245, 222, 179, 0.103);
+  color: #45f3ff;
+}
+
+section.profile-cont .profile-info-up .profile-info-in .profile-statistic > h3 {
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+}
+
+section.profile-cont
+  .profile-info-up
+  .profile-info-in
+  .profile-statistic
+  > h3:hover {
+  transform: scale(1.05);
+}
+
+section.profile-cont .profile-info-up .profile-info-in > .profile-bio {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.2rem;
+  width: 100%;
+}
+
+section.profile-cont .profile-info-up .profile-info-in .profile-bio > p {
+  font-size: 14px;
+}
+
+section.profile-cont .profile-nav > ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  user-select: none;
+  font-size: 18px;
+  margin-bottom: 1rem;
+}
+
+section.profile-cont .profile-nav > ul > li {
+  color: rgba(245, 245, 245, 0.438);
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+section.profile-cont .profile-nav > ul > li.active {
+  color: rgb(255, 255, 255);
+}
+
+section.profile-cont .profile-info-main {
+  position: relative;
+  width: 90%;
+  min-height: 700px;
+  padding: 2rem;
+
+  background-color: #28292d7c;
+  border-radius: 1rem;
+  padding: 2rem 1rem;
+}
+
+section.profile-cont .profile-info-main .profile-info-posts,
+section.profile-cont .profile-info-main .profile-info-trainings {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+section.profile-cont .profile-info-main .profile-info-posts > div,
+section.profile-cont .profile-info-main .profile-info-trainings > div {
+  width: 30%;
+  max-width: 30%;
+  height: 250px;
+  max-height: 250px;
+
+  text-align: center;
+  border-radius: 3%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  transition: all 300ms ease-in-out;
+  cursor: pointer;
+}
+
+section.profile-cont .profile-info-main .profile-info-posts > div:hover {
+  transform: scale(1.03);
+}
+
+section.profile-cont .profile-info-main .profile-info-posts > div > img {
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+}
+
+section.profile-cont .profile-info-main .profile-info-trainings > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  transition: all 300ms ease-in-out;
+  background-color: #16171b;
+}
+
+section.profile-cont .profile-info-main .profile-info-trainings > div > h2 {
+    z-index: 2;
+}
+
+section.profile-cont .profile-info-main .profile-info-trainings > div > img:hover {
+  transform: scale(1.03);
+  opacity: 0.3;
+}
+
+section.profile-cont .profile-info-main .profile-info-trainings > div {
+  position: relative;
+}
+
+section.profile-cont .profile-info-main .profile-info-trainings > div > img,
+section.profile-cont .profile-info-main .profile-info-trainings > div > h2 {
+  position: absolute;
+}
+
+section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
+  font-size: 16px;
+  user-select: none;
+  letter-spacing: 1px;
+}
+
+section.profile-cont .profile-info-main .profile-info-trainings {
+}
