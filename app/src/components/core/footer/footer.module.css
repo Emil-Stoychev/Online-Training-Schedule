@@ -30,20 +30,62 @@ p span {
     padding: 1rem;
 }
 
-footer > div {
+footer>div {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 2rem;
 }
 
-footer > div > i {
+footer>div>i {
     font-size: 42px;
     padding: 1rem;
     transition: all 300ms ease-in-out;
     cursor: pointer;
 }
 
-footer > div > i:hover {
+footer>div>i:hover {
     transform: scale(1.3);
+}
+
+
+@media screen and (max-width: 1150px) {
+
+    footer {
+        gap: 5rem;
+    }
+
+}
+
+@media screen and (max-width: 730px) {
+
+    footer {
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+}
+
+@media screen and (max-width: 420px) {
+
+    footer p {
+        font-size: 12px;
+    }
+
+}
+
+@media screen and (max-width: 330px) {
+
+    footer div {
+        gap: 0.5rem;
+    }
+
+}
+
+@media screen and (max-width: 270px) {
+
+    footer p {
+        padding: 0 2rem;
+    }
+
 }
