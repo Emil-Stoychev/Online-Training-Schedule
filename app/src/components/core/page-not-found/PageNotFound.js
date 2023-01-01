@@ -1,11 +1,21 @@
-import './pageNotFound.module.css'
+import './pageNotFound.css'
 
 export const PageNotFound = () => {
     return (
-        <div className="page">
-            <h1>Page Not Found!!!</h1>
+        <div className="page-not-found">
+            <div className="cnt-scene">
 
-            <i className="fa-duotone fa-laptop-code"></i>
+                <div className="scene">
+                    <p className="p404" data-depth="0.50">404</p>
+                    <p className="p404" data-depth="0.10">404</p>
+                </div>
+
+                <div className="text">
+                    <p>Uh oh! Looks like you got lost. <br />Go back to the homepage if you dare!</p>
+                    <button>i dare!</button>
+                </div>
+
+            </div>
         </div>
     )
 }
