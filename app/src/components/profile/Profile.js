@@ -27,7 +27,11 @@ export const ProfileComponent = () => {
                         <div className='profile-bio'>
                             <p>Work smart, not hard!</p>
                             <p>Work...!</p>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled</p>
+                        </div>
+
+                        <div className='profile-name'>
+                            <button>Follow</button>
+                            <button>Message</button>
                         </div>
                     </div>
 
@@ -47,9 +51,9 @@ export const ProfileComponent = () => {
 
                 <article className='profile-info-main'>
 
-                    <article className='profile-info-posts'>
+                    {/* <article className='profile-info-posts'>
 
-                        {/* <h2>No posts yet!</h2> */}
+                        <h2>No posts yet!</h2>
 
                         <div className='posts-small'>
                             <img src='https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?cs=srgb&dl=pexels-math-90946.jpg&fm=jpg' />
@@ -87,49 +91,49 @@ export const ProfileComponent = () => {
                             <h2>Example title</h2>
                         </div>
 
-                    </article>
-
-                    {/* <article className='profile-info-trainings'>
-
-                        <h2>No trainings yet!</h2>
-
-                        <div>
-                            <img src='https://images.pexels.com/photos/1022692/pexels-photo-1022692.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
-
-                            <h2>Gorna Chast</h2>
-                        </div>
-
-                        <div>
-                            <img src='' />
-
-                            <h2>Korem</h2>
-                        </div>
-
-                        <div>
-                            <img src='https://www.mensjournal.com/wp-content/uploads/mf/getty-rf_running-sprint-man-track-1280_0.jpg?w=900&h=506&crop=1&quality=86&strip=all' />
-
-                            <h2>Cardio</h2>
-                        </div>
-
-                        <div>
-                            <img src='https://images.pexels.com/photos/1022692/pexels-photo-1022692.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
-
-                            <h2>Gorna Chast</h2>
-                        </div>
-
-                        <div>
-                            <img src='' />
-
-                            <h2>Korem</h2>
-                        </div>
-
-                        <div>
-                            <img src='https://www.mensjournal.com/wp-content/uploads/mf/getty-rf_running-sprint-man-track-1280_0.jpg?w=900&h=506&crop=1&quality=86&strip=all' />
-
-                            <h2>Cardio</h2>
-                        </div>
-
                     </article> */}
+
+                    <article className='profile-info-trainings'>
+
+                        {/* <h2>No trainings yet!</h2> */}
+
+                        <div>
+                            <img src='https://images.pexels.com/photos/1022692/pexels-photo-1022692.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
+
+                            <h2>Gorna Chast</h2>
+                        </div>
+
+                        <div>
+                            <img src='' />
+
+                            <h2>Korem</h2>
+                        </div>
+
+                        <div>
+                            <img src='https://www.mensjournal.com/wp-content/uploads/mf/getty-rf_running-sprint-man-track-1280_0.jpg?w=900&h=506&crop=1&quality=86&strip=all' />
+
+                            <h2>Cardio</h2>
+                        </div>
+
+                        <div>
+                            <img src='https://images.pexels.com/photos/1022692/pexels-photo-1022692.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' />
+
+                            <h2>Gorna Chast</h2>
+                        </div>
+
+                        <div>
+                            <img src='' />
+
+                            <h2>Korem</h2>
+                        </div>
+
+                        <div>
+                            <img src='https://www.mensjournal.com/wp-content/uploads/mf/getty-rf_running-sprint-man-track-1280_0.jpg?w=900&h=506&crop=1&quality=86&strip=all' />
+
+                            <h2>Cardio</h2>
+                        </div>
+
+                    </article>
 
 
                     {/* <article className='profile-info-posts saved'>

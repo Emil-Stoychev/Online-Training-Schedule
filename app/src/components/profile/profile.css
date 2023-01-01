@@ -29,6 +29,11 @@ section.profile-cont .profile-info-up > div > img {
   width: 150px;
   height: 150px;
   border-radius: 100%;
+  transition: all 300ms ease-in-out;
+}
+
+section.profile-cont .profile-info-up > div > img:hover {
+  transform: scale(1.05);
 }
 
 section.profile-cont .profile-info-up .profile-info-in {
