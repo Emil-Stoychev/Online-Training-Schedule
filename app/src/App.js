@@ -12,6 +12,8 @@ import { TrainingComponent } from './components/training/Training';
 import { AboutComponent } from './components/about/About';
 import { ProfileComponent } from './components/profile/Profile';
 import { MainComponent } from './components/main/Main';
+import { PostComponent } from './components/main/post/Post';
+import { TrainingPostComponent } from './components/main/training-post/Training-post';
 
 function App() {
   return (
@@ -24,6 +26,21 @@ function App() {
         {/* <Route path='/' element={<WelcomeComponent />} /> */}
 
         <Route path='/' element={<MainComponent />} />
+
+
+        <Route path='/post/:id' element={
+          <section className="container">
+
+            <article className="posts">
+
+              <PostComponent />
+
+            </article>
+
+          </section>
+        } />
+
+        <Route path='/training-post/:id' element={<TrainingPostComponent />} />
 
         <Route path='/training' element={<TrainingComponent />} />
 
