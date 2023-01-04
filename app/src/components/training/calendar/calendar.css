@@ -457,12 +457,16 @@ div.container .right {
 }
 
 
-@media (max-width: 1000px) {
+@media (max-width: 1250px) {
 
     div.container {
         min-height: 100vh;
         flex-direction: column;
         border-radius: 0;
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 15%;
+        margin-bottom: 10%;
     }
 
     div.container .left,
@@ -496,7 +500,11 @@ div.container .right {
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 950px) {
+
+    div.container {
+        margin-top: 25%;
+    }
 
     .calendar .month {
         height: 75px;
@@ -518,5 +526,72 @@ div.container .right {
 
     .right .today-date {
         padding: 20px;
+    }
+}
+
+@media (max-width: 620px) {
+
+    div.container {
+        margin-top: 35%;
+    }
+}
+
+@media (max-width: 555px) {
+
+    div.container {
+        width: 100%;
+    }
+
+    .calendar .days .day {
+        height: 30px;
+    }
+
+    .calendar .days .day.active,
+    .calendar .days .day.today {
+        font-size: 1rem;
+    }
+
+    .calendar .weekdays {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 385px) {
+
+    div.container {
+        margin-top: 75%;
+    }
+
+    .calendar .month {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 335px) {
+
+    div.container {
+        margin-top: 85%;
+    }
+
+    .calendar .weekdays {
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 300px) {
+
+    div.container {
+        margin-top: 100%;
+    }
+
+    .calendar .month {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 250px) {
+
+    .calendar .month {
+        font-size: 0.5rem;
     }
 }

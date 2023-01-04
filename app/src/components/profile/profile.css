@@ -17,22 +17,22 @@ section.profile-cont .profile-info-up {
   width: 80%;
 }
 
-section.profile-cont .profile-info-up > div:nth-child(1) {
+section.profile-cont .profile-info-up>div:nth-child(1) {
   width: 20%;
 }
 
-section.profile-cont .profile-info-up > div:nth-child(2) {
+section.profile-cont .profile-info-up>div:nth-child(2) {
   width: 80%;
 }
 
-section.profile-cont .profile-info-up > div > img {
+section.profile-cont .profile-info-up>div>img {
   width: 150px;
   height: 150px;
   border-radius: 100%;
   transition: all 300ms ease-in-out;
 }
 
-section.profile-cont .profile-info-up > div > img:hover {
+section.profile-cont .profile-info-up>div>img:hover {
   transform: scale(1.05);
 }
 
@@ -44,7 +44,7 @@ section.profile-cont .profile-info-up .profile-info-in {
   gap: 0.6rem;
 }
 
-section.profile-cont .profile-info-up .profile-info-in > div {
+section.profile-cont .profile-info-up .profile-info-in>div {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -52,7 +52,7 @@ section.profile-cont .profile-info-up .profile-info-in > div {
   user-select: none;
 }
 
-section.profile-cont .profile-info-up .profile-info-in .profile-name > button {
+section.profile-cont .profile-info-up .profile-info-in .profile-name>button {
   padding: 0.2rem 1rem;
   border-radius: 1rem;
   font-size: 16px;
@@ -62,30 +62,22 @@ section.profile-cont .profile-info-up .profile-info-in .profile-name > button {
   font-weight: 600;
 }
 
-section.profile-cont
-  .profile-info-up
-  .profile-info-in
-  .profile-name
-  > button:hover {
+section.profile-cont .profile-info-up .profile-info-in .profile-name>button:hover {
   transform: scale(1.1);
   background-color: rgba(245, 222, 179, 0.103);
   color: #45f3ff;
 }
 
-section.profile-cont .profile-info-up .profile-info-in .profile-statistic > h3 {
+section.profile-cont .profile-info-up .profile-info-in .profile-statistic>h3 {
   cursor: pointer;
   transition: all 300ms ease-in-out;
 }
 
-section.profile-cont
-  .profile-info-up
-  .profile-info-in
-  .profile-statistic
-  > h3:hover {
+section.profile-cont .profile-info-up .profile-info-in .profile-statistic>h3:hover {
   transform: scale(1.05);
 }
 
-section.profile-cont .profile-info-up .profile-info-in > .profile-bio {
+section.profile-cont .profile-info-up .profile-info-in>.profile-bio {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -94,11 +86,11 @@ section.profile-cont .profile-info-up .profile-info-in > .profile-bio {
   width: 100%;
 }
 
-section.profile-cont .profile-info-up .profile-info-in .profile-bio > p {
+section.profile-cont .profile-info-up .profile-info-in .profile-bio>p {
   font-size: 14px;
 }
 
-section.profile-cont .profile-nav > ul {
+section.profile-cont .profile-nav>ul {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -108,13 +100,13 @@ section.profile-cont .profile-nav > ul {
   margin-bottom: 1rem;
 }
 
-section.profile-cont .profile-nav > ul > li {
+section.profile-cont .profile-nav>ul>li {
   color: rgba(245, 245, 245, 0.438);
   cursor: pointer;
   letter-spacing: 1px;
 }
 
-section.profile-cont .profile-nav > ul > li.active {
+section.profile-cont .profile-nav>ul>li.active {
   color: rgb(255, 255, 255);
 }
 
@@ -138,8 +130,8 @@ section.profile-cont .profile-info-main .profile-info-trainings {
   justify-content: center;
 }
 
-section.profile-cont .profile-info-main .profile-info-posts > div,
-section.profile-cont .profile-info-main .profile-info-trainings > div {
+section.profile-cont .profile-info-main .profile-info-posts>div,
+section.profile-cont .profile-info-main .profile-info-trainings>div {
   width: 30%;
   max-width: 30%;
   height: 250px;
@@ -158,17 +150,17 @@ section.profile-cont .profile-info-main .profile-info-trainings > div {
   cursor: pointer;
 }
 
-section.profile-cont .profile-info-main .profile-info-posts > div:hover {
+section.profile-cont .profile-info-main .profile-info-posts>div:hover {
   transform: scale(1.03);
 }
 
-section.profile-cont .profile-info-main .profile-info-posts > div > img {
+section.profile-cont .profile-info-main .profile-info-posts>div>img {
   width: 100%;
   height: 80%;
   object-fit: cover;
 }
 
-section.profile-cont .profile-info-main .profile-info-trainings > div > img {
+section.profile-cont .profile-info-main .profile-info-trainings>div>img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -177,29 +169,137 @@ section.profile-cont .profile-info-main .profile-info-trainings > div > img {
   background-color: #16171b;
 }
 
-section.profile-cont .profile-info-main .profile-info-trainings > div > h2 {
-    z-index: 2;
+section.profile-cont .profile-info-main .profile-info-trainings>div>h2 {
+  z-index: 2;
 }
 
-section.profile-cont .profile-info-main .profile-info-trainings > div > img:hover {
+section.profile-cont .profile-info-main .profile-info-trainings>div>img:hover {
   transform: scale(1.03);
   opacity: 0.3;
 }
 
-section.profile-cont .profile-info-main .profile-info-trainings > div {
+section.profile-cont .profile-info-main .profile-info-trainings>div {
   position: relative;
 }
 
-section.profile-cont .profile-info-main .profile-info-trainings > div > img,
-section.profile-cont .profile-info-main .profile-info-trainings > div > h2 {
+section.profile-cont .profile-info-main .profile-info-trainings>div>img,
+section.profile-cont .profile-info-main .profile-info-trainings>div>h2 {
   position: absolute;
 }
 
-section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
+section.profile-cont .profile-info-main .profile-info-posts>div>h2 {
   font-size: 16px;
   user-select: none;
   letter-spacing: 1px;
 }
 
-section.profile-cont .profile-info-main .profile-info-trainings {
+section.profile-cont .profile-info-main .profile-info-trainings {}
+
+
+@media screen and (max-width: 1000px) {
+  section.profile-cont {
+    width: 900px;
+  }
+
+  section.profile-cont .profile-info-up>div>img {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media screen and (max-width: 920px) {
+  section.profile-cont {
+    margin: 30% 0;
+    width: 800px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  section.profile-cont {
+    width: 700px;
+  }
+
+  section.profile-cont .profile-info-up>div>img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  section.profile-cont {
+    margin: 40% 0;
+    width: 600px;
+  }
+
+  section.profile-cont .profile-info-up>div>img {
+    width: 80px;
+    height: 80px;
+  }
+
+  section.profile-cont .profile-info-up .profile-info-in .profile-statistic>h3 {
+    font-size: 16px;
+  }
+
+  section.profile-cont .profile-info-main .profile-info-trainings>div>h2 {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  section.profile-cont {
+    margin: 50% 0;
+    width: 500px;
+  }
+
+  section.profile-cont .profile-info-up .profile-info-in .profile-statistic>h3 {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  section.profile-cont {
+    margin: 50% 0;
+    width: 400px;
+  }
+
+  section.profile-cont .profile-info-up>div>img {
+    width: 80px;
+    height: 60px;
+  }
+
+  section.profile-cont .profile-info-up .profile-info-in .profile-statistic {
+    gap: 0.5rem;
+  }
+
+  section.profile-cont .profile-info-up .profile-info-in .profile-statistic>h3 {
+    font-size: 12px;
+  }
+
+  
+  section.profile-cont .profile-info-main .profile-info-posts>div,
+  section.profile-cont .profile-info-main .profile-info-trainings>div {
+    width: 45%;
+    max-width: 45%;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  section.profile-cont {
+    margin: 100% 0;
+    width: 300px;
+  }
+
+  section.profile-cont .profile-info-up {
+    width: 100%;
+  }
+
+  section.profile-cont .profile-info-main .profile-info-posts>div,
+  section.profile-cont .profile-info-main .profile-info-trainings>div {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  section.profile-cont .profile-info-main .profile-info-trainings>div>h2 {
+    font-size: 24px;
+  }
 }
