@@ -62,10 +62,10 @@
 }
 
 .page-not-found div.cnt-scene .scene {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .page-not-found .cnt-scene .text {
@@ -138,4 +138,112 @@
   filter: blur(5px);
   opacity: 0.8;
   margin-top: 3rem;
+}
+
+@media screen and (max-width: 1035px) {
+  .page-not-found {
+    width: 800px;
+    height: 600px;
+    margin: 18% 0;
+    padding: 0.2rem;
+  }
+
+  .page-not-found::before {
+    width: 800px;
+    height: 600px;
+  }
+
+  .page-not-found::after {
+    width: 800px;
+    height: 600px;
+  }
+}
+
+@media screen and (max-width: 835px) {
+  .page-not-found {
+    width: 600px;
+  }
+
+  .page-not-found::before {
+    width: 600px;
+  }
+
+  .page-not-found::after {
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 635px) {
+  .page-not-found {
+    width: 450px;
+    margin: 50% 0;
+  }
+
+  .page-not-found::before {
+    width: 450px;
+  }
+
+  .page-not-found::after {
+    width: 450px;
+  }
+
+  .page-not-found .cnt-scene .scene .p404 {
+    font-size: 140px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-not-found {
+    width: 400px;
+    margin: 60% 0;
+  }
+}
+
+@media screen and (max-width: 440px) {
+  .page-not-found {
+    width: 350px;
+  }
+
+  .page-not-found .cnt-scene .scene .p404 {
+    font-size: 100px;
+  }
+
+  .page-not-found .cnt-scene .text p {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .page-not-found {
+    width: 300px;
+    margin: 100% 0;
+  }
+
+  .page-not-found .cnt-scene .scene .p404 {
+    font-size: 100px;
+  }
+
+  .page-not-found .cnt-scene .text p {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .page-not-found {
+    width: 250px;
+  }
+
+  .page-not-found .cnt-scene .scene .p404 {
+    font-size: 80px;
+  }
+
+  .page-not-found .cnt-scene .text p {
+    font-size: 10px;
+  }
+
+  .page-not-found .cnt-scene .text button {
+    height: 32px;
+    padding: 0 20px;
+    font-size: 10px;
+  }
 }

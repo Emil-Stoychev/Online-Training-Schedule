@@ -13,6 +13,10 @@ export const MainComponent = () => {
 
                 <PostComponent />
 
+                <PostComponent />
+                
+                <PostComponent />
+
             </article>
 
         </section>

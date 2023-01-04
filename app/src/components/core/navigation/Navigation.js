@@ -16,15 +16,16 @@ export const NavigationComponent = () => {
                     <li onClick={() => navigate('/')}>Home</li>
                     <li onClick={() => navigate('/training')}>Training</li>
                     <li onClick={() => navigate('/profile')}>Profile</li>
-                    <li onClick={() => navigate('/about')}>About</li>
+                    <li onClick={() => navigate('/chat')}>Chat</li>
                 </div>
 
                 <span>|</span>
 
                 <div className="auth">
+                    <li onClick={() => navigate('/about')}>About</li>
                     <li onClick={() => navigate('/login')}>Login</li>
                     <li onClick={() => navigate('/register')}>Register</li>
-                    <li onClick={() => logout()}>Logout</li>
+                    {/* <li onClick={() => logout()}>Logout</li> */}
                 </div>
             </ul>
 
