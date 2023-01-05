@@ -15,11 +15,16 @@ p,
 figure,
 blockquote,
 dl,
-dd {
+dd,
+#root {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+}
+
+#root {
+  max-width: 100%;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */

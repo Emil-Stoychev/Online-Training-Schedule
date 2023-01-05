@@ -47,17 +47,15 @@ section.container {
 
 @media screen and (max-width: 720px) {
   section.container {
-    width: 600px;
-    max-width: 600px;
+    max-width: 100%;
     margin-top: 25%;
     margin-bottom: 35%;
+    padding: 0;
   }
 }
 
 @media screen and (max-width: 610px) {
   section.container {
-    width: 500px;
-    max-width: 500px;
     margin-top: 30%;
     margin-bottom: 40%;
   }
@@ -65,8 +63,6 @@ section.container {
 
 @media screen and (max-width: 555px) {
   section.container {
-    width: 400px;
-    max-width: 400px;
     margin-top: 35%;
     margin-bottom: 45%;
   }
@@ -74,10 +70,20 @@ section.container {
 
 @media screen and (max-width: 470px) {
   section.container {
-    width: 300px;
-    max-width: 300px;
     margin-top: 45%;
     margin-bottom: 60%;
   }
 }
 
+@media screen and (max-width: 380px) {
+  section.container {
+    margin-top: 75%;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  section.container {
+    margin-top: 100%;
+    margin-bottom: 80%;
+  }
+}

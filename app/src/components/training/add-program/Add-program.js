@@ -6,22 +6,22 @@ export const AddProgramComponent = () => {
             <h1>Add program</h1>
 
             <div className='add-program-buttons'>
-                <button>Add Title</button>
-                <button>Add Description</button>
-                <button>Add Rest Time</button>
-                <button>Add Exercise Time</button>
-                <button>Add Image</button>
+                <button>Title + </button>
+                <button>Description + </button>
+                <button>Rest Time +</button>
+                <button>Exercise Time +</button>
+                <button>Image + </button>
             </div>
 
             <div className='choose-category'>
                 <button>Choose category</button>
                 <input type='text' placeholder='Add category name' />
 
-                <select>
+                {/* <select>
                     <option>Body</option>
                     <option>Cardio</option>
                     <option>Outside</option>
-                </select>
+                </select> */}
             </div>
 
             <div className='add-option'>

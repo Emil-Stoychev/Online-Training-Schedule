@@ -11,11 +11,15 @@ export const TrainingComponent = () => {
 
             <AddProgramComponent />
 
-            {/* <section className='training-notes'>
+            <section className='training-notes'>
 
                 <NotesComponent />
 
-            </section> */}
+                <NotesComponent />
+
+                <NotesComponent />
+
+            </section>
 
         </>
     )

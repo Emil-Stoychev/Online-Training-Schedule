@@ -1,148 +1,168 @@
 /* Add training program */
 
 .add-program {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 1.5rem;
-    width: 100%;
-    margin: 0 auto;
-    background-color: #28292d;
-    padding: 2rem;
-    border-radius: 1rem;
-    color: white;
-    margin-bottom: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5rem;
+  width: 100%;
+  background-color: #28292d;
+  padding: 2rem;
+  border-radius: 1rem;
+  color: white;
+  margin-bottom: 10rem;
+  margin: 5% auto 5% auto;
 }
 
 .add-program .last-btn {
-    margin: 2rem auto 0 auto;
+  margin: 2rem auto 0 auto;
 }
 
 .add-program .add-program-buttons {
-    display: flex;
-    gap: 1.5rem;
+  display: flex;
+  gap: 1.5rem;
 }
 
 .add-program input,
 .add-program textarea {
-    border-radius: 0.3rem;
-    padding-left: 0.5rem;
+  border-radius: 0.3rem;
+  padding-left: 0.5rem;
 }
 
 .add-program button,
 .add-program select {
-    padding: 0.2rem 1rem;
-    border-radius: 1rem;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 300ms ease-in-out;
-    border: none;
-    font-weight: 600;
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border: none;
+  font-weight: 600;
 }
 
 .add-program button:hover,
 .add-program select:hover {
-    transform: scale(1.1);
-    background-color: rgba(245, 222, 179, 0.103);
-    color: #45f3ff;
+  transform: scale(1.1);
+  background-color: rgba(245, 222, 179, 0.103);
+  color: #45f3ff;
 }
 
 .add-program .choose-category {
-    display: flex;
-    justify-content: flex-start;
-    gap: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+  gap: 1.5rem;
 }
 
 .add-program .add-option {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1.5rem;
 }
 
 .add-program .add-option > div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    max-width: 250%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  max-width: 250%;
 }
 
 .add-program .add-option > div > textarea {
-    width: 300px;
-    max-width: 500px;
-    min-height: 50px;
-    max-height: 300px;
+  width: 300px;
+  max-width: 500px;
+  min-height: 50px;
+  max-height: 300px;
 }
 
 .add-program .add-option > div > h2 {
-    font-size: 18px;
-    cursor: pointer;
+  font-size: 18px;
+  cursor: pointer;
 }
 
-
 @media screen and (max-width: 1250px) {
-    
-    .add-program {
-        width: 90%;
-    }
+  .add-program {
+    width: 90%;
+  }
 }
 
 @media screen and (max-width: 950px) {
-    .add-program .add-program-buttons {
-        gap: 0.7rem;
-    }
+  .add-program .add-program-buttons {
+    gap: 0.7rem;
+  }
 }
 
 @media screen and (max-width: 885px) {
+  .add-program button,
+  .add-program select {
+    font-size: 14px;
+  }
 
-    .add-program button,
-    .add-program select {
-        font-size: 14px;
-    }
-
-    .add-program .add-program-buttons,
-    .add-program .choose-category {
-        flex-wrap: wrap;
-        gap: 1.5rem;
-    }
-}
-
-@media screen and (max-width: 730px) {
-    
-    .add-program {
-        margin-bottom: 15rem;
-    }
+  .add-program .add-program-buttons,
+  .add-program .choose-category {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
 }
 
 @media screen and (max-width: 555px) {
-
-    .add-program {
-        width: 100%;
-    }
+  .add-program {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 500px) {
-
-    .add-program .add-option > div {
-        width: 80%;
-    }
+  .add-program .add-option > div {
+    width: 80%;
+  }
 }
 
 @media screen and (max-width: 410px) {
+  .add-program {
+    padding: 3rem 2rem;
+  }
 
-    .add-program {
-        padding: 3rem;
-    }
+  .add-program button,
+  .add-program select {
+    font-size: 10px;
+  }
 
-    .add-program button,
-    .add-program select {
-        font-size: 10px;
-    }
+  .add-program .choose-category {
+    flex-direction: column;
+  }
 
-    .add-program .add-program-buttons,
-    .add-program .choose-category {
-        gap: 0.8rem;
-    }
+  .add-program .add-program-buttons,
+  .add-program .choose-category {
+    gap: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .add-program {
+    padding: 3rem 3rem;
+    align-items: center;
+  }
+
+  .add-program .choose-category {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .add-program .choose-category > input {
+    width: 100%;
+  }
+
+  .add-program .add-option {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .add-program .add-option > div {
+    width: 100%;
+  }
+
+  .add-program .add-option > div > input {
+    width: 100%;
+  }
 }

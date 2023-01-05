@@ -35,7 +35,7 @@ section.container .create-post .info .profile-image img {
 section.container .create-post .info .profile-image textarea {
   width: 800px;
   min-width: 600px;
-  max-width: 1000px;
+  max-width: 800px;
 
   min-height: 80px;
   max-height: 100px;
@@ -79,13 +79,61 @@ section.container .create-post .info .buttons select {
 
 @media screen and (max-width: 910px) {
   section.container .create-post .info .profile-image textarea {
-    width: 800px;
-    min-width: 600px;
-    max-width: 1000px;
+    width: 90%;
+    min-width: 500px;
+    max-width: 90%;
 
     min-height: 80px;
     max-height: 100px;
     border-radius: 0.5rem;
     padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  section.container .create-post .info .profile-image textarea {
+    min-width: 400px;
+  }
+
+  section.container .create-post .info .buttons {
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  section.container .create-post .info .profile-image textarea {
+    min-width: 150px;
+  }
+
+  section.container > article.create-post {
+    width: 100%;
+    padding: 2rem 0;
+  }
+
+  section.container .create-post .info {
+    width: 100%;
+  }
+
+  section.container > article.create-post > div.info > div.profile-image {
+    width: 90%;
+  }
+
+  section.container .create-post .info .buttons button {
+    font-size: 12px;
+  }
+
+  section.container .create-post .info .buttons select {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  section.container .create-post .info .buttons {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 75%;
   }
 }

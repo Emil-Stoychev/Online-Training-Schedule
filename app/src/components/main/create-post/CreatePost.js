@@ -11,7 +11,7 @@ export const CreatePost = () => {
 
                 <div className='buttons'>
                     <button className=''>Post</button>
-                    <button className=''>Add img</button>
+                    <button className=''>+ img</button>
                     <select>
                         <option>Public</option>
                         <option>Friends</option>
