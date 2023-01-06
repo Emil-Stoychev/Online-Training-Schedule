@@ -45,6 +45,7 @@ export const ProfileComponent = () => {
                         <li className='active'>Posts</li>
                         <li>Trainings</li>
                         <li>Saved</li>
+                        <li>Saved Trainings</li>
                     </ul>
                 </article>
 
