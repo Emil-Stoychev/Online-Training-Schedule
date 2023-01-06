@@ -23,7 +23,7 @@ function App() {
 
       <Routes>
 
-        {/* <Route path='/' element={<WelcomeComponent />} /> */}
+        <Route path='/1' element={<WelcomeComponent />} />
 
         <Route path='/' element={<MainComponent />} />
 

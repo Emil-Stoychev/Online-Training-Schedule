@@ -1,0 +1,242 @@
+section.welcome-cnt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  width: 80%;
+  background-color: #28292d;
+  padding: 2rem;
+  margin: 10% auto;
+  border-radius: 2rem;
+  color: white;
+  gap: 6rem;
+  user-select: none;
+}
+
+section.welcome-cnt > article.welcome-art {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+section.welcome-cnt > article.welcome-art > div {
+  width: 40%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+section.welcome-cnt > article.welcome-art:nth-of-type(even) {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: row-reverse;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+section.welcome-cnt > article.welcome-art > div > img,
+section.welcome-cnt > article.welcome-art:nth-of-type(even) > div > img {
+  border-radius: 1rem;
+}
+
+section.welcome-cnt > article.welcome-art > div > img,
+section.welcome-cnt > article.welcome-art > div > h1,
+section.welcome-cnt > article.welcome-art > div > h2,
+section.welcome-cnt > article.welcome-art:nth-of-type(even) > div > img,
+section.welcome-cnt > article.welcome-art:nth-of-type(even) > div > h1,
+section.welcome-cnt > article.welcome-art:nth-of-type(even) > div > h2 {
+  margin: 0 auto;
+  width: 100%;
+}
+
+section.welcome-cnt > article.welcome-art > div > h1,
+section.welcome-cnt > article.welcome-art > div > h1 span,
+section.welcome-cnt > article.welcome-art-starting > div > h1 span {
+  font-size: 24px;
+  letter-spacing: 1px;
+  height: 80px;
+}
+
+section.welcome-cnt > article.welcome-art-starting > div > h1 {
+  text-align: center;
+  height: 80px;
+}
+
+section.welcome-cnt > article.welcome-art > div > h2 {
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+section.welcome-cnt > article.welcome-art > div > h1,
+section.welcome-cnt > article.welcome-art > div > h2,
+section.welcome-cnt > article.welcome-art:nth-of-type(even) > div > h1,
+section.welcome-cnt > article.welcome-art:nth-of-type(even) > div > h2 {
+  padding: 1rem;
+}
+
+.welcome-art-starting {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  width: 100%;
+  height: 350px;
+  background-color: #383b4485;
+  border-radius: 2rem;
+  transition: all 300ms ease-in-out;
+}
+
+.welcome-art-starting:hover {
+  background-color: #383b44c9;
+}
+
+.welcome-art-starting .welcome-art-main-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.welcome-art-starting .welcome-art-main-btns button {
+  padding: 0.5rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border: none;
+  font-weight: 600;
+}
+
+.welcome-art-starting .welcome-art-main-btns button:hover {
+  transform: scale(1.1);
+  background-color: rgba(245, 222, 179, 0.103);
+  color: #45f3ff;
+}
+
+@media screen and (max-width: 1412px) {
+  section.welcome-cnt > article.welcome-art > div > h1,
+  section.welcome-cnt > article.welcome-art > div > h1 span,
+  section.welcome-cnt > article.welcome-art-starting > div > h1 span {
+    font-size: 20px;
+  }
+
+  section.welcome-cnt > article.welcome-art > div > h2 {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  section.welcome-cnt {
+    width: 90%;
+    margin: 20% auto 20% auto;
+  }
+
+  section.welcome-cnt > article.welcome-art,
+  section.welcome-cnt > article.welcome-art:nth-of-type(even) {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  section.welcome-cnt > article.welcome-art > div > h1 {
+    text-align: center;
+  }
+
+  section.welcome-cnt > article.welcome-art > div {
+    width: 100%;
+  }
+
+  section.welcome-cnt > article.welcome-art > div > h1,
+  section.welcome-cnt > article.welcome-art > div > h1 span,
+  section.welcome-cnt > article.welcome-art-starting > div > h1 span {
+    font-size: 24px;
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  section.welcome-cnt {
+    width: 100%;
+    margin: 30% auto 30% auto;
+  }
+
+  section.welcome-cnt > article.welcome-art > div > h1,
+  section.welcome-cnt > article.welcome-art > div > h1 span,
+  section.welcome-cnt > article.welcome-art-starting > div > h1 span {
+    font-size: 20px;
+  }
+
+  section.welcome-cnt > article.welcome-art > div > h2 {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  section.welcome-cnt {
+    margin: 30% auto 40% auto;
+  }
+
+  section.welcome-cnt > article.welcome-art,
+  section.welcome-cnt > article.welcome-art:nth-of-type(even) {
+    padding: 0;
+  }
+
+  section.welcome-cnt > article.welcome-art-starting > div > h1 {
+    padding: 0 1rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  section.welcome-cnt {
+    margin: 45% auto 50% auto;
+  }
+
+  section.welcome-cnt > article.welcome-art > div > h1,
+  section.welcome-cnt > article.welcome-art > div > h1 span,
+  section.welcome-cnt > article.welcome-art-starting > div > h1 span {
+    font-size: 18px;
+  }
+
+  section.welcome-cnt > article.welcome-art > div > h2 {
+    font-size: 14px;
+  }
+
+  .welcome-art-starting .welcome-art-main-btns {
+    gap: 1rem;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  section.welcome-cnt {
+    margin: 80% auto 70% auto;
+  }
+
+  .welcome-art-starting .welcome-art-main-btns {
+    gap: 1rem;
+  }
+
+  .welcome-art-starting .welcome-art-main-btns button {
+    padding: 0.2rem 1rem;
+    font-size: 14px;
+  }
+
+  section.welcome-cnt > article.welcome-art-starting > div > h1 {
+    padding: 0 0.5rem;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  section.welcome-cnt {
+    margin: 100% auto 85% auto;
+  }
+
+  section.welcome-cnt > article.welcome-art-starting > div > h1 {
+    height: 100px;
+  }
+}
