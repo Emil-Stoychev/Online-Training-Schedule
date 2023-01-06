@@ -56,8 +56,6 @@ const login = async (data) => {
             return { message: "Username or password don't match!" }
         }
 
-        console.log('==============================================');
-
         let result = await new Promise((resolve, reject) => {
             jwt.sign({ _id: user._id, username: user.username }, secret, { expiresIn: '2d' }, (err, token) => {
                 if (err) {
@@ -67,9 +65,8 @@ const login = async (data) => {
                 resolve(token)
             })
         })
-        console.log('11111111111111111111111111111111111111');
 
-        console.log(result);
+        console.log('login');
 
         return { message: 'yes', cookie: result }
     } catch (error) {
