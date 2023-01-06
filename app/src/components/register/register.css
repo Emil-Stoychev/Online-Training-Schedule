@@ -33,6 +33,12 @@
   animation-delay: -3s;
 }
 
+.register,
+.register::before,
+.register::after {
+  height: 850px;
+}
+
 @keyframes animate {
   0% {
     transform: rotate(0deg);
@@ -58,6 +64,39 @@
   font-weight: 500;
   text-align: center;
   letter-spacing: 0.1em;
+}
+
+.inputBox-uploadImages {
+  width: 30%;
+  margin: 0 auto;
+}
+
+.inputBox-uploadImages div {
+  margin: 5% auto 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputBox-uploadImages > div img {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.inputBox-uploadImages > div > input.inputBox-UploadImage-Btn {
+  width: 80px;
+  height: 40px;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #8f8f8f;
+}
+
+.inputBox-uploadImages > div > input.inputBox-UploadImage-Btn:hover {
+  background-color: #45f3ff;
 }
 
 .inputBox {
@@ -136,4 +175,16 @@
 
 .form input:last-child:hover {
   transform: scale(1.2);
+}
+
+@media screen and (max-width: 420px) {
+  .inputBox-uploadImages {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .inputBox-uploadImages {
+    width: 100%;
+  }
 }

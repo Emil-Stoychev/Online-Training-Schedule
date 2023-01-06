@@ -14,19 +14,32 @@ import { ProfileComponent } from './components/profile/Profile';
 import { MainComponent } from './components/main/Main';
 import { PostComponent } from './components/main/post/Post';
 import { TrainingPostComponent } from './components/main/training-post/Training-post';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [cookie, setCookie] = useState(null)
+
+  useEffect(() => {
+    let getCookie = localStorage.getItem('sessionStorage')
+
+    if (getCookie != '') {
+      setCookie(getCookie)
+    } else {
+      setCookie(null)
+    }
+  }, [cookie])
+
   return (
     <div className="App">
 
-      <NavigationComponent />
+      <NavigationComponent cookie={cookie} setCookie={setCookie} />
 
       <Routes>
 
-        <Route path='/1' element={<WelcomeComponent />} />
-
-        <Route path='/' element={<MainComponent />} />
-
+        {cookie != null
+          ? <Route path='/' element={<MainComponent />} />
+          : <Route path='/' element={<WelcomeComponent />} />
+        }
 
         <Route path='/post/:id' element={
           <section className="container">
@@ -48,7 +61,7 @@ function App() {
 
         <Route path='/profile' element={<ProfileComponent />} />
 
-        <Route path='/login' element={<LoginComponent />} />
+        <Route path='/login' element={<LoginComponent setCookie={setCookie} />} />
 
         <Route path='/register' element={<RegisterComponent />} />
 
