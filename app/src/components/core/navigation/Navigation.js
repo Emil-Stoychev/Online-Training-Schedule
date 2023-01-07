@@ -1,15 +1,15 @@
 import './navigation.module.css'
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import * as userService from '../../../services/authService'
+import { useEffect } from 'react'
 
-export const NavigationComponent = ({cookie, setCookie}) => {
+export const NavigationComponent = ({ token, setToken }) => {
     let navigate = useNavigate()
 
     const logout = () => {
-        console.log('Logout click');
         localStorage.removeItem('sessionStorage')
 
-        setCookie(null)
+        setToken(null)
 
         navigate('/login')
     }
@@ -20,7 +20,7 @@ export const NavigationComponent = ({cookie, setCookie}) => {
                 <div className="main">
                     <li onClick={() => navigate('/')}>Home</li>
 
-                    {cookie != null
+                    {token != null
                         ?
                         <>
                             <li onClick={() => navigate('/training')}>Training</li>
@@ -37,7 +37,7 @@ export const NavigationComponent = ({cookie, setCookie}) => {
                 <div className="auth">
                     <li onClick={() => navigate('/about')}>About</li>
 
-                    {cookie != null
+                    {token != null
                         ?
                         <>
                             <li onClick={() => logout()}>Logout</li>

@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 import './about.css'
 
 export const AboutComponent = () => {
+    const navigate = useNavigate()
+
     return (
         <div className='about-cont'>
 
@@ -9,19 +12,19 @@ export const AboutComponent = () => {
             <div className='about-contacts'>
 
                 <div>
-                    <i className="fa-brands fa-facebook"></i>
+                    <i onClick={() => window.open('https://www.facebook.com/profile.php?id=100010478416709', '_blank')} className="fa-brands fa-facebook"></i>
                 </div>
 
                 <div>
-                    <i className="fa-brands fa-square-instagram"></i>
+                    <i onClick={() => window.open('https://www.instagram.com/emil.stoichev/', '_blank')} className="fa-brands fa-square-instagram"></i>
                 </div>
 
                 <div>
-                    <i className="fa-brands fa-github"></i>
+                    <i onClick={() => window.open('https://github.com/Emil-Stoychev', '_blank')} className="fa-brands fa-github"></i>
                 </div>
 
                 <div>
-                    <i className="fa-brands fa-linkedin"></i>
+                    <i onClick={() => window.open('https://www.linkedin.com/', '_blank')} className="fa-brands fa-linkedin"></i>
                 </div>
 
             </div>

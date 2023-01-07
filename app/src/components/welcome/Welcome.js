@@ -1,7 +1,10 @@
 import './welcome.css'
 import { Typewriter } from 'react-simple-typewriter'
+import { useNavigate } from 'react-router-dom'
 
 export const WelcomeComponent = () => {
+    const navigate = useNavigate()
+
     return (
         <>
             <section className="welcome-cnt">
@@ -99,8 +102,8 @@ export const WelcomeComponent = () => {
                         </h1>
 
                         <div className='welcome-art-main-btns'>
-                            <button>Login</button>
-                            <button>Register</button>
+                            <button onClick={() => navigate('/login')}>Login</button>
+                            <button onClick={() => navigate('/register')}>Register</button>
                         </div>
                     </div>
                 </article>

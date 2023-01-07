@@ -17,53 +17,59 @@ import { TrainingPostComponent } from './components/main/training-post/Training-
 import { useEffect, useState } from 'react';
 
 function App() {
-  const [cookie, setCookie] = useState(null)
+  const [token, setToken] = useState(null)
 
   useEffect(() => {
     let getCookie = localStorage.getItem('sessionStorage')
 
     if (getCookie != '') {
-      setCookie(getCookie)
+      setToken(getCookie)
     } else {
-      setCookie(null)
+      setToken(null)
     }
-  }, [cookie])
+  }, [token])
 
   return (
     <div className="App">
 
-      <NavigationComponent cookie={cookie} setCookie={setCookie} />
+      <NavigationComponent token={token} setToken={setToken} />
 
       <Routes>
 
-        {cookie != null
-          ? <Route path='/' element={<MainComponent />} />
-          : <Route path='/' element={<WelcomeComponent />} />
+        {token == null
+          ?
+          <>
+            <Route path='/' element={<WelcomeComponent />} />
+
+            <Route path='/login' element={<LoginComponent setToken={setToken} />} />
+
+            <Route path='/register' element={<RegisterComponent />} />
+          </>
+          :
+          <>
+            <Route path='/' element={<MainComponent />} />
+
+            <Route path='/post/:id' element={
+              <section className="container">
+
+                <article className="posts">
+
+                  <PostComponent />
+
+                </article>
+
+              </section>
+            } />
+
+            <Route path='/training-post/:id' element={<TrainingPostComponent />} />
+
+            <Route path='/training' element={<TrainingComponent />} />
+
+            <Route path='/profile' element={<ProfileComponent />} />
+          </>
         }
 
-        <Route path='/post/:id' element={
-          <section className="container">
-
-            <article className="posts">
-
-              <PostComponent />
-
-            </article>
-
-          </section>
-        } />
-
-        <Route path='/training-post/:id' element={<TrainingPostComponent />} />
-
-        <Route path='/training' element={<TrainingComponent />} />
-
         <Route path='/about' element={<AboutComponent />} />
-
-        <Route path='/profile' element={<ProfileComponent />} />
-
-        <Route path='/login' element={<LoginComponent setCookie={setCookie} />} />
-
-        <Route path='/register' element={<RegisterComponent />} />
 
         <Route path='*' element={<PageNotFound />} />
 
