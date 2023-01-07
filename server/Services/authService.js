@@ -9,8 +9,6 @@ const { Post } = require('../Models/Post')
 const { Chat } = require('../Models/Chat')
 const { userValidator } = require('../utils/userValidator')
 
-let blackList = new Set()
-
 let sessionName = 'sessionStorage'
 let secret = 'asdkamsioj321hj01jpdomasdx]c[;zc-3-='
 
@@ -66,8 +64,6 @@ const login = async (data) => {
             })
         })
 
-        console.log('login');
-
         return { message: 'yes', cookie: result }
     } catch (error) {
         return error
@@ -115,10 +111,6 @@ const register = async (data) => {
     }
 }
 
-const logout = async (token) => {
-    blackList.add(token)
-}
-
 const updatePicture = async (data) => {
     try {
         let { cookie, image } = data
@@ -131,10 +123,6 @@ const updatePicture = async (data) => {
 
         if (isValidToken.message) {
             return isValidToken
-        }
-
-        if (blackList.has(cookie.token)) {
-            return { message: "Invalid access token!" }
         }
 
         let user = await User.findById(cookie._id)
@@ -159,6 +147,4 @@ module.exports = {
     getAll,
     checkUserExisting,
     updatePicture,
-    logout,
-    blackList,
 }

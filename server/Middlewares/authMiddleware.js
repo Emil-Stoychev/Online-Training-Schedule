@@ -3,16 +3,10 @@ const jwt = require('jsonwebtoken')
 let sessionName = 'sessionStorage'
 let secret = 'asdkamsioj321hj01jpdomasdx]c[;zc-3-='
 
-const authMiddleware = async(token) => {
-    if (token) {
-        try {
-            let decodedToken = jwt.verify(token, secret)
+async function authMiddleware(req, res, next, token) {
+    jwt.verify(req.params.token, secret)
 
-            return decodedToken
-        } catch (error) {
-            return {message: "Invalid access token!"}
-        }
-    }
+    next()
 }
 
 module.exports = {

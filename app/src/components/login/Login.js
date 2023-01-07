@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import * as userService from '../../services/authService'
 import './login.css'
 
-export const LoginComponent = ({ setCookie }) => {
+export const LoginComponent = ({ setToken }) => {
     const [errors, setErrors] = useState('')
     const [values, setValues] = useState({
         username: '',
@@ -29,7 +29,7 @@ export const LoginComponent = ({ setCookie }) => {
                 } else {
                     localStorage.setItem('sessionStorage', result.cookie)
 
-                    setCookie(result.cookie)
+                    setToken(result.cookie)
 
                     navigate('/')
                 }
@@ -57,7 +57,7 @@ export const LoginComponent = ({ setCookie }) => {
                         <i></i>
                     </div>
 
-                    <a href="">Sign up</a>
+                    <a onClick={() => navigate('/register')}>Sign up</a>
 
                     <input type="submit" value="Login" />
 

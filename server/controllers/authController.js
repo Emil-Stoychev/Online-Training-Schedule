@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const jwt = require('jsonwebtoken')
+const { authMiddleware } = require('../Middlewares/authMiddleware')
 
 const authService = require('../Services/authService')
 const { getAllFilteredByIds } = require('../Services/postService')

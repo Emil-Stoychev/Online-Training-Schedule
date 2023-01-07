@@ -140,7 +140,7 @@ export const RegisterComponent = () => {
                         }
                     </div>
 
-                    <a href="">Sign in</a>
+                    <a onClick={() => navigate('/login')}>Sign in</a>
 
                     <input type="submit" value="Register" />
 
