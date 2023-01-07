@@ -65,7 +65,7 @@ function App() {
 
             <Route path='/training' element={<TrainingComponent />} />
 
-            <Route path='/profile' element={<ProfileComponent />} />
+            <Route path='/profile' element={<ProfileComponent token={token} />} />
           </>
         }
 

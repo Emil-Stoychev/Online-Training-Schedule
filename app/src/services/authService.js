@@ -3,8 +3,13 @@ let a = window.location.origin.split(':3060')
 
 const URL = a[0] + ':3030/users'
 
-export const getUserById = (id) => {
-    return fetch(`${URL}/${id}`)
+const myHeaders = new Headers({
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem('sessionStorage')
+});
+
+export const getUserById = (token) => {
+    return fetch(`${URL}/${token}`)
         .then(res => res.json())
 }
 

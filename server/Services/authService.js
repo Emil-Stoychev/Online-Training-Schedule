@@ -12,15 +12,15 @@ const { userValidator } = require('../utils/userValidator')
 let sessionName = 'sessionStorage'
 let secret = 'asdkamsioj321hj01jpdomasdx]c[;zc-3-='
 
-const getUserById = async (userId) => {
+const getUserById = async (user) => {
     try {
-        let user = await User.findOne({ _id: userId })
+        let userAcc = await User.findOne({ _id: user._id })
 
-        if (!user) {
+        if (!userAcc) {
             return { message: "User doesn't exist!" }
         }
 
-        return user
+        return userAcc
     } catch (error) {
         return error
     }

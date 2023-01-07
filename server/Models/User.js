@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
         type: Array,
         references: [{ type: Object, ref: 'Post' }]
     },
+    trainings: {
+        type: Array,
+        references: [{ type: Object, ref: 'Trainings' }]
+    },
     followers: {
         type: Array
     },

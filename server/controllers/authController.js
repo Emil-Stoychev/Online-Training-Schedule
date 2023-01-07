@@ -7,15 +7,15 @@ const { getAllFilteredByIds } = require('../Services/postService')
 
 
 
-router.get('/', async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     res.json(await authService.getAll())
 })
 
-router.get('/:userId', async (req, res) => {
-    res.json(await authService.getUserById(req.params.userId))
+router.get('/:token', authMiddleware, async (req, res) => {
+    res.json(await authService.getUserById(req.params.user))
 })
 
-router.get('/ownPosts/:userId', async (req, res) => {
+router.get('/ownPosts/:userId', authMiddleware, async (req, res) => {
     let user = await authService.getUserById(req.params.userId)
 
     let ownPosts = await getAllFilteredByIds(user.ownPosts)
@@ -23,7 +23,7 @@ router.get('/ownPosts/:userId', async (req, res) => {
     ownPosts.length > 0 ? res.json(ownPosts) : res.json({ message: "Empty!" })
 })
 
-router.put('/changePicture/:userId', async (req, res) => {
+router.put('/changePicture/:userId', authMiddleware, async (req, res) => {
     let updatedUser = await authService.updatePicture(req.body)
 
     res.json(updatedUser)
@@ -47,7 +47,7 @@ router.get('/logout/:token', (req, res) => {
     res.json({ message: "Successfully logout!" })
 })
 
-router.delete('/deleteAccount/:userId', async (req, res) => {
+router.delete('/deleteAccount/:userId', authMiddleware, async (req, res) => {
     let deletedAccount = await authService.deleteAccount(req.body)
 
     res.json(deletedAccount)
