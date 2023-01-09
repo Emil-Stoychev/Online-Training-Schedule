@@ -7,10 +7,12 @@ import * as userService from '../../services/authService'
 export const ProfileComponent = ({ token }) => {
     const [user, setUser] = useState({})
     const [viewOptions, setViewOptions] = useState({
-        ownPosts: true,
+        ownPosts: false,
         trainings: false,
         savedPosts: false,
-        savedTrainings: false
+        savedTrainings: false,
+        followers: false,
+        following: false
     })
 
     const navigate = useNavigate()
@@ -32,11 +34,13 @@ export const ProfileComponent = ({ token }) => {
             ownPosts: view == 'ownPosts' ? true : false,
             trainings: view == 'trainings' ? true : false,
             savedPosts: view == 'savedPosts' ? true : false,
-            savedTrainings: view == 'savedTrainings' ? true : false
+            savedTrainings: view == 'savedTrainings' ? true : false,
+            followers: view == 'followers' ? true : false,
+            following: view == 'following' ? true : false
         })
 
         userService.getByOption(token, view)
-        .then(res => console.log(res))
+            .then(res => console.log(res))
     }
 
 
@@ -59,8 +63,8 @@ export const ProfileComponent = ({ token }) => {
 
                         <div className='profile-statistic'>
                             <h3>Posts: {user?.ownPosts?.length}</h3>
-                            <h3>Followers: {user?.followers?.length}</h3>
-                            <h3>Following: {user?.following?.length}</h3>
+                            <h3 onClick={() => changeView('followers')}>Followers: {user?.followers?.length}</h3>
+                            <h3 onClick={() => changeView('following')}>Following: {user?.following?.length}</h3>
                         </div>
 
                         <div className='profile-bio'>
@@ -89,12 +93,21 @@ export const ProfileComponent = ({ token }) => {
 
                 <article className='profile-info-main'>
 
+                    {!viewOptions.ownPosts && !viewOptions.followers && !viewOptions.following
+                        && !viewOptions.savedPosts && !viewOptions.savedTrainings && !viewOptions.trainings
+                        ?
+                        <article className='profile-info-posts'>
+                            <h2 className='noItems'>You can check your info!</h2>
+                        </article>
+                        : ''
+                    }
+
                     {viewOptions.ownPosts
                         ?
                         <article className='profile-info-posts'>
 
                             {user?.ownPosts?.length == 0
-                                ? <h2>No posts yet!</h2>
+                                ? <h2 className='noItems'>No posts yet!</h2>
                                 :
                                 <>
                                     {user?.ownPosts?.map(x =>
@@ -117,7 +130,7 @@ export const ProfileComponent = ({ token }) => {
                         <article className='profile-info-trainings'>
 
                             {user?.trainings?.length == 0
-                                ? <h2>No trainings yet!</h2>
+                                ? <h2 className='noItems'>No trainings yet!</h2>
                                 :
                                 <>
                                     {user?.trainings?.map(x =>
@@ -139,7 +152,7 @@ export const ProfileComponent = ({ token }) => {
                         <article className='profile-info-posts saved'>
 
                             {user?.savedPosts?.length == 0
-                                ? <h2>No saved posts yet!</h2>
+                                ? <h2 className='noItems'>No saved posts yet!</h2>
                                 :
                                 <>
                                     {user?.savedPosts?.map(x =>
@@ -161,7 +174,7 @@ export const ProfileComponent = ({ token }) => {
                         <article className='profile-info-trainings'>
 
                             {user?.savedTrainings?.length == 0
-                                ? <h2>No saved trainings yet!</h2>
+                                ? <h2 className='noItems'>No saved trainings yet!</h2>
                                 :
                                 <>
                                     {user?.savedTrainings?.map(x =>
@@ -169,6 +182,68 @@ export const ProfileComponent = ({ token }) => {
                                             <img src={x?.images[0] || ''} />
 
                                             <h2>{x?.description.slice(0, 20) + '...'}</h2>
+                                        </div>
+                                    )}
+                                </>
+                            }
+
+                        </article>
+                        : ''
+                    }
+
+                    {viewOptions.followers
+                        ?
+                        <article className='profile-info-followers'>
+
+                            {user?.followers?.length == 0
+                                ? <h2 className='noItems'>No followers!</h2>
+                                :
+                                <>
+                                    {user?.followers?.map(x =>
+                                        <div className="profile-info-followers-cnt">
+                                            <div className='profile-info-followers-leftSide'>
+                                                <img src={x?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
+
+                                                <div>
+                                                    <h3>{x?.username}</h3>
+                                                    <p>{x?.location}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className='profile-info-followers-rightSide'>
+                                                <i className="fa-solid fa-eye"></i>
+                                            </div>
+                                        </div>
+                                    )}
+                                </>
+                            }
+
+                        </article>
+                        : ''
+                    }
+
+                    {viewOptions.following
+                        ?
+                        <article className='profile-info-followers'>
+
+                            {user?.following?.length == 0
+                                ? <h2 className='noItems'>No following!</h2>
+                                :
+                                <>
+                                    {user?.following?.map(x =>
+                                        <div className="profile-info-followers-cnt">
+                                            <div className='profile-info-followers-leftSide'>
+                                                <img src={x?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
+
+                                                <div>
+                                                    <h3>{x?.username}</h3>
+                                                    <p>{x?.location}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className='profile-info-followers-rightSide'>
+                                                <i className="fa-solid fa-eye"></i>
+                                            </div>
                                         </div>
                                     )}
                                 </>

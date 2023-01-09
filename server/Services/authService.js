@@ -12,13 +12,9 @@ const { userValidator } = require('../utils/userValidator')
 let sessionName = 'sessionStorage'
 let secret = 'asdkamsioj321hj01jpdomasdx]c[;zc-3-='
 
-const getUserById = async (userId, option) => {
+const getUserById = async (userId) => {
     try {
-        let userAcc
-
-        option == true
-            ? userAcc = await User.findById(userId).populate('ownPosts')
-            : userAcc = await User.findById(userId)
+        let userAcc = await User.findById(userId).populate('ownPosts')
 
         if (!userAcc) {
             return { message: "User doesn't exist!" }
@@ -50,6 +46,14 @@ const getByOption = async (userId, option) => {
             filteredItems = await User.findById(userId).populate('savedTrainings')
 
             return filteredItems.savedTrainings
+        } else if (option == 'followers') {
+            filteredItems = await User.findById(userId).populate('followers')
+
+            return filteredItems.followers
+        } else if (option == 'following') {
+            filteredItems = await User.findById(userId).populate('following')
+
+            return filteredItems.following
         }
     } catch (error) {
         return error

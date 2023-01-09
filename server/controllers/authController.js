@@ -12,7 +12,7 @@ router.get('/', authMiddleware, async (req, res) => {
 })
 
 router.get('/:token', authMiddleware, async (req, res) => {
-    res.json(await authService.getUserById(req.params.user, true))
+    res.json(await authService.getUserById(req.params.user))
 })
 
 router.get('/own/:token/:option', authMiddleware, async (req, res) => {

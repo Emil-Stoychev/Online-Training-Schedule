@@ -75,6 +75,7 @@ section.profile-cont
 section.profile-cont .profile-info-up .profile-info-in .profile-statistic > h3 {
   cursor: pointer;
   transition: all 300ms ease-in-out;
+  text-align: center;
 }
 
 section.profile-cont
@@ -129,6 +130,13 @@ section.profile-cont .profile-info-main {
   padding: 2rem 1rem;
 }
 
+section.profile-cont .profile-info-main > article > h2.noItems {
+  text-align: center;
+  width: 100%;
+  letter-spacing: 1px;
+  user-select: none;
+}
+
 section.profile-cont .profile-info-main .profile-info-posts,
 section.profile-cont .profile-info-main .profile-info-trainings {
   display: flex;
@@ -145,7 +153,7 @@ section.profile-cont .profile-info-main .profile-info-trainings > div {
   height: 250px;
   max-height: 250px;
 
-  box-shadow: 0px 0px 24px 9px rgba(0,0,0,0.50);
+  box-shadow: 0px 0px 24px 9px rgba(0, 0, 0, 0.5);
   text-align: center;
   border-radius: 3%;
   overflow: hidden;
@@ -205,9 +213,67 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
   font-size: 16px;
   user-select: none;
   letter-spacing: 1px;
+  padding-bottom: 1rem;
 }
 
-section.profile-cont .profile-info-main .profile-info-trainings {
+.profile-info-followers {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+}
+
+.profile-info-followers .profile-info-followers-cnt {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #28292de8;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: all 300ms ease-in-out;
+  padding: 1rem;
+}
+
+.profile-info-followers .profile-info-followers-cnt:hover {
+  transform: scale(1.01);
+}
+
+.profile-info-followers
+  .profile-info-followers-cnt
+  .profile-info-followers-leftSide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-info-followers
+  .profile-info-followers-cnt
+  .profile-info-followers-leftSide
+  img {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}
+
+.profile-info-followers
+  .profile-info-followers-cnt
+  .profile-info-followers-rightSide
+  i {
+  font-size: 32px;
+  transition: all 300ms ease-in-out;
+  padding-right: 1.5rem;
+}
+
+.profile-info-followers
+  .profile-info-followers-cnt
+  .profile-info-followers-rightSide
+  i:hover {
+  transform: scale(1.1);
 }
 
 @media screen and (max-width: 1000px) {
@@ -225,6 +291,10 @@ section.profile-cont .profile-info-main .profile-info-trainings {
   section.profile-cont {
     margin: 30% 0;
     width: 800px;
+  }
+
+  section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
+    font-size: 14px;
   }
 }
 
@@ -245,9 +315,13 @@ section.profile-cont .profile-info-main .profile-info-trainings {
     width: 600px;
   }
 
+  section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
+    font-size: 12px;
+  }
+
   section.profile-cont .profile-info-up > div > img {
     width: 80px;
-    height: 80px;
+    height: 100px;
   }
 
   section.profile-cont
@@ -276,60 +350,102 @@ section.profile-cont .profile-info-main .profile-info-trainings {
     > h3 {
     font-size: 14px;
   }
+
+  .profile-info-followers
+    .profile-info-followers-cnt
+    .profile-info-followers-leftSide
+    img {
+    width: 45px;
+    height: 45px;
+  }
+
+  .profile-info-followers
+    .profile-info-followers-cnt
+    .profile-info-followers-leftSide
+    div
+    > h3,
+  .profile-info-followers
+    .profile-info-followers-cnt
+    .profile-info-followers-leftSide
+    div
+    > p {
+    font-size: 14px;
+  }
+
+  .profile-info-followers
+    .profile-info-followers-cnt
+    .profile-info-followers-rightSide
+    i {
+    font-size: 24px;
+  }
 }
 
 @media screen and (max-width: 500px) {
   section.profile-cont {
-    margin: 50% 0;
-    width: 400px;
+    max-width: 100%;
+    margin: 50% auto 50% auto;
+  }
+
+  section.profile-cont .profile-info-main {
+    width: 100%;
+  }
+
+  section.profile-cont .profile-info-up {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
 
   section.profile-cont .profile-nav > ul {
-    gap: 0.5rem;
+    gap: 1rem;
     font-size: 14px;
   }
 
-  section.profile-cont .profile-info-up > div > img {
-    width: 80px;
-    height: 60px;
+  section.profile-cont .profile-info-main .profile-info-trainings > div > h2 {
+    font-size: 24px;
   }
 
-  section.profile-cont .profile-info-up .profile-info-in .profile-statistic {
-    gap: 0.5rem;
-  }
-
-  section.profile-cont
-    .profile-info-up
-    .profile-info-in
-    .profile-statistic
-    > h3 {
-    font-size: 12px;
-  }
-
-  section.profile-cont .profile-info-main .profile-info-posts > div,
-  section.profile-cont .profile-info-main .profile-info-trainings > div {
-    width: 45%;
-    max-width: 45%;
+  .profile-info-followers
+    .profile-info-followers-cnt
+    .profile-info-followers-rightSide
+    i {
+    padding-right: 0rem;
   }
 }
 
 @media screen and (max-width: 400px) {
   section.profile-cont {
-    width: 300px;
+    max-width: 100%;
+    margin: 50% auto 50% auto;
+  }
+
+  section.profile-cont .profile-info-main {
+    width: 100%;
   }
 
   section.profile-cont .profile-info-up {
     width: 100%;
-  }
-
-  section.profile-cont .profile-info-main .profile-info-posts > div,
-  section.profile-cont .profile-info-main .profile-info-trainings > div {
-    width: 100%;
-    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 0.5rem;
   }
 
   section.profile-cont .profile-info-main .profile-info-trainings > div > h2 {
     font-size: 24px;
+  }
+
+  .profile-info-followers
+    .profile-info-followers-cnt
+    .profile-info-followers-rightSide
+    i {
+    padding-right: 0rem;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  section.profile-cont .profile-info-main .profile-info-posts > div,
+  section.profile-cont .profile-info-main .profile-info-trainings > div {
+    width: 45%;
+    max-width: 45%;
   }
 }
 
@@ -342,5 +458,11 @@ section.profile-cont .profile-info-main .profile-info-trainings {
 @media screen and (max-width: 310px) {
   section.profile-cont .profile-nav > ul {
     font-size: 12px;
+  }
+
+  section.profile-cont .profile-info-main .profile-info-posts > div,
+  section.profile-cont .profile-info-main .profile-info-trainings > div {
+    width: 100%;
+    max-width: 100%;
   }
 }
