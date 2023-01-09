@@ -3,11 +3,11 @@ const { Post } = require('../Models/Post')
 const { Comment } = require('../Models/Comment')
 const { addCommentService, editCommentService, addReplyCommentService } = require('../utils/CommentEngine')
 const { productValidator } = require('../utils/postValidator')
-const { checkUserExisting, getUserById, updateUserAfterDeleteProduct, addMessageAfterEditing, addNewLikeToUser, removeLikeFromUser, addNewPostToUser, blackList } = require('./authService')
+const { checkUserExisting, getUserById, addNewPostToUser } = require('./authService')
 
 const getAll = async () => {
     try {
-        return await Product.find({ visible: true }, { "images": { $slice: 1 } })
+        return await Post.find({ $or: [{visible: 'Public'},{visible: 'Friends'}] }, { "images": { $slice: 1 } })
     } catch (error) {
         console.error(error)
         return error
@@ -23,29 +23,29 @@ const getAllFilteredByIds = async (ids) => {
     }
 }
 
-const getById = async (productId) => {
+const getById = async (postId) => {
     try {
-        let product = await Product.findById(productId) || { message: "404 Not found!" }
+        let currPost = await Post.findById(postId) || { message: "404 Not found!" }
 
-        let comments = await Comment.find()
+        // let comments = await Comment.find()
 
-        product.comments = await Comment.find({ _id: product.comments })
+        // product.comments = await Comment.find({ _id: product.comments })
 
-        product.comments = product.comments.map(x => {
-            if (x.nestedComments.length > 0) {
-                x.nestedComments = comments.map(y => {
-                    if (x.nestedComments.includes(y._id.toString())) {
-                        return y
-                    }
-                })
-            }
+        // product.comments = product.comments.map(x => {
+        //     if (x.nestedComments.length > 0) {
+        //         x.nestedComments = comments.map(y => {
+        //             if (x.nestedComments.includes(y._id.toString())) {
+        //                 return y
+        //             }
+        //         })
+        //     }
 
-            x.nestedComments = x.nestedComments.filter(x => x != null)
+        //     x.nestedComments = x.nestedComments.filter(x => x != null)
 
-            return x
-        })
+        //     return x
+        // })
 
-        return product
+        return currPost
     } catch (error) {
         return error
     }
@@ -322,37 +322,23 @@ const changePostStatus = async (productId, data) => {
     }
 }
 
-const create = async (data) => {
+const create = async (data, user) => {
     try {
-        if (!data.cookie.token) {
-            return { message: "User doesn't exist!" }
+        let userInfo = await getUserById(user._id)
+
+        if (userInfo.message) {
+            return userInfo
         }
 
-        let token = await authMiddleware(data.cookie.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(data.cookie.token)) {
-            return { message: "Invalid access token!" }
-        }
-
-        let user = await getUserById(data.author)
-
-        if (user.message) {
-            return user
-        }
-
-        let dataForCreation = productValidator(data)
+        let dataForCreation = productValidator(data.values, user)
 
         if (dataForCreation.message) {
             return dataForCreation
         }
 
-        let createdProduct = await Product.create(dataForCreation)
+        let createdProduct = await Post.create(dataForCreation)
 
-        let updatedUser = await addNewPostToUser(data.cookie._id, createdProduct._id.toString(), createdProduct.title, data.cookie.token)
+        let updatedUser = await addNewPostToUser(user, createdProduct._id)
 
         if (updatedUser.message) {
             return updatedUser

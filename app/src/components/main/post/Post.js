@@ -1,7 +1,38 @@
+import { useEffect, useState } from 'react'
 import { CommentComponent } from './comments/Comment'
 import './post.css'
 
-export const PostComponent = () => {
+import * as postService from '../../../services/postService.js'
+
+export const PostComponent = ({ x }) => {
+    const [post, setPosts] = useState({})
+    const [imageCount, setImageCount] = useState(0)
+
+    useEffect(() => {
+        if (x) {
+            setPosts(x)
+        } else {
+            postService.getPostById(window.location.pathname.split('/post/')[1], localStorage.getItem('sessionStorage'))
+                .then(res => console.log(res))
+        }
+    }, [])
+
+    const nextImage = () => {
+        if (imageCount > x?.images?.length - 2) {
+            setImageCount(0)
+        } else {
+            setImageCount(state => state + 1)
+        }
+    }
+
+    const previousImage = () => {
+        if (imageCount < 1) {
+            setImageCount(x?.images?.length - 1)
+        } else {
+            setImageCount(state => state - 1)
+        }
+    }
+
     return (
         <>
             <div className="post">
@@ -21,11 +52,15 @@ export const PostComponent = () => {
                 </div>
 
                 <div className='images'>
-                    <div className='sliders'>
-                        <button>&#8810;</button>
-                        <button>&#8811;</button>
-                    </div>
-                    <img src='https://cdna.4imprint.com/qtz/homepage/categories/images21/drinkware0222.jpg'></img>
+                    {x?.images?.length > 1 &&
+                        <div className='sliders'>
+                            <button onClick={() => previousImage()}>&#8810;</button>
+                            <button onClick={() => nextImage()}>&#8811;</button>
+                        </div>
+                    }
+                    {x?.images?.length > 0 &&
+                        <img key={x?.images[imageCount]?._id} src={x?.images[imageCount]?.dataString} />
+                    }
                 </div>
 
                 <div className='buttons'>
@@ -35,9 +70,7 @@ export const PostComponent = () => {
                     <i className="fa-solid fa-trash"></i>
                 </div>
 
-                <p>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                </p>
+                <p>{x?.description}</p>
 
                 <div className='comment-main-title'>
                     <hr />
@@ -47,7 +80,7 @@ export const PostComponent = () => {
                 <div className='comments'>
 
                     <CommentComponent />
-                    
+
                 </div>
             </div>
 
