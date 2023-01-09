@@ -15,12 +15,10 @@ router.get('/:token', authMiddleware, async (req, res) => {
     res.json(await authService.getUserById(req.params.user, true))
 })
 
-router.get('/ownPosts/:userId', authMiddleware, async (req, res) => {
-    let user = await authService.getUserById(req.params.userId)
+router.get('/own/:token/:option', authMiddleware, async (req, res) => {
+    let result = await authService.getByOption(req.params?.user?._id, req.params.option)
 
-    let ownPosts = await getAllFilteredByIds(user.ownPosts)
-
-    ownPosts.length > 0 ? res.json(ownPosts) : res.json({ message: "Empty!" })
+    result.length > 0 ? res.json(result) : res.json({ message: "Empty!" })
 })
 
 router.put('/changePicture/:userId', authMiddleware, async (req, res) => {

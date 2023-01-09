@@ -30,6 +30,32 @@ const getUserById = async (userId, option) => {
     }
 }
 
+const getByOption = async (userId, option) => {
+    try {
+        let filteredItems
+
+        if (option == 'ownPosts') {
+            filteredItems = await User.findById(userId).populate('ownPosts')
+
+            return filteredItems.ownPosts
+        } else if (option == 'trainings') {
+            filteredItems = await User.findById(userId).populate('trainings')
+
+            return filteredItems.trainings
+        } else if (option == 'savedPosts') {
+            filteredItems = await User.findById(userId).populate('savedPosts')
+
+            return filteredItems.savedPosts
+        } else if (option == 'savedTrainings') {
+            filteredItems = await User.findById(userId).populate('savedTrainings')
+
+            return filteredItems.savedTrainings
+        }
+    } catch (error) {
+        return error
+    }
+}
+
 const checkUserExisting = async (username) => {
     try {
         return await User.findOne({ username })
@@ -169,5 +195,6 @@ module.exports = {
     getAll,
     checkUserExisting,
     updatePicture,
-    addNewPostToUser
+    addNewPostToUser,
+    getByOption
 }

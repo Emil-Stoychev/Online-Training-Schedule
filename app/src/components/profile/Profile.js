@@ -7,14 +7,13 @@ import * as userService from '../../services/authService'
 export const ProfileComponent = ({ token }) => {
     const [user, setUser] = useState({})
     const [viewOptions, setViewOptions] = useState({
-        posts: true,
+        ownPosts: true,
         trainings: false,
-        saved: false,
+        savedPosts: false,
         savedTrainings: false
     })
 
     const navigate = useNavigate()
-
 
     useEffect(() => {
         userService.getUserById(token)
@@ -30,11 +29,14 @@ export const ProfileComponent = ({ token }) => {
 
     const changeView = (view) => {
         setViewOptions({
-            posts: view == 'posts' ? true : false,
+            ownPosts: view == 'ownPosts' ? true : false,
             trainings: view == 'trainings' ? true : false,
-            saved: view == 'saved' ? true : false,
+            savedPosts: view == 'savedPosts' ? true : false,
             savedTrainings: view == 'savedTrainings' ? true : false
         })
+
+        userService.getByOption(token, view)
+        .then(res => console.log(res))
     }
 
 
@@ -77,9 +79,9 @@ export const ProfileComponent = ({ token }) => {
                 <article className='profile-nav'>
 
                     <ul role='list'>
-                        <li onClick={() => changeView('posts')} className={viewOptions.posts ? 'active' : ''}>Posts</li>
+                        <li onClick={() => changeView('ownPosts')} className={viewOptions.ownPosts ? 'active' : ''}>Posts</li>
                         <li onClick={() => changeView('trainings')} className={viewOptions.trainings ? 'active' : ''}>Trainings</li>
-                        <li onClick={() => changeView('saved')} className={viewOptions.saved ? 'active' : ''}>Saved</li>
+                        <li onClick={() => changeView('savedPosts')} className={viewOptions.savedPosts ? 'active' : ''}>Saved</li>
                         <li onClick={() => changeView('savedTrainings')} className={viewOptions.savedTrainings ? 'active' : ''}>Saved Trainings</li>
                     </ul>
                 </article>
@@ -87,7 +89,7 @@ export const ProfileComponent = ({ token }) => {
 
                 <article className='profile-info-main'>
 
-                    {viewOptions.posts
+                    {viewOptions.ownPosts
                         ?
                         <article className='profile-info-posts'>
 
@@ -97,9 +99,9 @@ export const ProfileComponent = ({ token }) => {
                                 <>
                                     {user?.ownPosts?.map(x =>
                                         <div key={x._id} className='posts-small' onClick={() => navigate('/post/' + x._id)}>
-                                            <img src={x?.images[0]?.dataString || ''} />
+                                            {x?.images?.length > 0 && <img src={x?.images[0]?.dataString || ''} />}
 
-                                            <h2>{x?.description}</h2>
+                                            <h2>{x?.description.slice(0, 20) + '...'}</h2>
                                         </div>
                                     )}
                                 </>
@@ -122,7 +124,7 @@ export const ProfileComponent = ({ token }) => {
                                         <div>
                                             <img src={x?.images[0] || ''} />
 
-                                            <h2>{x?.description}</h2>
+                                            <h2>{x?.description.slice(0, 20) + '...'}</h2>
                                         </div>
                                     )}
                                 </>
@@ -132,11 +134,11 @@ export const ProfileComponent = ({ token }) => {
                         : ''
                     }
 
-                    {viewOptions.saved
+                    {viewOptions.savedPosts
                         ?
                         <article className='profile-info-posts saved'>
 
-                            {user?.ownPosts?.length == 0
+                            {user?.savedPosts?.length == 0
                                 ? <h2>No saved posts yet!</h2>
                                 :
                                 <>
@@ -144,7 +146,7 @@ export const ProfileComponent = ({ token }) => {
                                         <div className='posts-small'>
                                             <img src={x?.images[0] || ''} />
 
-                                            <h2>{x?.description}</h2>
+                                            <h2>{x?.description.slice(0, 20) + '...'}</h2>
                                         </div>
                                     )}
                                 </>
@@ -166,7 +168,7 @@ export const ProfileComponent = ({ token }) => {
                                         <div>
                                             <img src={x?.images[0] || ''} />
 
-                                            <h2>{x?.description}</h2>
+                                            <h2>{x?.description.slice(0, 20) + '...'}</h2>
                                         </div>
                                     )}
                                 </>
