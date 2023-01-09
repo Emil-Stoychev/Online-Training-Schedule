@@ -2,10 +2,7 @@ const mongoose = require('mongoose')
 
 const chatSchema = new mongoose.Schema({
     // author: String,
-    // from: {
-    //     type: String,
-    //     references: [{ type: Object, ref: 'User' }]
-    // },
+    // from: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     // messages: Array,
     // date: String,
 })

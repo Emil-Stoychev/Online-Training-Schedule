@@ -10,22 +10,17 @@ const postSchema = new mongoose.Schema({
     },
     author: String,
     username: String,
-    likes: {
-        type: Array,
-        references: [{ type: Object, ref: 'User' }]
-    },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     comments: {
         type: Array,
         ref: 'comments'
     },
     visible: {
         type: String,
-        enum: ['public', 'friends', 'private'],
-        default: 'public'
+        enum: ['Public', 'Friends', 'Private'],
+        default: 'Public'
     },
-    profileImage: {
-        references: [{ type: Object, ref: 'User' }]
-    },
+    profileImage: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     savedCount: {
         type: Array
     },

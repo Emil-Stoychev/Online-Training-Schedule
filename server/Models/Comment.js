@@ -17,14 +17,9 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: [true, 'PostId is required'],
     },
-    profileImage: {
-        references: [{ type: Object, ref: 'User' }]
-    },
+    profileImage: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     nestedComments: Array,
-    likes: {
-        type: Array,
-        references: [{ type: Object, ref: 'User' }]
-    },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     date: String
 })
 

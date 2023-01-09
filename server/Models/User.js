@@ -11,13 +11,10 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Password is required'],
     },
     image: String,
-    ownPosts: {
-        type: Array,
-        references: [{ type: Object, ref: 'Post' }]
-    },
+    ownPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
     trainings: {
         type: Array,
-        references: [{ type: Object, ref: 'Trainings' }]
+        references: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trainings' }]
     },
     followers: {
         type: Array
@@ -26,18 +23,9 @@ const userSchema = new mongoose.Schema({
         type: Array
     },
     location: String,
-    savedPosts: {
-        type: Array,
-        references: [{ type: Object, ref: 'Post' }]
-    },
-    savedTrainings: {
-        type: Array,
-        references: [{ type: Object, ref: 'Training' }]
-    },
-    chat: {
-        type: Array,
-        references: [{ type: Object, ref: 'Chat' }]
-    },
+    savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
+    savedTrainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Training' }],
+    chat: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
     releasedDate: String
 })
 

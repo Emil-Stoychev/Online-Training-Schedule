@@ -6,10 +6,7 @@ const trainingSchema = new mongoose.Schema({
     },
     author: String,
     username: String,
-    likes: {
-        type: Array,
-        references: [{ type: Object, ref: 'User' }]
-    },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     visible: {
         type: String,
         enum: ['public', 'friends', 'private'],
