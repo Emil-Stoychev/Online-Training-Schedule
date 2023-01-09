@@ -67,12 +67,17 @@
 }
 
 .inputBox-uploadImages {
-  width: 30%;
+  width: 90%;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .inputBox-uploadImages div {
-  margin: 5% auto 0 auto;
+  margin: 5% 0;
   position: relative;
   display: flex;
   flex-direction: column;

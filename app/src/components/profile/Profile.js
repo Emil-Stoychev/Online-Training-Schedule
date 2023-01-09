@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './profile.css'
 
 import * as userService from '../../services/authService'
@@ -11,6 +12,8 @@ export const ProfileComponent = ({ token }) => {
         saved: false,
         savedTrainings: false
     })
+
+    const navigate = useNavigate()
 
 
     useEffect(() => {
@@ -93,8 +96,8 @@ export const ProfileComponent = ({ token }) => {
                                 :
                                 <>
                                     {user?.ownPosts?.map(x =>
-                                        <div className='posts-small'>
-                                            <img src={x?.images[0] || ''} />
+                                        <div key={x._id} className='posts-small' onClick={() => navigate('/post/' + x._id)}>
+                                            <img src={x?.images[0]?.dataString || ''} />
 
                                             <h2>{x?.description}</h2>
                                         </div>

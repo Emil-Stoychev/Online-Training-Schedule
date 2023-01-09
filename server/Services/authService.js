@@ -12,9 +12,13 @@ const { userValidator } = require('../utils/userValidator')
 let sessionName = 'sessionStorage'
 let secret = 'asdkamsioj321hj01jpdomasdx]c[;zc-3-='
 
-const getUserById = async (user) => {
+const getUserById = async (userId, option) => {
     try {
-        let userAcc = await User.findOne({ _id: user._id })
+        let userAcc
+
+        option == true
+            ? userAcc = await User.findById(userId).populate('ownPosts')
+            : userAcc = await User.findById(userId)
 
         if (!userAcc) {
             return { message: "User doesn't exist!" }
@@ -140,6 +144,24 @@ const updatePicture = async (data) => {
     }
 }
 
+
+const addNewPostToUser = async (user, postId) => {
+    try {
+        let userInfo = await User.findById(user._id)
+
+        if (!userInfo) {
+            return { message: "User not found!" }
+        }
+
+        userInfo.ownPosts.push(postId)
+        userInfo.save()
+
+        return userInfo
+    } catch (error) {
+        return error
+    }
+}
+
 module.exports = {
     login,
     register,
@@ -147,4 +169,5 @@ module.exports = {
     getAll,
     checkUserExisting,
     updatePicture,
+    addNewPostToUser
 }

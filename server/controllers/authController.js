@@ -12,7 +12,7 @@ router.get('/', authMiddleware, async (req, res) => {
 })
 
 router.get('/:token', authMiddleware, async (req, res) => {
-    res.json(await authService.getUserById(req.params.user))
+    res.json(await authService.getUserById(req.params.user, true))
 })
 
 router.get('/ownPosts/:userId', authMiddleware, async (req, res) => {

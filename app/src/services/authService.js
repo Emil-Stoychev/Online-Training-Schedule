@@ -9,7 +9,10 @@ const myHeaders = new Headers({
 });
 
 export const getUserById = (token) => {
-    return fetch(`${URL}/${token}`)
+    return fetch(`${URL}/${token}`, {
+        method: 'GET',
+        headers: myHeaders
+    })
         .then(res => res.json())
 }
 
