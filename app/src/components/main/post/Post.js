@@ -41,8 +41,10 @@ export const PostComponent = ({ x }) => {
             <div className="post">
                 <div className="profile">
                     <div className='post-info'>
-                        <img src={post?.profileImage?.length > 0 ? post?.profileImage[0]?.image : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
-
+                        <img src={post?.profileImage?.length > 0 &&
+                            post?.profileImage[0]?.image != ''
+                            ? post?.profileImage[0]?.image
+                            : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
                         <div>
                             <h3>{post?.profileImage?.length > 0 ? post?.profileImage[0]?.username : ''}</h3>
                             <p>{post?.profileImage?.length > 0 ? post?.profileImage[0]?.location : ''}</p>

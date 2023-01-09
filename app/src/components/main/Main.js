@@ -16,6 +16,10 @@ export const MainComponent = () => {
                 if (!res.message) {
                     console.log(res);
                     setPosts(state => [...state, ...res])
+
+                    if (posts?.length == 0) {
+                        window.addEventListener('scroll', handleScroll)
+                    }
                 }
             })
     }, [pageNum])
@@ -28,9 +32,9 @@ export const MainComponent = () => {
         }
     }
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll)
-    }, [])
+    // useEffect(() => {
+    //     window.addEventListener('scroll', handleScroll)
+    // }, [])
 
     return (
         <section className="container">

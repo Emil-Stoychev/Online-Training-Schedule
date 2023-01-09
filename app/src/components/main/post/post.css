@@ -47,6 +47,8 @@ section.container .posts .post .profile .post-info {
 
 section.container .posts .post .profile .post-info > div > h3,
 section.container .posts .post .profile .post-info > div > p {
+  display: flex;
+  justify-content: flex-start;
   font-size: 15px;
 }
 
