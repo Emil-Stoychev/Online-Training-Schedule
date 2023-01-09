@@ -5,9 +5,14 @@ const { addCommentService, editCommentService, addReplyCommentService } = requir
 const { productValidator } = require('../utils/postValidator')
 const { checkUserExisting, getUserById, addNewPostToUser } = require('./authService')
 
-const getAll = async () => {
+const getAll = async (pageNum) => {
     try {
-        return await Post.find({ $or: [{visible: 'Public'},{visible: 'Friends'}] }, { "images": { $slice: 1 } })
+        return await Post.find({ $or: [{ visible: 'Public' }, { visible: 'Friends' }] })
+            .sort('-createdOn')
+            .limit(10)
+            .skip(pageNum)
+            .populate('profileImage', ['image', 'username', 'location'])
+            
     } catch (error) {
         console.error(error)
         return error
@@ -16,6 +21,7 @@ const getAll = async () => {
 
 const getAllFilteredByIds = async (ids) => {
     try {
+
         return await Product.find({ _id: ids })
     } catch (error) {
         console.error(error)
@@ -25,7 +31,9 @@ const getAllFilteredByIds = async (ids) => {
 
 const getById = async (postId) => {
     try {
-        let currPost = await Post.findById(postId) || { message: "404 Not found!" }
+        let currPost = await Post.findById(postId)
+            .populate('profileImage', ['image', 'username', 'location'])
+            || { message: "404 Not found!" }
 
         // let comments = await Comment.find()
 
@@ -344,7 +352,10 @@ const create = async (data, user) => {
             return updatedUser
         }
 
-        return createdProduct
+        let currPost = await Post.findById(createdProduct._id)
+            .populate('profileImage', ['image', 'username', 'location'])
+
+        return currPost
     } catch (error) {
         console.error(error)
         return error

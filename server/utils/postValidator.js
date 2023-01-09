@@ -12,12 +12,14 @@ const productValidator = (data, user) => {
     let product = {
         description,
         images,
-        visible: select
+        visible: select,
+        createdOn: new Date()
     }
 
     if (user) {
         product.author = user._id
         product.username = user.username
+        product.profileImage = user._id
     }
 
     return product

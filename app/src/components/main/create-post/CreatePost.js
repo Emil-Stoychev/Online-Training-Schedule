@@ -5,7 +5,7 @@ import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages.js'
 import * as postService from '../../../services/postService.js'
 
 
-export const CreatePost = () => {
+export const CreatePost = ({ setPosts }) => {
     const uploadRef = useRef(null)
     const [values, setValues] = useState({
         description: '',
@@ -23,7 +23,7 @@ export const CreatePost = () => {
     }
 
     const submitHandler = () => {
-        if(values.description.trim() != '' && values.description.length > 0) {
+        if (values.description.trim() != '' && values.description.length > 0) {
 
             let data = {
                 values,
@@ -31,7 +31,19 @@ export const CreatePost = () => {
             }
 
             postService.createPost(data)
-                .then(res => console.log(res))
+                .then(res => {
+                    if (!res.message) {
+                        console.log(res);
+
+                        setValues({
+                            description: '',
+                            images: [],
+                            select: 'Public'
+                        })
+
+                        setPosts(state => [res, ...state])
+                    }
+                })
         }
     }
 

@@ -3,8 +3,8 @@ let a = window.location.origin.split(':3060')
 
 const URL = a[0] + ':3030/posts'
 
-export const getAllPosts = () => {
-    return fetch(`${URL}`)
+export const getAllPosts = (pageNum) => {
+    return fetch(`${URL}/${pageNum}`)
         .then(res => res.json())
 }
 

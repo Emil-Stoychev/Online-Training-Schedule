@@ -11,10 +11,7 @@ const postSchema = new mongoose.Schema({
     author: String,
     username: String,
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    comments: {
-        type: Array,
-        ref: 'comments'
-    },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     visible: {
         type: String,
         enum: ['Public', 'Friends', 'Private'],
@@ -24,6 +21,7 @@ const postSchema = new mongoose.Schema({
     savedCount: {
         type: Array
     },
+    createdOn: Date
 })
 
 const Post = mongoose.model('Post', postSchema)

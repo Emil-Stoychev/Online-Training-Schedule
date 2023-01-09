@@ -6,6 +6,7 @@ section.container .posts {
   align-items: center;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
 }
 
 section.container .posts .post {
@@ -16,6 +17,7 @@ section.container .posts .post {
   padding: 3rem;
   background-color: #28292d;
   border-radius: 1rem;
+  width: 100%;
 }
 
 section.container .posts .post .profile {
@@ -56,17 +58,25 @@ section.container .posts .post .profile .post-info img {
 
 section.container .posts .post .images {
   width: 100%;
-  min-height: 250px;
-  max-height: 750px;
+  min-height: 300px;
+  max-height: 500px;
+  position: relative;
+  margin: 0 auto;
+}
+
+section.container .posts .post .images > div.images-image {
+  width: 100%;
+  height: 400px;
   position: relative;
   margin: 0 auto;
 }
 
 section.container .posts .post .images img {
-  max-width: 100%;
-  max-height: 100%;
-  min-height: 400px;
-  margin: 0 auto;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  margin: 0 auto 5% auto;
 }
 
 section.container .posts .post .images > .sliders {
@@ -129,9 +139,10 @@ section.container .posts .post .buttons i:nth-child(1):hover {
 
 section.container .posts .post > p {
   color: white;
-  padding: 1rem;
-  width: 85%;
+  padding: 2rem 2rem;
   font-size: 16px;
+  text-align: start;
+  word-break: break-all;
 }
 
 @media screen and (max-width: 840px) {
@@ -142,12 +153,6 @@ section.container .posts .post > p {
 
   section.container .posts .post .images img {
     min-height: 200px;
-  }
-}
-
-@media screen and (max-width: 680px) {
-  section.container .posts .post > p {
-    width: 100%;
   }
 }
 

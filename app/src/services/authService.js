@@ -9,10 +9,12 @@ const myHeaders = new Headers({
 });
 
 export const getUserById = (token) => {
-    return fetch(`${URL}/${token}`, {
-        method: 'GET',
-        headers: myHeaders
-    })
+    return fetch(`${URL}/${token}`)
+        .then(res => res.json())
+}
+
+export const getByOption = (token, option) => {
+    return fetch(`${URL}/own/${token}/${option}`)
         .then(res => res.json())
 }
 
