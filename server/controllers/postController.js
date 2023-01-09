@@ -1,15 +1,16 @@
 const router = require('express').Router()
 
+const { authMiddleware } = require('../Middlewares/authMiddleware')
 const postService = require('../Services/postService')
 
 router.get('/', async (req, res) => {
-    let products = await postService.getAll()
+    let posts = await postService.getAll()
 
-    res.json(products.length > 0 ? products : { message: "Empty" })
+    res.json(posts.length > 0 ? posts : { message: "Empty" })
 })
 
-router.post('/create', async (req, res) => {
-    let createdProduct = await postService.create(req.body) || []
+router.post('/create',authMiddleware, async (req, res) => {
+    let createdProduct = await postService.create(req.body, req.params.user) || []
 
     res.json(createdProduct)
 })
@@ -86,10 +87,10 @@ router.delete('/delete/:productId', async (req, res) => {
     res.json(deletedProduct)
 })
 
-router.get('/details/:productId', async (req, res) => {
-    let detailsProduct = await postService.getById(req.params.productId) || { message: "404 Not found!" }
+router.get('/details/:postId/:token', authMiddleware, async (req, res) => {
+    let detailsPost = await postService.getById(req.params.postId) || { message: "404 Not found!" }
 
-    res.json(detailsProduct)
+    res.json(detailsPost)
 })
 
 module.exports = router
