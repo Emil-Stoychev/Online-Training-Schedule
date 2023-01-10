@@ -13,6 +13,11 @@ export const getUserById = (token) => {
         .then(res => res.json())
 }
 
+export const getUserProfileById = (profileId) => {
+    return fetch(`${URL}/profile/${profileId}`)
+        .then(res => res.json())
+}
+
 export const getByOption = (token, option) => {
     return fetch(`${URL}/own/${token}/${option}`)
         .then(res => res.json())

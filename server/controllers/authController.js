@@ -15,6 +15,10 @@ router.get('/:token', authMiddleware, async (req, res) => {
     res.json(await authService.getUserById(req.params.user))
 })
 
+router.get('/profile/:profileId', async (req, res) => {
+    res.json(await authService.getUserById(req.params.profileId))
+})
+
 router.get('/own/:token/:option', authMiddleware, async (req, res) => {
     let result = await authService.getByOption(req.params?.user?._id, req.params.option)
 

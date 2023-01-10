@@ -3,10 +3,13 @@ import { CommentComponent } from './comments/Comment'
 import './post.css'
 
 import * as postService from '../../../services/postService.js'
+import { useNavigate } from 'react-router-dom'
 
-export const PostComponent = ({ x }) => {
+export const PostComponent = ({ x, userId }) => {
     const [post, setPosts] = useState({})
     const [imageCount, setImageCount] = useState(0)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (x) {
@@ -19,6 +22,60 @@ export const PostComponent = ({ x }) => {
                 })
         }
     }, [])
+
+    const onLikeHandler = (e, postId) => {
+
+        if (post?.author != userId) {
+            if (!e.currentTarget.className.includes('liked')) {
+                e.currentTarget.className = 'fa-solid fa-heart liked'
+            } else {
+                e.currentTarget.className = 'fa-solid fa-heart'
+            }
+        }
+
+        postService.toggleLikePost({ postId, token: localStorage.getItem('sessionStorage') })
+            .then(res => {
+                if (!res.message) {
+                    console.log(res);
+                } else {
+                    console.log(res);
+                }
+            })
+    }
+
+    const onSaveHandler = (e, postId) => {
+
+        if (post?.author != userId) {
+            if (!e.currentTarget.className.includes('saved')) {
+                e.currentTarget.className = 'fa-solid fa-sd-card saved'
+            } else {
+                e.currentTarget.className = 'fa-solid fa-sd-card'
+            }
+        }
+
+        postService.toggleSavePost({ postId, token: localStorage.getItem('sessionStorage') })
+            .then(res => {
+                if (!res.message) {
+                    console.log(res);
+                } else {
+                    console.log(res);
+                }
+            })
+    }
+
+    const onDeleteHandler = (e, postId) => {
+        console.log(e.currentTarget);
+
+        // postService.toggleLikePost({ postId, token: localStorage.getItem('sessionStorage') })
+        //     .then(res => {
+        //         if (!res.message) {
+        //             console.log(res);
+        //         } else {
+        //             console.log(res);
+        //         }
+        //     })
+    }
+
 
     const nextImage = () => {
         if (imageCount > post?.images?.length - 2) {
@@ -40,7 +97,7 @@ export const PostComponent = ({ x }) => {
         <>
             <div className="post">
                 <div className="profile">
-                    <div className='post-info'>
+                    <div className='post-info' onClick={() => navigate(`/profile/${post?.author}`)}>
                         <img src={post?.profileImage?.length > 0 &&
                             post?.profileImage[0]?.image != ''
                             ? post?.profileImage[0]?.image
@@ -72,29 +129,20 @@ export const PostComponent = ({ x }) => {
                     </div>
                 }
 
-                {post?.images?.length > 0
-                    ?
-                    <>
-                        <div className='buttons'>
-                            <i className="fa-solid fa-heart"></i>
-                            <i className="fa-sharp fa-solid fa-comments"></i>
-                            <i className="fa-solid fa-sd-card"></i>
-                            <i className="fa-solid fa-trash"></i>
-                        </div>
 
-                        <p>{post?.description}</p>
-                    </>
-                    :
-                    <>
-                        <p>{post?.description}</p>
+                {post?.images?.length == 0 && <p>{post?.description}</p>}
 
-                        <div className='buttons'>
-                            <i className="fa-solid fa-heart"></i>
-                            <i className="fa-sharp fa-solid fa-comments"></i>
-                            <i className="fa-solid fa-sd-card"></i>
-                            <i className="fa-solid fa-trash"></i>
-                        </div>
-                    </>}
+                <div className='buttons'>
+                    <i onClick={(e) => onLikeHandler(e, post?._id)} className={`fa-solid fa-heart ${post?.likes?.includes(userId) && 'liked'}`}></i>
+                    <i className="fa-sharp fa-solid fa-comments"></i>
+                    <i onClick={(e) => onSaveHandler(e, post?._id)} className={`fa-solid fa-sd-card ${post?.saved?.includes(userId) && 'saved'}`}></i>
+
+                    {post?.author == userId &&
+                        <i onClick={(e) => onDeleteHandler(e, post?._id)} className="fa-solid fa-trash"></i>
+                    }
+                </div>
+
+                {post?.images?.length > 0 && <p>{post?.description}</p>}
 
                 <div className='comment-main-title'>
                     <hr />

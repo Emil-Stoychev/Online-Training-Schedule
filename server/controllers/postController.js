@@ -15,6 +15,21 @@ router.post('/create',authMiddleware, async (req, res) => {
     res.json(createdProduct)
 })
 
+router.post('/toggleLikePost/:postId',authMiddleware, async (req, res) => {
+    let result = await postService.toggleLikePost(req.params.postId, req.params.user._id) || []
+
+    res.json(result)
+})
+
+router.post('/toggleSavePost/:postId',authMiddleware, async (req, res) => {
+    let result = await postService.toggleSavePost(req.params.postId, req.params.user._id) || []
+
+    res.json(result)
+})
+
+
+
+
 router.put('/edit/:productId', async (req, res) => {
     let editedProduct = await postService.edit(req.body) || { message: "404 Not found!" }
 

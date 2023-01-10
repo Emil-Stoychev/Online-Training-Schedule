@@ -4,7 +4,7 @@ import './profile.css'
 
 import * as userService from '../../services/authService'
 
-export const ProfileComponent = ({ token }) => {
+export const ProfileComponent = ({ token, userId }) => {
     const [user, setUser] = useState({})
     const [viewOptions, setViewOptions] = useState({
         ownPosts: false,
@@ -14,10 +14,33 @@ export const ProfileComponent = ({ token }) => {
         followers: false,
         following: false
     })
-
     const navigate = useNavigate()
 
     useEffect(() => {
+        // let profileId = window.location.pathname.split('/profile/')[1]
+
+        // if (profileId != null) {
+        //     userService.getUserProfileById(profileId)
+        //         .then(res => {
+        //             if (!res.message) {
+        //                 console.log(res);
+        //                 setUser(res)
+        //             } else {
+
+        //             }
+        //         })
+        // } else {
+        //     userService.getUserById(token)
+        //         .then(res => {
+        //             if (!res.message) {
+        //                 console.log(res);
+        //                 setUser(res)
+        //             } else {
+
+        //             }
+        //         })
+        // }
+
         userService.getUserById(token)
             .then(res => {
                 if (!res.message) {
@@ -27,6 +50,7 @@ export const ProfileComponent = ({ token }) => {
 
                 }
             })
+
     }, [])
 
     const changeView = (view) => {
@@ -40,7 +64,16 @@ export const ProfileComponent = ({ token }) => {
         })
 
         userService.getByOption(token, view)
-            .then(res => console.log(res))
+            .then(res => {
+                console.log(res);
+
+                if (!res.message && res.message != 'Empty!') {
+                    setUser(state => ({
+                        ...state,
+                        [view]: res
+                    }))
+                }
+            })
     }
 
 
@@ -71,8 +104,12 @@ export const ProfileComponent = ({ token }) => {
                         </div>
 
                         <div className='profile-name'>
-                            <button>Follow</button>
-                            <button>Message</button>
+                            {user._id != userId &&
+                                <>
+                                    <button>Follow</button>
+                                    <button>Message</button>
+                                </>
+                            }
                         </div>
                     </div>
 
@@ -114,7 +151,7 @@ export const ProfileComponent = ({ token }) => {
                                         <div key={x._id} className='posts-small' onClick={() => navigate('/post/' + x._id)}>
                                             {x?.images?.length > 0 && <img src={x?.images[0]?.dataString || ''} />}
 
-                                            <h2>{x?.description.slice(0, 20) + '...'}</h2>
+                                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
                                         </div>
                                     )}
                                 </>
@@ -137,7 +174,7 @@ export const ProfileComponent = ({ token }) => {
                                         <div>
                                             <img src={x?.images[0] || ''} />
 
-                                            <h2>{x?.description.slice(0, 20) + '...'}</h2>
+                                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
                                         </div>
                                     )}
                                 </>
@@ -156,10 +193,10 @@ export const ProfileComponent = ({ token }) => {
                                 :
                                 <>
                                     {user?.savedPosts?.map(x =>
-                                        <div className='posts-small'>
-                                            <img src={x?.images[0] || ''} />
+                                        <div className='posts-small' key={x._id} onClick={() => navigate('/post/' + x._id)}>
+                                            {x?.images?.length > 0 && <img src={x?.images[0]?.dataString || ''} />}
 
-                                            <h2>{x?.description.slice(0, 20) + '...'}</h2>
+                                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
                                         </div>
                                     )}
                                 </>
@@ -181,7 +218,7 @@ export const ProfileComponent = ({ token }) => {
                                         <div>
                                             <img src={x?.images[0] || ''} />
 
-                                            <h2>{x?.description.slice(0, 20) + '...'}</h2>
+                                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
                                         </div>
                                     )}
                                 </>

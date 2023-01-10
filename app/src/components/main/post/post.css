@@ -9,6 +9,11 @@ section.container .posts {
   width: 100%;
 }
 
+section.container .posts .loading-in-cnt {
+  color: white;
+  letter-spacing: 3px;
+}
+
 section.container .posts .post {
   display: flex;
   justify-content: flex-start;
@@ -43,6 +48,7 @@ section.container .posts .post .profile .post-info {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  cursor: pointer;
 }
 
 section.container .posts .post .profile .post-info > div > h3,
@@ -137,6 +143,14 @@ section.container .posts .post .buttons i:hover {
 
 section.container .posts .post .buttons i:nth-child(1):hover {
   color: red;
+}
+
+section.container .posts .post .buttons > i.liked {
+  color: red;
+}
+
+section.container .posts .post .buttons > i.saved {
+  color: #45f3ff;
 }
 
 section.container .posts .post > p {

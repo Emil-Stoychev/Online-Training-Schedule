@@ -12,7 +12,7 @@ const getAll = async (pageNum) => {
             .limit(10)
             .skip(pageNum)
             .populate('profileImage', ['image', 'username', 'location'])
-            
+
     } catch (error) {
         console.error(error)
         return error
@@ -413,6 +413,75 @@ const edit = async (data) => {
     }
 }
 
+const toggleLikePost = async (postId, userId) => {
+    try {
+        let user = await getUserById(userId)
+
+        if (!user.username) {
+            return { message: "User doesn't exist!" }
+        }
+
+        let post = await Post.findById(postId)
+
+        if (!post) {
+            return { message: "404 Not found!" }
+        }
+
+        if (post.author == userId) {
+            return { message: "You cannot like this post!" }
+        }
+
+        if (post.likes.includes(userId)) {
+            post.likes = post.likes.filter(x => x != userId)
+        } else {
+            post.likes.push(userId)
+        }
+
+        post.save()
+
+        return post
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const toggleSavePost = async (postId, userId) => {
+    try {
+        let user = await getUserById(userId)
+
+        if (!user.username) {
+            return { message: "User doesn't exist!" }
+        }
+
+        let post = await Post.findById(postId)
+
+        if (!post) {
+            return { message: "404 Not found!" }
+        }
+
+        if (post.author == userId) {
+            return { message: "You cannot save this post!" }
+        }
+
+        if (post.saved.includes(userId)) {
+            post.saved = post.saved.filter(x => x != userId)
+            user.savedPosts = user.savedPosts.filter(x => x != postId)
+        } else {
+            post.saved.push(userId)
+            user.savedPosts.push(postId)
+        }
+
+        post.save()
+        user.save()
+
+        return post
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 const addLikes = async (productId, data) => {
     try {
         if (data.token.message) {
@@ -582,4 +651,6 @@ module.exports = {
     likeComment,
     addReplyComment,
     deleteNestedComment,
+    toggleLikePost,
+    toggleSavePost
 }
