@@ -8,18 +8,13 @@ const myHeaders = new Headers({
     'Authorization': localStorage.getItem('sessionStorage')
 });
 
-export const getUserById = (token) => {
-    return fetch(`${URL}/${token}`)
+export const getUserById = (token, userId) => {
+    return fetch(`${URL}/${token}/${userId}`)
         .then(res => res.json())
 }
 
-export const getUserProfileById = (profileId) => {
-    return fetch(`${URL}/profile/${profileId}`)
-        .then(res => res.json())
-}
-
-export const getByOption = (token, option) => {
-    return fetch(`${URL}/own/${token}/${option}`)
+export const getByOption = (token, option, userId) => {
+    return fetch(`${URL}/own/${token}/${option}/${userId}`)
         .then(res => res.json())
 }
 

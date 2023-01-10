@@ -24,7 +24,7 @@ function App() {
     let getCookie = localStorage.getItem('sessionStorage')
 
     if (getCookie != null) {
-      userService.getUserById(getCookie)
+      userService.getUserById(getCookie, undefined)
         .then(res => {
           if (!res.message) {
             setToken({
@@ -36,9 +36,6 @@ function App() {
     } else {
       setToken(null)
     }
-
-    console.log(token);
-
   }, [])
 
 

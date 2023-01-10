@@ -17,41 +17,28 @@ export const ProfileComponent = ({ token, userId }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        // let profileId = window.location.pathname.split('/profile/')[1]
+        let urlId = window.location.pathname.split('/profile/')[1]
+        let profileId = urlId != null ? urlId : userId
 
-        // if (profileId != null) {
-        //     userService.getUserProfileById(profileId)
-        //         .then(res => {
-        //             if (!res.message) {
-        //                 console.log(res);
-        //                 setUser(res)
-        //             } else {
-
-        //             }
-        //         })
-        // } else {
-        //     userService.getUserById(token)
-        //         .then(res => {
-        //             if (!res.message) {
-        //                 console.log(res);
-        //                 setUser(res)
-        //             } else {
-
-        //             }
-        //         })
-        // }
-
-        userService.getUserById(token)
+        userService.getUserById(token, profileId)
             .then(res => {
                 if (!res.message) {
                     console.log(res);
                     setUser(res)
+
+                    setViewOptions({
+                        ownPosts: false,
+                        trainings: false,
+                        savedPosts: false,
+                        savedTrainings: false,
+                        followers: false,
+                        following: false
+                    })
                 } else {
 
                 }
             })
-
-    }, [])
+    }, [window.location.pathname])
 
     const changeView = (view) => {
         setViewOptions({
@@ -63,7 +50,10 @@ export const ProfileComponent = ({ token, userId }) => {
             following: view == 'following' ? true : false
         })
 
-        userService.getByOption(token, view)
+        let urlId = window.location.pathname.split('/profile/')[1]
+        let profileId = urlId != null ? urlId : userId
+
+        userService.getByOption(token, view, profileId)
             .then(res => {
                 console.log(res);
 
@@ -139,16 +129,15 @@ export const ProfileComponent = ({ token, userId }) => {
                         : ''
                     }
 
-                    {viewOptions.ownPosts
-                        ?
+                    {viewOptions.ownPosts &&
                         <article className='profile-info-posts'>
 
                             {user?.ownPosts?.length == 0
                                 ? <h2 className='noItems'>No posts yet!</h2>
                                 :
                                 <>
-                                    {user?.ownPosts?.map(x =>
-                                        <div key={x._id} className='posts-small' onClick={() => navigate('/post/' + x._id)}>
+                                    {user?.ownPosts?.map((x, i) =>
+                                        <div key={x._id + `${i}`} className='posts-small' onClick={() => navigate('/post/' + x._id)}>
                                             {x?.images?.length > 0 && <img src={x?.images[0]?.dataString || ''} />}
 
                                             <h2>{x?.description?.slice(0, 20) + '...'}</h2>
@@ -159,7 +148,6 @@ export const ProfileComponent = ({ token, userId }) => {
 
 
                         </article>
-                        : ''
                     }
 
                     {viewOptions.trainings
@@ -170,8 +158,8 @@ export const ProfileComponent = ({ token, userId }) => {
                                 ? <h2 className='noItems'>No trainings yet!</h2>
                                 :
                                 <>
-                                    {user?.trainings?.map(x =>
-                                        <div>
+                                    {user?.trainings?.map((x, i) =>
+                                        <div key={x._id + `${i}`}>
                                             <img src={x?.images[0] || ''} />
 
                                             <h2>{x?.description?.slice(0, 20) + '...'}</h2>
@@ -192,8 +180,8 @@ export const ProfileComponent = ({ token, userId }) => {
                                 ? <h2 className='noItems'>No saved posts yet!</h2>
                                 :
                                 <>
-                                    {user?.savedPosts?.map(x =>
-                                        <div className='posts-small' key={x._id} onClick={() => navigate('/post/' + x._id)}>
+                                    {user?.savedPosts?.map((x, i) =>
+                                        <div className='posts-small' key={x._id + `${i}`} onClick={() => navigate('/post/' + x._id)}>
                                             {x?.images?.length > 0 && <img src={x?.images[0]?.dataString || ''} />}
 
                                             <h2>{x?.description?.slice(0, 20) + '...'}</h2>
@@ -214,8 +202,8 @@ export const ProfileComponent = ({ token, userId }) => {
                                 ? <h2 className='noItems'>No saved trainings yet!</h2>
                                 :
                                 <>
-                                    {user?.savedTrainings?.map(x =>
-                                        <div>
+                                    {user?.savedTrainings?.map((x, i) =>
+                                        <div key={x._id + `${i}`}>
                                             <img src={x?.images[0] || ''} />
 
                                             <h2>{x?.description?.slice(0, 20) + '...'}</h2>
@@ -236,8 +224,8 @@ export const ProfileComponent = ({ token, userId }) => {
                                 ? <h2 className='noItems'>No followers!</h2>
                                 :
                                 <>
-                                    {user?.followers?.map(x =>
-                                        <div className="profile-info-followers-cnt">
+                                    {user?.followers?.map((x, i) =>
+                                        <div className="profile-info-followers-cnt" key={x._id + `${i}`}>
                                             <div className='profile-info-followers-leftSide'>
                                                 <img src={x?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
 
@@ -267,8 +255,8 @@ export const ProfileComponent = ({ token, userId }) => {
                                 ? <h2 className='noItems'>No following!</h2>
                                 :
                                 <>
-                                    {user?.following?.map(x =>
-                                        <div className="profile-info-followers-cnt">
+                                    {user?.following?.map((x, i) =>
+                                        <div className="profile-info-followers-cnt" key={x._id + `${i}`}>
                                             <div className='profile-info-followers-leftSide'>
                                                 <img src={x?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
 

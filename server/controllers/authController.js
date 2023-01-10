@@ -11,16 +11,16 @@ router.get('/', authMiddleware, async (req, res) => {
     res.json(await authService.getAll())
 })
 
-router.get('/:token', authMiddleware, async (req, res) => {
-    res.json(await authService.getUserById(req.params.user))
+router.get('/:token/:userId', authMiddleware, async (req, res) => {
+    if (req.params.userId != 'undefined' && req.params.userId != undefined) {
+        res.json(await authService.getUserById(req.params.userId))
+    } else {
+        res.json(await authService.getUserById(req.params.user?._id))
+    }
 })
 
-router.get('/profile/:profileId', async (req, res) => {
-    res.json(await authService.getUserById(req.params.profileId))
-})
-
-router.get('/own/:token/:option', authMiddleware, async (req, res) => {
-    let result = await authService.getByOption(req.params?.user?._id, req.params.option)
+router.get('/own/:token/:option/:userId', authMiddleware, async (req, res) => {
+    let result = await authService.getByOption(req.params?.userId, req.params.option)
 
     result.length > 0 ? res.json(result) : res.json({ message: "Empty!" })
 })
