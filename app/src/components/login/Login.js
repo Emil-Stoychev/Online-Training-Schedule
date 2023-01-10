@@ -27,9 +27,12 @@ export const LoginComponent = ({ setToken }) => {
                 if (result.message != 'yes') {
                     setErrors(result.message)
                 } else {
-                    localStorage.setItem('sessionStorage', result.cookie)
+                    localStorage.setItem('sessionStorage', result.token)
 
-                    setToken(result.cookie)
+                    setToken({
+                        token: result.token,
+                        _id: result._id
+                    })
 
                     navigate('/')
                 }

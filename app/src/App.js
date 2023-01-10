@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import './App.css';
 
+import * as userService from './services/authService.js'
 
 import { PageNotFound } from './components/core/page-not-found/PageNotFound';
 import { WelcomeComponent } from './components/welcome/Welcome';
@@ -22,17 +23,29 @@ function App() {
   useEffect(() => {
     let getCookie = localStorage.getItem('sessionStorage')
 
-    if (getCookie != '') {
-      setToken(getCookie)
+    if (getCookie != null) {
+      userService.getUserById(getCookie)
+        .then(res => {
+          if (!res.message) {
+            setToken({
+              token: getCookie,
+              _id: res?._id
+            })
+          }
+        })
     } else {
       setToken(null)
     }
-  }, [token])
+
+    console.log(token);
+
+  }, [])
+
 
   return (
     <div className="App">
 
-      <NavigationComponent token={token} setToken={setToken} />
+      <NavigationComponent token={token?.token} setToken={setToken} />
 
       <Routes>
 
@@ -47,14 +60,14 @@ function App() {
           </>
           :
           <>
-            <Route path='/' element={<MainComponent />} />
+            <Route path='/' element={<MainComponent userId={token?._id} />} />
 
             <Route path='/post/:id' element={
               <section className="container">
 
                 <article className="posts">
 
-                  <PostComponent />
+                  <PostComponent x={undefined} userId={token?._id} />
 
                 </article>
 
@@ -65,7 +78,9 @@ function App() {
 
             <Route path='/training' element={<TrainingComponent />} />
 
-            <Route path='/profile' element={<ProfileComponent token={token} />} />
+            <Route path='/profile' element={<ProfileComponent token={token?.token} userId={token?._id} />} />
+
+            <Route path='/profile/:profileId' element={<ProfileComponent token={token?.token} userId={token?._id} />} />
           </>
         }
 

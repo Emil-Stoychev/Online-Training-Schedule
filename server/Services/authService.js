@@ -14,7 +14,7 @@ let secret = 'asdkamsioj321hj01jpdomasdx]c[;zc-3-='
 
 const getUserById = async (userId) => {
     try {
-        let userAcc = await User.findById(userId).populate('ownPosts')
+        let userAcc = await User.findById(userId)
 
         if (!userAcc) {
             return { message: "User doesn't exist!" }
@@ -98,7 +98,7 @@ const login = async (data) => {
             })
         })
 
-        return { message: 'yes', cookie: result }
+        return { message: 'yes', token: result, _id: user?._id }
     } catch (error) {
         return error
     }
