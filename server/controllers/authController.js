@@ -25,8 +25,12 @@ router.get('/own/:token/:option/:userId', authMiddleware, async (req, res) => {
     result.length > 0 ? res.json(result) : res.json({ message: "Empty!" })
 })
 
-router.put('/changePicture/:userId', authMiddleware, async (req, res) => {
-    let updatedUser = await authService.updatePicture(req.body)
+router.get('/toggleFollow/:token/:userId', authMiddleware, async (req, res) => {
+    res.json(await authService.toggleFollowPerson(req.params.userId, req.params.user?._id))
+})
+
+router.put('/editProfile/:userId', authMiddleware, async (req, res) => {
+    let updatedUser = await authService.editProfile(req.body)
 
     res.json(updatedUser)
 })

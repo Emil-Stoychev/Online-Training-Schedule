@@ -3,6 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import './profile.css'
 
 import * as userService from '../../services/authService'
+import { ProfileInfoUpComponent } from './profileInfoUp'
+import { OwnPostsComponent } from './OwnPosts'
+import { OwnTrainingsComponent } from './OwnTrainings'
+import { OwnFollowersComponent } from './OwnFollowers'
+import { EditProfileComponent } from './EditProfile'
 
 export const ProfileComponent = ({ token, userId }) => {
     const [user, setUser] = useState({})
@@ -12,7 +17,8 @@ export const ProfileComponent = ({ token, userId }) => {
         savedPosts: false,
         savedTrainings: false,
         followers: false,
-        following: false
+        following: false,
+        edit: false
     })
     const navigate = useNavigate()
 
@@ -32,7 +38,8 @@ export const ProfileComponent = ({ token, userId }) => {
                         savedPosts: false,
                         savedTrainings: false,
                         followers: false,
-                        following: false
+                        following: false,
+                        edit: false
                     })
                 } else {
 
@@ -47,68 +54,45 @@ export const ProfileComponent = ({ token, userId }) => {
             savedPosts: view == 'savedPosts' ? true : false,
             savedTrainings: view == 'savedTrainings' ? true : false,
             followers: view == 'followers' ? true : false,
-            following: view == 'following' ? true : false
+            following: view == 'following' ? true : false,
+            edit: view == 'edit' && !viewOptions.edit,
         })
 
-        let urlId = window.location.pathname.split('/profile/')[1]
-        let profileId = urlId != null ? urlId : userId
+        if (view != 'edit') {
+            let urlId = window.location.pathname.split('/profile/')[1]
+            let profileId = urlId != null ? urlId : userId
 
-        userService.getByOption(token, view, profileId)
-            .then(res => {
-                console.log(res);
+            userService.getByOption(token, view, profileId)
+                .then(res => {
+                    console.log(res);
 
-                if (!res.message && res.message != 'Empty!') {
-                    setUser(state => ({
-                        ...state,
-                        [view]: res
-                    }))
-                }
-            })
+                    if (!res.message && res.message != 'Empty!') {
+                        setUser(state => ({
+                            ...state,
+                            [view]: res
+                        }))
+                    }
+                })
+        }
     }
-
 
     return (
         <>
-
             <section className='profile-cont'>
 
-                <article className='profile-info-up'>
-                    <div>
-                        <img src={user?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} />
-                    </div>
-
-                    <div className='profile-info-in'>
-
-                        <div className='profile-name'>
-                            <h1>{user?.username}</h1>
-                            <button>Edit</button>
-                        </div>
-
-                        <div className='profile-statistic'>
-                            <h3>Posts: {user?.ownPosts?.length}</h3>
-                            <h3 onClick={() => changeView('followers')}>Followers: {user?.followers?.length}</h3>
-                            <h3 onClick={() => changeView('following')}>Following: {user?.following?.length}</h3>
-                        </div>
-
-                        <div className='profile-bio'>
-                        </div>
-
-                        <div className='profile-name'>
-                            {user._id != userId &&
-                                <>
-                                    <button>Follow</button>
-                                    <button>Message</button>
-                                </>
-                            }
-                        </div>
-                    </div>
-
-                </article>
+                <ProfileInfoUpComponent
+                    token={token}
+                    user={user}
+                    setUser={setUser}
+                    setViewOptions={setViewOptions}
+                    changeView={changeView}
+                    userId={userId}
+                    viewOptions={viewOptions}
+                />
 
                 <hr />
 
                 <article className='profile-nav'>
-
                     <ul role='list'>
                         <li onClick={() => changeView('ownPosts')} className={viewOptions.ownPosts ? 'active' : ''}>Posts</li>
                         <li onClick={() => changeView('trainings')} className={viewOptions.trainings ? 'active' : ''}>Trainings</li>
@@ -120,168 +104,26 @@ export const ProfileComponent = ({ token, userId }) => {
 
                 <article className='profile-info-main'>
 
-                    {!viewOptions.ownPosts && !viewOptions.followers && !viewOptions.following
-                        && !viewOptions.savedPosts && !viewOptions.savedTrainings && !viewOptions.trainings
-                        ?
+                    {!Object.values(viewOptions).some(x => x == true) &&
                         <article className='profile-info-posts'>
                             <h2 className='noItems'>You can check your info!</h2>
                         </article>
-                        : ''
                     }
 
-                    {viewOptions.ownPosts &&
-                        <article className='profile-info-posts'>
+                    {viewOptions.edit && <EditProfileComponent user={user} userId={userId} token={token} setUser={setUser} setViewOptions={setViewOptions} changeView={changeView} />}
 
-                            {user?.ownPosts?.length == 0
-                                ? <h2 className='noItems'>No posts yet!</h2>
-                                :
-                                <>
-                                    {user?.ownPosts?.map((x, i) =>
-                                        <div key={x._id + `${i}`} className='posts-small' onClick={() => navigate('/post/' + x._id)}>
-                                            {x?.images?.length > 0 && <img src={x?.images[0]?.dataString || ''} />}
+                    {(viewOptions.ownPosts || viewOptions.savedPosts) &&
+                        <OwnPostsComponent user={user} navigate={navigate} optionWord={viewOptions.ownPosts ? 'ownPosts' : 'savedPosts'} />}
 
-                                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
-                                        </div>
-                                    )}
-                                </>
-                            }
+                    {(viewOptions.trainings || viewOptions.savedTrainings) &&
+                        <OwnTrainingsComponent user={user} navigate={navigate} optionWord={viewOptions.trainings ? 'trainings' : 'savedTrainings'} />}
 
-
-                        </article>
-                    }
-
-                    {viewOptions.trainings
-                        ?
-                        <article className='profile-info-trainings'>
-
-                            {user?.trainings?.length == 0
-                                ? <h2 className='noItems'>No trainings yet!</h2>
-                                :
-                                <>
-                                    {user?.trainings?.map((x, i) =>
-                                        <div key={x._id + `${i}`}>
-                                            <img src={x?.images[0] || ''} />
-
-                                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
-                                        </div>
-                                    )}
-                                </>
-                            }
-
-                        </article>
-                        : ''
-                    }
-
-                    {viewOptions.savedPosts
-                        ?
-                        <article className='profile-info-posts saved'>
-
-                            {user?.savedPosts?.length == 0
-                                ? <h2 className='noItems'>No saved posts yet!</h2>
-                                :
-                                <>
-                                    {user?.savedPosts?.map((x, i) =>
-                                        <div className='posts-small' key={x._id + `${i}`} onClick={() => navigate('/post/' + x._id)}>
-                                            {x?.images?.length > 0 && <img src={x?.images[0]?.dataString || ''} />}
-
-                                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
-                                        </div>
-                                    )}
-                                </>
-                            }
-
-                        </article>
-                        : ''
-                    }
-
-                    {viewOptions.savedTrainings
-                        ?
-                        <article className='profile-info-trainings'>
-
-                            {user?.savedTrainings?.length == 0
-                                ? <h2 className='noItems'>No saved trainings yet!</h2>
-                                :
-                                <>
-                                    {user?.savedTrainings?.map((x, i) =>
-                                        <div key={x._id + `${i}`}>
-                                            <img src={x?.images[0] || ''} />
-
-                                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
-                                        </div>
-                                    )}
-                                </>
-                            }
-
-                        </article>
-                        : ''
-                    }
-
-                    {viewOptions.followers
-                        ?
-                        <article className='profile-info-followers'>
-
-                            {user?.followers?.length == 0
-                                ? <h2 className='noItems'>No followers!</h2>
-                                :
-                                <>
-                                    {user?.followers?.map((x, i) =>
-                                        <div className="profile-info-followers-cnt" key={x._id + `${i}`}>
-                                            <div className='profile-info-followers-leftSide'>
-                                                <img src={x?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
-
-                                                <div>
-                                                    <h3>{x?.username}</h3>
-                                                    <p>{x?.location}</p>
-                                                </div>
-                                            </div>
-
-                                            <div className='profile-info-followers-rightSide'>
-                                                <i className="fa-solid fa-eye"></i>
-                                            </div>
-                                        </div>
-                                    )}
-                                </>
-                            }
-
-                        </article>
-                        : ''
-                    }
-
-                    {viewOptions.following
-                        ?
-                        <article className='profile-info-followers'>
-
-                            {user?.following?.length == 0
-                                ? <h2 className='noItems'>No following!</h2>
-                                :
-                                <>
-                                    {user?.following?.map((x, i) =>
-                                        <div className="profile-info-followers-cnt" key={x._id + `${i}`}>
-                                            <div className='profile-info-followers-leftSide'>
-                                                <img src={x?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
-
-                                                <div>
-                                                    <h3>{x?.username}</h3>
-                                                    <p>{x?.location}</p>
-                                                </div>
-                                            </div>
-
-                                            <div className='profile-info-followers-rightSide'>
-                                                <i className="fa-solid fa-eye"></i>
-                                            </div>
-                                        </div>
-                                    )}
-                                </>
-                            }
-
-                        </article>
-                        : ''
-                    }
+                    {(viewOptions.followers || viewOptions.following) &&
+                        <OwnFollowersComponent user={user} userId={userId} navigate={navigate} optionWord={viewOptions.followers ? 'followers' : 'following'} />}
 
                 </article>
 
             </section>
-
         </>
     )
 }

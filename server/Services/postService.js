@@ -482,108 +482,6 @@ const toggleSavePost = async (postId, userId) => {
     }
 }
 
-const addLikes = async (productId, data) => {
-    try {
-        if (data.token.message) {
-            return { message: "Invalid access token!" }
-        }
-
-        let user = await getUserById(data.userId)
-
-        if (!user.email) {
-            return { message: "User doesn't exist!" }
-        }
-
-        let token = await authMiddleware(data.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(data.token)) {
-            return { message: "Invalid access token!" }
-        }
-
-        let product = await Product.findById(productId)
-
-        if (!product) {
-            return { message: "404 Not found!" }
-        }
-
-        if (product.author == data.userId) {
-            return { message: "You cannot like this product!" }
-        }
-
-        product.likes.push(data.userId)
-        product.save()
-
-        let addedMessageToUser = await addNewLikeToUser(data.userId, data.token, productId)
-
-        if (addedMessageToUser.message) {
-            return addedMessageToUser
-        }
-
-        return product
-    } catch (error) {
-        console.error(error)
-        return error
-    }
-}
-
-const removeLikes = async (productId, data) => {
-    try {
-        let isUserExist = await getUserById(data.userId)
-
-        if (isUserExist.message) {
-            return { message: "User doesn't exist!" }
-        }
-
-        if (data.token.message) {
-            return { message: "Invalid access token!" }
-        }
-
-        let token = await authMiddleware(data.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(data.token)) {
-            return { message: "Invalid access token!" }
-        }
-
-        let user = await getUserById(data.userId)
-
-        if (!user.email) {
-            return { message: "User doesn't exist!" }
-        }
-
-        let product = await Product.findById(productId)
-
-        if (!product) {
-            return { message: "404 Not found!" }
-        }
-
-        if (product.author == data.userId) {
-            return { message: "You cannot unlike this product!" }
-        }
-
-        product.likes = product.likes.filter(x => x != data.userId)
-        product.save()
-
-        let removedLikeFromUser = await removeLikeFromUser(data.userId, data.token, productId)
-
-        if (removedLikeFromUser.message) {
-            return removedLikeFromUser
-        }
-
-        return product
-    } catch (error) {
-        console.error(error)
-        return error
-    }
-}
-
 const del = async (productId, data) => {
     let { cookie } = data
 
@@ -642,8 +540,6 @@ module.exports = {
     edit,
     delete: del,
     getAllFilteredByIds,
-    addLikes,
-    removeLikes,
     changePostStatus,
     addComment,
     editComment,

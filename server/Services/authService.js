@@ -7,7 +7,7 @@ const { User } = require('../Models/User')
 const { Comment } = require('../Models/Comment')
 const { Post } = require('../Models/Post')
 const { Chat } = require('../Models/Chat')
-const { userValidator } = require('../utils/userValidator')
+const { userValidator, editUserValidator } = require('../utils/userValidator')
 
 let sessionName = 'sessionStorage'
 let secret = 'asdkamsioj321hj01jpdomasdx]c[;zc-3-='
@@ -145,27 +145,68 @@ const register = async (data) => {
     }
 }
 
-const updatePicture = async (data) => {
+const toggleFollowPerson = async (userId, ownId) => {
     try {
-        let { cookie, image } = data
+        let targetUser = await getUserById(userId)
+        let myUser = await getUserById(ownId)
 
-        if (cookie.token.message) {
-            return { message: "Invalid access token!" }
+        if (!targetUser.username || !myUser.username) {
+            return { message: "User doesn't exist!" }
         }
 
-        let isValidToken = await authMiddleware(cookie.token)
-
-        if (isValidToken.message) {
-            return isValidToken
+        if (targetUser.followers.includes(ownId)) {
+            targetUser.followers = targetUser.followers.filter(x => x != ownId)
+            myUser.following = myUser.following.filter(x => x != userId)
+        } else {
+            targetUser.followers.push(ownId)
+            myUser.following.push(userId)
         }
 
-        let user = await User.findById(cookie._id)
+        targetUser.save()
+        myUser.save()
+
+        return targetUser.followers
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const editProfile = async (data) => {
+    try {
+        let { values, userId } = data
+
+        let user = await User.findById(userId)
 
         if (!user) {
             return { message: "User not found!" }
         }
 
-        user.image = image
+        let newUser = await User.findOne({ username: values.username })
+
+        if (newUser != null && user.username != newUser.username) {
+            return { message: "User already exist!" }
+        }
+
+        let oldPass = await bcrypt.compare(values.password, user?.password)
+
+        if (!oldPass) {
+            return { message: "Wrong password!" }
+        }
+
+        let userIsValid = editUserValidator(values)
+
+        if (userIsValid.message) {
+            return userIsValid
+        }
+
+        let hashedPassword = await bcrypt.hash(userIsValid.password, 10)
+
+        user.username = values.username
+        user.password = hashedPassword
+        user.location = values.location
+        user.image = values.image
+
         user.save()
 
         return user
@@ -198,7 +239,8 @@ module.exports = {
     getUserById,
     getAll,
     checkUserExisting,
-    updatePicture,
+    editProfile,
     addNewPostToUser,
-    getByOption
+    getByOption,
+    toggleFollowPerson
 }

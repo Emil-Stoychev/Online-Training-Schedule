@@ -18,6 +18,11 @@ export const getByOption = (token, option, userId) => {
         .then(res => res.json())
 }
 
+export const toggleFollowPerson = (token, userId) => {
+    return fetch(`${URL}/toggleFollow/${token}/${userId}`)
+        .then(res => res.json())
+}
+
 export const register = (data) => {
     return fetch(`${URL}/register`, {
         method: "POST",
@@ -55,13 +60,14 @@ export const getLikedPosts = (ownerId) => {
         .then(res => res.json())
 }
 
-export const updateUserPicture = (cookie, image) => {
+export const editProfile = (values, userId, token) => {
     let data = {
-        cookie,
-        image
+        values,
+        userId,
+        token
     }
 
-    return fetch(`${URL}/changePicture/${cookie._id}`, {
+    return fetch(`${URL}/editProfile/${userId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"

@@ -1,20 +1,16 @@
 import { useState } from 'react'
 import { convertBase64, imageTypes } from '../../utils/AddRemoveImages'
 import * as userService from '../../services/authService'
-import './register.css'
-import { useNavigate } from 'react-router-dom'
 
-export const RegisterComponent = () => {
+export const EditProfileComponent = ({ user, userId, token, setUser, setViewOptions, changeView }) => {
     const [errors, setErrors] = useState('')
     const [values, setValues] = useState({
-        username: '',
+        username: user?.username || '',
         password: '',
-        rePassword: '',
-        location: '',
-        image: ''
+        newPassword: '',
+        location: user?.location || '',
+        image: user?.image || ''
     })
-
-    const navigate = useNavigate()
 
     const changeHandler = (e) => {
         setValues(oldState => ({
@@ -26,14 +22,33 @@ export const RegisterComponent = () => {
     const onSubmitHandler = (e) => {
         e.preventDefault()
 
-        userService.register(values)
+        userService.editProfile(values, userId, token)
             .then(result => {
-                if (result.message != 'yes') {
-                    setErrors(result.message)
+                if (result.message) {
+                    if (errors == '') {
+                        setErrors(result.message)
+
+                        setTimeout(() => {
+                            setErrors('')
+                        }, 2000);
+                    }
                 } else {
-                    navigate('/login')
+                    setUser(result)
+                    setViewOptions({
+                        ownPosts: false,
+                        trainings: false,
+                        savedPosts: false,
+                        savedTrainings: false,
+                        followers: false,
+                        following: false,
+                        edit: false
+                    })
                 }
             })
+    }
+
+    const deleteAcc = () => {
+        console.log('Delete acc!');
     }
 
 
@@ -88,11 +103,11 @@ export const RegisterComponent = () => {
     }
 
     return (
-        <section className='container'>
-            <div className="box register">
+        <article className='profile-edit-info'>
+            <div className="box-edit">
                 <form className="form" onSubmit={onSubmitHandler}>
 
-                    <h2>Sign up</h2>
+                    <h2>Edit Profile</h2>
 
                     {errors != '' ? <h2>{errors}</h2> : ''}
 
@@ -104,13 +119,13 @@ export const RegisterComponent = () => {
 
                     <div className="inputBox">
                         <input type="password" name='password' required='required' value={values.password} onChange={changeHandler} />
-                        <span>Password</span>
+                        <span>Old Password</span>
                         <i></i>
                     </div>
 
                     <div className="inputBox">
-                        <input type="password" name='rePassword' required='required' value={values.rePassword} onChange={changeHandler} />
-                        <span>Repeat password</span>
+                        <input type="password" name='newPassword' value={values.newPassword} onChange={changeHandler} />
+                        <span>New Password</span>
                         <i></i>
                     </div>
 
@@ -140,12 +155,14 @@ export const RegisterComponent = () => {
                         }
                     </div>
 
-                    <a onClick={() => navigate('/login')}>Sign in</a>
-
-                    <input type="submit" value="Register" />
+                    <div className='profile-btnOptions'>
+                    <input type="submit" className='profile-saveBtn' value="Save" />
+                    <input type="button" className='profile-cancelBtn' value="Cancel" onClick={() => changeView('edit')} />
+                    <input type="button" className='profile-deleteBtn'value="Delete Acc" onClick={() => deleteAcc()} />
+                    </div>
 
                 </form>
             </div>
-        </section>
+        </article>
     )
 }

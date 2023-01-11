@@ -12,16 +12,9 @@ const userSchema = new mongoose.Schema({
     },
     image: String,
     ownPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-    trainings: {
-        type: Array,
-        references: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trainings' }]
-    },
-    followers: {
-        type: Array
-    },
-    following: {
-        type: Array
-    },
+    trainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trainings' }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     location: String,
     savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
     savedTrainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Training' }],
