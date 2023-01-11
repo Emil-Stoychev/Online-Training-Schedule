@@ -9,6 +9,14 @@ section.container .comment-main-title {
   user-select: none;
 }
 
+section.container .comments p {
+  text-align: center;
+  color: white;
+  letter-spacing: 2px;
+  cursor: pointer;
+  user-select: none;
+}
+
 section.container .comments,
 section.container .nested-comments {
   padding: 2rem 2rem 2rem 0;
@@ -19,6 +27,13 @@ section.container .nested-comments {
 
 section.container .nested-comments {
   padding: 2rem 2rem 2rem 5rem;
+}
+
+section.container .comments .comment > p {
+  text-align: center;
+  width: 100%;
+  font-size: 14px;
+  padding: 1rem 0;
 }
 
 section.container .comments .comment,
@@ -74,12 +89,14 @@ section.container .comments .nested-comments > .nested-comment > .main {
   padding: 1rem;
   color: white;
   letter-spacing: 1px;
-  width: 80%;
 }
 
 section.container .comments .comment > .main > p,
 section.container .comments .nested-comments > .nested-comment > .main > p {
   font-size: 15px;
+  text-align: start;
+  padding: 0.5rem 1rem;
+  word-break: break-all;
 }
 
 section.container .comments .comment > .buttons,
@@ -97,29 +114,41 @@ section.container .comments .nested-comments > .nested-comment > .buttons > i {
   font-size: 24px;
 }
 
-@media screen and (max-width: 680px) {
-  section.container .comments .comment > .main,
-  section.container .comments .nested-comments > .nested-comment > .main,
-  section.container .comments .comment > .main > p,
-  section.container .comments .nested-comments > .nested-comment > .main > p {
-    width: 100%;
-  }
+button.editOptionBtn {
+  font-size: 20px;
+  padding: 0.2rem 0.5rem;
+  margin-left: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+button.deleteOptionBtn {
+  font-size: 14px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.5rem;
+  margin-right: -15px;
 }
 
 @media screen and (max-width: 480px) {
   section.container .comments {
     padding: 0;
   }
-}
 
-@media screen and (max-width: 400px) {
   section.container .comments,
   section.container .nested-comments,
-  section.container .comments .nested-comments > .nested-comment {
+  section.container .comments .nested-comments > .nested-comment,
+  section.container .comments .comment > .main,
+  section.container .comments .nested-comments > .nested-comment > .main {
     width: 100%;
     max-width: 100%;
   }
 
+  section.container .comments .comment > .main > p,
+  section.container .comments .nested-comments > .nested-comment > .main > p {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 400px) {
   section.container .nested-comments {
     padding: 2rem 0rem 2rem 3rem;
   }

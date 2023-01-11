@@ -1,0 +1,177 @@
+/* CREATE POST */
+
+div.addComment-cnt {
+  width: 100%;
+}
+
+div.addComment-cnt .create-comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #28292d;
+  width: 100%;
+  border-radius: 1rem;
+}
+
+div.addComment-cnt .create-comment .info {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+div.addComment-cnt .create-comment .info .profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+div.addComment-cnt .create-comment .info .profile-image img {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}
+
+div.addComment-cnt .create-comment .info .profile-image textarea {
+  width: 800px;
+  min-width: 600px;
+  max-width: 800px;
+
+  min-height: 80px;
+  max-height: 100px;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+div.addComment-cnt .create-comment .info .buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+  width: 75%;
+}
+
+div.addComment-cnt .create-comment .info .buttons button {
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border: none;
+  font-weight: 600;
+}
+
+div.addComment-cnt .create-comment .info .buttons button:hover {
+  transform: scale(1.1);
+  background-color: rgba(245, 222, 179, 0.103);
+  color: #45f3ff;
+}
+
+div.addComment-cnt .create-comment .info .buttons select {
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 910px) {
+  div.addComment-cnt .create-comment .info .profile-image textarea {
+    width: 90%;
+    min-width: 500px;
+    max-width: 90%;
+
+    min-height: 80px;
+    max-height: 100px;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  div.addComment-cnt .create-comment {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  div.addComment-cnt .create-comment .info .buttons {
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  div.addComment-cnt .create-comment .info .profile-image textarea {
+    min-width: 350px;
+  }
+
+  div.addComment-cnt > article.create-comment {
+    width: 100%;
+    padding: 2rem 0;
+  }
+
+  div.addComment-cnt .create-comment .info {
+    width: 100%;
+  }
+
+  div.addComment-cnt > article.create-comment > div.info > div.profile-image {
+    width: 90%;
+  }
+
+  div.addComment-cnt .create-comment .info .buttons button {
+    font-size: 12px;
+  }
+
+  div.addComment-cnt .create-comment .info .buttons select {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+
+    div.addComment-cnt {
+        margin: 2rem 1rem;
+    }
+    div.addComment-cnt .create-comment .info .profile-image textarea {
+      min-width: 250px;
+    }
+
+    div.addComment-cnt .create-comment .info .profile-image img {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+
+    div.addComment-cnt {
+        margin: 2rem 0rem;
+    }
+    div.addComment-cnt .create-comment .info .profile-image textarea {
+      min-width: 180px;
+    }
+  }
+
+  @media screen and (max-width: 300px) {
+    div.addComment-cnt .create-comment .info .buttons {
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      width: 75%;
+    }
+
+    div.addComment-cnt .create-comment .info .profile-image textarea {
+      min-width: 120px;
+      width: 120px;
+    }
+
+    div.addComment-cnt .create-comment .info .profile-image img {
+      width: 45px;
+      height: 45px;
+    }
+  }

@@ -135,6 +135,7 @@ section.container .posts .post .buttons i {
   cursor: pointer;
   transition: all 300ms ease-in-out;
   overflow: hidden;
+  letter-spacing: 10px;
 }
 
 section.container .posts .post .buttons i:hover {
@@ -187,14 +188,22 @@ section.container .posts .post > p {
     width: 100%;
   }
 
+  section.container .posts .post .buttons i {
+    letter-spacing: 2px;
+  }
+
   section.container .posts .post {
     padding: 0.1rem;
     max-width: 100%;
   }
 }
 
-@media screen and (max-width: 300px) {
+@media screen and (max-width: 310px) {
   section.container .posts .post .buttons i {
     font-size: 18px;
+  }
+
+  section.container .posts .post > .buttons {
+    gap: 1.5rem;
   }
 }

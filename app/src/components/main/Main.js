@@ -6,11 +6,11 @@ import { PostComponent } from "./post/Post";
 
 import * as postService from '../../services/postService.js'
 
-export const MainComponent = ({ userId }) => {
+export const MainComponent = ({ userId, token }) => {
     const [posts, setPosts] = useState([])
     const [pageNum, setPageNum] = useState(0)
     const [loading, setLoading] = useState(true)
-    const morePosts = useRef(true)
+    const morePosts = useRef(false)
 
     useEffect(() => {
         setLoading(true)
@@ -19,6 +19,7 @@ export const MainComponent = ({ userId }) => {
             .then(res => {
                 if (!res.message) {
                     setPosts(state => [...state, ...res])
+                    morePosts.current = true
                 } else {
                     morePosts.current = false
                 }
@@ -48,7 +49,7 @@ export const MainComponent = ({ userId }) => {
 
                 {posts.length > 0 &&
                     posts.map((x, i) => {
-                        return <PostComponent key={x._id} x={x} userId={userId} />
+                        return <PostComponent key={x._id} x={x} userId={userId} token={token} />
                     })
                 }
 

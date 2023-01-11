@@ -125,7 +125,7 @@ export const EditProfileComponent = ({ user, userId, token, setUser, setViewOpti
 
                     <div className="inputBox">
                         <input type="password" name='newPassword' value={values.newPassword} onChange={changeHandler} />
-                        <span>New Password</span>
+                        <span>New Password (optional)</span>
                         <i></i>
                     </div>
 

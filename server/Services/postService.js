@@ -59,157 +59,67 @@ const getById = async (postId) => {
     }
 }
 
+const getComments = async (id) => {
+    try {
+        let allComments = await Comment.find({ postId: id })
+            .populate('profileImage', ['image', 'username', 'location'])
+
+        return allComments
+    } catch (error) {
+        return error
+    }
+}
+
 const addComment = async (data) => {
-    let { email, title, authorId, productId, token } = data
+    let { description, image, userId, postId } = data
 
     try {
-        if (token.message) {
-            return { message: "Invalid access token!" }
-        }
+        let isUserExist = await getUserById(userId)
 
-        let isValidToken = await authMiddleware(token)
-
-        if (isValidToken.message) {
-            return isValidToken
-        }
-
-        if (blackList.has(token)) {
-            return { message: "Invalid access token!" }
-        }
-
-        let isUserExist = await checkUserExisting(email)
-
-        if (!isUserExist.email) {
+        if (!isUserExist.username) {
             return { message: "User doesn't exist!" }
         }
 
-        let newComment = await addCommentService(email, title, authorId, productId)
+        let newComment = await addCommentService(isUserExist?.username, description, image, userId, postId)
 
-        let product = await Product.findById(productId)
+        let post = await Post.findById(postId)
 
-        if (!product._id) {
-            return { message: "Product not found!" }
+        if (!post._id) {
+            return { message: "Post not found!" }
         }
 
-        product.comments.push(newComment._id.toString())
+        post.comments.push(newComment._id)
 
-        product.save()
+        post.save()
 
-        return newComment
+        let resComment = await Comment.findById(newComment._id)
+            .populate('profileImage', ['image', 'username', 'location'])
+
+        return resComment
     } catch (error) {
         return error
     }
 }
 
-const editComment = async (data) => {
-    let { commentValue, commentId, cookie } = data
-
+const editComment = async (commentValue, commentId, userId) => {
     try {
-        if (cookie.token.message) {
-            return { message: "Invalid access token!" }
-        }
-
-        let token = await authMiddleware(cookie.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(cookie.token)) {
-            return { message: "Invalid access token!" }
-        }
-
         let isCommentExist = await Comment.findById(commentId)
 
         if (!isCommentExist) {
             return { message: "This comment doesn't exist!" }
         }
 
-        if (isCommentExist.authorId != cookie._id) {
+        if (isCommentExist.authorId != userId) {
             return { message: "You cannot change this comment!" }
         }
 
-        let editedComment = await editCommentService(commentValue, isCommentExist)
-
-        return editedComment
-    } catch (error) {
-        return error
-    }
-}
-
-const addReplyComment = async (data) => {
-    let { commentId, cookie, commentValue } = data
-
-    try {
-        if (cookie.token.message) {
-            return { message: "Invalid access token!" }
+        if (commentValue.trim() == '' || commentValue.length < 3) {
+            return { message: "Comment must be at least 3 character!" }
         }
 
-        let token = await authMiddleware(cookie.token)
+        isCommentExist.description = commentValue
 
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(cookie.token)) {
-            return { message: "Invalid access token!" }
-        }
-
-        let isCommentExist = await Comment.findById(commentId)
-
-        if (!isCommentExist) {
-            return { message: "This comment doesn't exist!" }
-        }
-
-        let editedComment = await addReplyCommentService(commentValue, isCommentExist, cookie)
-
-        return editedComment
-    } catch (error) {
-        return error
-    }
-}
-
-const likeComment = async (commentId, data) => {
-    let { cookie } = data
-
-    try {
-        if (cookie.token.message) {
-            return { message: "Invalid access token!" }
-        }
-
-        let token = await authMiddleware(cookie.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(cookie.token)) {
-            return { message: "Invalid access token!" }
-        }
-
-        let isCommentExist = await Comment.findById(commentId)
-
-        if (!isCommentExist) {
-            return { message: "This comment doesn't exist!" }
-        }
-
-        if (isCommentExist.authorId == cookie._id) {
-            return { message: "You cannot like this comment!" }
-        }
-
-        if (isCommentExist.likes.includes(cookie._id)) {
-            isCommentExist.likes = isCommentExist.likes.filter(x => x != cookie._id)
-
-            isCommentExist.save()
-
-            isCommentExist = 'unlike'
-        } else {
-            isCommentExist.likes.push(cookie._id)
-
-            isCommentExist.save()
-
-            isCommentExist = 'like'
-        }
+        isCommentExist.save()
 
         return isCommentExist
     } catch (error) {
@@ -217,43 +127,94 @@ const likeComment = async (commentId, data) => {
     }
 }
 
-const deleteComment = async (commentId, data) => {
-    let { cookie } = data
-
+const likeComment = async (commentId, userId) => {
     try {
-        if (cookie.token.message) {
-            return { message: "Invalid access token!" }
-        }
-
-        let token = await authMiddleware(cookie.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(cookie.token)) {
-            return { message: "Invalid access token!" }
-        }
-
         let isCommentExist = await Comment.findById(commentId)
 
         if (!isCommentExist) {
             return { message: "This comment doesn't exist!" }
         }
 
-        if (isCommentExist.authorId != cookie._id) {
+        if (isCommentExist.authorId == userId) {
+            return { message: "You cannot like this comment!" }
+        }
+
+        if (isCommentExist.likes.includes(userId)) {
+            isCommentExist.likes = isCommentExist.likes.filter(x => x != userId)
+        } else {
+            isCommentExist.likes.push(userId)
+        }
+
+        isCommentExist.save()
+
+        return isCommentExist
+    } catch (error) {
+        return error
+    }
+}
+
+const addReplyComment = async (commentValue, image, commentId, userId, postId, username) => {
+    try {
+        let isCommentExist = await Comment.findById(commentId)
+
+        if (!isCommentExist) {
+            return { message: "This comment doesn't exist!" }
+        }
+
+        let comment = {
+            username,
+            description: commentValue,
+            image,
+            authorId: userId,
+            postId,
+            profileImage: userId,
+            date: new Date()
+        }
+
+        let newComment = await Comment.create(comment)
+
+        isCommentExist.nestedComments.push(newComment._id)
+
+        isCommentExist.save()
+
+        let resComment = await Comment.findById(newComment._id)
+            .populate('profileImage', ['image', 'username', 'location'])
+
+        return resComment
+    } catch (error) {
+        return error
+    }
+}
+
+const deleteComment = async (commentId, userId, parentId) => {
+    try {
+        let isCommentExist = await Comment.findById(commentId)
+
+        if (!isCommentExist) {
+            return { message: "This comment doesn't exist!" }
+        }
+
+        if (isCommentExist.authorId != userId) {
             return { message: "You cannot delete this comment!" }
         }
 
         let deletedComment = await Comment.findByIdAndDelete(commentId)
 
-        await Comment.deleteMany({ _id: isCommentExist.nestedComments })
+        if (parentId != undefined) {
+            await Comment.deleteMany({ _id: isCommentExist.nestedComments })
 
-        let product = await Product.findById(isCommentExist.productId)
+            let post = await Post.findById(isCommentExist.postId)
 
-        product.comments = product.comments.filter(x => x != commentId)
+            post.comments = post.comments.filter(x => x != commentId)
 
-        product.save()
+            post.save()
+        } else {
+            let parentComment = await Comment.findById(parentId)
+
+            parentComment.nestedComments = parentComment.nestedComments.filter(x => x != commentId)
+
+            parentComment.save()
+        }
 
         return deletedComment
     } catch (error) {
@@ -265,20 +226,6 @@ const deleteNestedComment = async (data) => {
     let { nestedCommentId, cookie, parentId } = data
 
     try {
-        if (cookie.token.message) {
-            return { message: "Invalid access token!" }
-        }
-
-        let token = await authMiddleware(cookie.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(cookie.token)) {
-            return { message: "Invalid access token!" }
-        }
-
         let isCommentExist = await Comment.findById(nestedCommentId)
 
         if (!isCommentExist) {
@@ -548,5 +495,6 @@ module.exports = {
     addReplyComment,
     deleteNestedComment,
     toggleLikePost,
-    toggleSavePost
+    toggleSavePost,
+    getComments
 }

@@ -13,14 +13,12 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: [true, 'AuthorId is required'],
     },
-    postId: {
-        type: String,
-        required: [true, 'PostId is required'],
-    },
+    image: Array,
+    postId: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
     profileImage: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    nestedComments: Array,
+    nestedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    date: String
+    date: Date
 })
 
 const Comment = mongoose.model('Comment', commentSchema)

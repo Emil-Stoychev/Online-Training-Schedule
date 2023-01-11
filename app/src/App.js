@@ -38,6 +38,7 @@ function App() {
     }
   }, [])
 
+  // FINAL STEP IS TO CLEAN USER PASSWORD RETURNED FROM BACKEND!!!
 
   return (
     <div className="App">
@@ -57,14 +58,14 @@ function App() {
           </>
           :
           <>
-            <Route path='/' element={<MainComponent userId={token?._id} />} />
+            <Route path='/' element={<MainComponent userId={token?._id} token={token.token} />} />
 
             <Route path='/post/:id' element={
               <section className="container">
 
                 <article className="posts">
 
-                  <PostComponent x={undefined} userId={token?._id} />
+                  <PostComponent x={undefined} userId={token?._id} token={token.token} />
 
                 </article>
 

@@ -1,16 +1,15 @@
 const { Comment } = require('../Models/Comment')
 
-const addCommentService = async (email, title, authorId, productId) => {
-    let newDate = new Date()
-
-    let date = newDate.toLocaleString()
+const addCommentService = async (username, description, image, authorId, postId) => {
 
     let comment = {
-        email,
-        title,
+        username,
+        description,
+        image,
         authorId,
-        productId,
-        date
+        postId,
+        profileImage: authorId,
+        date: new Date()
     }
 
     let newComment = await Comment.create(comment)
@@ -19,16 +18,15 @@ const addCommentService = async (email, title, authorId, productId) => {
 }
 
 const addReplyCommentService = async (commentValue, isCommentExist, cookie) => {
-    let newDate = new Date()
-
-    let date = newDate.toLocaleString()
-
+    
     let comment = {
-        email: cookie.email,
-        title: commentValue,
-        authorId: cookie._id,
-        productId: isCommentExist.productId,
-        date
+        username,
+        description,
+        image,
+        authorId,
+        postId,
+        profileImage: authorId,
+        date: new Date()
     }
 
     let newComment = await Comment.create(comment)
@@ -38,25 +36,9 @@ const addReplyCommentService = async (commentValue, isCommentExist, cookie) => {
     isCommentExist.save()
 
     return newComment
-
 }
-
-const editCommentService = async (commentValue, isCommentExist) => {
-    let newDate = new Date()
-
-    let date = newDate.toLocaleString()
-
-    isCommentExist.date = 'Edited ' + date
-    isCommentExist.title = commentValue
-
-    isCommentExist.save()
-
-    return isCommentExist
-}
-
 
 module.exports = {
     addCommentService,
-    editCommentService,
     addReplyCommentService
 }

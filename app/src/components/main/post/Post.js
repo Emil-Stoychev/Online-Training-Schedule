@@ -4,10 +4,12 @@ import './post.css'
 
 import * as postService from '../../../services/postService.js'
 import { useNavigate } from 'react-router-dom'
+import { AddCommentComponent } from './addComment/AddComment'
 
-export const PostComponent = ({ x, userId }) => {
+export const PostComponent = ({ x, userId, token }) => {
     const [post, setPosts] = useState({})
     const [imageCount, setImageCount] = useState(0)
+    const [showComments, setShowComments] = useState(false)
 
     const navigate = useNavigate()
 
@@ -36,7 +38,10 @@ export const PostComponent = ({ x, userId }) => {
         postService.toggleLikePost({ postId, token: localStorage.getItem('sessionStorage') })
             .then(res => {
                 if (!res.message) {
-                    console.log(res);
+                    setPosts(state => ({
+                        ...state,
+                        likes: res.likes
+                    }))
                 } else {
                     console.log(res);
                 }
@@ -56,7 +61,10 @@ export const PostComponent = ({ x, userId }) => {
         postService.toggleSavePost({ postId, token: localStorage.getItem('sessionStorage') })
             .then(res => {
                 if (!res.message) {
-                    console.log(res);
+                    setPosts(state => ({
+                        ...state,
+                        saved: res.saved
+                    }))
                 } else {
                     console.log(res);
                 }
@@ -74,6 +82,18 @@ export const PostComponent = ({ x, userId }) => {
         //             console.log(res);
         //         }
         //     })
+    }
+
+    const getComments = () => {
+        postService.getComments(post?._id, token)
+            .then(res => {
+                setShowComments(true)
+
+                setPosts(state => ({
+                    ...state,
+                    comments: res
+                }))
+            })
     }
 
 
@@ -133,9 +153,9 @@ export const PostComponent = ({ x, userId }) => {
                 {post?.images?.length == 0 && <p>{post?.description}</p>}
 
                 <div className='buttons'>
-                    <i onClick={(e) => onLikeHandler(e, post?._id)} className={`fa-solid fa-heart ${post?.likes?.includes(userId) && 'liked'}`}></i>
-                    <i className="fa-sharp fa-solid fa-comments"></i>
-                    <i onClick={(e) => onSaveHandler(e, post?._id)} className={`fa-solid fa-sd-card ${post?.saved?.includes(userId) && 'saved'}`}></i>
+                    <i onClick={(e) => onLikeHandler(e, post?._id)} className={`fa-solid fa-heart ${post?.likes?.includes(userId) && 'liked'}`}>{post?.likes?.length}</i>
+                    <i className="fa-sharp fa-solid fa-comments">{post?.comments?.length}</i>
+                    <i onClick={(e) => onSaveHandler(e, post?._id)} className={`fa-solid fa-sd-card ${post?.saved?.includes(userId) && 'saved'}`}>{post?.saved?.length}</i>
 
                     {post?.author == userId &&
                         <i onClick={(e) => onDeleteHandler(e, post?._id)} className="fa-solid fa-trash"></i>
@@ -151,8 +171,17 @@ export const PostComponent = ({ x, userId }) => {
 
                 <div className='comments'>
 
-                    {post?.comments?.length > 0 &&
-                        post?.comments?.map(x => <CommentComponent key={x._id} x={x} />)
+                    <AddCommentComponent userId={userId} token={token} post={post} setPosts={setPosts} showComments={showComments} />
+
+                    {post?.comments?.length > 0 && showComments
+                        ?
+                        <>
+                            <p onClick={() => setShowComments(false)} className='showComments'>Hide comments: {post?.comments?.length}</p>
+
+                            {post?.comments?.map(x => <CommentComponent key={x?._id} x={x} token={token} userId={userId} setPosts={setPosts} />)}
+                        </>
+                        :
+                        <p onClick={() => getComments()} className='showComments'>Show comments: {post?.comments?.length}</p>
                     }
 
                 </div>
