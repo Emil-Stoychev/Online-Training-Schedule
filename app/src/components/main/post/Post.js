@@ -154,21 +154,21 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
                     </div>
 
                     <div>
-                        {post?.author == userId &&
+                        {post?.author == userId ?
                             toggleEditPost.option
-                            ?
-                            <>
-                                <button className='editPostOptionBtn' onClick={() => submitEditPost()}>✓</button>
-                                <button className='editPostOptionBtn' onClick={() => setToggleEditPost(x => ({ ...x, option: false }))}>X</button>
-                            </>
-                            :
-                            <i onClick={() => setToggleEditPost(x => ({
-                                option: true,
-                                description: post?.description,
-                                images: post?.images,
-                                select: post?.visible
-                            }))} className="fa-solid fa-pen-to-square"></i>
-                        }
+                                ?
+                                <>
+                                    <button className='editPostOptionBtn' onClick={() => submitEditPost()}>✓</button>
+                                    <button className='editPostOptionBtn' onClick={() => setToggleEditPost(x => ({ ...x, option: false }))}>X</button>
+                                </>
+                                :
+                                <i onClick={() => setToggleEditPost(x => ({
+                                    option: true,
+                                    description: post?.description,
+                                    images: post?.images,
+                                    select: post?.visible
+                                }))} className="fa-solid fa-pen-to-square"></i>
+                            : ''}
                     </div>
                 </div>
 
