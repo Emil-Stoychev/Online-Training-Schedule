@@ -39,6 +39,12 @@ router.get('/getComments/:postId/:token', authMiddleware, async (req, res) => {
     res.json(resComments)
 })
 
+router.get('/getNestedComments/:postId/:commentId/:token', authMiddleware, async (req, res) => {
+    let resComments = await postService.getNestedComments(req.params.postId, req.params.commentId) || { message: "404 Not found!" }
+
+    res.json(resComments)
+})
+
 router.post('/likeComment/:commentId', authMiddleware, async (req, res) => {
     let editedComment = await postService.likeComment(req.params.commentId, req.params.user._id) || { message: "404 Not found!" }
 

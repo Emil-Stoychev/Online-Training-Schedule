@@ -101,6 +101,11 @@ export const getComments = (postId, token) => {
         .then(res => res.json())
 }
 
+export const getNestedComments = (postId, commentId, token) => {
+    return fetch(`${URL}/getNestedComments/${postId}/${commentId}/${token}`)
+        .then(res => res.json())
+}
+
 export const deleteComment = (commentId, token, parentId) => {
     let data = {
         commentId,

@@ -61,10 +61,27 @@ const getById = async (postId) => {
 
 const getComments = async (id) => {
     try {
-        let allComments = await Comment.find({ postId: id })
+        let allComments = await Comment.find({ postId: id, option: 'main' })
             .populate('profileImage', ['image', 'username', 'location'])
 
         return allComments
+    } catch (error) {
+        return error
+    }
+}
+
+const getNestedComments = async (postId, commentId) => {
+    try {
+        let currComment = await Comment.findOne({ _id: commentId, postId, option: 'main' })
+            .populate({
+                path: 'nestedComments',
+                populate: [{
+                    path: 'profileImage',
+                    select: ['username', 'image', 'location']
+                }]
+            })
+
+        return currComment.nestedComments
     } catch (error) {
         return error
     }
@@ -168,6 +185,7 @@ const addReplyComment = async (commentValue, image, commentId, userId, postId, u
             authorId: userId,
             postId,
             profileImage: userId,
+            option: 'nested',
             date: new Date()
         }
 
@@ -200,7 +218,7 @@ const deleteComment = async (commentId, userId, parentId) => {
 
         let deletedComment = await Comment.findByIdAndDelete(commentId)
 
-        if (parentId != undefined) {
+        if (parentId == undefined) {
             await Comment.deleteMany({ _id: isCommentExist.nestedComments })
 
             let post = await Post.findById(isCommentExist.postId)
@@ -211,7 +229,11 @@ const deleteComment = async (commentId, userId, parentId) => {
         } else {
             let parentComment = await Comment.findById(parentId)
 
+            console.log(parentComment);
+
             parentComment.nestedComments = parentComment.nestedComments.filter(x => x != commentId)
+
+            console.log(parentComment);
 
             parentComment.save()
         }
@@ -496,5 +518,6 @@ module.exports = {
     deleteNestedComment,
     toggleLikePost,
     toggleSavePost,
-    getComments
+    getComments,
+    getNestedComments
 }

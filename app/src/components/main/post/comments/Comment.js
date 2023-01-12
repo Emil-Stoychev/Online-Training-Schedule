@@ -5,6 +5,7 @@ import './comment.css'
 export const CommentComponent = ({ x, token, userId, setPosts }) => {
     const [showComments, setShowComments] = useState(false)
     const [toggleDelete, setToggleDelete] = useState(false)
+    const [nestedToggleDelete, setNestedToggleDelete] = useState(false)
     const [toggleReply, setToggleReply] = useState({
         option: false,
         value: ''
@@ -13,12 +14,33 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
         option: false,
         value: ''
     })
+    const [nestedToggleEdit, setNestedToggleEdit] = useState({
+        option: false,
+        value: ''
+    })
     const desc = useRef()
+    const nestedDesc = useRef()
 
-    const getNestedComments = () => {
-        console.log('nestedComments');
-
+    const getNestedComments = (postId, commentId) => {
         setShowComments(true)
+
+        postService.getNestedComments(postId, commentId, token)
+            .then(res => {
+                setShowComments(true)
+
+                console.log(res)
+
+                setPosts(state => ({
+                    ...state,
+                    comments: state.comments.map(x => {
+                        if (x._id == commentId) {
+                            x.nestedComments = res
+                        }
+
+                        return x
+                    })
+                }))
+            })
     }
 
     const deleteComment = (commentId, parentId) => {
@@ -44,6 +66,8 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                     }
                 }
             })
+        setNestedToggleDelete(false)
+        setToggleDelete(false)
     }
 
     const likeComment = (commentId, option, parentId) => {
@@ -65,10 +89,12 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                         } else {
                             if (c?._id == parentId && c?.authorId != userId) {
                                 c.nestedComments = c.nestedComments.map(x => {
-                                    if (x?.likes.includes(userId)) {
-                                        x.likes = x.likes.filter(x => x != userId)
-                                    } else {
-                                        x?.likes.push(userId)
+                                    if (x._id == commentId && x.authorId != userId) {
+                                        if (x?.likes.includes(userId)) {
+                                            x.likes = x.likes.filter(x => x != userId)
+                                        } else {
+                                            x?.likes.push(userId)
+                                        }
                                     }
 
                                     return x
@@ -88,6 +114,13 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
         }))
     }
 
+    const editNestedValueHandler = (e) => {
+        setNestedToggleEdit(oldState => ({
+            ...oldState,
+            value: e.target.value
+        }))
+    }
+
     const addNestedHandler = (e) => {
         setToggleReply(oldState => ({
             ...oldState,
@@ -99,6 +132,13 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
         setToggleEdit(state => ({
             option: !state.option,
             value: state.option ? '' : desc.current.innerHTML
+        }))
+    }
+
+    const editNestedCommentHandler = () => {
+        setToggleEdit(state => ({
+            option: !state.option,
+            value: state.option ? '' : nestedDesc.current.innerHTML
         }))
     }
 
@@ -157,8 +197,8 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
 
         console.log('clicked');
 
-        // postService.addReplyComment(data)
-        //     .then(res => console.log(res))
+        postService.addReplyComment(data)
+            .then(res => console.log(res))
     }
 
     return (
@@ -225,8 +265,8 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
 
                         <div className='nested-comments'>
 
-                            {x?.nestedComments?.map(y => {
-                                <div className='nested-comment'>
+                            {x?.nestedComments?.map((y, i) =>
+                                <div className='nested-comment' key={y._id + `${i}`}>
                                     <div className='top'>
                                         <img src={y?.profileImage?.length > 0 &&
                                             y?.profileImage[0]?.image != ''
@@ -242,35 +282,39 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                                         {toggleEdit.option
                                             ?
                                             <>
-                                                <input type='text' value={toggleEdit.value} onChange={editValueHandler} />
+                                                <input type='text' value={nestedToggleEdit.value} onChange={editNestedValueHandler} />
                                                 <button className='editOptionBtn' onClick={() => updateComment(y?._id, 'nested', x._id)}>✓</button>
-                                                <button className='editOptionBtn' onClick={() => editCommentHandler()}>X</button>
+                                                <button className='editOptionBtn' onClick={() => editNestedCommentHandler()}>X</button>
                                             </>
-                                            : <p ref={desc}>{y?.description}</p>
+                                            : <p ref={nestedDesc}>{y?.description}</p>
                                         }
                                     </div>
 
                                     <div className='buttons'>
                                         <i onClick={() => likeComment(y?._id, 'nested', x?._id)} className={`fa-solid fa-heart ${y?.likes?.includes(userId) && 'liked'}`}>{y?.likes?.length}</i>
 
-                                        {toggleDelete ?
+                                        {y?.authorId == userId &&
                                             <>
-                                                <button onClick={() => deleteComment(y._id, x._id)} className='deleteOptionBtn'>✓</button>
-                                                <button onClick={() => setToggleDelete(x => false)} className='deleteOptionBtn'>X</button>
-                                            </>
-                                            :
-                                            <i onClick={() => setToggleDelete(x => !x)} className="fa-solid fa-trash"></i>
-                                        }
+                                                <i onClick={() => editCommentHandler()} className="fa-solid fa-pen-to-square"></i>
 
-                                        <i className="fa-solid fa-reply"></i>
+                                                {nestedToggleDelete ?
+                                                    <>
+                                                        <button onClick={() => deleteComment(y._id, x._id)} className='deleteOptionBtn'>✓</button>
+                                                        <button onClick={() => setNestedToggleDelete(false)} className='deleteOptionBtn'>X</button>
+                                                    </>
+                                                    :
+                                                    <i onClick={() => setNestedToggleDelete(x => !x)} className="fa-solid fa-trash"></i>
+                                                }
+                                            </>
+                                        }
                                     </div>
                                 </div>
-                            })}
+                            )}
 
                         </div>
                     </>
                     :
-                    <p onClick={() => getNestedComments()} className='showComments'>Show nested comments: {x?.nestedComments?.length}</p>
+                    <p onClick={() => getNestedComments(x?.postId, x?._id)} className='showComments'>Show nested comments: {x?.nestedComments?.length}</p>
                 }
             </div>
         </>

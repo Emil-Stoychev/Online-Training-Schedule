@@ -18,6 +18,11 @@ const commentSchema = new mongoose.Schema({
     profileImage: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     nestedComments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    option: {
+        type: String,
+        enum: ['main', 'nested'],
+        default: 'main'
+    },
     date: Date
 })
 
