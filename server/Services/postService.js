@@ -1,9 +1,9 @@
 const { authMiddleware } = require('../Middlewares/authMiddleware')
 const { Post } = require('../Models/Post')
 const { Comment } = require('../Models/Comment')
-const { addCommentService, editCommentService, addReplyCommentService } = require('../utils/CommentEngine')
+const { addCommentService } = require('../utils/CommentEngine')
 const { productValidator } = require('../utils/postValidator')
-const { checkUserExisting, getUserById, addNewPostToUser } = require('./authService')
+const { checkUserExisting, getUserById, addNewPostToUser, removeSavedIdsAfterDeletingPost } = require('./authService')
 
 const getAll = async (pageNum) => {
     try {
@@ -455,51 +455,35 @@ const toggleSavePost = async (postId, userId) => {
     }
 }
 
-const del = async (productId, data) => {
-    let { cookie } = data
-
+const del = async (postId, userId) => {
     try {
-        if (data.cookie.message) {
-            return { message: "Invalid access token!" }
-        }
-
-        let token = await authMiddleware(data.cookie.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(data.cookie.token)) {
-            return { message: "Invalid access token!" }
-        }
-
-        let user = getUserById(cookie._id)
+        let user = getUserById(userId)
 
         if (user.message) {
             return user
         }
 
-        let product = await Product.findById(productId)
+        let post = await Post.findById(postId)
 
-        if (!product) {
+        if (!post) {
             return { message: "404 Not found!" }
         }
 
-        if (product.author != data.cookie._id) {
-            return { message: "You cannot change this product!" }
+        if (post.author != userId) {
+            return { message: "You cannot change this post!" }
         }
 
-        await Comment.deleteMany({ productId: product._id.toString() })
+        await Comment.deleteMany({ postId })
 
-        let deletedProduct = await Product.findByIdAndDelete(productId)
+        await removeSavedIdsAfterDeletingPost(post.saved, postId)
 
-        let updatedUser = await updateUserAfterDeleteProduct(cookie._id, product)
+        let deletedPost = await Post.findByIdAndDelete(postId)
 
-        if (updatedUser.message) {
-            return updatedUser
-        }
+        user.ownPosts = user?.ownPosts.filter(x => x != postId)
 
-        return deletedProduct
+        user.save()
+
+        return deletedPost
     } catch (error) {
         console.error(error)
         return error

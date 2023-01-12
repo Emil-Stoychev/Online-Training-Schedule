@@ -68,6 +68,21 @@ const checkUserExisting = async (username) => {
     }
 }
 
+const removeSavedIdsAfterDeletingPost = async (ids, postId) => {
+    try {
+        let allUsers = await User.find({ _id: [...ids] })
+
+        allUsers.forEach(x => {
+            x.savedPosts = x?.savedPosts?.filter(x => x != postId)
+
+            x.save()
+        })
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 const getAll = async () => {
     return await User.find()
 }
@@ -242,5 +257,6 @@ module.exports = {
     editProfile,
     addNewPostToUser,
     getByOption,
-    toggleFollowPerson
+    toggleFollowPerson,
+    removeSavedIdsAfterDeletingPost
 }

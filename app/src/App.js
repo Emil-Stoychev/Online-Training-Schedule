@@ -29,7 +29,8 @@ function App() {
           if (!res.message) {
             setToken({
               token: getCookie,
-              _id: res?._id
+              _id: res?._id,
+              image: res?.image
             })
           }
         })
@@ -58,7 +59,7 @@ function App() {
           </>
           :
           <>
-            <Route path='/' element={<MainComponent userId={token?._id} token={token.token} />} />
+            <Route path='/' element={<MainComponent userId={token?._id} token={token.token} image={token.image} />} />
 
             <Route path='/post/:id' element={
               <section className="container">

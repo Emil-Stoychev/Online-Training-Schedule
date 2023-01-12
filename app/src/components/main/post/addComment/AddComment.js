@@ -3,7 +3,7 @@ import './addComment.css'
 
 import * as postService from '../../../../services/postService'
 
-export const AddCommentComponent = ({ userId, token, post, setPosts, showComments }) => {
+export const AddCommentComponent = ({ userId, token, post, setPosts, showComments, image }) => {
     const [values, setValues] = useState({
         description: '',
         image: [],
@@ -48,7 +48,7 @@ export const AddCommentComponent = ({ userId, token, post, setPosts, showComment
             <div className='create-comment'>
                 <div className="info">
                     <div className="profile-image">
-                        <img src='https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg' alt='Profile image...' />
+                        <img src={image != '' && image != undefined ? image : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
                         <textarea name='description' value={values.description} onChange={(e) => changeValues(e)} placeholder="Text something here..."></textarea>
                     </div>
 

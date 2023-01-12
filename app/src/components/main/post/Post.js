@@ -6,20 +6,21 @@ import * as postService from '../../../services/postService.js'
 import { useNavigate } from 'react-router-dom'
 import { AddCommentComponent } from './addComment/AddComment'
 
-export const PostComponent = ({ x, userId, token }) => {
-    const [post, setPosts] = useState({})
+export const PostComponent = ({ x, userId, token, image, setPosts }) => {
+    const [post, setPost] = useState({})
     const [imageCount, setImageCount] = useState(0)
     const [showComments, setShowComments] = useState(false)
+    const [toggleDelete, setToggleDelete] = useState(false)
 
     const navigate = useNavigate()
 
     useEffect(() => {
         if (x) {
-            setPosts(x)
+            setPost(x)
         } else {
             postService.getPostById(window.location.pathname.split('/post/')[1], localStorage.getItem('sessionStorage'))
                 .then(res => {
-                    setPosts(res)
+                    setPost(res)
                 })
         }
     }, [])
@@ -37,7 +38,7 @@ export const PostComponent = ({ x, userId, token }) => {
         postService.toggleLikePost({ postId, token: localStorage.getItem('sessionStorage') })
             .then(res => {
                 if (!res.message) {
-                    setPosts(state => ({
+                    setPost(state => ({
                         ...state,
                         likes: res.likes
                     }))
@@ -60,7 +61,7 @@ export const PostComponent = ({ x, userId, token }) => {
         postService.toggleSavePost({ postId, token: localStorage.getItem('sessionStorage') })
             .then(res => {
                 if (!res.message) {
-                    setPosts(state => ({
+                    setPost(state => ({
                         ...state,
                         saved: res.saved
                     }))
@@ -71,16 +72,12 @@ export const PostComponent = ({ x, userId, token }) => {
     }
 
     const onDeleteHandler = (e, postId) => {
-        console.log(e.currentTarget);
-
-        // postService.toggleLikePost({ postId, token: localStorage.getItem('sessionStorage') })
-        //     .then(res => {
-        //         if (!res.message) {
-        //             console.log(res);
-        //         } else {
-        //             console.log(res);
-        //         }
-        //     })
+        postService.deletePost(postId, token)
+            .then(res => {
+                if (!res.message) {
+                    setPosts(state => state.filter(x => x._id != postId))
+                }
+            })
     }
 
     const getComments = () => {
@@ -88,7 +85,7 @@ export const PostComponent = ({ x, userId, token }) => {
             .then(res => {
                 setShowComments(true)
 
-                setPosts(state => ({
+                setPost(state => ({
                     ...state,
                     comments: res
                 }))
@@ -157,7 +154,17 @@ export const PostComponent = ({ x, userId, token }) => {
                     <i onClick={(e) => onSaveHandler(e, post?._id)} className={`fa-solid fa-sd-card ${post?.saved?.includes(userId) && 'saved'}`}>{post?.saved?.length}</i>
 
                     {post?.author == userId &&
-                        <i onClick={(e) => onDeleteHandler(e, post?._id)} className="fa-solid fa-trash"></i>
+                        <>
+                            {toggleDelete
+                                ?
+                                <>
+                                    <button className='deleteOptionBtn' onClick={(e) => onDeleteHandler(e, post?._id)}>✓</button>
+                                    <button className='deleteOptionBtn' onClick={() => setToggleDelete(false)}>X</button>
+                                </>
+                                :
+                                <i onClick={() => setToggleDelete(true)} className="fa-solid fa-trash"></i>
+                            }
+                        </>
                     }
                 </div>
 
@@ -170,14 +177,14 @@ export const PostComponent = ({ x, userId, token }) => {
 
                 <div className='comments'>
 
-                    <AddCommentComponent userId={userId} token={token} post={post} setPosts={setPosts} showComments={showComments} />
+                    <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image} />
 
                     {post?.comments?.length > 0 && showComments
                         ?
                         <>
                             <p onClick={() => setShowComments(false)} className='showComments'>Hide comments: {post?.comments?.length}</p>
 
-                            {post?.comments?.map(x => <CommentComponent key={x?._id} x={x} token={token} userId={userId} setPosts={setPosts} />)}
+                            {post?.comments?.map(x => <CommentComponent key={x?._id} x={x} token={token} userId={userId} setPost={setPost} />)}
                         </>
                         :
                         <p onClick={() => getComments()} className='showComments'>Show comments: {post?.comments?.length}</p>

@@ -5,7 +5,7 @@ import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages.js'
 import * as postService from '../../../services/postService.js'
 
 
-export const CreatePost = ({ setPosts }) => {
+export const CreatePost = ({ setPosts, image }) => {
     const uploadRef = useRef(null)
     const [values, setValues] = useState({
         description: '',
@@ -115,7 +115,7 @@ export const CreatePost = ({ setPosts }) => {
         <article className="create-post">
             <div className="info">
                 <div className="profile-image">
-                    <img src='https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg' alt='Profile image...' />
+                    <img src={image != '' && image != undefined ? image : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
                     <textarea name='description' value={values.description} onChange={(e) => changeValues(e)} placeholder="Text something here..."></textarea>
                 </div>
 

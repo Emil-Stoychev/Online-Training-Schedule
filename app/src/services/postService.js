@@ -24,6 +24,17 @@ export const createPost = (data) => {
         .then(res => res.json())
 }
 
+export const deletePost = (postId, token) => {
+    return fetch(`${URL}/deletePost/${postId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({token})
+    })
+        .then(res => res.json())
+}
+
 export const toggleLikePost = (data) => {
     return fetch(`${URL}/toggleLikePost/${data.postId}`, {
         method: "POST",

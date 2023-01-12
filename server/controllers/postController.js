@@ -15,6 +15,12 @@ router.post('/create', authMiddleware, async (req, res) => {
     res.json(createdProduct)
 })
 
+router.delete('/deletePost/:postId', authMiddleware, async (req, res) => {
+    let deletedPost = await postService.delete(req.params.postId, req.params.user._id) || { message: "404 Not found!" }
+
+    res.json(deletedPost)
+})
+
 router.post('/toggleLikePost/:postId', authMiddleware, async (req, res) => {
     let result = await postService.toggleLikePost(req.params.postId, req.params.user._id) || []
 
@@ -119,12 +125,6 @@ router.put('/changeProductStatus/:productId', async (req, res) => {
     let editedProduct = await postService.changeProductStatus(req.params.productId, req.body) || { message: "404 Not found!" }
 
     res.json(editedProduct)
-})
-
-router.delete('/delete/:productId', async (req, res) => {
-    let deletedProduct = await postService.delete(req.params.productId, req.body) || { message: "404 Not found!" }
-
-    res.json(deletedProduct)
 })
 
 router.get('/details/:postId/:token', authMiddleware, async (req, res) => {

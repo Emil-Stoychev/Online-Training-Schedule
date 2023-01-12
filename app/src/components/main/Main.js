@@ -6,7 +6,7 @@ import { PostComponent } from "./post/Post";
 
 import * as postService from '../../services/postService.js'
 
-export const MainComponent = ({ userId, token }) => {
+export const MainComponent = ({ userId, token, image }) => {
     const [posts, setPosts] = useState([])
     const [pageNum, setPageNum] = useState(0)
     const [loading, setLoading] = useState(true)
@@ -43,13 +43,13 @@ export const MainComponent = ({ userId, token }) => {
     return (
         <section className="container">
 
-            <CreatePost setPosts={setPosts} />
+            <CreatePost setPosts={setPosts} image={image} />
 
             <article className="posts">
 
                 {posts.length > 0 &&
                     posts.map((x, i) => {
-                        return <PostComponent key={x._id} x={x} userId={userId} token={token} />
+                        return <PostComponent key={x._id} x={x} userId={userId} token={token} image={image} setPosts={setPosts} />
                     })
                 }
 
