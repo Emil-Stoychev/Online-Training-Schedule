@@ -15,8 +15,14 @@ router.post('/create', authMiddleware, async (req, res) => {
     res.json(createdProduct)
 })
 
+router.put('/editPost/:postId', authMiddleware, async (req, res) => {
+    let editedProduct = await postService.edit(req.body.postValues, req.params.postId, req.params.user._id) || { message: "404 Not found!" }
+
+    res.json(editedProduct)
+})
+
 router.delete('/deletePost/:postId', authMiddleware, async (req, res) => {
-    let deletedPost = await postService.delete(req.params.postId, req.params.user._id) || { message: "404 Not found!" }
+    let deletedPost = await postService.deletePost(req.params.postId, req.params.user._id) || { message: "404 Not found!" }
 
     res.json(deletedPost)
 })
@@ -83,11 +89,7 @@ router.post('/addReplyComment/:commentId', authMiddleware, async (req, res) => {
 
 
 
-router.put('/edit/:productId', async (req, res) => {
-    let editedProduct = await postService.edit(req.body) || { message: "404 Not found!" }
 
-    res.json(editedProduct)
-})
 
 
 

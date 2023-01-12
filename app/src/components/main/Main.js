@@ -57,6 +57,6 @@ export const MainComponent = ({ userId, token, image }) => {
 
             </article>
 
-        </section>
+        </section >
     );
 };

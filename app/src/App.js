@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 
 function App() {
   const [token, setToken] = useState(null)
+  const [ontop, setOntop] = useState(false)
 
   useEffect(() => {
     let getCookie = localStorage.getItem('sessionStorage')
@@ -39,12 +40,30 @@ function App() {
     }
   }, [])
 
-  // FINAL STEP IS TO CLEAN USER PASSWORD RETURNED FROM BACKEND!!!
+  const goToTop = () => {
+    window.onload = window.scrollTo(0, 0)
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (document.documentElement.scrollTop > 1000) {
+        setOntop(true)
+      } else {
+        if (!ontop) {
+          setOntop(false)
+        }
+      }
+    })
+  }, [])
+
+  // FINAL STEP IS TO CLEAN USER PASSWORD RETURNED FROM BACKEND AND TO SET LOADING SCREEN!!!
 
   return (
     <div className="App">
 
       <NavigationComponent token={token?.token} setToken={setToken} />
+
+      {ontop && <i onClick={() => goToTop()} className="fa fa-arrow-up btn-to-up"></i>}
 
       <Routes>
 

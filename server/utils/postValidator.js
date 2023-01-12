@@ -2,29 +2,29 @@ const imageAddressPattern = '^(?:http\\:\\/\\/|https\\:\\/\\/).+$'
 
 const imageRegex = new RegExp(imageAddressPattern)
 
-const productValidator = (data, user) => {
+const postValidator = (data, user) => {
     let { description, images, select } = data
 
     if (!description || description.length < 3 || description.trim() === '') {
         return { message: 'Description must be at least 3 characters!' }
     }
 
-    let product = {
+    let post = {
         description,
         images,
         visible: select,
-        createdOn: new Date()
     }
 
     if (user) {
-        product.author = user._id
-        product.username = user.username
-        product.profileImage = user._id
+        post.author = user._id
+        post.username = user.username
+        post.profileImage = user._id
+        post.createdOn = new Date()
     }
 
-    return product
+    return post
 }
 
 module.exports = {
-    productValidator
+    postValidator
 }

@@ -162,6 +162,14 @@ section.container .posts .post > p {
   word-break: break-all;
 }
 
+button.editPostOptionBtn {
+  font-size: 20px;
+  padding: 0.2rem 1rem;
+  margin-left: 0.5rem;
+  border-radius: 0.5rem;
+  border: none;
+}
+
 @media screen and (max-width: 840px) {
   section.container .posts .post .images {
     min-height: 200px;
@@ -196,6 +204,10 @@ section.container .posts .post > p {
     padding: 0.1rem;
     max-width: 100%;
   }
+
+  button.editPostOptionBtn {
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 310px) {
@@ -205,5 +217,10 @@ section.container .posts .post > p {
 
   section.container .posts .post > .buttons {
     gap: 1.5rem;
+  }
+
+  button.editPostOptionBtn {
+    font-size: 14px;
+    padding: 0.5rem 0.8rem;
   }
 }

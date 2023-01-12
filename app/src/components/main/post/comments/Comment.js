@@ -3,7 +3,7 @@ import * as postService from '../../../../services/postService.js'
 import './comment.css'
 import { NestedCommentComponent } from './NestedComments.js'
 
-export const CommentComponent = ({ x, token, userId, setPosts }) => {
+export const CommentComponent = ({ x, token, userId, setPost }) => {
     const [showComments, setShowComments] = useState(false)
     const [toggleDelete, setToggleDelete] = useState(false)
     const [toggleReply, setToggleReply] = useState({
@@ -23,7 +23,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
             .then(res => {
                 setShowComments(true)
 
-                setPosts(state => ({
+                setPost(state => ({
                     ...state,
                     comments: state.comments.map(x => {
                         if (x._id == commentId) {
@@ -41,12 +41,12 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
             .then(res => {
                 if (!res.message) {
                     if (parentId == undefined) {
-                        setPosts(state => ({
+                        setPost(state => ({
                             ...state,
                             comments: state.comments.filter(x => x._id != commentId)
                         }))
                     } else {
-                        setPosts(state => ({
+                        setPost(state => ({
                             ...state,
                             comments: state.comments.map(c => {
                                 if (c?._id == parentId) {
@@ -67,7 +67,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
 
         postService.likeComment({ commentId, token })
             .then(res => {
-                setPosts(state => ({
+                setPost(state => ({
                     ...state,
                     comments: state.comments.map(c => {
                         if (option == 'main') {
@@ -129,7 +129,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
             postService.editComment(word, commentId, token)
                 .then(res => {
                     if (!res.message) {
-                        setPosts(state => ({
+                        setPost(state => ({
                             ...state,
                             comments: state.comments.map(c => {
                                 if (option == 'main') {
@@ -176,7 +176,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
         postService.addReplyComment(data)
             .then(res => {
                 if (!res.message) {
-                    setPosts(state => ({
+                    setPost(state => ({
                         ...state,
                         comments: state.comments.map(x => {
                             if (x._id == commentId) {

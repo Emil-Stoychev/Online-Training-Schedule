@@ -5,13 +5,19 @@ import './post.css'
 import * as postService from '../../../services/postService.js'
 import { useNavigate } from 'react-router-dom'
 import { AddCommentComponent } from './addComment/AddComment'
+import { EditPostComponent } from './editPost/EditPost'
 
 export const PostComponent = ({ x, userId, token, image, setPosts }) => {
     const [post, setPost] = useState({})
     const [imageCount, setImageCount] = useState(0)
     const [showComments, setShowComments] = useState(false)
     const [toggleDelete, setToggleDelete] = useState(false)
-
+    const [toggleEditPost, setToggleEditPost] = useState({
+        option: false,
+        description: '' || post?.description,
+        images: [],
+        select: 'Public'
+    })
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -75,7 +81,11 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
         postService.deletePost(postId, token)
             .then(res => {
                 if (!res.message) {
-                    setPosts(state => state.filter(x => x._id != postId))
+                    if (!window.location.pathname.split('/post/')[1]) {
+                        setPosts(state => state.filter(x => x._id != postId))
+                    } else {
+                        navigate('/profile')
+                    }
                 }
             })
     }
@@ -92,6 +102,25 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
             })
     }
 
+    const submitEditPost = () => {
+        postService.editPost(toggleEditPost, post?._id, token)
+            .then(res => {
+                if (!res.message) {
+                    setPost(state => ({
+                        ...state,
+                        description: res.description,
+                        images: res.images,
+                        visible: res.select
+                    }))
+                }
+            })
+        setToggleEditPost({
+            option: false,
+            description: '' || post?.description,
+            images: [],
+            select: 'Public'
+        })
+    }
 
     const nextImage = () => {
         if (imageCount > post?.images?.length - 2) {
@@ -125,11 +154,25 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
                     </div>
 
                     <div>
-                        <i className="fa-solid fa-bars"></i>
+                        {post?.author == userId &&
+                            toggleEditPost.option
+                            ?
+                            <>
+                                <button className='editPostOptionBtn' onClick={() => submitEditPost()}>✓</button>
+                                <button className='editPostOptionBtn' onClick={() => setToggleEditPost(x => ({ ...x, option: false }))}>X</button>
+                            </>
+                            :
+                            <i onClick={() => setToggleEditPost(x => ({
+                                option: true,
+                                description: post?.description,
+                                images: post?.images,
+                                select: post?.visible
+                            }))} className="fa-solid fa-pen-to-square"></i>
+                        }
                     </div>
                 </div>
 
-                {post?.images?.length > 0 &&
+                {post?.images?.length > 0 && !toggleEditPost.option &&
                     <div className='images'>
                         {post?.images?.length > 1 &&
                             <div className='sliders'>
@@ -146,9 +189,14 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
                 }
 
 
-                {post?.images?.length == 0 && <p>{post?.description}</p>}
+                {toggleEditPost.option
+                    ? <EditPostComponent toggleEditPost={toggleEditPost} setToggleEditPost={setToggleEditPost} submitEditPost={submitEditPost} />
+                    : <p>{post?.description}</p>
+                }
 
-                <div className='buttons'>
+
+
+                {!toggleEditPost.option && <div className='buttons'>
                     <i onClick={(e) => onLikeHandler(e, post?._id)} className={`fa-solid fa-heart ${post?.likes?.includes(userId) && 'liked'}`}>{post?.likes?.length}</i>
                     <i className="fa-sharp fa-solid fa-comments">{post?.comments?.length}</i>
                     <i onClick={(e) => onSaveHandler(e, post?._id)} className={`fa-solid fa-sd-card ${post?.saved?.includes(userId) && 'saved'}`}>{post?.saved?.length}</i>
@@ -166,18 +214,16 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
                             }
                         </>
                     }
-                </div>
+                </div>}
 
-                {post?.images?.length > 0 && <p>{post?.description}</p>}
-
-                <div className='comment-main-title'>
+                {!toggleEditPost.option && <div className='comment-main-title'>
                     <hr />
                     <h2>COMMENTS</h2>
-                </div>
+                </div>}
 
-                <div className='comments'>
+                {!toggleEditPost.option && <div className='comments'>
 
-                    <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image} />
+                    <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image || post?.profileImage?.length > 0 && post?.profileImage[0]?.image} />
 
                     {post?.comments?.length > 0 && showComments
                         ?
@@ -190,7 +236,7 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
                         <p onClick={() => getComments()} className='showComments'>Show comments: {post?.comments?.length}</p>
                     }
 
-                </div>
+                </div>}
             </div>
 
             <hr />

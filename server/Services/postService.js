@@ -2,8 +2,8 @@ const { authMiddleware } = require('../Middlewares/authMiddleware')
 const { Post } = require('../Models/Post')
 const { Comment } = require('../Models/Comment')
 const { addCommentService } = require('../utils/CommentEngine')
-const { productValidator } = require('../utils/postValidator')
-const { checkUserExisting, getUserById, addNewPostToUser, removeSavedIdsAfterDeletingPost } = require('./authService')
+const { postValidator } = require('../utils/postValidator')
+const { checkUserExisting, getUserById, addNewPostToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
 
 const getAll = async (pageNum) => {
     try {
@@ -311,7 +311,7 @@ const create = async (data, user) => {
             return userInfo
         }
 
-        let dataForCreation = productValidator(data.values, user)
+        let dataForCreation = postValidator(data.values, user)
 
         if (dataForCreation.message) {
             return dataForCreation
@@ -335,51 +335,33 @@ const create = async (data, user) => {
     }
 }
 
-const edit = async (data) => {
-    let { productId, productValues, cookie } = data
-
+const edit = async (postValues, postId, userId) => {
     try {
-        if (cookie.token.message) {
-            return { message: "Invalid access token!" }
-        }
+        let user = await getUserById(userId)
 
-        let token = await authMiddleware(cookie.token)
-
-        if (token.message) {
-            return token
-        }
-
-        if (blackList.has(cookie.token)) {
-            return { message: "Invalid access token!" }
-        }
-
-        let user = await getUserById(cookie._id)
-
-        if (!user.email) {
+        if (!user) {
             return { meessage: "User not found!" }
         }
 
-        let product = await Product.findById(productId)
+        let post = await Post.findById(postId)
 
-        if (!product) {
+        if (!post) {
             return { message: "404 Not found!" }
         }
 
-        if (product.author != data.cookie._id) {
-            return { message: "You cannot change this product!" }
+        if (post.author != userId) {
+            return { message: "You cannot change this post!" }
         }
 
-        let dataForEditing = productValidator(productValues)
+        let dataForEditing = postValidator(postValues)
 
         if (dataForEditing.message) {
             return dataForEditing
         }
 
-        let editedProduct = await Product.findByIdAndUpdate(productId, dataForEditing)
+        let editedPost = await Post.findByIdAndUpdate(postId, dataForEditing)
 
-        await addMessageAfterEditing(cookie._id, editedProduct, cookie.token)
-
-        return editedProduct
+        return postValues
     } catch (error) {
         console.error(error)
         return error
@@ -455,7 +437,7 @@ const toggleSavePost = async (postId, userId) => {
     }
 }
 
-const del = async (postId, userId) => {
+const deletePost = async (postId, userId) => {
     try {
         let user = getUserById(userId)
 
@@ -479,9 +461,7 @@ const del = async (postId, userId) => {
 
         let deletedPost = await Post.findByIdAndDelete(postId)
 
-        user.ownPosts = user?.ownPosts.filter(x => x != postId)
-
-        user.save()
+        await removePostAfterDeletingPost(userId, postId)
 
         return deletedPost
     } catch (error) {
@@ -495,7 +475,7 @@ module.exports = {
     create,
     getById,
     edit,
-    delete: del,
+    deletePost,
     getAllFilteredByIds,
     changePostStatus,
     addComment,

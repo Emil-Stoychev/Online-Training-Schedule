@@ -24,13 +24,30 @@ export const createPost = (data) => {
         .then(res => res.json())
 }
 
+export const editPost = (postValues, postId, token) => {
+    let data = {
+        postValues,
+        postId,
+        token
+    }
+
+    return fetch(`${URL}/editPost/${postId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => res.json())
+}
+
 export const deletePost = (postId, token) => {
     return fetch(`${URL}/deletePost/${postId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({token})
+        body: JSON.stringify({ token })
     })
         .then(res => res.json())
 }

@@ -83,6 +83,21 @@ const removeSavedIdsAfterDeletingPost = async (ids, postId) => {
     }
 }
 
+const removePostAfterDeletingPost = async (userId, postId) => {
+    try {
+        let user = await User.findById(userId)
+
+        user.ownPosts = user?.ownPosts?.filter(x => x != postId)
+
+        user.save()
+
+        return user
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 const getAll = async () => {
     return await User.find()
 }
@@ -230,7 +245,6 @@ const editProfile = async (data) => {
     }
 }
 
-
 const addNewPostToUser = async (user, postId) => {
     try {
         let userInfo = await User.findById(user._id)
@@ -258,5 +272,6 @@ module.exports = {
     addNewPostToUser,
     getByOption,
     toggleFollowPerson,
-    removeSavedIdsAfterDeletingPost
+    removeSavedIdsAfterDeletingPost,
+    removePostAfterDeletingPost
 }

@@ -3,14 +3,13 @@ import './addComment.css'
 
 import * as postService from '../../../../services/postService'
 
-export const AddCommentComponent = ({ userId, token, post, setPosts, showComments, image }) => {
+export const AddCommentComponent = ({ userId, token, post, setPost, showComments, image }) => {
     const [values, setValues] = useState({
         description: '',
         image: [],
     })
 
     const changeValues = (word) => {
-
         setValues(state => ({
             ...state,
             [word.target.name]: word.target.value
@@ -30,7 +29,7 @@ export const AddCommentComponent = ({ userId, token, post, setPosts, showComment
 
             postService.addComment(data)
                 .then(res => {
-                    setPosts(state => ({
+                    setPost(state => ({
                         ...state,
                         comments: [...state.comments, showComments ? res : res?._id]
                     }))

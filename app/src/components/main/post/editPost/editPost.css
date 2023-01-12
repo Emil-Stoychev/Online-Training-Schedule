@@ -1,0 +1,154 @@
+/* CREATE POST */
+
+section.container .edit-post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1% 0 5% 0;
+  background-color: #28292d;
+  width: 100%;
+  padding: 4rem;
+  border-radius: 1rem;
+}
+
+section.container .edit-post .info {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+section.container .edit-post .info .profile-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+section.container .edit-post .info .profile-image textarea {
+  width: 800px;
+  min-width: 600px;
+  max-width: 800px;
+
+  min-height: 80px;
+  max-height: 100px;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+section.container .edit-post .info .buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2rem;
+  width: 75%;
+}
+
+section.container .edit-post .info .buttons button {
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border: none;
+  font-weight: 600;
+}
+
+section.container .edit-post .info .buttons button:hover {
+  transform: scale(1.1);
+  background-color: rgba(245, 222, 179, 0.103);
+  color: #45f3ff;
+}
+
+section.container .edit-post .info .buttons select {
+  padding: 0.4rem 0.8rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 910px) {
+  section.container .edit-post .info .profile-image textarea {
+    width: 90%;
+    min-width: 500px;
+    max-width: 90%;
+
+    min-height: 80px;
+    max-height: 100px;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  section.container .edit-post .info .buttons {
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  section.container .edit-post .info .profile-image textarea {
+    min-width: 450px;
+  }
+
+  section.container > article.edit-post {
+    width: 100%;
+    padding: 2rem 0;
+  }
+
+  section.container .edit-post .info {
+    width: 100%;
+  }
+
+  section.container > article.edit-post > div.info > div.profile-image {
+    width: 90%;
+  }
+
+  section.container .edit-post .info .buttons button {
+    font-size: 12px;
+  }
+
+  section.container .edit-post .info .buttons select {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  section.container .edit-post .info .profile-image textarea {
+    min-width: 350px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  section.container .edit-post .info .profile-image textarea {
+    min-width: 400px;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  section.container .edit-post .info .profile-image textarea {
+    min-width: 350px;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  section.container .edit-post .info .profile-image textarea {
+    min-width: 300px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  section.container .edit-post .info .profile-image textarea {
+    min-width: 200px;
+  }
+
+  section.container .edit-post .info .buttons {
+    gap: 0.5rem;
+  }
+}
