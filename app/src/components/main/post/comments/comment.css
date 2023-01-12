@@ -9,12 +9,15 @@ section.container .comment-main-title {
   user-select: none;
 }
 
-section.container .comments p {
+section.container p.showComments {
   text-align: center;
   color: white;
   letter-spacing: 2px;
   cursor: pointer;
   user-select: none;
+  width: 100%;
+  font-size: 14px;
+  padding: 1rem 0;
 }
 
 section.container .comments,
@@ -23,17 +26,11 @@ section.container .nested-comments {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
 }
 
 section.container .nested-comments {
   padding: 2rem 2rem 2rem 5rem;
-}
-
-section.container .comments .comment > p {
-  text-align: center;
-  width: 100%;
-  font-size: 14px;
-  padding: 1rem 0;
 }
 
 section.container .comments .comment,
@@ -56,6 +53,10 @@ section.container .comments .nested-comments > .nested-comment > .top {
   padding: 1rem 1rem;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
+}
+
+section.container .comments .nested-comments > .nested-comment {
+  width: 100%;
 }
 
 section.container .comments .comment > .top img,
@@ -114,6 +115,15 @@ section.container .comments .nested-comments > .nested-comment > .buttons > i {
   font-size: 24px;
 }
 
+section.container .comments .comment > .buttons-reply {
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+}
+
 button.editOptionBtn {
   font-size: 20px;
   padding: 0.2rem 0.5rem;
@@ -128,9 +138,19 @@ button.deleteOptionBtn {
   margin-right: -15px;
 }
 
+@media screen and (max-width: 700px) {
+  section.container .nested-comments {
+    padding: 2rem 0rem 2rem 2rem;
+  }
+}
+
 @media screen and (max-width: 480px) {
   section.container .comments {
     padding: 0;
+  }
+
+  div.addComment-cnt {
+    margin: 1rem 0;
   }
 
   section.container .comments,
@@ -150,6 +170,25 @@ button.deleteOptionBtn {
 
 @media screen and (max-width: 400px) {
   section.container .nested-comments {
-    padding: 2rem 0rem 2rem 3rem;
+    padding: 2rem 0rem 2rem 1rem;
+  }
+
+  button.editOptionBtn {
+    font-size: 16px;
+  }
+
+  section.container .comments .comment > .buttons-reply {
+    padding: 1rem 1rem;
+  }
+}
+
+@media screen and (max-width: 335px) {
+
+  input.commentEditInput {
+    width: 60%;
+  }
+
+  section.container .comments .comment > .buttons-reply input {
+    width: 50%;
   }
 }

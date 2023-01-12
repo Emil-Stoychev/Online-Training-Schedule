@@ -33,8 +33,6 @@ export const CreatePost = ({ setPosts }) => {
             postService.createPost(data)
                 .then(res => {
                     if (!res.message) {
-                        console.log(res);
-
                         setValues({
                             description: '',
                             images: [],
@@ -101,8 +99,6 @@ export const CreatePost = ({ setPosts }) => {
                 }, 2000);
             }
         }
-
-        console.log(values);
         e.target.value = null
     }
 

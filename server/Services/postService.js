@@ -97,6 +97,10 @@ const addComment = async (data) => {
             return { message: "User doesn't exist!" }
         }
 
+        if (description.trim() == '' || description.length < 3) {
+            return { message: "Comment must be at least 3 character!" }
+        }
+
         let newComment = await addCommentService(isUserExist?.username, description, image, userId, postId)
 
         let post = await Post.findById(postId)
@@ -178,6 +182,10 @@ const addReplyComment = async (commentValue, image, commentId, userId, postId, u
             return { message: "This comment doesn't exist!" }
         }
 
+        if (commentValue.trim() == '' || commentValue.length < 3) {
+            return { message: "Comment must be at least 3 character!" }
+        }
+
         let comment = {
             username,
             description: commentValue,
@@ -218,7 +226,7 @@ const deleteComment = async (commentId, userId, parentId) => {
 
         let deletedComment = await Comment.findByIdAndDelete(commentId)
 
-        if (parentId == undefined) {
+        if (parentId == 'undefined' || parentId == undefined) {
             await Comment.deleteMany({ _id: isCommentExist.nestedComments })
 
             let post = await Post.findById(isCommentExist.postId)
@@ -229,11 +237,7 @@ const deleteComment = async (commentId, userId, parentId) => {
         } else {
             let parentComment = await Comment.findById(parentId)
 
-            console.log(parentComment);
-
             parentComment.nestedComments = parentComment.nestedComments.filter(x => x != commentId)
-
-            console.log(parentComment);
 
             parentComment.save()
         }

@@ -1,11 +1,11 @@
 import { useRef, useState } from 'react'
 import * as postService from '../../../../services/postService.js'
 import './comment.css'
+import { NestedCommentComponent } from './NestedComments.js'
 
 export const CommentComponent = ({ x, token, userId, setPosts }) => {
     const [showComments, setShowComments] = useState(false)
     const [toggleDelete, setToggleDelete] = useState(false)
-    const [nestedToggleDelete, setNestedToggleDelete] = useState(false)
     const [toggleReply, setToggleReply] = useState({
         option: false,
         value: ''
@@ -14,12 +14,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
         option: false,
         value: ''
     })
-    const [nestedToggleEdit, setNestedToggleEdit] = useState({
-        option: false,
-        value: ''
-    })
     const desc = useRef()
-    const nestedDesc = useRef()
 
     const getNestedComments = (postId, commentId) => {
         setShowComments(true)
@@ -27,8 +22,6 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
         postService.getNestedComments(postId, commentId, token)
             .then(res => {
                 setShowComments(true)
-
-                console.log(res)
 
                 setPosts(state => ({
                     ...state,
@@ -43,7 +36,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
             })
     }
 
-    const deleteComment = (commentId, parentId) => {
+    const deleteComment = (commentId, parentId, setNestedToggleDelete) => {
         postService.deleteComment(commentId, token, parentId)
             .then(res => {
                 if (!res.message) {
@@ -66,7 +59,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                     }
                 }
             })
-        setNestedToggleDelete(false)
+        if (setNestedToggleDelete != undefined) setNestedToggleDelete(false)
         setToggleDelete(false)
     }
 
@@ -114,13 +107,6 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
         }))
     }
 
-    const editNestedValueHandler = (e) => {
-        setNestedToggleEdit(oldState => ({
-            ...oldState,
-            value: e.target.value
-        }))
-    }
-
     const addNestedHandler = (e) => {
         setToggleReply(oldState => ({
             ...oldState,
@@ -135,16 +121,12 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
         }))
     }
 
-    const editNestedCommentHandler = () => {
-        setToggleEdit(state => ({
-            option: !state.option,
-            value: state.option ? '' : nestedDesc.current.innerHTML
-        }))
-    }
+    const updateComment = (commentId, option, parentId, commentValue, setNestedToggleEdit) => {
 
-    const updateComment = (commentId, option, parentId) => {
-        if (toggleEdit.value.trim() != '' || toggleEdit.value.length > 3) {
-            postService.editComment(toggleEdit.value, commentId, token)
+        let word = commentValue == undefined || commentValue == '' ? toggleEdit.value : commentValue
+
+        if (word.trim() != '' || word.length > 3) {
+            postService.editComment(word, commentId, token)
                 .then(res => {
                     if (!res.message) {
                         setPosts(state => ({
@@ -156,7 +138,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                                     }
                                     return c
                                 } else {
-                                    if (c?._id == parentId && c?.authorId == userId) {
+                                    if (c?._id == parentId) {
                                         c.nestedComments = c.nestedComments.map(x => {
                                             if (x?._id == commentId && x?.authorId == userId) {
                                                 x.description = res.description
@@ -169,19 +151,15 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                                 }
                             })
                         }))
-
-                        setToggleEdit(oldState => ({
-                            ...oldState,
-                            option: false
-                        }))
                     }
                 })
-        } else {
-            setToggleEdit({
-                option: false,
-                value: ''
-            })
         }
+        if (setNestedToggleEdit) setNestedToggleEdit({ value: '', option: false })
+
+        setToggleEdit({
+            option: false,
+            value: ''
+        })
     }
 
     const onReplyClick = (commentId) => {
@@ -195,10 +173,25 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
             token
         }
 
-        console.log('clicked');
-
         postService.addReplyComment(data)
-            .then(res => console.log(res))
+            .then(res => {
+                if (!res.message) {
+                    setPosts(state => ({
+                        ...state,
+                        comments: state.comments.map(x => {
+                            if (x._id == commentId) {
+                                x.nestedComments.push(res)
+                            }
+
+                            return x
+                        })
+                    }))
+                }
+                setToggleReply({
+                    option: false,
+                    value: ''
+                })
+            })
     }
 
     return (
@@ -219,8 +212,8 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                     {toggleEdit.option
                         ?
                         <>
-                            <input type='text' value={toggleEdit.value} onChange={editValueHandler} />
-                            <button className='editOptionBtn' onClick={() => updateComment(x?._id, 'main', undefined)}>✓</button>
+                            <input type='text' className='commentEditInput' value={toggleEdit.value} onChange={editValueHandler} />
+                            <button className='editOptionBtn' onClick={() => updateComment(x?._id, 'main', undefined, undefined)}>✓</button>
                             <button className='editOptionBtn' onClick={() => editCommentHandler()}>X</button>
                         </>
                         : <p ref={desc}>{x?.description}</p>
@@ -242,21 +235,21 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                                 :
                                 <i onClick={() => setToggleDelete(x => !x)} className="fa-solid fa-trash"></i>
                             }
-
                         </>
                     }
 
-
-                    {toggleReply.option
-                        ?
-                        <>
-                            <input type='text' value={toggleReply.value} onChange={addNestedHandler} />
-                            <button onClick={() => onReplyClick(x._id)} className='deleteOptionBtn'>✓</button>
-                            <button onClick={() => setToggleReply({ option: false, value: '' })} className='deleteOptionBtn'>X</button>
-                        </>
-                        : <i onClick={() => setToggleReply({ option: true, value: '' })} className="fa-solid fa-reply"></i>
+                    {!toggleReply.option &&
+                        <i onClick={() => setToggleReply({ option: true, value: '' })} className="fa-solid fa-reply"></i>
                     }
                 </div>
+
+                {toggleReply.option &&
+                    <div className='buttons-reply'>
+                        <input type='text' value={toggleReply.value} onChange={addNestedHandler} />
+                        <button onClick={() => onReplyClick(x._id)} className='deleteOptionBtn'>✓</button>
+                        <button onClick={() => setToggleReply({ option: false, value: '' })} className='deleteOptionBtn'>X</button>
+                    </div>
+                }
 
                 {x?.nestedComments?.length > 0 && showComments
                     ?
@@ -266,49 +259,7 @@ export const CommentComponent = ({ x, token, userId, setPosts }) => {
                         <div className='nested-comments'>
 
                             {x?.nestedComments?.map((y, i) =>
-                                <div className='nested-comment' key={y._id + `${i}`}>
-                                    <div className='top'>
-                                        <img src={y?.profileImage?.length > 0 &&
-                                            y?.profileImage[0]?.image != ''
-                                            ? y?.profileImage[0]?.image
-                                            : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
-                                        <div>
-                                            <h2>{y?.username}</h2>
-                                            <p>{y?.location}</p>
-                                        </div>
-                                    </div>
-
-                                    <div className='main'>
-                                        {toggleEdit.option
-                                            ?
-                                            <>
-                                                <input type='text' value={nestedToggleEdit.value} onChange={editNestedValueHandler} />
-                                                <button className='editOptionBtn' onClick={() => updateComment(y?._id, 'nested', x._id)}>✓</button>
-                                                <button className='editOptionBtn' onClick={() => editNestedCommentHandler()}>X</button>
-                                            </>
-                                            : <p ref={nestedDesc}>{y?.description}</p>
-                                        }
-                                    </div>
-
-                                    <div className='buttons'>
-                                        <i onClick={() => likeComment(y?._id, 'nested', x?._id)} className={`fa-solid fa-heart ${y?.likes?.includes(userId) && 'liked'}`}>{y?.likes?.length}</i>
-
-                                        {y?.authorId == userId &&
-                                            <>
-                                                <i onClick={() => editCommentHandler()} className="fa-solid fa-pen-to-square"></i>
-
-                                                {nestedToggleDelete ?
-                                                    <>
-                                                        <button onClick={() => deleteComment(y._id, x._id)} className='deleteOptionBtn'>✓</button>
-                                                        <button onClick={() => setNestedToggleDelete(false)} className='deleteOptionBtn'>X</button>
-                                                    </>
-                                                    :
-                                                    <i onClick={() => setNestedToggleDelete(x => !x)} className="fa-solid fa-trash"></i>
-                                                }
-                                            </>
-                                        }
-                                    </div>
-                                </div>
+                                <NestedCommentComponent key={x._id + `${i}`} x={x} y={y} userId={userId} updateComment={updateComment} likeComment={likeComment} deleteComment={deleteComment} />
                             )}
 
                         </div>

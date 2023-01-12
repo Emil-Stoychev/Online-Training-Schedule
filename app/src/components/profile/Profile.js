@@ -29,7 +29,6 @@ export const ProfileComponent = ({ token, userId }) => {
         userService.getUserById(token, profileId)
             .then(res => {
                 if (!res.message) {
-                    console.log(res);
                     setUser(res)
 
                     setViewOptions({
@@ -64,8 +63,6 @@ export const ProfileComponent = ({ token, userId }) => {
 
             userService.getByOption(token, view, profileId)
                 .then(res => {
-                    console.log(res);
-
                     if (!res.message && res.message != 'Empty!') {
                         setUser(state => ({
                             ...state,

@@ -20,7 +20,6 @@ export const PostComponent = ({ x, userId, token }) => {
             postService.getPostById(window.location.pathname.split('/post/')[1], localStorage.getItem('sessionStorage'))
                 .then(res => {
                     setPosts(res)
-                    console.log(res)
                 })
         }
     }, [])

@@ -17,7 +17,7 @@ footer {
   z-index: 100;
 }
 
-p {
+footer > p {
   display: flex;
   justify-content: center;
   align-items: center;
