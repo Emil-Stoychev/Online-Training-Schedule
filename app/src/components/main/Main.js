@@ -78,11 +78,12 @@ export const MainComponent = ({ userId, token, image }) => {
                     })
                 }
 
-                <h1 className="loading-in-cnt">{loading && 'Loading...'}</h1>
-
-                {posts.length == 0 && !loading && <h1 className="loading-in-cnt">{viewOptions.friends ? 'No friends posts!' : 'No posts!'}</h1>}
-
             </article>
+
+            {loading && <h1 className="loading-in-cnt">Loading...</h1>}
+
+            {posts.length == 0 && !loading && <h1 className="loading-in-cnt">{viewOptions.friends ? 'No friends posts!' : 'No posts!'}</h1>}
+
 
         </section >
     );

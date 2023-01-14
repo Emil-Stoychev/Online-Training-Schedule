@@ -5,6 +5,14 @@ hr {
   border-radius: 100%;
 }
 
+.loading-in-cnt {
+  color: white;
+  letter-spacing: 3px;
+  text-align: center;
+  top: 0;
+  height: 100vh;
+}
+
 section.container {
   display: flex;
   justify-content: center;

@@ -9,11 +9,6 @@ section.container .posts {
   width: 100%;
 }
 
-section.container .posts .loading-in-cnt {
-  color: white;
-  letter-spacing: 3px;
-}
-
 section.container .posts .post {
   display: flex;
   justify-content: flex-start;
