@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { convertBase64, imageTypes } from '../../utils/AddRemoveImages'
 import * as userService from '../../services/authService'
+import { useNavigate } from 'react-router-dom'
 
-export const EditProfileComponent = ({ user, userId, token, setUser, setViewOptions, changeView }) => {
+export const EditProfileComponent = ({ setToken, user, userId, token, setUser, setViewOptions, changeView }) => {
     const [errors, setErrors] = useState('')
     const [values, setValues] = useState({
         username: user?.username || '',
@@ -11,6 +12,7 @@ export const EditProfileComponent = ({ user, userId, token, setUser, setViewOpti
         location: user?.location || '',
         image: user?.image || ''
     })
+    const navigate = useNavigate()
 
     const changeHandler = (e) => {
         setValues(oldState => ({
@@ -43,14 +45,29 @@ export const EditProfileComponent = ({ user, userId, token, setUser, setViewOpti
                         following: false,
                         edit: false
                     })
+                    setToken(state => ({
+                        ...state,
+                        image: values.image
+                    }))
                 }
             })
     }
 
     const deleteAcc = () => {
-        console.log('Delete acc!');
-    }
+        if (values.password && values.password.length >= 3 && values.password.trim() !== '') {
+            userService.deleteAccount(values.password, token)
+                .then(res => console.log(res))
+            console.log('Delete acc!');
+        } else {
+            if (errors !== 'Password must be at least 3 character!') {
+                setErrors('Password must be at least 3 character!')
 
+                setTimeout(() => {
+                    setErrors('')
+                }, 2000);
+            }
+        }
+    }
 
     const addImage = async (e) => {
         let file = e.target.files[0]
@@ -156,9 +173,9 @@ export const EditProfileComponent = ({ user, userId, token, setUser, setViewOpti
                     </div>
 
                     <div className='profile-btnOptions'>
-                    <input type="submit" className='profile-saveBtn' value="Save" />
-                    <input type="button" className='profile-cancelBtn' value="Cancel" onClick={() => changeView('edit')} />
-                    <input type="button" className='profile-deleteBtn'value="Delete Acc" onClick={() => deleteAcc()} />
+                        <input type="submit" className='profile-saveBtn' value="Save" />
+                        <input type="button" className='profile-cancelBtn' value="Cancel" onClick={() => changeView('edit')} />
+                        <input type="button" className='profile-deleteBtn' value="Delete Acc" onClick={() => deleteAcc()} />
                     </div>
 
                 </form>

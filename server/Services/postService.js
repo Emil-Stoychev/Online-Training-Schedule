@@ -36,7 +36,6 @@ const getAllFriendsPosts = async (pageNum, userId) => {
     }
 }
 
-
 const getAllFilteredByIds = async (ids) => {
     try {
 

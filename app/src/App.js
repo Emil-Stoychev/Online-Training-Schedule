@@ -85,7 +85,7 @@ function App() {
 
                 <article className="posts">
 
-                  <PostComponent x={undefined} userId={token?._id} token={token.token} />
+                  <PostComponent x={undefined} userId={token?._id} token={token.token} image={token.image} />
 
                 </article>
 
@@ -98,7 +98,7 @@ function App() {
 
             <Route path='/profile' element={<ProfileComponent token={token?.token} userId={token?._id} />} />
 
-            <Route path='/profile/:profileId' element={<ProfileComponent token={token?.token} userId={token?._id} />} />
+            <Route path='/profile/:profileId' element={<ProfileComponent setToken={setToken} token={token?.token} userId={token?._id} />} />
           </>
         }
 

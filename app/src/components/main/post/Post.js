@@ -223,7 +223,7 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
 
                 {!toggleEditPost.option && <div className='comments'>
 
-                    <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image || post?.profileImage?.length > 0 && post?.profileImage[0]?.image} />
+                    <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} />
 
                     {post?.comments?.length > 0 && showComments
                         ?

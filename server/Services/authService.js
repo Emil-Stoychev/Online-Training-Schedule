@@ -1,12 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const { authMiddleware } = require('../Middlewares/authMiddleware')
-
 const { User } = require('../Models/User')
-const { Comment } = require('../Models/Comment')
-const { Post } = require('../Models/Post')
-const { Chat } = require('../Models/Chat')
 const { userValidator, editUserValidator } = require('../utils/userValidator')
 
 let sessionName = 'sessionStorage'
@@ -262,6 +257,37 @@ const addNewPostToUser = async (user, postId) => {
     }
 }
 
+const deleteAcc = async (password, userId) => {
+    try {
+        if (!password || password.length < 3 || password.trim() === '') {
+            return { message: 'Password must be at least 3 characters!' }
+        }
+
+        let user = await User.findById(userId)
+
+        if (!user) {
+            return { message: "User not found!" }
+        }
+
+        let isValidPassword = await bcrypt.compare(password, user.password)
+
+        if (!isValidPassword) {
+            return { message: "Wrong password!" }
+        }
+
+        let allUsersIds = new Set(...[user?.following], ...[user.followers])
+
+        console.log(allUsersIds);
+
+        // await User.findByIdAndDelete(userId)
+
+        return {}
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 module.exports = {
     login,
     register,
@@ -273,5 +299,6 @@ module.exports = {
     getByOption,
     toggleFollowPerson,
     removeSavedIdsAfterDeletingPost,
-    removePostAfterDeletingPost
+    removePostAfterDeletingPost,
+    deleteAcc
 }

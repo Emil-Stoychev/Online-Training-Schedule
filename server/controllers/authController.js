@@ -53,8 +53,8 @@ router.get('/logout/:token', (req, res) => {
     res.json({ message: "Successfully logout!" })
 })
 
-router.delete('/deleteAccount/:userId', authMiddleware, async (req, res) => {
-    let deletedAccount = await authService.deleteAccount(req.body)
+router.delete('/deleteAccount/:token', authMiddleware, async (req, res) => {
+    let deletedAccount = await authService.deleteAcc(req.body.password, req.params.user._id)
 
     res.json(deletedAccount)
 })

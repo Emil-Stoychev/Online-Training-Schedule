@@ -77,12 +77,13 @@ export const editProfile = (values, userId, token) => {
         .then(res => res.json())
 }
 
-export const deleteAccount = (cookie) => {
+export const deleteAccount = (password, token) => {
     let data = {
-        cookie
+        password,
+        token
     }
 
-    return fetch(`${URL}/deleteAccount/${data._id}`, {
+    return fetch(`${URL}/deleteAccount/${token}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"

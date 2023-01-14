@@ -9,7 +9,7 @@ import { OwnTrainingsComponent } from './OwnTrainings'
 import { OwnFollowersComponent } from './OwnFollowers'
 import { EditProfileComponent } from './EditProfile'
 
-export const ProfileComponent = ({ token, userId }) => {
+export const ProfileComponent = ({ setToken, token, userId }) => {
     const [user, setUser] = useState({})
     const [viewOptions, setViewOptions] = useState({
         ownPosts: false,
@@ -107,7 +107,7 @@ export const ProfileComponent = ({ token, userId }) => {
                         </article>
                     }
 
-                    {viewOptions.edit && <EditProfileComponent user={user} userId={userId} token={token} setUser={setUser} setViewOptions={setViewOptions} changeView={changeView} />}
+                    {viewOptions.edit && <EditProfileComponent setToken={setToken} user={user} userId={userId} token={token} setUser={setUser} setViewOptions={setViewOptions} changeView={changeView} />}
 
                     {(viewOptions.ownPosts || viewOptions.savedPosts) &&
                         <OwnPostsComponent user={user} navigate={navigate} optionWord={viewOptions.ownPosts ? 'ownPosts' : 'savedPosts'} />}

@@ -84,7 +84,6 @@ export const MainComponent = ({ userId, token, image }) => {
 
             {posts.length == 0 && !loading && <h1 className="loading-in-cnt">{viewOptions.friends ? 'No friends posts!' : 'No posts!'}</h1>}
 
-
         </section >
     );
 };
