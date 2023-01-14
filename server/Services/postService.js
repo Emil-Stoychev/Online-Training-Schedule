@@ -7,7 +7,7 @@ const { checkUserExisting, getUserById, addNewPostToUser, removeSavedIdsAfterDel
 
 const getAll = async (pageNum) => {
     try {
-        return await Post.find({ $or: [{ visible: 'Public' }, { visible: 'Friends' }] })
+        return await Post.find({ visible: 'Public' })
             .sort('-createdOn')
             .limit(10)
             .skip(pageNum)
@@ -18,6 +18,24 @@ const getAll = async (pageNum) => {
         return error
     }
 }
+
+const getAllFriendsPosts = async (pageNum, userId) => {
+    try {
+        let user = await getUserById(userId)
+
+        let allIds = new Set(...[user?.following], ...[user.followers])
+
+        return await Post.find({ author: { $in: [...allIds] }, $or: [{ visible: 'Public' }, { visible: 'Friends' }] })
+            .sort('-createdOn')
+            .limit(10)
+            .skip(pageNum)
+            .populate('profileImage', ['image', 'username', 'location'])
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 
 const getAllFilteredByIds = async (ids) => {
     try {
@@ -487,5 +505,6 @@ module.exports = {
     toggleLikePost,
     toggleSavePost,
     getComments,
-    getNestedComments
+    getNestedComments,
+    getAllFriendsPosts
 }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./main.css";
 
 import { CreatePost } from "./create-post/CreatePost";
@@ -10,12 +10,28 @@ export const MainComponent = ({ userId, token, image }) => {
     const [posts, setPosts] = useState([])
     const [pageNum, setPageNum] = useState(0)
     const [loading, setLoading] = useState(true)
+    const [viewOptions, setViewOptions] = useState({
+        public: true,
+        friends: false,
+    })
     const morePosts = useRef(false)
+
+    const changeView = (view) => {
+        setViewOptions({
+            public: view == 'public' ? true : false,
+            friends: view == 'friends' ? true : false,
+        })
+
+        setPageNum(0)
+        setPosts([])
+    }
 
     useEffect(() => {
         setLoading(true)
 
-        postService.getAllPosts(pageNum)
+        let reqForPosts = viewOptions.public ? postService.getAllPosts(pageNum) : postService.getFriendsPosts(pageNum, token)
+
+        reqForPosts
             .then(res => {
                 if (!res.message) {
                     setPosts(state => [...state, ...res])
@@ -25,8 +41,7 @@ export const MainComponent = ({ userId, token, image }) => {
                 }
                 setLoading(false)
             })
-
-    }, [pageNum])
+    }, [pageNum, viewOptions])
 
     useEffect(() => {
         window.onload = window.scrollTo(0, 0)
@@ -45,15 +60,27 @@ export const MainComponent = ({ userId, token, image }) => {
 
             <CreatePost setPosts={setPosts} image={image} />
 
+            <article className='different-posts-options'>
+                <ul role='list'>
+                    <li onClick={() => changeView('public')} className={viewOptions.public ? 'active' : ''}>All posts</li>
+                    <span>|</span>
+                    <li onClick={() => changeView('friends')} className={viewOptions.friends ? 'active' : ''}>Only friends</li>
+                </ul>
+            </article>
+
+            <hr />
+
             <article className="posts">
 
                 {posts.length > 0 &&
                     posts.map((x, i) => {
-                        return <PostComponent key={x._id} x={x} userId={userId} token={token} image={image} setPosts={setPosts} />
+                        return <PostComponent key={x._id + `${i}`} x={x} userId={userId} token={token} image={image} setPosts={setPosts} />
                     })
                 }
 
                 <h1 className="loading-in-cnt">{loading && 'Loading...'}</h1>
+
+                {posts.length == 0 && !loading && <h1 className="loading-in-cnt">{viewOptions.friends ? 'No friends posts!' : 'No posts!'}</h1>}
 
             </article>
 

@@ -9,6 +9,12 @@ router.get('/:pageNum', async (req, res) => {
     res.json(posts.length > 0 ? posts : { message: "Empty" })
 })
 
+router.get('/friendsPosts/:pageNum/:token', authMiddleware, async (req, res) => {
+    let posts = await postService.getAllFriendsPosts(req.params.pageNum, req.params.user._id)
+
+    res.json(posts.length > 0 ? posts : { message: "Empty" })
+})
+
 router.post('/create', authMiddleware, async (req, res) => {
     let createdProduct = await postService.create(req.body, req.params.user) || []
 

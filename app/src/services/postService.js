@@ -8,6 +8,11 @@ export const getAllPosts = (pageNum) => {
         .then(res => res.json())
 }
 
+export const getFriendsPosts = (pageNum, token) => {
+    return fetch(`${URL}/friendsPosts/${pageNum}/${token}`)
+        .then(res => res.json())
+}
+
 export const getPostById = (id, token) => {
     return fetch(`${URL}/details/${id}/${token}`)
         .then(res => res.json())

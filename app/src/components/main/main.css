@@ -21,6 +21,26 @@ section.container {
   margin-bottom: 15%;
 }
 
+.different-posts-options > ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  user-select: none;
+  font-size: 18px;
+  margin-bottom: 1rem;
+}
+
+.different-posts-options > ul > li {
+  color: rgba(245, 245, 245, 0.438);
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.different-posts-options > ul > li.active {
+  color: rgb(255, 255, 255);
+}
+
 @media screen and (max-width: 1000px) {
   section.container {
     width: 900px;
@@ -43,6 +63,10 @@ section.container {
     max-width: 700px;
     margin-top: 20%;
     margin-bottom: 20%;
+  }
+
+  .different-posts-options > ul {
+    margin-bottom: 0rem;
   }
 }
 
@@ -69,6 +93,12 @@ section.container {
   }
 }
 
+@media screen and (max-width: 500px) {
+  .different-posts-options > ul {
+    font-size: 15px;
+  }
+}
+
 @media screen and (max-width: 470px) {
   section.container {
     margin-top: 45%;
@@ -86,5 +116,9 @@ section.container {
   section.container {
     margin-top: 100%;
     margin-bottom: 80%;
+  }
+
+  .different-posts-options > ul {
+    gap: 0.5rem;
   }
 }
