@@ -16,6 +16,7 @@ import { MainComponent } from './components/main/Main';
 import { PostComponent } from './components/main/post/Post';
 import { TrainingPostComponent } from './components/main/training-post/Training-post';
 import { useEffect, useState } from 'react';
+import { ChatComponent } from './components/chat/Chat';
 
 function App() {
   const [token, setToken] = useState(null)
@@ -33,6 +34,9 @@ function App() {
               _id: res?._id,
               image: res?.image
             })
+          } else {
+            localStorage.removeItem('sessionStorage')
+            setToken(null)
           }
         })
     } else {
@@ -91,6 +95,8 @@ function App() {
 
               </section>
             } />
+
+            <Route path='/chat' element={<ChatComponent />} />
 
             <Route path='/training-post/:id' element={<TrainingPostComponent />} />
 
