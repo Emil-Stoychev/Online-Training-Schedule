@@ -96,7 +96,7 @@ function App() {
               </section>
             } />
 
-            <Route path='/chat' element={<ChatComponent />} />
+            <Route path='/chat' element={<ChatComponent token={token.token} _id={token._id} image={token.image} />} />
 
             <Route path='/training-post/:id' element={<TrainingPostComponent />} />
 
