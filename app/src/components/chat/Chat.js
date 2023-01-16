@@ -23,7 +23,7 @@ export const ChatComponent = ({ token, _id, image }) => {
   }, [])
 
   useEffect(() => {
-    socket.current = io('http://localhost:8800')
+    socket.current = io(`http://${window.location.hostname}:8800`)
     socket.current.emit('new-user-add', _id)
     socket.current.on('get-users', (users) => {
       setOnlineUsers(users)
@@ -58,7 +58,7 @@ export const ChatComponent = ({ token, _id, image }) => {
           <div className="Chat-list">
             {chats.map((chat, i) => (
               <div
-                key={chat._id + `${i}`}
+                key={chat._id}
                 onClick={() => {
                   setCurrentChat(chat);
                 }}

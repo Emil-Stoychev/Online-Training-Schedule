@@ -320,8 +320,8 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
   }
 
   section.profile-cont .profile-info-up > div > img {
-    width: 80px;
-    height: 100px;
+    width: 100px;
+    height: 90px;
   }
 
   section.profile-cont
@@ -349,6 +349,11 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
     .profile-statistic
     > h3 {
     font-size: 14px;
+  }
+
+  section.profile-cont .profile-info-up > div > img {
+    width: 100px;
+    height: 75px;
   }
 
   .profile-info-followers
@@ -413,6 +418,21 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
   }
 }
 
+@media screen and (max-width: 450px) {
+  section.profile-cont .profile-info-up > div > img {
+    width: 100%;
+    height: 90px;
+  }
+
+  section.profile-cont .profile-info-up {
+    gap: 1rem;
+  }
+
+  section.profile-cont .profile-info-up > div:nth-child(1) {
+    width: 30%;
+  }
+}
+
 @media screen and (max-width: 400px) {
   section.profile-cont {
     max-width: 100%;
@@ -421,6 +441,14 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
 
   section.profile-cont .profile-info-main {
     width: 100%;
+  }
+
+  section.profile-cont .profile-info-up > div > img {
+    padding: 0.2rem 0.5rem;
+  }
+
+  section.profile-cont .profile-info-up {
+    gap: 1rem;
   }
 
   section.profile-cont .profile-info-up {
@@ -441,17 +469,21 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
   }
 }
 
+@media screen and (max-width: 380px) {
+  section.profile-cont {
+    margin: 100% 0;
+  }
+}
+
 @media screen and (max-width: 350px) {
   section.profile-cont .profile-info-main .profile-info-posts > div,
   section.profile-cont .profile-info-main .profile-info-trainings > div {
     width: 45%;
     max-width: 45%;
   }
-}
 
-@media screen and (max-width: 380px) {
-  section.profile-cont {
-    margin: 100% 0;
+  section.profile-cont .profile-info-up > div:nth-child(1) {
+    width: 100%;
   }
 }
 

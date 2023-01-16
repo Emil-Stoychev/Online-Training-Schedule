@@ -110,20 +110,18 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) 
                         </div>
                         {/* chat-body */}
                         <div className="chat-body" >
-                            {messages.map((message, i) => (
-                                <>
-                                    <div ref={scroll}
-                                        key={message?._id + `${i}`}
-                                        className={
-                                            message.senderId == currentUser
-                                                ? "message own"
-                                                : "message"
-                                        }
-                                    >
-                                        <span>{message.text}</span>{" "}
-                                        <span>{format(message.createdAt)}</span>
-                                    </div>
-                                </>
+                            {messages.map((message) => (
+                                <div ref={scroll}
+                                    key={message._id}
+                                    className={
+                                        message.senderId == currentUser
+                                            ? "message own"
+                                            : "message"
+                                    }
+                                >
+                                    <span>{message.text}</span>{" "}
+                                    <span>{format(message.createdAt)}</span>
+                                </div>
                             ))}
                         </div>
                         {/* chat-sender */}
