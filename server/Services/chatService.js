@@ -1,4 +1,5 @@
 const { Chat } = require("../Models/Chat.js")
+const { MessageModel } = require("../Models/MessageModel")
 
 const createChat = async (senderId, receiverId) => {
     const newChat = new Chat({
@@ -37,9 +38,34 @@ const findChat = async (firstId, secondId) => {
     }
 }
 
+const addMessage = async (chatId, senderId, text) => {
+    const message = new MessageModel({
+        chatId,
+        senderId,
+        text
+    })
+    try {
+        return await message.save()
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const getMessages = async (chatId) => {
+    try {
+        return await MessageModel.find({ chatId })
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 
 module.exports = {
     createChat,
     userChats,
-    findChat
+    findChat,
+    addMessage,
+    getMessages
 }
