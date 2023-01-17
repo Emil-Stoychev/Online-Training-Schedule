@@ -24,7 +24,6 @@ const Conversation = ({ token, data, currentUser, online, searchChatValue }) => 
         <>
             <div className="follower-conversation">
                 <div className="chat-profile-image">
-                    {online && <div className="online-dot"></div>}
                     <img
                         src={userData?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}
                         alt="Profile"
@@ -33,7 +32,7 @@ const Conversation = ({ token, data, currentUser, online, searchChatValue }) => 
                 </div>
                 <div className="name" >
                     <h3>{userData?.username?.slice(0, 10)}</h3>
-                    <span>{online ? "Online" : "Offline"}</span>
+                    <h5 className={online ? "onlineOrOfflineA" : "onlineOrOffline"}>{online ? "Online" : "Offline"}</h5>
                 </div>
             </div>
         </>

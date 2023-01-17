@@ -1,37 +1,47 @@
 .follower-conversation {
-    display: flex;
-    gap: 0.5rem;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    transition: all 300ms ease-in-out;
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
 }
 
 .follower-conversation:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .follower-conversation div.chat-profile-image {
-    width: 30%;
+  width: 30%;
 }
 
 .follower-conversation > div > img {
-    border-radius: 100%;
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+  border-radius: 100%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
 }
 
 .follower-conversation > div.name {
-    display: flex;
-    flex-direction: column;
-    color: white;
+  display: flex;
+  flex-direction: column;
+  color: white;
 }
 
 .follower-conversation > div.name > h3 {
-    word-break: break-all;
+  word-break: break-all;
 }
 
-.follower-conversation > div.name > span {
-    font-size: 16px;
+.follower-conversation > div.name > .onlineOrOffline {
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+  color: grey;
+}
+
+.follower-conversation > div.name > .onlineOrOfflineA {
+  font-size: 12px;
+  padding: 0;
+  margin: 0;
+  color: #45f3ff;
 }
