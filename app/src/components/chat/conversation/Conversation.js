@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as userService from '../../../services/authService.js'
 import './conversation.css'
 
-const Conversation = ({ token, data, currentUser, online }) => {
+const Conversation = ({ token, data, currentUser, online, searchChatValue }) => {
     const [userData, setUserData] = useState(null)
 
     useEffect(() => {
@@ -13,6 +13,13 @@ const Conversation = ({ token, data, currentUser, online }) => {
                 setUserData(res)
             })
     }, [])
+
+    useEffect(() => {
+        if (userData != null) {
+            // console.log(userData);
+        }
+    }, [searchChatValue])
+
     return (
         <>
             <div className="follower-conversation">
@@ -26,7 +33,7 @@ const Conversation = ({ token, data, currentUser, online }) => {
                 </div>
                 <div className="name" >
                     <h3>{userData?.username?.slice(0, 10)}</h3>
-                    <span style={{ color: online ? "#51e200" : "" }}>{online ? "Online" : "Offline"}</span>
+                    <span>{online ? "Online" : "Offline"}</span>
                 </div>
             </div>
         </>

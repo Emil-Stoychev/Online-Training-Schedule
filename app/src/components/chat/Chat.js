@@ -11,14 +11,16 @@ export const ChatComponent = ({ token, _id, image }) => {
   const [sendMessage, setSendMessage] = useState(null)
   const [receivedMessage, setReceivedMessage] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
+  const [searchChatValue, setSearchChatValue] = useState("")
 
   const socket = useRef()
+  const leftSide = useRef()
+  const rightSide = useRef()
 
   useEffect(() => {
     chatService.userChats(_id, token)
       .then(res => {
         setChats(res)
-        console.log(res)
       })
   }, [])
 
@@ -48,21 +50,33 @@ export const ChatComponent = ({ token, _id, image }) => {
     return online ? true : false
   }
 
+  const changeStyle = () => {
+    leftSide.current.className = 'Left-side-chat clickedChat'
+    rightSide.current.className = 'Right-side-chat activeChat'
+  }
+
+  const closeCurrentChat = () => {
+    leftSide.current.className = 'Left-side-chat'
+    rightSide.current.className = 'Right-side-chat'
+    setCurrentChat(null)
+  }
+
   return (
-    <section className='container'>
+    <section className='container-chat'>
       <div className="Chat">
         {/* Left Side */}
-        <div className="Left-side-chat">
-          <input type='search' className='chat-search' placeholder='Find chat' />
+        <div className="Left-side-chat" ref={leftSide}>
+          <input type='search' value={searchChatValue} onChange={(e) => setSearchChatValue(e.currentTarget.value)} className='chat-search' placeholder='Find chat' />
           <div className="Chat-container">
             <h2 className='chat-main-header' >Chats</h2>
             <hr />
             <div className="Chat-list">
-              {chats.map((chat, i) => (
+              {chats.map((chat) => (
                 <div
                   key={chat._id}
                   onClick={() => {
-                    setCurrentChat(chat);
+                    setCurrentChat(chat)
+                    changeStyle()
                   }}
                 >
                   <Conversation
@@ -70,6 +84,7 @@ export const ChatComponent = ({ token, _id, image }) => {
                     data={chat}
                     currentUser={_id}
                     online={checkOnlineStatus(chat)}
+                    searchChatValue={searchChatValue}
                   />
                 </div>
               ))}
@@ -79,8 +94,8 @@ export const ChatComponent = ({ token, _id, image }) => {
 
         {/* Right Side */}
 
-        <div className="Right-side-chat">
-          <div style={{ width: "20rem", alignSelf: "flex-end" }}>
+        <div className="Right-side-chat" ref={rightSide}>
+          <div>
             {/* <NavIcons /> */}
           </div>
 
@@ -90,6 +105,7 @@ export const ChatComponent = ({ token, _id, image }) => {
             currentUser={_id}
             setSendMessage={setSendMessage}
             receivedMessage={receivedMessage}
+            closeCurrentChat={closeCurrentChat}
           />
         </div>
       </div>

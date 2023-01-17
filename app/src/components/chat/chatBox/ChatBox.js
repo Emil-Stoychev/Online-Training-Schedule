@@ -5,10 +5,12 @@ import * as chatService from '../../../services/chatService.js'
 import { format } from "timeago.js";
 import InputEmoji from 'react-input-emoji'
 
-const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) => {
+const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, closeCurrentChat }) => {
     const [userData, setUserData] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
+
+    const sendMessageBtn = useRef(null)
 
     const handleChange = (newMessage) => {
         setNewMessage(newMessage)
@@ -28,10 +30,11 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) 
 
     // fetch messages
     useEffect(() => {
+        setNewMessage('')
+
         if (chat != null) {
             chatService.getMessages(chat?._id)
                 .then(res => {
-                    console.log(res);
                     setMessages(res);
                 })
         };
@@ -43,8 +46,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) 
         scroll.current?.scrollIntoView();
     }, [messages])
 
-
-
+    
     // Send Message
     const handleSend = async (e) => {
         e.preventDefault()
@@ -94,6 +96,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) 
                                     className="followerImage"
                                 />
                                 <h2>{userData?.username}</h2>
+                                <button className='closeCurrentChat' onClick={() => closeCurrentChat()}>X</button>
                             </div>
                             <hr />
                         </div>
@@ -120,7 +123,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) 
                                 value={newMessage}
                                 onChange={handleChange}
                             />
-                            <div className="send-button-chat" onClick={handleSend}>✓</div>
+                            <div ref={sendMessageBtn} className="send-button-chat" onClick={handleSend}>✓</div>
                             <input
                                 type="file"
                                 name=""
