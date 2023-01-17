@@ -2,7 +2,82 @@ div.Chat {
   position: relative;
   display: grid;
   grid-template-columns: 22% auto;
-  gap: 1rem;
-  margin: 25% auto;
-  width: 1000px;
+  gap: 2rem;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background-color: #28292d;
+  padding: 1.5rem;
+  margin: 0 auto;
+}
+
+div.Chat .Left-side-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+div.Chat .Left-side-chat input.chat-search {
+  border-radius: 1rem;
+  padding-left: 0.5rem;
+}
+
+div.Chat .Left-side-chat .Chat-container {
+  width: 100%;
+  height: 100%;
+}
+
+div.Chat .Left-side-chat .Chat-container .chat-main-header {
+  text-align: center;
+  color: white;
+  letter-spacing: 3px;
+}
+
+div.Chat .Left-side-chat .Chat-container .Chat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+div.Chat .Left-side-chat .Chat-container .Chat-list>div {
+  width: 100%;
+}
+
+
+
+div.Chat .Right-side-chat,
+div.Chat .Right-side-chat .ChatBox-container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+
+
+div.Chat .Right-side-chat .ChatBox-container .tap-on-chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  user-select: none;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .tap-on-chat img {
+  width: 400px;
+}
+
+div.Chat .Right-side-chat .ChatBox-container h3.chatbox-empty-message {
+  text-align: center;
+  font-size: 18px;
+  color: white;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 25%;
 }

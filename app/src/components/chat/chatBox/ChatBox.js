@@ -88,25 +88,14 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) 
                         {/* chat-header */}
                         <div className="chat-header">
                             <div className="follower">
-                                <div>
-                                    <img
-                                        src={userData?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}
-                                        alt="Profile"
-                                        className="followerImage"
-                                        style={{ width: "50px", height: "50px" }}
-                                    />
-                                    <div className="name" style={{ fontSize: "0.9rem" }}>
-                                        <span>{userData?.username}</span>
-                                    </div>
-                                </div>
+                                <img
+                                    src={userData?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}
+                                    alt="Profile"
+                                    className="followerImage"
+                                />
+                                <h2>{userData?.username}</h2>
                             </div>
-                            <hr
-                                style={{
-                                    width: "95%",
-                                    border: "0.1px solid #ececec",
-                                    marginTop: "20px",
-                                }}
-                            />
+                            <hr />
                         </div>
                         {/* chat-body */}
                         <div className="chat-body" >
@@ -119,19 +108,19 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) 
                                             : "message"
                                     }
                                 >
-                                    <span>{message.text}</span>{" "}
+                                    <h2>{message.text}</h2>{" "}
                                     <span>{format(message.createdAt)}</span>
                                 </div>
                             ))}
                         </div>
                         {/* chat-sender */}
                         <div className="chat-sender">
-                            <div onClick={() => imageRef.current.click()}>+</div>
+                            <div className="plus-image" onClick={() => imageRef.current.click()}>+</div>
                             <InputEmoji
                                 value={newMessage}
                                 onChange={handleChange}
                             />
-                            <div className="send-button button" onClick={handleSend}>Send</div>
+                            <div className="send-button-chat" onClick={handleSend}>✓</div>
                             <input
                                 type="file"
                                 name=""
@@ -142,9 +131,12 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage }) 
                         </div>{" "}
                     </>
                 ) : (
-                    <span className="chatbox-empty-message">
-                        Tap on a chat to start conversation...
-                    </span>
+                    <div className="tap-on-chat">
+                        <img src="./robot.gif" />
+                        <h3 className="chatbox-empty-message">
+                            Tap on a chat to start conversation...
+                        </h3>
+                    </div>
                 )}
             </div>
         </>

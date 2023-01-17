@@ -1,0 +1,88 @@
+div.Chat .Right-side-chat .ChatBox-container .chat-header {
+    width: 100%;
+    padding: 1rem;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-header .follower {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-header .follower img {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-header .follower h2 {
+    color: white;
+    font-size: 20px;
+}
+
+
+div.Chat .Right-side-chat .ChatBox-container .chat-body {
+    width: 100%;
+    height: 75vh;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    overflow-y: scroll;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
+    color: rgba(255, 255, 255, 0.483);
+    padding: 0.7rem;
+    border-radius: 1rem 1rem 1rem 0;
+    max-width: 28rem;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>span {
+    font-size: 0.7rem;
+    color: white;
+    align-self: end;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.own {
+    align-self: flex-end;
+    border-radius: 1rem 1rem 0 1rem;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-sender {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 0.5rem;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.315);
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-sender .plus-image,
+div.Chat .Right-side-chat .ChatBox-container .chat-sender .send-button-chat {
+    font-size: 24px;
+    color: white;
+    padding: 0.2rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+    border: none;
+    font-weight: 600;
+    background-color: rgba(245, 222, 179, 0.103);
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-sender .plus-image:hover,
+div.Chat .Right-side-chat .ChatBox-container .chat-sender .send-button-chat:hover {
+    transform: scale(1.1);
+    background-color: rgba(245, 222, 179, 0.082);
+    color: #45f3ff;
+}

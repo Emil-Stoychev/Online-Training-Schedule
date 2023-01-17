@@ -3,6 +3,23 @@ let a = window.location.origin.split(':3060')
 
 const URL = a[0] + ':3030/chat'
 
+
+export const createChat = (senderId, receiverId) => {
+    // let data = {
+    //     token,
+    //     message,
+    // }
+
+    return fetch(`${URL}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ senderId, receiverId })
+    })
+        .then(res => res.json())
+}
+
 export const userChats = (userId, token) => {
     return fetch(`${URL}/${userId}`)
         .then(res => res.json())

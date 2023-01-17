@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 import * as userService from '../../services/authService'
+import * as chatService from '../../services/chatService'
 
 export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, changeView, userId, viewOptions }) => {
+    const navigate = useNavigate()
 
     const toggleFollowProcess = () => {
         userService.toggleFollowPerson(token, user?._id)
@@ -22,6 +25,15 @@ export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, c
                     })
                 }
             })
+    }
+
+    const createNewChat = () => {
+        if (user._id != userId && user._id != '' && userId != '') {
+            chatService.createChat(userId, user._id)
+                .then(res => {
+                    navigate('/chat')
+                })
+        }
     }
 
     return (
@@ -50,7 +62,7 @@ export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, c
                     {user._id != userId &&
                         <>
                             <button onClick={() => toggleFollowProcess()} >{user?.followers?.includes(userId) || user?.followers?.find(x => x._id == userId) ? 'Unfollow' : 'Follow'}</button>
-                            <button>Message</button>
+                            <button onClick={() => createNewChat()} >Message</button>
                         </>
                     }
                 </div>

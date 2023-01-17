@@ -2,6 +2,13 @@ const { Chat } = require("../Models/Chat.js")
 const { MessageModel } = require("../Models/MessageModel")
 
 const createChat = async (senderId, receiverId) => {
+
+    let currChat = await findChat(senderId, receiverId)
+
+    if (currChat) {
+        return { message: 'This chat already exist!' }
+    }
+
     const newChat = new Chat({
         members: [senderId, receiverId]
     })
