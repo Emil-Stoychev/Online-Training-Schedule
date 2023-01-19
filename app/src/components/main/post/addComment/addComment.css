@@ -31,6 +31,7 @@ div.addComment-cnt .create-comment .info .profile-image {
 div.addComment-cnt .create-comment .info .profile-image img {
   width: 80px;
   height: 80px;
+  object-fit: cover;
   border-radius: 100%;
 }
 

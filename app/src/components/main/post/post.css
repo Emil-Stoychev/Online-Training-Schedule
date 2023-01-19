@@ -57,6 +57,7 @@ section.container .posts .post .profile .post-info img {
   width: 50px;
   height: 50px;
   border-radius: 100%;
+  object-fit: cover;
 }
 
 section.container .posts .post .images {
