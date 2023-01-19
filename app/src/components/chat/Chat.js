@@ -30,6 +30,7 @@ export const ChatComponent = ({ token, _id, image }) => {
     socket.current = io(`http://${window.location.hostname}:8800`)
     socket.current.emit('new-user-add', _id)
     socket.current.on('get-users', (users) => {
+      console.log(users);
       setOnlineUsers(users)
     })
   }, [_id])
@@ -48,7 +49,7 @@ export const ChatComponent = ({ token, _id, image }) => {
 
   const checkOnlineStatus = (chat) => {
     const chatMember = chat.members.find(x => x._id != _id)
-    const online = onlineUsers.find(x => x.userId == chatMember)
+    const online = onlineUsers.find(x => x.userId == chatMember._id)
     return online ? true : false
   }
 

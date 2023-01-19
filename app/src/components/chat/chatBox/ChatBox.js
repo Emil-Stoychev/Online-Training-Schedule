@@ -49,14 +49,14 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                 text: newMessage,
                 chatId: chat?._id,
             }
-            const receiverId = chat?.members.find((id) => id != currentUser);
-
+            const receiverId = chat?.members.find((x) => x._id != currentUser);
             // send message to socket server
-            setSendMessage({ ...message, receiverId })
+            setSendMessage({ ...message, receiverId: receiverId._id })
 
             // send message to database
             chatService.addMessage(message)
                 .then(res => {
+                    console.log(res);
                     setMessages([...messages, res]);
                     setNewMessage("");
                 })
