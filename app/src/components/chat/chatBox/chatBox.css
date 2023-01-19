@@ -1,3 +1,24 @@
+i.btn-to-up-in-chat {
+  position: absolute;
+  color: #45f3ff;
+  font-size: 14px;
+  right: 50%;
+  bottom: 12%;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.288);
+  padding: 0.5rem 0.6rem;
+  border-radius: 100%;
+  transition: all 500ms ease-in-out;
+  box-shadow: 0px 2px 20px #45f3ff;
+  z-index: 50;
+  transform: rotate(180deg);
+}
+
+i.btn-to-up-in-chat:hover {
+  background-color: #45f3ff;
+  color: black;
+}
+
 div.Chat .Right-side-chat .ChatBox-container .chat-header {
   width: 100%;
   padding: 1rem;

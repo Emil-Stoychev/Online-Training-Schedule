@@ -10,7 +10,7 @@ section.welcome-cnt {
   color: white;
   gap: 6rem;
   user-select: none;
-  margin: 5% 0;
+  margin: 5% auto;
 }
 
 section.welcome-cnt>article.welcome-art {

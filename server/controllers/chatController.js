@@ -25,8 +25,8 @@ router.post('/message', async (req, res) => {
 
     return res.status(200).json(result) || res.status(500).json(result)
 })
-router.get('/message/:chatId', async (req, res) => {
-    let result = await getMessages(req.params.chatId)
+router.get('/message/:chatId/:skipNumber', async (req, res) => {
+    let result = await getMessages(req.params.chatId, req.params.skipNumber)
 
     return res.status(200).json(result) || res.status(500).json(result)
 })

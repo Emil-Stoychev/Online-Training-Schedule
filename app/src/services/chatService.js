@@ -25,8 +25,8 @@ export const userChats = (userId, token) => {
         .then(res => res.json())
 }
 
-export const getMessages = (chatId, token) => {
-    return fetch(`${URL}/message/${chatId}`)
+export const getMessages = (chatId, skipNumber, token) => {
+    return fetch(`${URL}/message/${chatId}/${skipNumber}`)
         .then(res => res.json())
 }
 

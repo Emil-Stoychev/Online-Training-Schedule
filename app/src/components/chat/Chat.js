@@ -30,7 +30,6 @@ export const ChatComponent = ({ token, _id, image }) => {
     socket.current = io(`http://${window.location.hostname}:8800`)
     socket.current.emit('new-user-add', _id)
     socket.current.on('get-users', (users) => {
-      console.log(users);
       setOnlineUsers(users)
     })
   }, [_id])

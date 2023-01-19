@@ -8,15 +8,39 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
     const [userData, setUserData] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
+    const [skipNumber, setSkipNumber] = useState(0);
+    const [ontop, setOntop] = useState(true)
+    let moreMessages = useRef(true)
 
     const sendMessageBtn = useRef(null)
+
+    const scrollBody = useRef()
+    const scrollToMessage = useRef()
+    const imageRef = useRef();
 
     const handleChange = (newMessage) => {
         setNewMessage(newMessage)
     }
 
+    const handleScroll = () => {
+        if (scrollBody.current.scrollTop == 0 && moreMessages) {
+            setSkipNumber(state => state + 10)
+            scrollBody.current.scrollTo(0, 5)
+        }
+    }
+
+    const closeChat = () => {
+        setUserData(null)
+        setMessages([])
+        moreMessages = true
+        closeCurrentChat()
+    }
+
     // fetching data for header
     useEffect(() => {
+        setSkipNumber(0)
+        moreMessages = true
+        setMessages([])
         setUserData(chat?.members?.find((x) => x._id != currentUser))
     }, [chat, currentUser]);
 
@@ -25,19 +49,24 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
         setNewMessage('')
 
         if (chat != null) {
-            chatService.getMessages(chat?._id)
+            chatService.getMessages(chat?._id, skipNumber)
                 .then(res => {
-                    setMessages(res);
+                    if (res.length == 0) {
+                        moreMessages = false
+                    } else {
+                        setMessages(state => [...res, ...state]);
+
+                        if (messages.length == 0) {
+                            scrollBody.current.addEventListener('scroll', handleScroll)
+                        }
+                    }
                 })
         };
-    }, [chat]);
+    }, [chat, skipNumber]);
 
-
-    // Always scroll to last Message
     useEffect(() => {
-        scroll.current?.scrollIntoView();
+        scrollToMessage.current?.scrollIntoView();
     }, [messages])
-
 
     // Send Message
     const handleSend = async (e) => {
@@ -56,7 +85,6 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
             // send message to database
             chatService.addMessage(message)
                 .then(res => {
-                    console.log(res);
                     setMessages([...messages, res]);
                     setNewMessage("");
                 })
@@ -65,15 +93,30 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
 
     // Receive Message from parent component
     useEffect(() => {
-        console.log("Message Arrived: ", receivedMessage)
         if (receivedMessage != null && receivedMessage?.chatId == chat?._id) {
             setMessages([...messages, receivedMessage]);
         }
 
     }, [receivedMessage])
 
-    const scroll = useRef();
-    const imageRef = useRef();
+    const goToTop = () => {
+        scrollBody.current?.scrollTo(0, scrollBody?.current?.scrollHeight);
+    }
+
+    // useEffect(() => {
+    //     scrollBody.current?.addEventListener('scroll', () => {
+    //         console.log(scrollBody.current?.scrollTop);
+    //         console.log(scrollBody.current?.scrollHeight);
+    //         if (scrollBody.current?.scrollHeight - scrollBody?.current?.scrollTop > (scrollBody.current?.scrollHeight - 50)) {
+    //             setOntop(true)
+    //         } else {
+    //             if (!ontop) {
+    //                 setOntop(false)
+    //             }
+    //         }
+    //     })
+    // }, [])
+
     return (
         <>
             <div className="ChatBox-container">
@@ -88,14 +131,14 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                                     className="followerImage"
                                 />
                                 <h2>{userData?.username}</h2>
-                                <button className='closeCurrentChat' onClick={() => closeCurrentChat()}>X</button>
+                                <button className='closeCurrentChat' onClick={() => closeChat()}>X</button>
                             </div>
                             <hr />
                         </div>
                         {/* chat-body */}
-                        <div className="chat-body" >
+                        <div className="chat-body" ref={scrollBody} >
                             {messages.map((message) => (
-                                <div ref={scroll}
+                                <div ref={scrollToMessage}
                                     key={message._id}
                                     className={
                                         message.senderId == currentUser
@@ -109,6 +152,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                             ))}
                         </div>
                         {/* chat-sender */}
+                        {ontop && <i onClick={goToTop} className="fa fa-arrow-up btn-to-up-in-chat" />}
                         <div className="chat-sender">
                             <div className="plus-image" onClick={() => imageRef.current.click()}>+</div>
                             <InputEmoji

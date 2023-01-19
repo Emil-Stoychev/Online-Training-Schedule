@@ -60,9 +60,14 @@ const addMessage = async (chatId, senderId, text) => {
     }
 }
 
-const getMessages = async (chatId) => {
+const getMessages = async (chatId, skipNumber) => {
     try {
-        return await MessageModel.find({ chatId })
+        let result = await MessageModel.find({ chatId })
+            .sort({ createdAt: -1 })
+            .skip(skipNumber)
+            .limit(10)
+
+        return result.reverse()
     } catch (error) {
         console.error(error)
         return error
