@@ -6,7 +6,7 @@ section.profile-cont {
   width: 1000px;
   min-height: 700px;
   color: white;
-  margin: 20% auto 20% auto;
+  margin: 5% auto;
 }
 
 section.profile-cont .profile-info-up {
@@ -289,7 +289,6 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
 
 @media screen and (max-width: 920px) {
   section.profile-cont {
-    margin: 30% 0;
     width: 800px;
   }
 
@@ -311,7 +310,6 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
 
 @media screen and (max-width: 700px) {
   section.profile-cont {
-    margin: 40% 0;
     width: 600px;
   }
 
@@ -339,7 +337,6 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
 
 @media screen and (max-width: 600px) {
   section.profile-cont {
-    margin: 50% 0;
     width: 500px;
   }
 
@@ -388,7 +385,6 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
 @media screen and (max-width: 500px) {
   section.profile-cont {
     max-width: 100%;
-    margin: 50% auto 50% auto;
   }
 
   section.profile-cont .profile-info-main {
@@ -436,7 +432,6 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
 @media screen and (max-width: 400px) {
   section.profile-cont {
     max-width: 100%;
-    margin: 50% auto 50% auto;
   }
 
   section.profile-cont .profile-info-main {
@@ -466,12 +461,6 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
     .profile-info-followers-rightSide
     i {
     padding-right: 0rem;
-  }
-}
-
-@media screen and (max-width: 380px) {
-  section.profile-cont {
-    margin: 100% 0;
   }
 }
 

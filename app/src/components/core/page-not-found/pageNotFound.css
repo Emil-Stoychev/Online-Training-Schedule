@@ -6,11 +6,10 @@
   height: 600px;
   background-color: #1c1c1c;
   border-radius: 8px;
-  margin: 18% 0;
   padding: 0.2rem;
   overflow: hidden;
   user-select: none;
-  margin: 0 auto;
+  margin: 5% auto;
 }
 
 .page-not-found::before {

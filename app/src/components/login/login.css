@@ -143,12 +143,6 @@
   transform: scale(1.2);
 }
 
-@media screen and (max-width: 950px) {
-  div.box {
-    margin: 10% 0;
-  }
-}
-
 @media screen and (max-width: 730px) {
   div.box > .form input:last-child {
     width: 100px;

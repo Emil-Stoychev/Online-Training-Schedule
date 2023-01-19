@@ -1,14 +1,19 @@
 .about-cont {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   color: white;
+  height: 100vh;
 }
 
-.about-cont > h1 {
+.about-cont>h1 {
   margin-bottom: 5rem;
   user-select: none;
 }
 
-.about-cont > .about-contacts {
+.about-cont>.about-contacts {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +21,7 @@
   position: relative;
 }
 
-.about-cont > .about-contacts > div {
+.about-cont>.about-contacts>div {
   position: relative;
   width: 120px;
   height: 120px;
@@ -30,7 +35,7 @@
   cursor: pointer;
 }
 
-.about-cont > .about-contacts > div::before {
+.about-cont>.about-contacts>div::before {
   content: "";
   position: absolute;
   top: -50%;
@@ -42,7 +47,7 @@
   animation: animate 6s linear infinite;
 }
 
-.about-cont > .about-contacts > div::after {
+.about-cont>.about-contacts>div::after {
   content: "";
   position: absolute;
   top: -50%;
@@ -59,16 +64,17 @@
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
-.about-cont > .about-contacts > div:hover {
+.about-cont>.about-contacts>div:hover {
   transform: scale(1.1);
 }
 
-.about-cont > .about-contacts > div > i {
+.about-cont>.about-contacts>div>i {
   font-size: 80px;
   width: 100%;
   height: 100%;
@@ -79,56 +85,47 @@
 }
 
 @media screen and (max-width: 770px) {
-  .about-cont {
-    margin-bottom: 25%;
-  }
-
-  .about-cont > .about-contacts {
+  .about-cont>.about-contacts {
     flex-wrap: wrap;
     gap: 3rem;
   }
 
-  .about-cont > .about-contacts > div {
+  .about-cont>.about-contacts>div {
     width: 100px;
     height: 100px;
   }
 
-  .about-cont > .about-contacts > div > i {
+  .about-cont>.about-contacts>div>i {
     font-size: 60px;
   }
 
-  .about-cont > h1 {
+  .about-cont>h1 {
     margin-bottom: 3rem;
   }
 }
 
 @media screen and (max-width: 380px) {
-  .about-cont > h1 {
+  .about-cont>h1 {
     font-size: 18px;
   }
 
-  .about-cont {
-    margin-top: 80%;
-    margin-bottom: 80%;
-  }
-
-  .about-cont > .about-contacts {
+  .about-cont>.about-contacts {
     gap: 1rem;
   }
 }
 
 @media screen and (max-width: 380px) {
 
-  .about-cont > .about-contacts {
+  .about-cont>.about-contacts {
     gap: 1rem;
   }
 
-  .about-cont > .about-contacts > div {
+  .about-cont>.about-contacts>div {
     width: 80px;
     height: 80px;
   }
 
-  .about-cont > .about-contacts > div > i {
+  .about-cont>.about-contacts>div>i {
     font-size: 40px;
   }
 }

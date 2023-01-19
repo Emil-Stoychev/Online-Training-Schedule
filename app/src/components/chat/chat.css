@@ -7,10 +7,8 @@
   max-width: 1000px;
   height: 700px;
   max-height: 1000px;
-  margin: 0 auto;
   border-radius: 1rem;
-  margin-top: 15%;
-  margin-bottom: 15%;
+  margin: 5% auto;
 }
 
 div.Chat {
@@ -61,7 +59,7 @@ div.Chat .Left-side-chat .Chat-container .Chat-list {
   gap: 0.5rem;
 }
 
-div.Chat .Left-side-chat .Chat-container .Chat-list > div {
+div.Chat .Left-side-chat .Chat-container .Chat-list>div {
   width: 100%;
 }
 
@@ -117,7 +115,7 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
     max-height: 600px;
   }
 
-  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > h2 {
+  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>h2 {
     font-size: 16px;
   }
 }
@@ -163,28 +161,17 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
     margin: 0 auto;
   }
 
-  div.Chat .Left-side-chat .Chat-container .Chat-list > div {
+  div.Chat .Left-side-chat .Chat-container .Chat-list>div {
     background-color: #43454e7a;
     padding: 1rem;
     border-radius: 1rem;
   }
 
-  div.Chat
-    .Left-side-chat
-    .Chat-container
-    .Chat-list
-    .follower-conversation
-    div.chat-profile-image {
+  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image {
     width: 15%;
   }
 
-  div.Chat
-    .Left-side-chat
-    .Chat-container
-    .Chat-list
-    .follower-conversation
-    div.chat-profile-image
-    img {
+  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image img {
     width: 60px;
     height: 60px;
   }
@@ -215,107 +202,45 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
     gap: 1rem;
   }
 
-  .container-chat
-    div.Chat
-    .Right-side-chat
-    .ChatBox-container
-    .chat-body
-    div.message {
+  .container-chat div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
     width: 65%;
   }
 }
 
 @media screen and (max-width: 500px) {
-  .container-chat {
-    margin-top: 40%;
-    margin-bottom: 35%;
-  }
-
-  div.Chat
-    .Left-side-chat
-    .Chat-container
-    .Chat-list
-    .follower-conversation
-    div.chat-profile-image
-    img {
+  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image img {
     width: 60px;
     height: 60px;
   }
 
-  div.Chat
-    .Left-side-chat
-    .Chat-container
-    .Chat-list
-    .follower-conversation
-    div.chat-profile-image {
+  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image {
     width: 20%;
   }
 
-  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > h2 {
+  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>h2 {
     font-size: 14px;
     line-height: 1rem;
   }
 }
 
 @media screen and (max-width: 380px) {
-  .container-chat {
-    margin-top: 70%;
-  }
-
-  .container-chat
-    div.Chat
-    .Right-side-chat
-    .ChatBox-container
-    .chat-body
-    div.message {
+  .container-chat div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
     width: 75%;
   }
 }
 
 @media screen and (max-width: 360px) {
-  .container-chat {
-    margin-top: 80%;
-    margin-bottom: 40%;
-  }
-
-  div.Chat
-    .Left-side-chat
-    .Chat-container
-    .Chat-list
-    .follower-conversation
-    div.chat-profile-image {
+  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image {
     width: 30%;
   }
 }
 
-@media screen and (max-width: 310px) {
-  .container-chat {
-    margin-top: 90%;
-    margin-bottom: 50%;
-  }
-}
-
 @media screen and (max-width: 280px) {
-  .container-chat {
-    margin-top: 100%;
-    margin-bottom: 50%;
-  }
-
-  div.Chat
-    .Left-side-chat
-    .Chat-container
-    .Chat-list
-    .follower-conversation
-    div.chat-profile-image {
+  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image {
     width: 40%;
   }
 
-  .container-chat
-    div.Chat
-    .Right-side-chat
-    .ChatBox-container
-    .chat-body
-    div.message {
+  .container-chat div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
     width: 85%;
   }
 }

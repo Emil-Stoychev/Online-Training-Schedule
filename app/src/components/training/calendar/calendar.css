@@ -7,8 +7,7 @@ div.container {
   display: flex;
   border-radius: 10px;
   background-color: #28292d;
-  margin: 12rem 0;
-  margin: 10% auto 5% auto;
+  margin: 5% auto;
 }
 
 .left {
@@ -458,9 +457,6 @@ div.container .right {
     flex-direction: column;
     border-radius: 0;
     width: 90%;
-    margin: 0 auto;
-    margin-top: 15%;
-    margin-bottom: 10%;
   }
 
   div.container .left,
@@ -495,10 +491,6 @@ div.container .right {
 }
 
 @media (max-width: 950px) {
-  div.container {
-    margin-top: 25%;
-  }
-
   .calendar .month {
     height: 75px;
   }
@@ -522,12 +514,6 @@ div.container .right {
   }
 }
 
-@media (max-width: 620px) {
-  div.container {
-    margin-top: 35%;
-  }
-}
-
 @media (max-width: 555px) {
   div.container {
     width: 100%;
@@ -548,30 +534,18 @@ div.container .right {
 }
 
 @media (max-width: 385px) {
-  div.container {
-    margin-top: 75%;
-  }
-
   .calendar .month {
     font-size: 1rem;
   }
 }
 
 @media (max-width: 335px) {
-  div.container {
-    margin-top: 85%;
-  }
-
   .calendar .weekdays {
     font-size: 0.6rem;
   }
 }
 
 @media (max-width: 300px) {
-  div.container {
-    margin-top: 100%;
-  }
-
   .calendar .month {
     font-size: 0.8rem;
   }
