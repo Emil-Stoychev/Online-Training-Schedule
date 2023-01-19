@@ -5,8 +5,7 @@
   flex-direction: column;
   width: 1000px;
   max-width: 1000px;
-  height: 700px;
-  max-height: 1000px;
+  height: 100vh;
   border-radius: 1rem;
   margin: 5% auto;
 }
@@ -111,8 +110,6 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
   .container-chat {
     width: 800px;
     max-width: 800px;
-    height: 600px;
-    max-height: 600px;
   }
 
   div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>h2 {
