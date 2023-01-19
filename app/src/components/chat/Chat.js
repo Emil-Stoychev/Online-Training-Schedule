@@ -7,6 +7,7 @@ import { io } from 'socket.io-client'
 
 export const ChatComponent = ({ token, _id, image }) => {
   const [chats, setChats] = useState([])
+  const [spareChats, setSpareChats] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
   const [sendMessage, setSendMessage] = useState(null)
   const [receivedMessage, setReceivedMessage] = useState(null)
@@ -21,6 +22,7 @@ export const ChatComponent = ({ token, _id, image }) => {
     chatService.userChats(_id, token)
       .then(res => {
         setChats(res)
+        setSpareChats(res)
       })
   }, [])
 
@@ -45,7 +47,7 @@ export const ChatComponent = ({ token, _id, image }) => {
   }, [])
 
   const checkOnlineStatus = (chat) => {
-    const chatMember = chat.members.find(x => x != _id)
+    const chatMember = chat.members.find(x => x._id != _id)
     const online = onlineUsers.find(x => x.userId == chatMember)
     return online ? true : false
   }
@@ -60,6 +62,19 @@ export const ChatComponent = ({ token, _id, image }) => {
     rightSide.current.className = 'Right-side-chat'
     setCurrentChat(null)
   }
+
+  useEffect(() => {
+    setChats(spareChats)
+    if (searchChatValue.trim() != '') {
+      setChats(x => x.filter(x => {
+        if (x?.members[1].username.toLowerCase().includes(searchChatValue.toLocaleLowerCase())) {
+          return x
+        }
+      }))
+    } else {
+      setChats(spareChats)
+    }
+  }, [searchChatValue])
 
   return (
     <section className='container-chat'>
@@ -81,10 +96,9 @@ export const ChatComponent = ({ token, _id, image }) => {
                 >
                   <Conversation
                     token={token}
-                    data={chat}
+                    chat={chat}
                     currentUser={_id}
                     online={checkOnlineStatus(chat)}
-                    searchChatValue={searchChatValue}
                   />
                 </div>
               ))}

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./chatBox.css";
-import * as userService from '../../../services/authService.js'
 import * as chatService from '../../../services/chatService.js'
 import { format } from "timeago.js";
 import InputEmoji from 'react-input-emoji'
@@ -18,14 +17,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
 
     // fetching data for header
     useEffect(() => {
-        const userId = chat?.members?.find((id) => id != currentUser);
-
-        if (chat != null) {
-            userService.getUserById(token, userId)
-                .then(res => {
-                    setUserData(res)
-                })
-        }
+        setUserData(chat?.members?.find((x) => x._id != currentUser))
     }, [chat, currentUser]);
 
     // fetch messages
@@ -46,7 +38,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
         scroll.current?.scrollIntoView();
     }, [messages])
 
-    
+
     // Send Message
     const handleSend = async (e) => {
         e.preventDefault()

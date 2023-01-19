@@ -24,6 +24,7 @@ const createChat = async (senderId, receiverId) => {
 const userChats = async (userId) => {
     try {
         const chat = await Chat.find({ members: { $in: [userId] } })
+            .populate('members', ['image', 'username', 'location'])
 
         return chat
     } catch (error) {
