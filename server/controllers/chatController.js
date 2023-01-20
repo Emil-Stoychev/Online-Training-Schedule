@@ -21,7 +21,7 @@ router.get('/find/:firstId/:secondId', async (req, res) => {
 })
 
 router.post('/message', async (req, res) => {
-    let result = await addMessage(req.body.chatId, req.body.senderId, req.body.text)
+    let result = await addMessage(req.body.chatId, req.body.senderId, req.body.text, req.body.image)
 
     return res.status(200).json(result) || res.status(500).json(result)
 })

@@ -46,11 +46,12 @@ const findChat = async (firstId, secondId) => {
     }
 }
 
-const addMessage = async (chatId, senderId, text) => {
+const addMessage = async (chatId, senderId, text, image) => {
     const message = new MessageModel({
         chatId,
         senderId,
-        text
+        text,
+        image
     })
     try {
         return await message.save()

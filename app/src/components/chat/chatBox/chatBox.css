@@ -2,7 +2,7 @@ i.btn-to-up-in-chat {
   position: absolute;
   color: #45f3ff;
   font-size: 14px;
-  right: 50%;
+  right: 2%;
   bottom: 12%;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.288);
@@ -10,13 +10,53 @@ i.btn-to-up-in-chat {
   border-radius: 100%;
   transition: all 500ms ease-in-out;
   box-shadow: 0px 2px 20px #45f3ff;
-  z-index: 50;
+  z-index: 2;
   transform: rotate(180deg);
 }
 
 i.btn-to-up-in-chat:hover {
   background-color: #45f3ff;
   color: black;
+}
+
+.inputBox-uploadImages-chat {
+  width: 10%;
+  left: 0;
+  margin-bottom: 22%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: absolute;
+}
+
+.inputBox-uploadImages-chat div {
+  margin: 0px 0 23% 0;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.inputBox-uploadImages-chat > div img {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.inputBox-uploadImages-chat > div > input.inputBox-UploadImage-Btn {
+  width: 80px;
+  height: 40px;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #8f8f8f;
+}
+
+.inputBox-uploadImages-chat > div > input.inputBox-UploadImage-Btn:hover {
+  background-color: #45f3ff;
 }
 
 div.Chat .Right-side-chat .ChatBox-container .chat-header {
@@ -35,11 +75,13 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower img {
   width: 60px;
   height: 60px;
   border-radius: 100%;
+  cursor: pointer;
 }
 
 div.Chat .Right-side-chat .ChatBox-container .chat-header .follower h2 {
   color: white;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .container-chat div.Chat .Right-side-chat .ChatBox-container .chat-body {
@@ -72,6 +114,13 @@ div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > span {
 div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > h2 {
   word-break: break-all;
   font-size: 20px;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > img {
+  min-width: 100px;
+  min-height: 100px;
+  max-width: 400px;
+  max-height: 400px;
 }
 
 div.Chat .Right-side-chat .ChatBox-container .chat-body div.own > span {
@@ -133,8 +182,150 @@ div.Chat
   max-height: 70px;
 }
 
+@media screen and (max-width: 1000px) {
+  .inputBox-uploadImages-chat {
+    width: 15%;
+    margin-bottom: 30%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .inputBox-uploadImages-chat {
+    width: 16%;
+    margin-bottom: 35%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .inputBox-uploadImages-chat {
+    margin-bottom: 30%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .inputBox-uploadImages-chat {
+    width: 20%;
+    margin-bottom: 40%;
+  }
+}
+
 @media screen and (max-width: 500px) {
   .container-chat > div.Chat .Right-side-chat .ChatBox-container .chat-body {
     height: 60%;
+  }
+
+  .react-emoji-picker--wrapper > div > section span {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .react-emoji-picker--wrapper {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .react-emoji-picker--wrapper > div {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .react-emoji-picker--wrapper > div > section {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .react-emoji-picker--wrapper > div > section span {
+    font-size: 14px;
+  }
+
+  .inputBox-uploadImages-chat {
+    width: 25%;
+    margin-bottom: 50%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .react-emoji-picker--wrapper,
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
+    max-width: 270px;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .react-emoji-picker--wrapper,
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
+    max-width: 250px;
+  }
+
+  .inputBox-uploadImages-chat {
+    width: 30%;
+    margin-bottom: 60%;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .react-emoji-picker--wrapper {
+    margin-left: -30%;
+  }
+
+  .react-emoji-picker--wrapper,
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
+    max-width: 260px;
+  }
+}
+
+@media screen and (max-width: 315px) {
+  .react-emoji-picker--wrapper {
+    margin-left: -30%;
+  }
+
+  .react-emoji-picker--wrapper,
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
+    max-width: 230px;
+  }
+
+  .inputBox-uploadImages-chat {
+    margin-bottom: 70%;
+  }
+}
+
+@media screen and (max-width: 290px) {
+  .react-emoji-picker--wrapper,
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
+    max-width: 200px;
+  }
+
+  .inputBox-uploadImages-chat {
+    width: 40%;
+    margin-bottom: 80%;
+  }
+}
+
+@media screen and (max-width: 290px) {
+  .react-emoji-picker--wrapper {
+    margin-left: -50%;
+  }
+}
+
+@media screen and (max-width: 255px) {
+  .react-emoji-picker--wrapper {
+    margin-left: -60%;
+  }
+
+  .react-emoji-picker--wrapper,
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
+    max-width: 180px;
+  }
+
+  .inputBox-uploadImages-chat {
+    margin-bottom: 90%;
   }
 }

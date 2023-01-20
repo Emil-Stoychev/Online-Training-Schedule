@@ -1,16 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom'
 import "./chatBox.css";
 import * as chatService from '../../../services/chatService.js'
 import { format } from "timeago.js";
 import InputEmoji from 'react-input-emoji'
+import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages'
+
 
 const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, closeCurrentChat }) => {
     const [userData, setUserData] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState("");
+    const [newMessage, setNewMessage] = useState({
+        text: '',
+        image: ''
+    });
+    const [errors, setErrors] = useState('')
     const [skipNumber, setSkipNumber] = useState(0);
-    const [ontop, setOntop] = useState(true)
     let moreMessages = useRef(true)
+    const navigate = useNavigate()
 
     const sendMessageBtn = useRef(null)
 
@@ -18,8 +25,11 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
     const scrollToMessage = useRef()
     const imageRef = useRef();
 
-    const handleChange = (newMessage) => {
-        setNewMessage(newMessage)
+    const handleChange = (e) => {
+        setNewMessage(state => ({
+            ...state,
+            text: e
+        }))
     }
 
     const handleScroll = () => {
@@ -46,7 +56,10 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
 
     // fetch messages
     useEffect(() => {
-        setNewMessage('')
+        setNewMessage({
+            text: '',
+            image: ''
+        })
 
         if (chat != null) {
             chatService.getMessages(chat?._id, skipNumber)
@@ -72,11 +85,12 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
     const handleSend = async (e) => {
         e.preventDefault()
 
-        if (newMessage.trim() != '') {
+        if (newMessage.text?.trim() != '') {
             const message = {
                 senderId: currentUser,
-                text: newMessage,
+                text: newMessage.text,
                 chatId: chat?._id,
+                image: newMessage.image
             }
             const receiverId = chat?.members.find((x) => x._id != currentUser);
             // send message to socket server
@@ -86,7 +100,10 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
             chatService.addMessage(message)
                 .then(res => {
                     setMessages([...messages, res]);
-                    setNewMessage("");
+                    setNewMessage({
+                        text: '',
+                        image: ''
+                    });
                 })
         }
     }
@@ -103,19 +120,55 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
         scrollBody.current?.scrollTo(0, scrollBody?.current?.scrollHeight);
     }
 
-    // useEffect(() => {
-    //     scrollBody.current?.addEventListener('scroll', () => {
-    //         console.log(scrollBody.current?.scrollTop);
-    //         console.log(scrollBody.current?.scrollHeight);
-    //         if (scrollBody.current?.scrollHeight - scrollBody?.current?.scrollTop > (scrollBody.current?.scrollHeight - 50)) {
-    //             setOntop(true)
-    //         } else {
-    //             if (!ontop) {
-    //                 setOntop(false)
-    //             }
-    //         }
-    //     })
-    // }, [])
+    const addImage = async (e) => {
+        let file = e.target.files[0]
+
+        if (file && imageTypes.includes(file.type)) {
+            let base64 = await convertBase64(file)
+
+            if (newMessage.image == base64) {
+                if (errors !== 'This image already exist!') {
+                    setErrors('This image already exist!')
+
+                    setTimeout(() => {
+                        setErrors('')
+                    }, 2000);
+                }
+            } else {
+                if (newMessage.image != '') {
+                    if (errors !== 'You cannot upload more than 1 image!') {
+                        setErrors('You cannot upload more than 1 image!')
+
+                        setTimeout(() => {
+                            setErrors('')
+                        }, 2000);
+                    }
+                } else {
+                    setNewMessage(state => ({
+                        ...state,
+                        image: base64
+                    }));
+                }
+            }
+        } else {
+            if (errors !== 'File must be a image!') {
+                setErrors('File must be a image!')
+
+                setTimeout(() => {
+                    setErrors('')
+                }, 2000);
+            }
+        }
+
+        e.target.value = null
+    }
+
+    const removeImage = (e) => {
+        setNewMessage(state => ({
+            ...state,
+            image: ''
+        }));
+    }
 
     return (
         <>
@@ -129,8 +182,9 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                                     src={userData?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}
                                     alt="Profile"
                                     className="followerImage"
+                                    onClick={() => navigate(`/profile/${userData?._id}`)}
                                 />
-                                <h2>{userData?.username}</h2>
+                                <h2 onClick={() => navigate(`/profile/${userData?._id}`)}>{userData?.username}</h2>
                                 <button className='closeCurrentChat' onClick={() => closeChat()}>X</button>
                             </div>
                             <hr />
@@ -146,24 +200,38 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                                             : "message"
                                     }
                                 >
-                                    <h2>{message.text}</h2>{" "}
+                                    <h2>{message?.text}</h2>{" "}
+                                    {message?.image && <img src={message?.image} />}
                                     <span>{format(message.createdAt)}</span>
                                 </div>
                             ))}
                         </div>
                         {/* chat-sender */}
-                        {ontop && <i onClick={goToTop} className="fa fa-arrow-up btn-to-up-in-chat" />}
+                        <i onClick={goToTop} className="fa fa-arrow-up btn-to-up-in-chat" />
                         <div className="chat-sender">
+                            <div className='inputBox-uploadImages-chat'>
+                                {newMessage.image !== '' &&
+                                    <div key={newMessage.image}>
+                                        <img src={newMessage.image} />
+                                        <input
+                                            className="inputBox-UploadImage-Btn"
+                                            type="button"
+                                            value="X"
+                                            onClick={(e) => removeImage(e)}
+                                        />
+                                    </div>
+                                }
+                            </div>
                             <div className="plus-image" onClick={() => imageRef.current.click()}>+</div>
                             <InputEmoji
-                                value={newMessage}
-                                onChange={handleChange}
+                                value={newMessage.text}
+                                onChange={(e) => handleChange(e)}
                             />
                             <div ref={sendMessageBtn} className="send-button-chat" onClick={handleSend}>✓</div>
                             <input
                                 type="file"
-                                name=""
-                                id=""
+                                name="image"
+                                onChange={(e) => addImage(e)}
                                 style={{ display: "none" }}
                                 ref={imageRef}
                             />
