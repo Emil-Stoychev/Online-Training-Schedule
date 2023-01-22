@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
         const user = activeUsers.find(x => x.userId == receiverId)
 
         if (user) {
-            io.to(user.socketId).emit('receive-message', data)
+            io.to(user.socketId).emit('receive-message', data.res)
         }
     })
 

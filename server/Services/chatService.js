@@ -1,5 +1,6 @@
 const { Chat } = require("../Models/Chat.js")
 const { MessageModel } = require("../Models/MessageModel")
+const { createImage } = require("./imageService.js")
 
 const createChat = async (senderId, receiverId) => {
 
@@ -47,14 +48,26 @@ const findChat = async (firstId, secondId) => {
 }
 
 const addMessage = async (chatId, senderId, text, image) => {
+
+    let imageData
+
+    if (image) {
+        imageData = await createImage(senderId, image)
+    }
+
     const message = new MessageModel({
         chatId,
         senderId,
         text,
-        image
+        image: imageData?._id || undefined
     })
+
+    let newMessage = await message.save()
+
     try {
-        return await message.save()
+
+        return await MessageModel.findById(newMessage._id)
+            .populate('image', ['thumbnail'])
     } catch (error) {
         console.error(error)
         return error
@@ -64,6 +77,7 @@ const addMessage = async (chatId, senderId, text, image) => {
 const getMessages = async (chatId, skipNumber) => {
     try {
         let result = await MessageModel.find({ chatId })
+            .populate('image', ['thumbnail'])
             .sort({ createdAt: -1 })
             .skip(skipNumber)
             .limit(10)

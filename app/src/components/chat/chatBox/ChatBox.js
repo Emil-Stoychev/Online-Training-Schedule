@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom'
 import "./chatBox.css";
 import * as chatService from '../../../services/chatService.js'
+import * as imageServce from '../../../services/imageService.js'
 import { format } from "timeago.js";
 import InputEmoji from 'react-input-emoji'
 import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages'
@@ -16,6 +17,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
     });
     const [errors, setErrors] = useState('')
     const [skipNumber, setSkipNumber] = useState(0);
+    const [fullImages, setFullImages] = useState([]);
     let moreMessages = useRef(true)
     const navigate = useNavigate()
 
@@ -85,20 +87,22 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
     const handleSend = async (e) => {
         e.preventDefault()
 
-        if (newMessage.text?.trim() != '') {
+        if (newMessage.text?.trim() != '' || newMessage.image) {
             const message = {
                 senderId: currentUser,
                 text: newMessage.text,
                 chatId: chat?._id,
                 image: newMessage.image
             }
-            const receiverId = chat?.members.find((x) => x._id != currentUser);
-            // send message to socket server
-            setSendMessage({ ...message, receiverId: receiverId._id })
+
 
             // send message to database
             chatService.addMessage(message)
                 .then(res => {
+                    const receiverId = chat?.members.find((x) => x._id != currentUser);
+                    // send message to socket server
+                    setSendMessage({ res, receiverId: receiverId._id })
+
                     setMessages([...messages, res]);
                     setNewMessage({
                         text: '',
@@ -170,9 +174,24 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
         }));
     }
 
+    const openImageFullScreen = (imageId) => {
+        imageServce.getFullImage(imageId, token)
+            .then(res => {
+                setFullImages([res])
+            })
+    }
+
     return (
         <>
             <div className="ChatBox-container">
+
+                {fullImages.length > 0 &&
+                    <div className="full-image">
+                        <span className="btn-to-close-full-image" onClick={() => setFullImages([])} >X</span>
+                        <img src={fullImages[0].image} alt="" />
+                    </div>
+                }
+
                 {chat ? (
                     <>
                         {/* chat-header */}
@@ -201,7 +220,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                                     }
                                 >
                                     <h2>{message?.text}</h2>{" "}
-                                    {message?.image && <img src={message?.image} />}
+                                    {message?.image && <img onClick={() => openImageFullScreen(message?.image?._id)} src={message?.image?.thumbnail} />}
                                     <span>{format(message.createdAt)}</span>
                                 </div>
                             ))}

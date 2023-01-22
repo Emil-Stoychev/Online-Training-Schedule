@@ -11,7 +11,9 @@ const MessageSchema = new mongoose.Schema({
         type: String,
     },
     image: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Image',
+        required: false
     }
 },
     { timestamps: true },

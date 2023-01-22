@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom'
 import './pageNotFound.css'
 
 export const PageNotFound = () => {
+    const navigate = useNavigate()
+
     return (
         <section className='container'>
             <div className="page-not-found">
@@ -13,7 +16,7 @@ export const PageNotFound = () => {
 
                     <div className="text">
                         <p>Uh oh! Looks like you got lost. <br />Go back to the homepage if you dare!</p>
-                        <button>i dare!</button>
+                        <button onClick={() => navigate('/')}>i dare!</button>
                     </div>
 
                 </div>
