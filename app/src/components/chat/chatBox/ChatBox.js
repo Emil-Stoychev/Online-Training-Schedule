@@ -8,7 +8,7 @@ import InputEmoji from 'react-input-emoji'
 import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages'
 
 
-const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, closeCurrentChat }) => {
+const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, closeCurrentChat, setFullImages }) => {
     const [userData, setUserData] = useState(null);
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState({
@@ -17,14 +17,14 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
     });
     const [errors, setErrors] = useState('')
     const [skipNumber, setSkipNumber] = useState(0);
-    const [fullImages, setFullImages] = useState([]);
+    const [toggleDeleteMsg, setToggleDeleteMsg] = useState(false);
     let moreMessages = useRef(true)
     const navigate = useNavigate()
 
     const sendMessageBtn = useRef(null)
 
     const scrollBody = useRef()
-    const scrollToMessage = useRef()
+    let onlyFirstScrollDown = useRef(null)
     const imageRef = useRef();
 
     const handleChange = (e) => {
@@ -35,24 +35,28 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
     }
 
     const handleScroll = () => {
-        if (scrollBody.current.scrollTop == 0 && moreMessages) {
+        if (scrollBody.current.scrollTop == 0 && moreMessages.current) {
             setSkipNumber(state => state + 10)
             scrollBody.current.scrollTo(0, 5)
         }
     }
 
-    const closeChat = () => {
-        setUserData(null)
+    const closeChat = (option) => {
         setMessages([])
-        moreMessages = true
-        closeCurrentChat()
+        moreMessages.current = true
+        onlyFirstScrollDown.current = null
+        setFullImages([])
+        setSkipNumber(0)
+
+        if (!option) {
+            setUserData(null)
+            closeCurrentChat()
+        }
     }
 
     // fetching data for header
     useEffect(() => {
-        setSkipNumber(0)
-        moreMessages = true
-        setMessages([])
+        closeChat(true)
         setUserData(chat?.members?.find((x) => x._id != currentUser))
     }, [chat, currentUser]);
 
@@ -63,13 +67,20 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
             image: ''
         })
 
-        if (chat != null) {
+        if (chat != null && moreMessages.current) {
             chatService.getMessages(chat?._id, skipNumber)
                 .then(res => {
                     if (res.length == 0) {
-                        moreMessages = false
+                        moreMessages.current = false
                     } else {
                         setMessages(state => [...res, ...state]);
+
+                        if (onlyFirstScrollDown.current == null) {
+                            setTimeout(() => {
+                                scrollBody.current?.scrollTo(0, scrollBody?.current?.scrollHeight);
+                            }, 0);
+                            onlyFirstScrollDown.current = false
+                        }
 
                         if (messages.length == 0) {
                             scrollBody.current.addEventListener('scroll', handleScroll)
@@ -78,10 +89,6 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                 })
         };
     }, [chat, skipNumber]);
-
-    useEffect(() => {
-        scrollToMessage.current?.scrollIntoView();
-    }, [messages])
 
     // Send Message
     const handleSend = async (e) => {
@@ -120,7 +127,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
 
     }, [receivedMessage])
 
-    const goToTop = () => {
+    const goToLastMsg = () => {
         scrollBody.current?.scrollTo(0, scrollBody?.current?.scrollHeight);
     }
 
@@ -181,17 +188,20 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
             })
     }
 
+    const deleteMsg = (msgId) => {
+        setToggleDeleteMsg(false)
+
+        chatService.deleteMessage(msgId, token)
+            .then(res => {
+                if (!res.message) {
+                    setMessages(state => state.filter(x => x._id != msgId))
+                }
+            })
+    }
+
     return (
         <>
             <div className="ChatBox-container">
-
-                {fullImages.length > 0 &&
-                    <div className="full-image">
-                        <span className="btn-to-close-full-image" onClick={() => setFullImages([])} >X</span>
-                        <img src={fullImages[0].image} alt="" />
-                    </div>
-                }
-
                 {chat ? (
                     <>
                         {/* chat-header */}
@@ -211,7 +221,7 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                         {/* chat-body */}
                         <div className="chat-body" ref={scrollBody} >
                             {messages.map((message) => (
-                                <div ref={scrollToMessage}
+                                <div
                                     key={message._id}
                                     className={
                                         message.senderId == currentUser
@@ -221,12 +231,24 @@ const ChatBox = ({ token, chat, currentUser, setSendMessage, receivedMessage, cl
                                 >
                                     <h2>{message?.text}</h2>{" "}
                                     {message?.image && <img onClick={() => openImageFullScreen(message?.image?._id)} src={message?.image?.thumbnail} />}
-                                    <span>{format(message.createdAt)}</span>
+                                    <div className="timeAndDelete">
+                                        <span>{format(message.createdAt)}</span>
+                                        {message.senderId == currentUser && !toggleDeleteMsg &&
+                                            <i onClick={() => setToggleDeleteMsg(x => !x)} className="fa-solid fa-trash deleteMsgFromChat"></i>
+                                        }
+                                    </div>
+
+                                    {toggleDeleteMsg && message?.senderId == currentUser &&
+                                        <div>
+                                            <button onClick={() => deleteMsg(message?._id)} >✓</button>
+                                            <button onClick={() => setToggleDeleteMsg(false)}>X</button>
+                                        </div>
+                                    }
                                 </div>
                             ))}
                         </div>
                         {/* chat-sender */}
-                        <i onClick={goToTop} className="fa fa-arrow-up btn-to-up-in-chat" />
+                        <i onClick={goToLastMsg} className="fa fa-arrow-up btn-to-up-in-chat" />
                         <div className="chat-sender">
                             <div className='inputBox-uploadImages-chat'>
                                 {newMessage.image !== '' &&

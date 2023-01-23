@@ -230,7 +230,7 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
                             {toggleDelete ?
                                 <>
                                     <button onClick={() => deleteComment(x._id, undefined)} className='deleteOptionBtn'>✓</button>
-                                    <button onClick={() => setToggleDelete(x => false)} className='deleteOptionBtn'>X</button>
+                                    <button onClick={() => setToggleDelete(false)} className='deleteOptionBtn'>X</button>
                                 </>
                                 :
                                 <i onClick={() => setToggleDelete(x => !x)} className="fa-solid fa-trash"></i>

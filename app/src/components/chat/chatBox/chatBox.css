@@ -3,7 +3,7 @@ i.btn-to-up-in-chat {
   color: #45f3ff;
   font-size: 14px;
   right: 2%;
-  bottom: 12%;
+  bottom: 10%;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.288);
   padding: 0.5rem 0.6rem;
@@ -17,6 +17,10 @@ i.btn-to-up-in-chat {
 i.btn-to-up-in-chat:hover {
   background-color: #45f3ff;
   color: black;
+}
+
+i.deleteMsgFromChat {
+
 }
 
 .inputBox-uploadImages-chat {
@@ -40,14 +44,14 @@ i.btn-to-up-in-chat:hover {
   align-items: center;
 }
 
-.inputBox-uploadImages-chat>div img {
+.inputBox-uploadImages-chat > div img {
   width: 80px;
   height: 80px;
   margin: 0 auto;
   object-fit: cover;
 }
 
-.inputBox-uploadImages-chat>div>input.inputBox-UploadImage-Btn {
+.inputBox-uploadImages-chat > div > input.inputBox-UploadImage-Btn {
   width: 80px;
   height: 40px;
   margin: 0 auto;
@@ -55,7 +59,7 @@ i.btn-to-up-in-chat:hover {
   background-color: #8f8f8f;
 }
 
-.inputBox-uploadImages-chat>div>input.inputBox-UploadImage-Btn:hover {
+.inputBox-uploadImages-chat > div > input.inputBox-UploadImage-Btn:hover {
   background-color: #45f3ff;
 }
 
@@ -76,6 +80,7 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower img {
   height: 60px;
   border-radius: 100%;
   cursor: pointer;
+  object-fit: cover;
 }
 
 div.Chat .Right-side-chat .ChatBox-container .chat-header .follower h2 {
@@ -98,7 +103,7 @@ div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
   color: whitesmoke;
   padding: 0.7rem;
   border-radius: 1rem 1rem 1rem 0;
-  max-width: 28rem;
+  max-width: 80%;
   width: fit-content;
   display: flex;
   flex-direction: column;
@@ -106,17 +111,23 @@ div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
   background-color: rgba(255, 255, 255, 0.082);
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>span {
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.timeAndDelete {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.timeAndDelete > span {
   font-size: 0.7rem;
   color: white;
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>h2 {
-  word-break: break-all;
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > h2 {
+  word-break: break-word;
   font-size: 20px;
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>img {
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > img {
   min-width: 100px;
   min-height: 100px;
   max-width: 400px;
@@ -124,7 +135,7 @@ div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>img {
   cursor: pointer;
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.own>span {
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.own > div.timeAndDelete > span {
   align-self: end;
 }
 
@@ -159,7 +170,11 @@ div.Chat .Right-side-chat .ChatBox-container .chat-sender .send-button-chat {
 }
 
 div.Chat .Right-side-chat .ChatBox-container .chat-sender .plus-image:hover,
-div.Chat .Right-side-chat .ChatBox-container .chat-sender .send-button-chat:hover {
+div.Chat
+  .Right-side-chat
+  .ChatBox-container
+  .chat-sender
+  .send-button-chat:hover {
   transform: scale(1.1);
   background-color: rgba(245, 222, 179, 0.082);
   color: #45f3ff;
@@ -170,37 +185,13 @@ div.Chat .Right-side-chat .ChatBox-container .chat-sender .react-emoji {
   height: 20px;
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-sender .react-emoji .react-input-emoji--input {
+div.Chat
+  .Right-side-chat
+  .ChatBox-container
+  .chat-sender
+  .react-emoji
+  .react-input-emoji--input {
   max-height: 70px;
-}
-
-
-div.full-image {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 50;
-  margin: 0 auto;
-  background-color: rgba(0, 0, 0, 0.723);
-  display: flex;
-  justify-content: center;
-  border-radius: 1rem;
-}
-
-div.full-image > span {
-  position: absolute;
-  right: 0;
-  padding: 0.5rem 1rem;
-  margin: 1rem;
-  border-radius: 1rem;
-  cursor: pointer;
-}
-
-div.full-image > img {
-  width: 100%;
-  padding: 4rem;
-  object-fit: contain;
-  margin: 0 auto;
 }
 
 @media screen and (max-width: 1000px) {
@@ -231,11 +222,7 @@ div.full-image > img {
 }
 
 @media screen and (max-width: 500px) {
-  .container-chat>div.Chat .Right-side-chat .ChatBox-container .chat-body {
-    height: 60%;
-  }
-
-  .react-emoji-picker--wrapper>div>section span {
+  .react-emoji-picker--wrapper > div > section span {
     font-size: 18px;
   }
 }
@@ -247,17 +234,17 @@ div.full-image > img {
     margin: 0 auto;
   }
 
-  .react-emoji-picker--wrapper>div {
+  .react-emoji-picker--wrapper > div {
     width: 100%;
     max-width: 300px;
   }
 
-  .react-emoji-picker--wrapper>div>section {
+  .react-emoji-picker--wrapper > div > section {
     width: 100%;
     max-width: 300px;
   }
 
-  .react-emoji-picker--wrapper>div>section span {
+  .react-emoji-picker--wrapper > div > section span {
     font-size: 14px;
   }
 
@@ -268,19 +255,17 @@ div.full-image > img {
 }
 
 @media screen and (max-width: 400px) {
-
   .react-emoji-picker--wrapper,
-  .react-emoji-picker--wrapper>div,
-  .react-emoji-picker--wrapper>div>section {
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
     max-width: 270px;
   }
 }
 
 @media screen and (max-width: 370px) {
-
   .react-emoji-picker--wrapper,
-  .react-emoji-picker--wrapper>div,
-  .react-emoji-picker--wrapper>div>section {
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
     max-width: 250px;
   }
 
@@ -296,8 +281,8 @@ div.full-image > img {
   }
 
   .react-emoji-picker--wrapper,
-  .react-emoji-picker--wrapper>div,
-  .react-emoji-picker--wrapper>div>section {
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
     max-width: 260px;
   }
 }
@@ -308,8 +293,8 @@ div.full-image > img {
   }
 
   .react-emoji-picker--wrapper,
-  .react-emoji-picker--wrapper>div,
-  .react-emoji-picker--wrapper>div>section {
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
     max-width: 230px;
   }
 
@@ -319,10 +304,9 @@ div.full-image > img {
 }
 
 @media screen and (max-width: 290px) {
-
   .react-emoji-picker--wrapper,
-  .react-emoji-picker--wrapper>div,
-  .react-emoji-picker--wrapper>div>section {
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
     max-width: 200px;
   }
 
@@ -344,8 +328,8 @@ div.full-image > img {
   }
 
   .react-emoji-picker--wrapper,
-  .react-emoji-picker--wrapper>div,
-  .react-emoji-picker--wrapper>div>section {
+  .react-emoji-picker--wrapper > div,
+  .react-emoji-picker--wrapper > div > section {
     max-width: 180px;
   }
 

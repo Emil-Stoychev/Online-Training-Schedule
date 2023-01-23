@@ -8,12 +8,12 @@
   height: 100vh;
   border-radius: 1rem;
   margin: 5% auto;
+  position: relative;
 }
 
 div.Chat {
   position: relative;
-  display: grid;
-  grid-template-columns: 22% auto;
+  display: flex;
   gap: 0.7rem;
   width: 100%;
   height: 100%;
@@ -58,7 +58,7 @@ div.Chat .Left-side-chat .Chat-container .Chat-list {
   gap: 0.5rem;
 }
 
-div.Chat .Left-side-chat .Chat-container .Chat-list>div {
+div.Chat .Left-side-chat .Chat-container .Chat-list > div {
   width: 100%;
 }
 
@@ -106,13 +106,50 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
   cursor: pointer;
 }
 
+div.full-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 50;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.723);
+  display: flex;
+  justify-content: center;
+  border-radius: 1rem;
+}
+
+div.full-image > span {
+  position: absolute;
+  right: 0;
+  padding: 0.5rem 1rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+div.full-image > img {
+  max-width: 100%;
+  max-height: 100%;
+  padding: 2rem;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+div.Chat .clickedChat {
+  display: none;
+}
+
+div.Chat .activeChat {
+  display: flex;
+}
+
 @media screen and (max-width: 1000px) {
   .container-chat {
     width: 800px;
     max-width: 800px;
   }
 
-  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>h2 {
+  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > h2 {
     font-size: 16px;
   }
 }
@@ -122,6 +159,10 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
     width: 700px;
     max-width: 700px;
   }
+
+  div.Chat .Left-side-chat .follower-conversation div.chat-profile-image {
+    width: 17%;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -130,15 +171,19 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
     max-width: 600px;
   }
 
+  .container-chat > div.Chat {
+    display: contents;
+  }
+
+  div.Chat .Left-side-chat,
+  div.Chat .Right-side-chat {
+    background-color: #28292d;
+    padding: 1rem;
+  }
+
   div.Chat .Left-side-chat input.chat-search {
     width: 80%;
     padding: 0.5rem;
-  }
-
-  div.Chat {
-    display: flex;
-    width: 100%;
-    height: 100%;
   }
 
   div.Chat .Left-side-chat {
@@ -146,8 +191,7 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
     justify-content: center;
   }
 
-  div.Chat .Right-side-chat .ChatBox-container .tap-on-chat,
-  div.Chat .Right-side-chat {
+  div.Chat .Right-side-chat .ChatBox-container .tap-on-chat {
     display: none;
   }
 
@@ -158,27 +202,21 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
     margin: 0 auto;
   }
 
-  div.Chat .Left-side-chat .Chat-container .Chat-list>div {
+  div.Chat .Left-side-chat .Chat-container .Chat-list > div {
     background-color: #43454e7a;
     padding: 1rem;
     border-radius: 1rem;
   }
 
-  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image {
-    width: 15%;
-  }
-
-  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image img {
+  div.Chat
+    .Left-side-chat
+    .Chat-container
+    .Chat-list
+    .follower-conversation
+    div.chat-profile-image
+    img {
     width: 60px;
     height: 60px;
-  }
-
-  div.Chat .clickedChat {
-    display: none;
-  }
-
-  div.Chat .activeChat {
-    display: flex;
   }
 }
 
@@ -192,52 +230,73 @@ div.Chat .Right-side-chat .ChatBox-container .chat-header .follower button {
     left: 0;
     right: 0;
     position: absolute;
-    height: 60%;
   }
 
   div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation {
     gap: 1rem;
   }
-
-  .container-chat div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
-    width: 65%;
-  }
 }
 
 @media screen and (max-width: 500px) {
-  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image img {
-    width: 60px;
+  div.Chat
+    .Left-side-chat
+    .Chat-container
+    .Chat-list
+    .follower-conversation
+    div.chat-profile-image
+    img {
+    width: 100%;
     height: 60px;
   }
 
-  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image {
-    width: 20%;
+  div.Chat .Left-side-chat .follower-conversation div.chat-profile-image {
+    width: 14%;
   }
 
-  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message>h2 {
+  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > h2 {
     font-size: 14px;
     line-height: 1rem;
+  }
+
+  div.Chat .Left-side-chat .follower-conversation div.chat-profile-image {
+    width: 15%;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  div.Chat .Left-side-chat .follower-conversation div.chat-profile-image {
+    width: 18%;
   }
 }
 
 @media screen and (max-width: 380px) {
-  .container-chat div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
+  .container-chat
+    div.Chat
+    .Right-side-chat
+    .ChatBox-container
+    .chat-body
+    div.message {
     width: 75%;
   }
 }
 
-@media screen and (max-width: 360px) {
-  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image {
-    width: 30%;
+@media screen and (max-width: 350px) {
+  div.Chat .Left-side-chat .follower-conversation div.chat-profile-image {
+    width: 20%;
   }
 }
 
 @media screen and (max-width: 280px) {
-  div.Chat .Left-side-chat .Chat-container .Chat-list .follower-conversation div.chat-profile-image {
-    width: 40%;
+  .container-chat
+    div.Chat
+    .Right-side-chat
+    .ChatBox-container
+    .chat-body
+    div.message {
+    width: 85%;
   }
 
-  .container-chat div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
-    width: 85%;
+  div.Chat .Left-side-chat .follower-conversation div.chat-profile-image {
+    width: 21%;
   }
 }

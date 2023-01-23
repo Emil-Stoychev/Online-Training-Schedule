@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const { authMiddleware } = require('../Middlewares/authMiddleware')
-const { createChat, userChats, findChat, addMessage, getMessages } = require('../Services/chatService')
+const { createChat, userChats, findChat, addMessage, getMessages, deleteMessage } = require('../Services/chatService')
 
 
 router.post('/', async (req, res) => {
@@ -31,5 +31,10 @@ router.get('/message/:chatId/:skipNumber', async (req, res) => {
     return res.status(200).json(result) || res.status(500).json(result)
 })
 
+router.delete('/deleteMessage/:messageId', authMiddleware, async (req, res) => {
+    let deletedMessage = await deleteMessage(req.params.messageId, req.params.user._id) || { message: "404 Not found!" }
+
+    res.json(deletedMessage)
+})
 
 module.exports = router

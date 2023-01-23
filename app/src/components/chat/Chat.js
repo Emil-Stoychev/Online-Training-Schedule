@@ -13,6 +13,7 @@ export const ChatComponent = ({ token, _id, image }) => {
   const [receivedMessage, setReceivedMessage] = useState(null)
   const [onlineUsers, setOnlineUsers] = useState([])
   const [searchChatValue, setSearchChatValue] = useState("")
+  const [fullImages, setFullImages] = useState([]);
 
   const socket = useRef()
   const leftSide = useRef()
@@ -67,7 +68,7 @@ export const ChatComponent = ({ token, _id, image }) => {
     setChats(spareChats)
     if (searchChatValue.trim() != '') {
       setChats(x => x.filter(x => {
-        if (x?.members[1].username.toLowerCase().includes(searchChatValue.toLocaleLowerCase())) {
+        if (x?.members[0].username.toLowerCase().includes(searchChatValue.toLocaleLowerCase())) {
           return x
         }
       }))
@@ -78,6 +79,14 @@ export const ChatComponent = ({ token, _id, image }) => {
 
   return (
     <section className='container-chat'>
+
+      {fullImages.length > 0 &&
+        <div className="full-image">
+          <span className="btn-to-close-full-image" onClick={() => setFullImages([])} >X</span>
+          <img src={fullImages[0].image} alt="" />
+        </div>
+      }
+
       <div className="Chat">
         {/* Left Side */}
         <div className="Left-side-chat" ref={leftSide}>
@@ -120,6 +129,7 @@ export const ChatComponent = ({ token, _id, image }) => {
             setSendMessage={setSendMessage}
             receivedMessage={receivedMessage}
             closeCurrentChat={closeCurrentChat}
+            setFullImages={setFullImages}
           />
         </div>
       </div>

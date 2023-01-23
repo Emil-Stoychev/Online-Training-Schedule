@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const sharp = require("sharp");
 
 const { User } = require('../Models/User')
 const { userValidator, editUserValidator } = require('../utils/userValidator')
@@ -143,6 +144,18 @@ const register = async (data) => {
             return { message: "Username already exist!" }
         }
 
+        if (user.image != '') {
+            const buffer = Buffer.from(user?.image.split(";base64,").pop(), "base64");
+
+            user.image = await sharp(buffer)
+                .resize(150, 150, { fit: "inside" })
+                .toBuffer()
+                .then(async (thumbnail) => {
+                    return `data:image/jpeg;base64,${thumbnail.toString("base64")}`
+                });
+        }
+
+
         let hashedPassword = await bcrypt.hash(user.password, 10)
 
         let newDate = new Date()
@@ -226,6 +239,17 @@ const editProfile = async (data) => {
         }
 
         let hashedPassword = await bcrypt.hash(userIsValid.password, 10)
+
+        if (values.image != '') {
+            const buffer = Buffer.from(values?.image.split(";base64,").pop(), "base64");
+
+            values.image = await sharp(buffer)
+                .resize(150, 150, { fit: "inside" })
+                .toBuffer()
+                .then(async (thumbnail) => {
+                    return `data:image/jpeg;base64,${thumbnail.toString("base64")}`
+                });
+        }
 
         user.username = values.username
         user.password = hashedPassword

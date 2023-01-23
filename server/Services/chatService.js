@@ -89,11 +89,31 @@ const getMessages = async (chatId, skipNumber) => {
     }
 }
 
+const deleteMessage = async (messageId, userId) => {
+    try {
+        let message = await MessageModel.findById(messageId)
+
+        if (!message) {
+            return { message: "404 Not found!" }
+        }
+
+        if (message.senderId != userId) {
+            return { message: "You cannot delete this message!" }
+        }
+
+        return await MessageModel.findByIdAndDelete(messageId)
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 
 module.exports = {
     createChat,
     userChats,
     findChat,
     addMessage,
-    getMessages
+    getMessages,
+    deleteMessage
 }

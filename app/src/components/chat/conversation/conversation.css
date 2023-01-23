@@ -12,12 +12,12 @@
 }
 
 .follower-conversation div.chat-profile-image {
-  width: 30%;
+  width: 12%;
 }
 
 .follower-conversation > div > img {
   border-radius: 100%;
-  width: 50px;
+  width: 100%;
   height: 50px;
   object-fit: cover;
 }

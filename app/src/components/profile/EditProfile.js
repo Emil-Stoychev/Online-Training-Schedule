@@ -75,30 +75,10 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
         if (file && imageTypes.includes(file.type)) {
             let base64 = await convertBase64(file)
 
-            if (values.image === base64) {
-                if (errors !== 'This image already exist!') {
-                    setErrors('This image already exist!')
-
-                    setTimeout(() => {
-                        setErrors('')
-                    }, 2000);
-                }
-            } else {
-                if (values.image !== '') {
-                    if (errors !== 'You cannot upload more than 1 image!') {
-                        setErrors('You cannot upload more than 1 image!')
-
-                        setTimeout(() => {
-                            setErrors('')
-                        }, 2000);
-                    }
-                } else {
-                    setValues(state => ({
-                        ...state,
-                        ['image']: base64
-                    }));
-                }
-            }
+            setValues(state => ({
+                ...state,
+                ['image']: base64
+            }));
         } else {
             if (errors !== 'File must be a image!') {
                 setErrors('File must be a image!')

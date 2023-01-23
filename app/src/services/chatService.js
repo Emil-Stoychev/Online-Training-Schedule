@@ -45,3 +45,14 @@ export const addMessage = (message, token) => {
     })
         .then(res => res.json())
 }
+
+export const deleteMessage = (messageId, token) => {
+    return fetch(`${URL}/deleteMessage/${messageId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token })
+    })
+        .then(res => res.json())
+}
