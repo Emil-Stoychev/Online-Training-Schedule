@@ -20,7 +20,7 @@ i.btn-to-up-in-chat:hover {
 }
 
 i.deleteMsgFromChat {
-
+  cursor: pointer;
 }
 
 .inputBox-uploadImages-chat {
@@ -109,6 +109,18 @@ div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
   flex-direction: column;
   gap: 0.5rem;
   background-color: rgba(255, 255, 255, 0.082);
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.deleteMsgBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.deleteMsgBtns > button {
+  border-radius: 0.5rem;
+  cursor: pointer;
 }
 
 div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.timeAndDelete {
@@ -314,11 +326,13 @@ div.Chat
     width: 40%;
     margin-bottom: 80%;
   }
-}
 
-@media screen and (max-width: 290px) {
   .react-emoji-picker--wrapper {
     margin-left: -50%;
+  }
+
+  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.deleteMsgBtns > button {
+    font-size: 10px;
   }
 }
 

@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import './chat.css'
 import * as chatService from '../../services/chatService.js'
-import Conversation from './conversation/Conversation'
 import ChatBox from './chatBox/ChatBox'
 import { io } from 'socket.io-client'
+
+import { FullImageComponent } from './FullImage'
+import { LeftSideComponent } from './LeftSide'
 
 export const ChatComponent = ({ token, _id, image }) => {
   const [chats, setChats] = useState([])
@@ -47,12 +49,6 @@ export const ChatComponent = ({ token, _id, image }) => {
     })
   }, [])
 
-  const checkOnlineStatus = (chat) => {
-    const chatMember = chat.members.find(x => x._id != _id)
-    const online = onlineUsers.find(x => x.userId == chatMember._id)
-    return online ? true : false
-  }
-
   const changeStyle = () => {
     leftSide.current.className = 'Left-side-chat clickedChat'
     rightSide.current.className = 'Right-side-chat activeChat'
@@ -68,7 +64,9 @@ export const ChatComponent = ({ token, _id, image }) => {
     setChats(spareChats)
     if (searchChatValue.trim() != '') {
       setChats(x => x.filter(x => {
-        if (x?.members[0].username.toLowerCase().includes(searchChatValue.toLocaleLowerCase())) {
+        let currUser = x?.members?.filter(x => x._id != _id)
+
+        if (currUser[0].username.toLowerCase().includes(searchChatValue.toLowerCase())) {
           return x
         }
       }))
@@ -80,43 +78,22 @@ export const ChatComponent = ({ token, _id, image }) => {
   return (
     <section className='container-chat'>
 
-      {fullImages.length > 0 &&
-        <div className="full-image">
-          <span className="btn-to-close-full-image" onClick={() => setFullImages([])} >X</span>
-          <img src={fullImages[0].image} alt="" />
-        </div>
-      }
+      {fullImages.length > 0 && <FullImageComponent fullImages={fullImages} setFullImages={setFullImages} />}
 
       <div className="Chat">
         {/* Left Side */}
-        <div className="Left-side-chat" ref={leftSide}>
-          <input type='search' value={searchChatValue} onChange={(e) => setSearchChatValue(e.currentTarget.value)} className='chat-search' placeholder='Find chat' />
-          <div className="Chat-container">
-            <h2 className='chat-main-header' >Chats</h2>
-            <hr />
-            <div className="Chat-list">
-              {chats.map((chat) => (
-                <div
-                  key={chat._id}
-                  onClick={() => {
-                    setCurrentChat(chat)
-                    changeStyle()
-                  }}
-                >
-                  <Conversation
-                    token={token}
-                    chat={chat}
-                    currentUser={_id}
-                    online={checkOnlineStatus(chat)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
+        <LeftSideComponent
+          _id={_id}
+          token={token}
+          leftSide={leftSide}
+          changeStyle={changeStyle}
+          onlineUsers={onlineUsers}
+          chats={chats}
+          setSearchChatValue={setSearchChatValue}
+          searchChatValue={searchChatValue}
+          setCurrentChat={setCurrentChat}
+        />
         {/* Right Side */}
-
         <div className="Right-side-chat" ref={rightSide}>
           <div>
             {/* <NavIcons /> */}
@@ -130,6 +107,7 @@ export const ChatComponent = ({ token, _id, image }) => {
             receivedMessage={receivedMessage}
             closeCurrentChat={closeCurrentChat}
             setFullImages={setFullImages}
+            setSearchChatValue={setSearchChatValue}
           />
         </div>
       </div>
