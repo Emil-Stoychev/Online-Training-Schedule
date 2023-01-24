@@ -1,4 +1,4 @@
-const { Image } = require("../Models/Image.js")
+const { ChatImage } = require("../Models/ChatImage.js")
 const sharp = require("sharp");
 
 const createImage = async (author, image) => {
@@ -9,7 +9,7 @@ const createImage = async (author, image) => {
         .resize(120, 120, { fit: "inside" })
         .toBuffer()
         .then(async (thumbnail) => {
-            return await Image.create({
+            return await ChatImage.create({
                 image,
                 thumbnail: `data:image/jpeg;base64,${thumbnail.toString("base64")}`,
                 author,
@@ -18,7 +18,7 @@ const createImage = async (author, image) => {
 }
 
 const getFullImage = async (imageId) => {
-    return await Image.findById(imageId)
+    return await ChatImage.findById(imageId)
 }
 
 module.exports = {

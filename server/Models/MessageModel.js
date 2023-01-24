@@ -12,7 +12,7 @@ const MessageSchema = new mongoose.Schema({
     },
     image: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Image',
+        ref: 'ChatImage',
         required: false
     }
 },

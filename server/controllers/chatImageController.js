@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const { authMiddleware } = require('../Middlewares/authMiddleware')
-const { getFullImage } = require('../Services/imageService.js')
+const { getFullImage } = require('../Services/chatImageService.js')
 
 // router.post('/', async (req, res) => {
 //     let result = await createChat(req.body.senderId, req.body.receiverId)

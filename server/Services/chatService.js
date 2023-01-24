@@ -1,6 +1,6 @@
 const { Chat } = require("../Models/Chat.js")
 const { MessageModel } = require("../Models/MessageModel")
-const { createImage } = require("./imageService.js")
+const { createImage } = require("./chatImageService.js")
 
 const createChat = async (senderId, receiverId) => {
 

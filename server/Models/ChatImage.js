@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const ImageSchema = new mongoose.Schema({
+const ChatImageSchema = new mongoose.Schema({
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     image: {
         type: String
@@ -12,6 +12,6 @@ const ImageSchema = new mongoose.Schema({
     { timestamps: true },
 )
 
-const Image = mongoose.model('Image', ImageSchema)
+const ChatImage = mongoose.model('ChatImage', ChatImageSchema)
 
-exports.Image = Image
+exports.ChatImage = ChatImage

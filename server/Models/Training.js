@@ -4,8 +4,7 @@ const trainingSchema = new mongoose.Schema({
     container: {
         type: Array,
     },
-    author: String,
-    username: String,
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     visible: {
         type: String,
@@ -14,7 +13,8 @@ const trainingSchema = new mongoose.Schema({
     },
     savedCount: {
         type: Array
-    }
+    },
+    // images: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingImage' }]
 })
 
 const TrainingPrograms = mongoose.model('TrainingPrograms', trainingSchema)
