@@ -4,7 +4,7 @@ let a = window.location.origin.split(':3060')
 const URL = a[0] + ':3030/chat'
 
 
-export const createChat = (senderId, receiverId) => {
+export const createChat = (senderId, receiverId, token) => {
     // let data = {
     //     token,
     //     message,
@@ -15,7 +15,7 @@ export const createChat = (senderId, receiverId) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ senderId, receiverId })
+        body: JSON.stringify({ senderId, receiverId, token })
     })
         .then(res => res.json())
 }
@@ -41,7 +41,7 @@ export const addMessage = (message, token) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(message)
+        body: JSON.stringify(data)
     })
         .then(res => res.json())
 }

@@ -9,7 +9,7 @@ const { getFullImage } = require('../Services/chatImageService.js')
 //     return res.status(200).json(result) || res.status(500).json(result)
 // })
 
-router.get('/:imageId/:token', async (req, res) => {
+router.get('/:imageId/:token', authMiddleware, async (req, res) => {
     let result = await getFullImage(req.params.imageId)
 
     return res.status(200).json(result) || res.status(500).json(result)

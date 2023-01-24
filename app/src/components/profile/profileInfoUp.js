@@ -29,7 +29,7 @@ export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, c
 
     const createNewChat = () => {
         if (user._id != userId && user._id != '' && userId != '') {
-            chatService.createChat(userId, user._id)
+            chatService.createChat(userId, user._id, token)
                 .then(res => {
                     navigate('/chat')
                 })

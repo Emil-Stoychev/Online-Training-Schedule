@@ -4,7 +4,7 @@ const { authMiddleware } = require('../Middlewares/authMiddleware')
 const { createChat, userChats, findChat, addMessage, getMessages, deleteMessage } = require('../Services/chatService')
 
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
     let result = await createChat(req.body.senderId, req.body.receiverId)
 
     return res.status(200).json(result) || res.status(500).json(result)
@@ -20,8 +20,8 @@ router.get('/find/:firstId/:secondId', async (req, res) => {
     return res.status(200).json(result) || res.status(500).json(result)
 })
 
-router.post('/message', async (req, res) => {
-    let result = await addMessage(req.body.chatId, req.body.senderId, req.body.text, req.body.image)
+router.post('/message', authMiddleware, async (req, res) => {
+    let result = await addMessage(req.body.message.chatId, req.body.message.senderId, req.body.message.text, req.body.message.image)
 
     return res.status(200).json(result) || res.status(500).json(result)
 })

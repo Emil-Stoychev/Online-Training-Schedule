@@ -5,6 +5,7 @@ import * as chatService from '../../../services/chatService.js'
 import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages'
 
 export const ChatSenderComponent = ({
+    token,
     currentUser,
     chat,
     messages,
@@ -41,7 +42,7 @@ export const ChatSenderComponent = ({
 
 
             // send message to database
-            chatService.addMessage(message)
+            chatService.addMessage(message, token)
                 .then(res => {
                     const receiverId = chat?.members.find((x) => x._id != currentUser);
                     // send message to socket server

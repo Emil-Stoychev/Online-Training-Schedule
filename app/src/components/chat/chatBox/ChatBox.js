@@ -113,6 +113,7 @@ const ChatBox = ({
                         <i onClick={goToLastMsg} className="fa fa-arrow-up btn-to-up-in-chat" />
 
                         <ChatSenderComponent
+                            token={token}
                             currentUser={currentUser}
                             chat={chat}
                             messages={messages}
