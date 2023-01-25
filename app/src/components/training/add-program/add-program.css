@@ -57,14 +57,26 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
   gap: 1.5rem;
 }
 
-.add-program .add-option > div {
+.add-program .add-option div {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  gap: 1rem;
+  max-width: 250%;
+}
+
+.add-program .add-option div.image-cnt {
+  flex-direction: column;
+}
+
+.add-program .add-option > div > div.image-input-file {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
   max-width: 250%;
 }
 
@@ -75,7 +87,8 @@
   max-height: 300px;
 }
 
-.add-program .add-option > div > h2 {
+.add-program .add-option > div > h2,
+.add-program .add-option > div > div > h2 {
   font-size: 18px;
   cursor: pointer;
 }
