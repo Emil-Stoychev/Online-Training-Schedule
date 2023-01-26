@@ -24,7 +24,7 @@ const create = async (container, category, userId) => {
             return { message: "This user doesn't exist" }
         }
 
-        let data = trainingProgramValidator(container, category, user?._id)
+        let data = await trainingProgramValidator(container, category, user?._id)
 
         return await TrainingPrograms.create(data)
     } catch (error) {
