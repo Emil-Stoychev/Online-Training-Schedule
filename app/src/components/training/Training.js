@@ -3,13 +3,13 @@ import { CalendarComponent } from './calendar/Calendar'
 import { NotesComponent } from './notes/Notes'
 import './training.css'
 
-export const TrainingComponent = () => {
+export const TrainingComponent = ({ token, userId }) => {
 
     return (
         <>
             <CalendarComponent />
 
-            <AddProgramComponent />
+            <AddProgramComponent token={token} userId={userId} />
 
             <section className='training-notes'>
 

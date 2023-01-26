@@ -8,7 +8,7 @@ const postSchema = new mongoose.Schema({
     images: {
         type: Array,
     },
-    author: String,
+    author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     username: String,
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     saved: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

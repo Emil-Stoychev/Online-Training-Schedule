@@ -61,6 +61,7 @@ function App() {
   }, [])
 
   // FINAL STEP IS TO CLEAN USER PASSWORD RETURNED FROM BACKEND AND TO SET LOADING SCREEN!!!
+  // AND TO ADD AWESOME SNACKBAR TO SHOW ERROR AND SOME MESSAGES!!!
 
   return (
     <div className="App">
@@ -98,9 +99,9 @@ function App() {
 
             <Route path='/chat' element={<ChatComponent token={token.token} _id={token._id} image={token.image} />} />
 
-            <Route path='/training-post/:id' element={<TrainingPostComponent />} />
+            <Route path='/training-post/:id' element={<TrainingPostComponent token={token.token} _id={token._id} />} />
 
-            <Route path='/training' element={<TrainingComponent />} />
+            <Route path='/training' element={<TrainingComponent token={token.token} _id={token._id} />} />
 
             <Route path='/profile' element={<ProfileComponent token={token?.token} userId={token?._id} />} />
 

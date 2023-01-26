@@ -59,12 +59,12 @@
   justify-content: flex-start;
   align-items: flex-start;
   gap: 1.5rem;
+  max-width: 100%;
 }
 
-.add-program .add-option div {
+.add-program .add-option > div {
   display: flex;
   justify-content: space-between;
-  /* align-items: center; */
   gap: 1rem;
   max-width: 250%;
 }
@@ -73,10 +73,59 @@
   flex-direction: column;
 }
 
+.add-program .add-option div.image-cnt .image-cnt-uploadImages {
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.add-program .add-option div.image-cnt .image-cnt-uploadImages div {
+  margin: 1% 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-program .add-option div.image-cnt .image-cnt-uploadImages > div img {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  object-fit: cover;
+}
+
+.add-program
+  .add-option
+  div.image-cnt
+  .image-cnt-uploadImages
+  > div
+  > input.inputBox-UploadImage-Btn {
+  width: 50px;
+  height: 30px;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #8f8f8f;
+}
+
+.add-program
+  .add-option
+  div.image-cnt
+  .image-cnt-uploadImages
+  > div
+  > input.inputBox-UploadImage-Btn:hover {
+  background-color: #45f3ff;
+}
+
 .add-program .add-option > div > div.image-input-file {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
   max-width: 250%;
 }
 

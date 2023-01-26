@@ -8,7 +8,7 @@ const TrainingImageSchema = new mongoose.Schema({
     thumbnail: {
         type: String
     },
-    trainingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Training' }
+    parentId: String
 },
     { timestamps: true },
 )

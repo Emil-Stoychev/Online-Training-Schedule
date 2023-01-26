@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     },
     image: String,
     ownPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-    trainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Trainings' }],
+    trainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Training' }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     location: String,

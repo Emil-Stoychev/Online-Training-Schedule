@@ -11,10 +11,7 @@ const trainingSchema = new mongoose.Schema({
         enum: ['public', 'friends', 'private'],
         default: 'public'
     },
-    savedCount: {
-        type: Array
-    },
-    // images: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingImage' }]
+    category: { type: mongoose.Schema.Types.ObjectId, ref: 'TrainingCategory' },
 })
 
 const TrainingPrograms = mongoose.model('TrainingPrograms', trainingSchema)
