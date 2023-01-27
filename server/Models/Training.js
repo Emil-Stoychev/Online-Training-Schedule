@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
 
 const trainingSchema = new mongoose.Schema({
-    container: {
-        type: Array,
-    },
+    container: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingCnt' }],
+    mainTitle: String,
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     visible: {
@@ -12,7 +11,9 @@ const trainingSchema = new mongoose.Schema({
         default: 'public'
     },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'TrainingCategory' },
-})
+},
+    { timestamps: true },
+)
 
 const TrainingPrograms = mongoose.model('TrainingPrograms', trainingSchema)
 

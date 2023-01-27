@@ -12,12 +12,12 @@ const userSchema = new mongoose.Schema({
     },
     image: String,
     ownPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-    trainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Training' }],
+    trainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingPrograms' }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     location: String,
     savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
-    savedTrainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Training' }],
+    savedTrainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingPrograms' }],
     chat: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
     releasedDate: String
 })
