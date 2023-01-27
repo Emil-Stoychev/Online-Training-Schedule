@@ -1,22 +1,49 @@
 const { TrainingPrograms } = require('../Models/Training.js')
-const { trainingProgramValidator } = require('../utils/trainingProgramValidator')
-const { getUserById, addNewPostToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
+const { TrainingImage } = require('../Models/TrainingImage.js')
+const { TrainingCategory } = require('../Models/TrainingCategory')
 
-const getAll = async (pageNum) => {
+const { trainingProgramValidator, checkAndMakeCategory } = require('../utils/trainingProgramValidator')
+const { getUserById, addNewTrainingProgramToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
+
+const getById = async (trainingId) => {
     try {
-        return await TrainingPrograms.find({ visible: 'Public' })
-            .sort('-createdOn')
-            .limit(10)
-            .skip(pageNum)
-            .populate('profileImage', ['image', 'username', 'location'])
-
+        return await TrainingPrograms.findById(trainingId)
+            .populate('author', ['image', 'username', 'location'])
+            .populate('category', ['category'])
+            .populate({
+                path: 'container',
+                populate: {
+                    path: 'image',
+                    select: ['thumbnail']
+                }
+            })
     } catch (error) {
         console.error(error)
         return error
     }
 }
 
-const create = async (container, category, userId) => {
+const getFastInfoAboutProgram = async (trainingId) => {
+    try {
+        return await TrainingPrograms.findById(trainingId)
+            .populate('category', ['category'])
+            .populate('container')
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const getFullImage = async (imageId) => {
+    try {
+        return await TrainingImage.findById(imageId).select('image')
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const create = async (mainTitle, container, category, userId) => {
     try {
         let user = await getUserById(userId)
 
@@ -24,9 +51,47 @@ const create = async (container, category, userId) => {
             return { message: "This user doesn't exist" }
         }
 
-        let data = await trainingProgramValidator(container, category, user?._id)
+        let option = false
 
-        return await TrainingPrograms.create(data)
+        if (mainTitle == null && container.length == 0) {
+            option = true
+        } else if (mainTitle != null && mainTitle?.trim() == '') {
+            option = true
+        }
+
+        let categ = await checkAndMakeCategory(category, user?._id, option)
+
+        if (categ?.message) {
+            return categ
+        } else if (option) {
+            return categ
+        }
+
+        let data = await trainingProgramValidator(container, categ[0]?._id, user?._id, mainTitle)
+
+        let newCreatedTrainingProgram = await TrainingPrograms.create(data)
+
+        await addNewTrainingProgramToUser(user, newCreatedTrainingProgram?._id)
+
+        return newCreatedTrainingProgram
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const getAllCategories = async (author) => {
+    try {
+        return await TrainingCategory.find({ author })
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const getTrainingsByCategory = async (category) => {
+    try {
+        return await TrainingPrograms.find({ category })
     } catch (error) {
         console.error(error)
         return error
@@ -34,6 +99,10 @@ const create = async (container, category, userId) => {
 }
 
 module.exports = {
-    getAll,
-    create
+    getById,
+    create,
+    getFullImage,
+    getAllCategories,
+    getTrainingsByCategory,
+    getFastInfoAboutProgram
 }

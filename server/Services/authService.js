@@ -24,33 +24,9 @@ const getUserById = async (userId) => {
 
 const getByOption = async (userId, option) => {
     try {
-        let filteredItems
+        let filteredItems = await User.findById(userId).populate(option)
 
-        if (option == 'ownPosts') {
-            filteredItems = await User.findById(userId).populate('ownPosts')
-
-            return filteredItems.ownPosts
-        } else if (option == 'trainings') {
-            filteredItems = await User.findById(userId).populate('trainings')
-
-            return filteredItems.trainings
-        } else if (option == 'savedPosts') {
-            filteredItems = await User.findById(userId).populate('savedPosts')
-
-            return filteredItems.savedPosts
-        } else if (option == 'savedTrainings') {
-            filteredItems = await User.findById(userId).populate('savedTrainings')
-
-            return filteredItems.savedTrainings
-        } else if (option == 'followers') {
-            filteredItems = await User.findById(userId).populate('followers')
-
-            return filteredItems.followers
-        } else if (option == 'following') {
-            filteredItems = await User.findById(userId).populate('following')
-
-            return filteredItems.following
-        }
+        return filteredItems?.[option]
     } catch (error) {
         return error
     }
@@ -281,6 +257,23 @@ const addNewPostToUser = async (user, postId) => {
     }
 }
 
+const addNewTrainingProgramToUser = async (user, trainingId) => {
+    try {
+        let userInfo = await User.findById(user._id)
+
+        if (!userInfo) {
+            return { message: "User not found!" }
+        }
+
+        userInfo.trainings.push(trainingId)
+        userInfo.save()
+
+        return userInfo
+    } catch (error) {
+        return error
+    }
+}
+
 const deleteAcc = async (password, userId) => {
     try {
         if (!password || password.length < 3 || password.trim() === '') {
@@ -324,5 +317,6 @@ module.exports = {
     toggleFollowPerson,
     removeSavedIdsAfterDeletingPost,
     removePostAfterDeletingPost,
-    deleteAcc
+    deleteAcc,
+    addNewTrainingProgramToUser
 }

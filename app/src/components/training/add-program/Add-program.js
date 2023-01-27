@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './add-program.css'
 
 import * as trainingService from '../../../services/trainingService.js'
@@ -12,15 +12,44 @@ export const AddProgramComponent = ({ token, userId }) => {
         option: true,
         value: ''
     })
+    const [errors, setErrors] = useState(undefined)
+
+    const mainInputTitle = useRef(null)
 
     const onCreateBtnHandler = () => {
-        let data = {
-            container,
-            category
-        }
+        console.log(mainInputTitle?.current?.value);
+        if (category.value.trim() != '') {
+            let data = {
+                mainInputTitle: mainInputTitle?.current?.value,
+                container,
+                category
+            }
 
-        trainingService.createProgram(token, userId, data)
-            .then(res => console.log(res))
+            trainingService.createProgram(token, userId, data)
+                .then(res => {
+                    console.log(res);
+                    if (!res.message) {
+                        mainInputTitle.current = null
+                        setContainer([])
+
+                        if (errors == undefined) {
+                            setErrors(`You have successfully created a ${res?.likes ? 'program' : 'category'}!`)
+
+                            setTimeout(() => {
+                                setErrors(undefined)
+                            }, 3000);
+                        }
+                    } else {
+                        if (errors == undefined) {
+                            setErrors(res.message)
+
+                            setTimeout(() => {
+                                setErrors(undefined)
+                            }, 3000);
+                        }
+                    }
+                })
+        }
     }
 
     return (
@@ -34,6 +63,11 @@ export const AddProgramComponent = ({ token, userId }) => {
             />
 
             <div className='add-option'>
+
+                {container.length > 0 && <input minLength='3' maxLength='30' ref={mainInputTitle} type='text' placeholder='Main title' />}
+
+                {errors != undefined && <h3>{errors}</h3>}
+
                 {container.length > 0 &&
                     container.map((x) =>
                         <InputOptionsComponent

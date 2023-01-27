@@ -3,21 +3,17 @@ import { CalendarComponent } from './calendar/Calendar'
 import { NotesComponent } from './notes/Notes'
 import './training.css'
 
-export const TrainingComponent = ({ token, userId }) => {
+export const TrainingComponent = ({ token, _id }) => {
 
     return (
         <>
             <CalendarComponent />
 
-            <AddProgramComponent token={token} userId={userId} />
+            <AddProgramComponent token={token} userId={_id} />
 
             <section className='training-notes'>
 
-                <NotesComponent />
-
-                <NotesComponent />
-
-                <NotesComponent />
+                <NotesComponent userId={_id} />
 
             </section>
 

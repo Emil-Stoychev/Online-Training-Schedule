@@ -67,7 +67,7 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
                 current?.option == 'description'
                     ?
                     <div>
-                        <textarea minLength='3' maxLength='100' onChange={(e) => cntValueHandler(e, current?.id, current?.option)} placeholder='More info here'>{container[current?.id]?.value}</textarea>
+                        <textarea minLength='3' maxLength='350' onChange={(e) => cntValueHandler(e, current?.id, current?.option)} placeholder='More info here'>{container[current?.id]?.value}</textarea>
                         <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                     </div>
                     :
