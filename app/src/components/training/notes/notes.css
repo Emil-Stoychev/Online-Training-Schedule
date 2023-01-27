@@ -1,3 +1,16 @@
+.notes-category-main-header {
+  text-align: center;
+  font-size: 24px;
+  padding: 2rem;
+  user-select: none;
+}
+
+.notes-category-header-hr {
+  margin-bottom: 1.5rem;
+}
+
+
+
 section.training-notes {
   display: flex;
   justify-content: flex-start;
@@ -38,6 +51,7 @@ section.training-notes .notes-category>h2 {
   justify-content: space-between;
   align-items: center;
   padding: 0 5rem;
+  cursor: pointer;
 }
 
 section.training-notes .notes-category>h2 i {
@@ -89,6 +103,7 @@ section.training-notes .notes>p {
 section.training-notes .notes>.notes-more {
   display: flex;
   justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: column;
   width: 75%;
   gap: 1rem;
@@ -137,6 +152,10 @@ section.training-notes .notes>.notes-more p {
   font-size: 14px;
 }
 
+section.training-notes .notes>.notes-more .timeForExercise {
+  font-size: 16px;
+}
+
 .notes-private-p {
   background-color: red;
 }
@@ -170,6 +189,10 @@ section.training-notes .notes>.notes-more p {
 }
 
 @media screen and (max-width: 730px) {
+  section.training-notes .notes>.notes-more h2 {
+    padding-left: 1.5rem;
+  }
+
   section.training-notes .notes>.notes-more p {
     padding-left: 3rem;
   }
@@ -178,5 +201,9 @@ section.training-notes .notes>.notes-more p {
 @media screen and (max-width: 555px) {
   section.training-notes .notes-category>h2 {
     padding: 0 2rem;
+  }
+
+  section.training-notes .notes>.notes-more h2 {
+    padding-left: 1rem;
   }
 }

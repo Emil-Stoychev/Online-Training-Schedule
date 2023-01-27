@@ -12,6 +12,7 @@
   border-radius: 1rem;
   color: white;
   margin: 5% auto 5% auto;
+  position: relative;
 }
 
 .add-program .last-btn {
@@ -19,14 +20,22 @@
 }
 
 .add-program .add-program-buttons {
+  position: sticky;
+  top: 0;
   display: flex;
   gap: 1.5rem;
+  background-color: #28292d;
+  padding: 1rem;
 }
 
 .add-program input,
 .add-program textarea {
   border-radius: 0.3rem;
   padding-left: 0.5rem;
+}
+
+.add-program > input:first-child {
+  width: 100%;
 }
 
 .add-program button,
