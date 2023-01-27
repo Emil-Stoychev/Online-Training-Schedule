@@ -7,10 +7,8 @@ export const OwnTrainingsComponent = ({ user, navigate, optionWord }) => {
                 :
                 <>
                     {user?.[optionWord]?.map((x, i) =>
-                        <div key={x._id + `${i}`}>
-                            <img src={x?.images[0] || ''} />
-
-                            <h2>{x?.description?.slice(0, 20) + '...'}</h2>
+                        <div key={x._id + `${i}`} onClick={() => navigate('/training-post/' + x._id)}>
+                            <h2>{x?.mainTitle?.slice(0, 20) + '...'}</h2>
                         </div>
                     )}
                 </>
