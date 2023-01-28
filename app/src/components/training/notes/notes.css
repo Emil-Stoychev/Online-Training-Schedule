@@ -136,12 +136,6 @@ section.training-notes .notes>.notes-more>.notes-more-buttons>i:hover {
   color: #45f3ff;
 }
 
-section.training-notes .notes>.notes-more>.notes-more-buttons>i:last-child:hover {
-  transform: scale(1.1);
-  background-color: rgba(245, 222, 179, 0.103);
-  color: red;
-}
-
 section.training-notes .notes>.notes-more h2 {
   padding-left: 3rem;
   font-size: 18px;

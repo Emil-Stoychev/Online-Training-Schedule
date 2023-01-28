@@ -64,8 +64,7 @@
   color: #45f3ff;
 }
 
-.training-post .training-post-btns > i:nth-child(1):hover,
-.training-post .training-post-btns > i:nth-child(3):hover {
+.training-post .training-post-btns > i:hover {
   color: red;
 }
 
