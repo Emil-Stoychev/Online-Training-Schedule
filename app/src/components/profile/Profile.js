@@ -93,8 +93,12 @@ export const ProfileComponent = ({ setToken, token, userId }) => {
                     <ul role='list'>
                         <li onClick={() => changeView('ownPosts')} className={viewOptions.ownPosts ? 'active' : ''}>Posts</li>
                         <li onClick={() => changeView('trainings')} className={viewOptions.trainings ? 'active' : ''}>Trainings</li>
-                        <li onClick={() => changeView('savedPosts')} className={viewOptions.savedPosts ? 'active' : ''}>Saved</li>
-                        <li onClick={() => changeView('savedTrainings')} className={viewOptions.savedTrainings ? 'active' : ''}>Saved Trainings</li>
+                        {user?._id == userId &&
+                            <>
+                                <li onClick={() => changeView('savedPosts')} className={viewOptions.savedPosts ? 'active' : ''}>Saved</li>
+                                <li onClick={() => changeView('savedTrainings')} className={viewOptions.savedTrainings ? 'active' : ''}>Saved Trainings</li>
+                            </>
+                        }
                     </ul>
                 </article>
 
