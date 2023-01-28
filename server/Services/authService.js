@@ -22,6 +22,14 @@ const getUserById = async (userId) => {
     }
 }
 
+const getAllUsersByIds = async (ids) => {
+    try {
+        return await User.find({ _id: { $in: [ids] } })
+    } catch (error) {
+        return error
+    }
+}
+
 const getByOption = async (userId, option) => {
     try {
         let filteredItems = await User.findById(userId).populate(option)
@@ -48,6 +56,19 @@ const removeSavedIdsAfterDeletingPost = async (ids, postId) => {
             x.savedPosts = x?.savedPosts?.filter(x => x != postId)
 
             x.save()
+        })
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const removeSavedIdsAfterDeletingTrainingProgram = async (ids, trainingId) => {
+    try {
+        let allUsers = await User.find({ _id: [...ids] })
+
+        allUsers.forEach(async (x) => {
+            await x.update({ $pull: { savedTrainings: trainingId } });
         })
     } catch (error) {
         console.error(error)
@@ -318,5 +339,7 @@ module.exports = {
     removeSavedIdsAfterDeletingPost,
     removePostAfterDeletingPost,
     deleteAcc,
-    addNewTrainingProgramToUser
+    addNewTrainingProgramToUser,
+    getAllUsersByIds,
+    removeSavedIdsAfterDeletingTrainingProgram
 }

@@ -29,6 +29,28 @@ export const getFastInfoAboutProgram = (trainingId) => {
         .then(res => res.json())
 }
 
+export const toggleLikeTrainingProgram = (trainingId, token) => {
+    return fetch(`${URL}/toggleLike/${trainingId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ trainingId, token })
+    })
+        .then(res => res.json())
+}
+
+export const deleteTrainingProgram = (trainingId, token) => {
+    return fetch(`${URL}/delete/${trainingId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token })
+    })
+        .then(res => res.json())
+}
+
 // CATEGORIES
 
 export const getAllCategories = (authorId) => {

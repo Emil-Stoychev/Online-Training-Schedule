@@ -27,6 +27,18 @@ router.post('/create', authMiddleware, async (req, res) => {
     res.json(createdProgram)
 })
 
+router.post('/toggleLike/:trainingId', authMiddleware, async (req, res) => {
+    let toggleLikeProgram = await trainingService.toggleLike(req.params.trainingId, req.params?.user?._id) || []
+
+    res.json(toggleLikeProgram)
+})
+
+router.delete('/delete/:trainingId', authMiddleware, async (req, res) => {
+    let deletedProgram = await trainingService.deleteProgram(req.params.trainingId, req.params.user?._id) || { message: "404 Not found!" }
+
+    res.json(deletedProgram)
+})
+
 
 
 router.get('/categories/:author', async (req, res) => {

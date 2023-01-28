@@ -48,7 +48,6 @@ export const ShowFastInfoAboutProgram = ({ y }) => {
 
                         <div className='notes-more-buttons'>
                             <i className="fa-solid fa-eye" onClick={() => navigate(`/training-post/${y?._id}`)}></i>
-                            <i className="fa-solid fa-trash"></i>
                         </div>
 
                         {trainings?.container &&

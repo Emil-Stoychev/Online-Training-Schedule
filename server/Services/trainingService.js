@@ -3,7 +3,8 @@ const { TrainingImage } = require('../Models/TrainingImage.js')
 const { TrainingCategory } = require('../Models/TrainingCategory')
 
 const { trainingProgramValidator, checkAndMakeCategory } = require('../utils/trainingProgramValidator')
-const { getUserById, addNewTrainingProgramToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
+const { getUserById, removeSavedIdsAfterDeletingTrainingProgram, addNewTrainingProgramToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
+const { TrainingCnt } = require('../Models/TrainingCnt.js')
 
 const getById = async (trainingId) => {
     try {
@@ -48,7 +49,7 @@ const create = async (mainTitle, container, category, userId) => {
         let user = await getUserById(userId)
 
         if (!user) {
-            return { message: "This user doesn't exist" }
+            return { message: "This user doesn't exist!" }
         }
 
         let option = false
@@ -80,6 +81,39 @@ const create = async (mainTitle, container, category, userId) => {
     }
 }
 
+const toggleLike = async (trainingId, userId) => {
+    try {
+        let user = await getUserById(userId)
+
+        if (!user) {
+            return { message: "This user doesn't exist!" }
+        }
+
+        let program = await TrainingPrograms.findById(trainingId)
+
+        if (!program) {
+            return { message: "This program doesn't exist!" }
+        }
+
+        if (program?.author == userId) {
+            return { message: 'You cannot like/unlike this program!' }
+        }
+
+        if (program?.likes?.includes(user._id)) {
+            await program.update({ $pull: { likes: user._id } });
+            await user.update({ $pull: { savedTrainings: program._id } });
+        } else {
+            await program.update({ $push: { likes: user._id } });
+            await user.update({ $push: { savedTrainings: program._id } });
+        }
+
+        return { trainingId, userId }
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 const getAllCategories = async (author) => {
     try {
         return await TrainingCategory.find({ author })
@@ -98,11 +132,56 @@ const getTrainingsByCategory = async (category) => {
     }
 }
 
+const deleteProgram = async (trainingId, userId) => {
+    try {
+        let user = await getUserById(userId)
+
+        if (!user) {
+            return { message: "This user doesn't exist!" }
+        }
+
+        let program = await TrainingPrograms.findById(trainingId)
+
+        if (!program) {
+            return { message: "This program doesn't exist!" }
+        }
+
+        if (program?.author != userId) {
+            return { message: 'You cannot delete this program!' }
+        }
+
+        await removeSavedIdsAfterDeletingTrainingProgram(program.likes, program._id)
+
+        let imagesIds = []
+
+        let allCnts = await TrainingCnt.find({ _id: [...program.container] })
+
+        allCnts.forEach(x => {
+            imagesIds.push(...x.image)
+        })
+
+        await TrainingCnt.deleteMany({ _id: [...program.container] })
+
+        await TrainingImage.deleteMany({ _id: [...imagesIds] })
+
+        await user.update({ $pull: { trainings: program._id } });
+
+        await TrainingPrograms.findByIdAndDelete(program._id)
+
+        return {}
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 module.exports = {
     getById,
     create,
     getFullImage,
     getAllCategories,
     getTrainingsByCategory,
-    getFastInfoAboutProgram
+    getFastInfoAboutProgram,
+    toggleLike,
+    deleteProgram
 }
