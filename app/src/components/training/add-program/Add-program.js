@@ -6,7 +6,7 @@ import * as trainingService from '../../../services/trainingService.js'
 import { InputOptionsComponent } from './InputOptions';
 import { ProgramBtnsAdd } from './ProgramBtnsAdd';
 
-export const AddProgramComponent = ({ token, userId }) => {
+export const AddProgramComponent = ({ token, userId, setCategories }) => {
     const [container, setContainer] = useState([])
     const [category, setCategory] = useState({
         option: true,
@@ -27,10 +27,15 @@ export const AddProgramComponent = ({ token, userId }) => {
 
             trainingService.createProgram(token, userId, data)
                 .then(res => {
-                    console.log(res);
                     if (!res.message) {
                         mainInputTitle.current = null
                         setContainer([])
+
+                        if (!res?.likes) {
+                            setCategories(state => [...state, res])
+                        } else {
+                            setCategories(state => state.find(x => x._id == res.category._id) ? state : [...state, res.category])
+                        }
 
                         if (errors == undefined) {
                             setErrors(`You have successfully created a ${res?.likes ? 'program' : 'category'}!`)
@@ -64,9 +69,9 @@ export const AddProgramComponent = ({ token, userId }) => {
 
             <div className='add-option'>
 
-                {container.length > 0 && <input minLength='3' maxLength='30' ref={mainInputTitle} type='text' placeholder='Main title' />}
-
                 {errors != undefined && <h3>{errors}</h3>}
+
+                {container.length > 0 && <input minLength='3' maxLength='30' ref={mainInputTitle} type='text' placeholder='Main title' />}
 
                 {container.length > 0 &&
                     container.map((x) =>

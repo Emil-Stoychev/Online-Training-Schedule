@@ -51,25 +51,6 @@ const getById = async (postId) => {
         let currPost = await Post.findById(postId)
             .populate('profileImage', ['image', 'username', 'location'])
             || { message: "404 Not found!" }
-
-        // let comments = await Comment.find()
-
-        // product.comments = await Comment.find({ _id: product.comments })
-
-        // product.comments = product.comments.map(x => {
-        //     if (x.nestedComments.length > 0) {
-        //         x.nestedComments = comments.map(y => {
-        //             if (x.nestedComments.includes(y._id.toString())) {
-        //                 return y
-        //             }
-        //         })
-        //     }
-
-        //     x.nestedComments = x.nestedComments.filter(x => x != null)
-
-        //     return x
-        // })
-
         return currPost
     } catch (error) {
         return error

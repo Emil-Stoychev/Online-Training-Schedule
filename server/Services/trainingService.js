@@ -68,13 +68,13 @@ const create = async (mainTitle, container, category, userId) => {
             return categ
         }
 
-        let data = await trainingProgramValidator(container, categ[0]?._id, user?._id, mainTitle)
+        let data = await trainingProgramValidator(container, categ?._id, user?._id, mainTitle)
 
         let newCreatedTrainingProgram = await TrainingPrograms.create(data)
 
         await addNewTrainingProgramToUser(user, newCreatedTrainingProgram?._id)
 
-        return newCreatedTrainingProgram
+        return await TrainingPrograms.findById(newCreatedTrainingProgram._id).populate('category')
     } catch (error) {
         console.error(error)
         return error
@@ -150,7 +150,7 @@ const deleteProgram = async (trainingId, userId) => {
             return { message: 'You cannot delete this program!' }
         }
 
-        await removeSavedIdsAfterDeletingTrainingProgram(program.likes, program._id)
+        await removeSavedIdsAfterDeletingTrainingProgram(program.likes, [program._id])
 
         let imagesIds = []
 
@@ -175,6 +175,64 @@ const deleteProgram = async (trainingId, userId) => {
     }
 }
 
+const deleteCategory = async (categoryId, userId) => {
+    try {
+        let user = await getUserById(userId)
+
+        if (!user) {
+            return { message: "This user doesn't exist!" }
+        }
+
+        let category = await TrainingCategory.findById(categoryId)
+
+        if (!category) {
+            return { message: "This category doesn't exist!" }
+        }
+
+        if (category?.author != userId) {
+            return { message: 'You cannot delete this category!' }
+        }
+
+        let allTrainingsByCategory = await TrainingPrograms.find({ category: categoryId })
+
+        if (allTrainingsByCategory.length > 0) {
+
+            let programsIds = []
+            let programsIdsLikes = []
+            let allCntsIds = []
+            let imagesIds = []
+
+
+            allTrainingsByCategory.forEach(x => {
+                programsIds.push(x._id)
+                programsIdsLikes.push(...x?.likes)
+                allCntsIds.push(...x?.container)
+            })
+
+            let allCnts = await TrainingCnt.find({ _id: [...allCntsIds] })
+
+            allCnts.forEach(x => {
+                imagesIds.push(...x.image)
+            })
+
+            await removeSavedIdsAfterDeletingTrainingProgram(programsIdsLikes, programsIds)
+
+            await TrainingCnt.deleteMany({ _id: [...allCntsIds] })
+
+            await TrainingImage.deleteMany({ _id: [...imagesIds] })
+
+            await TrainingPrograms.deleteMany({ _id: [...programsIds] })
+
+            await user.update({ $pullAll: { trainings: [...programsIds] } })
+        }
+
+        return await TrainingCategory.findByIdAndDelete(categoryId)
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 module.exports = {
     getById,
     create,
@@ -183,5 +241,6 @@ module.exports = {
     getTrainingsByCategory,
     getFastInfoAboutProgram,
     toggleLike,
-    deleteProgram
+    deleteProgram,
+    deleteCategory
 }

@@ -31,7 +31,7 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer }) => {
 
                 {category.option
                     ?
-                    <input value={category.value} onChange={(e) => categoryValue(e)} type='text' placeholder='Add category name' />
+                    <input minLength='1' maxLength='21' value={category.value} onChange={(e) => categoryValue(e)} type='text' placeholder='Add category name' />
                     :
                     <select onChange={(e) => categoryValue(e)}>
                         <option>Body</option>

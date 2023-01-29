@@ -4,8 +4,18 @@ import { format } from "timeago.js";
 import { ShowFastInfoAboutProgram } from "./ShowFastProgramInfo.js";
 
 
-export const ShowPrograms = ({ x, userId }) => {
+export const ShowPrograms = ({ token, x, userId, setCategories }) => {
     const [trainings, setTrainings] = useState([])
+    const [toggleDelCat, setToggleDelCat] = useState(false)
+
+    const deleteCategory = (categoryId) => {
+        trainingService.deleteCategory(categoryId, token)
+            .then(res => {
+                if (!res.message) {
+                    setCategories(state => state.filter(x => x._id != categoryId))
+                }
+            })
+    }
 
     const getTrainingsByCategory = (categoryId) => {
         if (trainings.length == 0) {
@@ -24,7 +34,23 @@ export const ShowPrograms = ({ x, userId }) => {
 
     return (
         <>
-            <h2 onClick={() => getTrainingsByCategory(x?._id)} >{x?.category} <i className="fa-solid fa-eye"></i></h2>
+            <h2>
+                {!toggleDelCat &&
+                    <>
+                        {x?.category}
+                        <i onClick={() => getTrainingsByCategory(x?._id)} className="fa-solid fa-eye"></i>
+                    </>
+                }
+                {toggleDelCat
+                    ?
+                    <>
+                        <p>Are you sure, this will delete all items inside!</p>
+                        <i onClick={() => setToggleDelCat(false)}>X</i>
+                        <i onClick={() => deleteCategory(x?._id)}>✓</i>
+                    </>
+                    :
+                    <i onClick={() => setToggleDelCat(true)} className="fa-solid fa-trash trashBtn"></i>}
+            </h2>
             <hr className='notes-category-header-hr' />
 
             {trainings.length > 0 &&

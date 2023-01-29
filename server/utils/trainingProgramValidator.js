@@ -82,7 +82,7 @@ const checkAndMakeCategory = async (categ, userId, option) => {
         if (option) {
             return { message: 'This category is already exist!' }
         } else {
-            return foundCategory
+            return foundCategory[0]
         }
     }
 }

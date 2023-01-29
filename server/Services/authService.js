@@ -68,7 +68,7 @@ const removeSavedIdsAfterDeletingTrainingProgram = async (ids, trainingId) => {
         let allUsers = await User.find({ _id: [...ids] })
 
         allUsers.forEach(async (x) => {
-            await x.update({ $pull: { savedTrainings: trainingId } });
+            await x.update({ $pull: { savedTrainings: { $in: [...trainingId] } } });
         })
     } catch (error) {
         console.error(error)

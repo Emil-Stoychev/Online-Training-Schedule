@@ -62,3 +62,14 @@ export const getTrainingsByCategory = (categoryId) => {
     return fetch(`${URL}/trainingsByCategory/${categoryId}`)
         .then(res => res.json())
 }
+
+export const deleteCategory = (categoryId, token) => {
+    return fetch(`${URL}/deleteCategory/${categoryId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ token })
+    })
+        .then(res => res.json())
+}
