@@ -57,6 +57,11 @@ section.training-notes .notes-category>h2 {
   width: 90%;
 }
 
+section.training-notes .notes-category>h2 p {
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
 section.training-notes .notes-category>h2 i {
   position: absolute;
   font-size: 42px;

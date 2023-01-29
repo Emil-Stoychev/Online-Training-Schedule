@@ -53,6 +53,12 @@ router.get('/trainingsByCategory/:categoryId', async (req, res) => {
     res.json(categories?.length > 0 ? categories : { message: "Empty" })
 })
 
+router.post('/editCategoryName/:categoryId', authMiddleware, async (req, res) => {
+    let editedCategory = await trainingService.editCategoryName(req.params.categoryId, req.params?.user?._id, req.body.value) || []
+
+    res.json(editedCategory)
+})
+
 router.delete('/deleteCategory/:categoryId', authMiddleware, async (req, res) => {
     let deletedProgram = await trainingService.deleteCategory(req.params.categoryId, req.params.user?._id) || { message: "404 Not found!" }
 

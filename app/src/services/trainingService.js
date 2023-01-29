@@ -63,6 +63,17 @@ export const getTrainingsByCategory = (categoryId) => {
         .then(res => res.json())
 }
 
+export const editCategoryName = (categoryId, value, token) => {
+    return fetch(`${URL}/editCategoryName/${categoryId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ categoryId, token, value })
+    })
+        .then(res => res.json())
+}
+
 export const deleteCategory = (categoryId, token) => {
     return fetch(`${URL}/deleteCategory/${categoryId}`, {
         method: "DELETE",

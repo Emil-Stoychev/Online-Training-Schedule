@@ -114,6 +114,37 @@ const toggleLike = async (trainingId, userId) => {
     }
 }
 
+const editCategoryName = async (categoryId, userId, value) => {
+    try {
+        let user = await getUserById(userId)
+
+        if (!user) {
+            return { message: "This user doesn't exist!" }
+        }
+
+        let category = await TrainingCategory.findById(categoryId)
+
+        if (!category) {
+            return { message: "This category doesn't exist!" }
+        }
+
+        if (category?.author != userId) {
+            return { message: 'You cannot change this category!' }
+        }
+
+        if (value.trim() == '' && value.length < 3) {
+            return { message: 'Category must have at least 3 characters!' }
+        }
+
+        await category.update({ category: value })
+
+        return {}
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 const getAllCategories = async (author) => {
     try {
         return await TrainingCategory.find({ author })
@@ -242,5 +273,6 @@ module.exports = {
     getFastInfoAboutProgram,
     toggleLike,
     deleteProgram,
-    deleteCategory
+    deleteCategory,
+    editCategoryName
 }

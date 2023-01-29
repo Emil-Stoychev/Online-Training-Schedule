@@ -7,6 +7,10 @@ import { ShowFastInfoAboutProgram } from "./ShowFastProgramInfo.js";
 export const ShowPrograms = ({ token, x, userId, setCategories }) => {
     const [trainings, setTrainings] = useState([])
     const [toggleDelCat, setToggleDelCat] = useState(false)
+    const [toggleEditCat, setToggleEditCat] = useState({
+        option: false,
+        value: ''
+    })
 
     const deleteCategory = (categoryId) => {
         trainingService.deleteCategory(categoryId, token)
@@ -32,13 +36,52 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
         }
     }
 
+    const onChangeEditCatHandler = (e) => {
+        setToggleEditCat(state => ({
+            ...state,
+            value: e.target.value
+        }))
+    }
+
+    const editCategoryName = (categoryId) => {
+        if (toggleEditCat.value.trim() != '' && toggleEditCat.value.length > 3) {
+            trainingService.editCategoryName(categoryId, toggleEditCat.value, token)
+                .then(res => {
+                    if (!res.message) {
+                        setCategories(state => state.map(x => {
+                            if (x._id == categoryId) {
+                                x.category = toggleEditCat.value
+                            }
+
+                            return x
+                        }))
+
+                        setToggleEditCat({ option: false, value: '' })
+                    }
+                })
+        }
+
+    }
+
     return (
         <>
             <h2>
                 {!toggleDelCat &&
                     <>
-                        {x?.category}
-                        <i onClick={() => getTrainingsByCategory(x?._id)} className="fa-solid fa-eye"></i>
+                        <p className="fa-solid fa-pen-to-square" onClick={() => setToggleEditCat({ option: true, value: x.category })} />
+                        {toggleEditCat.option
+                            ?
+                            <>
+                                <input value={toggleEditCat.value} onChange={(e) => onChangeEditCatHandler(e)} />
+                                <button onClick={() => setToggleEditCat({ option: false, value: '' })}>X</button>
+                                <button onClick={() => editCategoryName(x._id)}>✓</button>
+                            </>
+                            :
+                            <>
+                                {x?.category}
+                                <i onClick={() => getTrainingsByCategory(x?._id)} className="fa-solid fa-eye"></i>
+                            </>
+                        }
                     </>
                 }
                 {toggleDelCat
@@ -49,7 +92,8 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
                         <i onClick={() => deleteCategory(x?._id)}>✓</i>
                     </>
                     :
-                    <i onClick={() => setToggleDelCat(true)} className="fa-solid fa-trash trashBtn"></i>}
+                    !toggleEditCat.option && <i onClick={() => setToggleDelCat(true)} className="fa-solid fa-trash trashBtn"></i>
+                }
             </h2>
             <hr className='notes-category-header-hr' />
 
