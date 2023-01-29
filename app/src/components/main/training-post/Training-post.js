@@ -85,14 +85,15 @@ export const TrainingPostComponent = ({ token, _id }) => {
 
             <div className='training-post-btns'>
                 <i onClick={() => toggleLikeTrainingProgram(training?._id)} className="fa-solid fa-heart">{training?.likes?.length}</i>
-                {training?.author?._id == _id &&
+                {training?.author?._id == _id ?
                     !toggleDelete
-                    ? <i onClick={() => setToggleDelete(true)} className="fa-solid fa-trash trashBtn"></i>
-                    :
-                    <>
-                        <button onClick={() => deleteTrainingProgram(training?._id)}>✓</button>
-                        <button onClick={() => setToggleDelete(false)}>X</button>
-                    </>}
+                        ? <i onClick={() => setToggleDelete(true)} className="fa-solid fa-trash trashBtn"></i>
+                        :
+                        <>
+                            <button onClick={() => deleteTrainingProgram(training?._id)}>✓</button>
+                            <button onClick={() => setToggleDelete(false)}>X</button>
+                        </>
+                    : ''}
             </div>
 
             <div className='training-post-main'>
