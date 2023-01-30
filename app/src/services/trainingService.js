@@ -40,6 +40,28 @@ export const toggleLikeTrainingProgram = (trainingId, token) => {
         .then(res => res.json())
 }
 
+export const editCntValue = (value, cntId, token) => {
+    return fetch(`${URL}/editCntValue/${cntId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ value, cntId, token })
+    })
+        .then(res => res.json())
+}
+
+export const updateImagesFromTrainingProgram = (allImages, idsForDeleting, trainingId, token, cntId) => {
+    return fetch(`${URL}/editImagesFromTrainingProgram/${trainingId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ allImages, idsForDeleting, trainingId, token, cntId })
+    })
+        .then(res => res.json())
+}
+
 export const deleteTrainingProgram = (trainingId, token) => {
     return fetch(`${URL}/delete/${trainingId}`, {
         method: "DELETE",

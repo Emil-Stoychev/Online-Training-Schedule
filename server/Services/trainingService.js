@@ -2,7 +2,7 @@ const { TrainingPrograms } = require('../Models/Training.js')
 const { TrainingImage } = require('../Models/TrainingImage.js')
 const { TrainingCategory } = require('../Models/TrainingCategory')
 
-const { trainingProgramValidator, checkAndMakeCategory } = require('../utils/trainingProgramValidator')
+const { trainingProgramValidator, checkAndMakeCategory, createImages } = require('../utils/trainingProgramValidator')
 const { getUserById, removeSavedIdsAfterDeletingTrainingProgram, addNewTrainingProgramToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
 const { TrainingCnt } = require('../Models/TrainingCnt.js')
 
@@ -145,6 +145,60 @@ const editCategoryName = async (categoryId, userId, value) => {
     }
 }
 
+const editCntValue = async (cntValue, userId, cntId) => {
+    try {
+        let user = await getUserById(userId)
+
+        if (!user) {
+            return { message: "This user doesn't exist!" }
+        }
+
+        let currCnt = await TrainingCnt.findById(cntId)
+
+        if (!currCnt) {
+            return { message: "This value doesn't exist!" }
+        }
+
+        if (cntValue.trim() == '' && cntValue.length < 3) {
+            return { message: 'Value must be at least 3 characters!' }
+        }
+
+        await currCnt.update({ value: cntValue })
+
+        return cntValue
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
+const editImagesFromTrainingProgram = async (allImages, idsForDeleting, userId, trainingId, cntId) => {
+    try {
+        let curr = {
+            image: allImages.filter(x => x?.new == true)
+        }
+
+        let user = await getUserById(userId)
+
+        if (!user) {
+            return { message: "This user doesn't exist!" }
+        }
+
+        let training = await TrainingPrograms.findById(trainingId)
+
+        if (!training) {
+            return { message: "This training doesn't exist!" }
+        }
+
+        await TrainingImage.deleteMany({ _id: [...idsForDeleting] })
+
+        return await createImages(curr, userId, cntId, idsForDeleting)
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 const getAllCategories = async (author) => {
     try {
         return await TrainingCategory.find({ author })
@@ -274,5 +328,7 @@ module.exports = {
     toggleLike,
     deleteProgram,
     deleteCategory,
-    editCategoryName
+    editCategoryName,
+    editCntValue,
+    editImagesFromTrainingProgram
 }

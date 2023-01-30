@@ -83,6 +83,11 @@
   padding: 0rem 1rem;
 }
 
+.training-post .training-post-main > h2 > i,
+.training-post .training-post-main > p > i {
+  cursor: pointer;
+}
+
 .training-post .training-post-main > p {
   padding: 0rem 2rem 0rem 2rem;
 }
@@ -132,6 +137,35 @@
   transform: scale(1.2);
 }
 
+.trainingProgramEditBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+}
+
+.trainingProgramEditBtns > button {
+  padding: 0 2rem;
+  font-size: 14px;
+  margin: 0 auto;
+}
+
+.trainingProgramEditInput {
+  width: 300px;
+}
+
+.trainingProgramEditTextArea {
+  width: 750px;
+  min-height: 100px;
+  max-height: 150px;
+  max-width: 750px;
+  min-width: 200px;
+}
+
+.liked {
+  color: red;
+}
+
 @media screen and (max-width: 1200px) {
   .training-post {
     width: 95%;
@@ -143,6 +177,21 @@
 
   .training-post .training-post-full-image {
     width: 90%;
+  }
+
+  .trainingProgramEditBtns {
+    width: 20%;
+  }
+}
+
+@media screen and (max-width: 840px) {
+  .trainingProgramEditTextArea {
+    width: 500px;
+    max-width: 500px;
+  }
+
+  .trainingProgramEditBtns {
+    width: 30%;
   }
 }
 
@@ -168,6 +217,21 @@
   }
 }
 
+@media screen and (max-width: 680px) {
+  .trainingProgramEditTextArea {
+    width: 350px;
+    max-width: 350px;
+  }
+
+  .trainingProgramEditBtns {
+    width: 45%;
+  }
+
+  .training-post .training-post-main > p {
+    padding: 0rem 1rem 0rem 1rem;
+  }
+}
+
 @media screen and (max-width: 430px) {
   .training-post .training-post-main .training-post-main-images {
     justify-content: center;
@@ -175,5 +239,42 @@
 
   .training-post .training-post-full-image {
     width: 85%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .trainingProgramEditTextArea {
+    width: 250px;
+    max-width: 250px;
+  }
+
+  .trainingProgramEditBtns {
+    width: 60%;
+  }
+
+  .training-post .training-post-main > p {
+    padding: 0rem;
+  }
+
+  .trainingProgramEditInput {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .trainingProgramEditTextArea {
+    min-width: 100px;
+    max-width: 200px;
+  }
+
+  .trainingProgramEditBtns {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 250px) {
+  .trainingProgramEditTextArea {
+    min-width: 50px;
+    max-width: 150px;
   }
 }

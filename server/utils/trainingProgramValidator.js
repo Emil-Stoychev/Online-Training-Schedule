@@ -9,37 +9,7 @@ const trainingProgramValidator = async (container, categoryId, userId, mainTitle
         let curr = Object.values(x)[0]
 
         if (curr?.option == 'image') {
-            let ids = []
-
-            await Promise.all(curr?.image.map(async (y) => {
-                const buffer = Buffer.from(y?.data.split(";base64,").pop(), "base64");
-
-                let id = await sharp(buffer)
-                    .resize(120, 120, { fit: "inside" })
-                    .toBuffer()
-                    .then(async (thumbnail) => {
-                        return TrainingImage.create({
-                            image: y?.data,
-                            thumbnail: `data:image/jpeg;base64,${thumbnail.toString("base64")}`,
-                            author: userId,
-                            parentId: curr?.id,
-                        })
-                            .then(res => {
-                                return res?._id
-                            })
-                    });
-
-                ids.push(id)
-            }))
-
-            return await TrainingCnt.create({
-                author: userId,
-                image: [...ids],
-                option: 'image'
-            })
-                .then(res => {
-                    return res?._id
-                })
+            await createImages(curr, userId, undefined)
         }
         return await TrainingCnt.create({
             author: userId,
@@ -50,10 +20,6 @@ const trainingProgramValidator = async (container, categoryId, userId, mainTitle
             })
     }))
 
-    // if (!curr?.value || curr?.value.length < 3 || curr?.value.trim() === '') {
-    //     return { message: `${curr?.option} must be at least 3 characters!` }
-    // }
-
     let data = {
         container: [...container],
         category: categoryId,
@@ -62,6 +28,57 @@ const trainingProgramValidator = async (container, categoryId, userId, mainTitle
     }
 
     return data
+}
+
+async function createImages(curr, userId, cntId, idsForDeleting) {
+    let ids = []
+
+    await Promise.all(curr?.image.map(async (y) => {
+        let opt = y?.data ? y?.data.split(";base64,").pop() : y?.thumbnail.split(";base64,").pop()
+
+        const buffer = Buffer.from(opt, "base64")
+
+        let id = await sharp(buffer)
+            .resize(120, 120, { fit: "inside" })
+            .toBuffer()
+            .then(async (thumbnail) => {
+                return TrainingImage.create({
+                    image: y?.data,
+                    thumbnail: `data:image/jpeg;base64,${thumbnail.toString("base64")}`,
+                    author: userId,
+                })
+                    .then(res => {
+                        return res?._id
+                    })
+            });
+
+        ids.push(id)
+    }))
+
+    if (cntId == undefined) {
+        return await TrainingCnt.create({
+            author: userId,
+            image: [...ids],
+            option: 'image',
+        })
+            .then(res => {
+                return res?._id
+            })
+    } else {
+        let currCnt = await TrainingCnt.findById(cntId)
+
+        currCnt.image = idsForDeleting.map(x => {
+            if (!currCnt.image.includes(x)) {
+                return x
+            }
+        })
+
+        currCnt.image = [...currCnt.image, ids]
+
+        currCnt.save()
+
+        return currCnt
+    }
 }
 
 const checkAndMakeCategory = async (categ, userId, option) => {
@@ -91,5 +108,6 @@ const checkAndMakeCategory = async (categ, userId, option) => {
 
 module.exports = {
     trainingProgramValidator,
-    checkAndMakeCategory
+    checkAndMakeCategory,
+    createImages
 }

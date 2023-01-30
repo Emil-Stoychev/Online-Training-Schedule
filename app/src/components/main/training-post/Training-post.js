@@ -84,7 +84,7 @@ export const TrainingPostComponent = ({ token, _id }) => {
             <hr />
 
             <div className='training-post-btns'>
-                <i onClick={() => toggleLikeTrainingProgram(training?._id)} className="fa-solid fa-heart">{training?.likes?.length}</i>
+                <i onClick={() => toggleLikeTrainingProgram(training?._id)} className={`fa-solid fa-heart ${training?.likes?.includes(_id) && 'liked'}`}>{training?.likes?.length}</i>
                 {training?.author?._id == _id ?
                     !toggleDelete
                         ? <i onClick={() => setToggleDelete(true)} className="fa-solid fa-trash trashBtn"></i>
@@ -101,15 +101,15 @@ export const TrainingPostComponent = ({ token, _id }) => {
                 {training?.container?.length > 0 &&
                     training?.container.map(x =>
                         x?.option == 'title'
-                            ? <TitleComponent key={x._id} x={x} _id={_id} />
+                            ? <TitleComponent key={x._id} x={x} _id={_id} token={token} setTraining={setTraining} />
                             : x?.option == 'description'
-                                ? <DescComponent key={x._id} x={x} _id={_id} />
+                                ? <DescComponent key={x._id} x={x} _id={_id} token={token} setTraining={setTraining} />
                                 : x?.option == 'restTime'
-                                    ? <RestTimeComponent key={x._id} x={x} _id={_id} />
+                                    ? <RestTimeComponent key={x._id} x={x} _id={_id} token={token} setTraining={setTraining} />
                                     : x?.option == 'exerciseTime'
-                                        ? <ExerciseTimeComponent key={x._id} x={x} _id={_id} />
+                                        ? <ExerciseTimeComponent key={x._id} x={x} _id={_id} token={token} setTraining={setTraining} />
                                         : x?.option == 'image' &&
-                                        <ImagesComponent key={x._id} x={x} _id={_id} openFullImage={openFullImage} />
+                                        <ImagesComponent key={x._id} x={x} _id={_id} openFullImage={openFullImage} token={token} setTraining={setTraining} trainingId={training._id} />
                     )
                 }
             </div>

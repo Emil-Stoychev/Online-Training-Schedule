@@ -7,8 +7,7 @@ const TrainingImageSchema = new mongoose.Schema({
     },
     thumbnail: {
         type: String
-    },
-    parentId: String
+    }
 },
     { timestamps: true },
 )
