@@ -85,6 +85,7 @@ export const TrainingPostComponent = ({ token, _id }) => {
 
             <div className='training-post-btns'>
                 <i onClick={() => toggleLikeTrainingProgram(training?._id)} className={`fa-solid fa-heart ${training?.likes?.includes(_id) && 'liked'}`}>{training?.likes?.length}</i>
+                {training?.author?._id == _id && <i onClick={() => navigate(`/training-edit-program/${training?._id}`)} className="fa-solid fa-pen-to-square"></i>}
                 {training?.author?._id == _id ?
                     !toggleDelete
                         ? <i onClick={() => setToggleDelete(true)} className="fa-solid fa-trash trashBtn"></i>
@@ -109,7 +110,7 @@ export const TrainingPostComponent = ({ token, _id }) => {
                                     : x?.option == 'exerciseTime'
                                         ? <ExerciseTimeComponent key={x._id} x={x} _id={_id} token={token} setTraining={setTraining} />
                                         : x?.option == 'image' &&
-                                        <ImagesComponent key={x._id} x={x} _id={_id} openFullImage={openFullImage} token={token} setTraining={setTraining} trainingId={training._id} />
+                                        <ImagesComponent key={x._id} x={x} openFullImage={openFullImage} />
                     )
                 }
             </div>

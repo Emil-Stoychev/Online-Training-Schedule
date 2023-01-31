@@ -24,6 +24,17 @@ export const createProgram = (token, userId, data) => {
         .then(res => res.json())
 }
 
+export const editProgram = (token, userId, data) => {
+    return fetch(`${URL}/edit-program/${data[0]}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ data, token, userId })
+    })
+        .then(res => res.json())
+}
+
 export const getFastInfoAboutProgram = (trainingId) => {
     return fetch(`${URL}/fastInfo/${trainingId}`)
         .then(res => res.json())

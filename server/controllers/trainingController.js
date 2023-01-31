@@ -33,6 +33,12 @@ router.post('/toggleLike/:trainingId', authMiddleware, async (req, res) => {
     res.json(toggleLikeProgram)
 })
 
+router.post('/edit-program/:trainingId', authMiddleware, async (req, res) => {
+    let editedProgram = await trainingService.editProgram(req.body.data, req.params?.user?._id)
+
+    res.json(editedProgram)
+})
+
 router.post('/editCntValue/:cntId', authMiddleware, async (req, res) => {
     let editedCnt = await trainingService.editCntValue(req.body.value, req.params?.user?._id, req.body.cntId) || []
 

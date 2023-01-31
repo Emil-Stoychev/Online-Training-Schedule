@@ -17,6 +17,7 @@ import { PostComponent } from './components/main/post/Post';
 import { TrainingPostComponent } from './components/main/training-post/Training-post';
 import { useEffect, useState } from 'react';
 import { ChatComponent } from './components/chat/Chat';
+import { EditProgramComponent } from './components/training/edit-program/Edit-program';
 
 function App() {
   const [token, setToken] = useState(null)
@@ -101,6 +102,8 @@ function App() {
             <Route path='/training-post/:id' element={<TrainingPostComponent token={token.token} _id={token._id} />} />
 
             <Route path='/training' element={<TrainingComponent token={token.token} _id={token._id} />} />
+
+            <Route path='/training-edit-program/:trainingId' element={<EditProgramComponent token={token.token} _id={token._id} />} />
 
             <Route path='/profile' element={<ProfileComponent token={token?.token} userId={token?._id} />} />
 

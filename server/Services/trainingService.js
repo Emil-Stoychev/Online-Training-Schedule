@@ -81,6 +81,32 @@ const create = async (mainTitle, container, category, userId) => {
     }
 }
 
+const editProgram = async (data, userId) => {
+    const [trainingId, mainInputTitle, container, category, containerIds] = data
+    try {
+        let user = await getUserById(userId)
+
+        if (!user) {
+            return { message: "This user doesn't exist!" }
+        }
+
+        return { message: 'error' }
+
+        let categ = await checkAndMakeCategory(category, user?._id, option)
+
+        let data = await trainingProgramValidator(container, categ?._id, user?._id, mainTitle)
+
+        let newCreatedTrainingProgram = await TrainingPrograms.create(data)
+
+        await addNewTrainingProgramToUser(user, newCreatedTrainingProgram?._id)
+
+        return await TrainingPrograms.findById(newCreatedTrainingProgram._id).populate('category')
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 const toggleLike = async (trainingId, userId) => {
     try {
         let user = await getUserById(userId)
@@ -330,5 +356,6 @@ module.exports = {
     deleteCategory,
     editCategoryName,
     editCntValue,
-    editImagesFromTrainingProgram
+    editImagesFromTrainingProgram,
+    editProgram
 }

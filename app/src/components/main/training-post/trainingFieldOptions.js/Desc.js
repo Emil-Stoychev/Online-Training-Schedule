@@ -53,7 +53,7 @@ export const DescComponent = ({ x, _id, token, setTraining }) => {
                         </div>
                     </>
                     :
-                    <p>{x.author == _id && <i onClick={() => setToggleEdit({ value: x.value, option: true })} className="fa-solid fa-pen-to-square"></i>} {x?.value}</p>
+                    <p>{x.author == _id && <i onClick={() => setToggleEdit({ value: x.value, option: true })} className="fa-solid fa-pen-to-square"></i>} Desc: {x?.value}</p>
             }
         </>
     )
