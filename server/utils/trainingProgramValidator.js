@@ -8,8 +8,9 @@ const trainingProgramValidator = async (container, categoryId, userId, mainTitle
     container = await Promise.all(container.map(async (x) => {
         let curr = Object.values(x)[0]
 
+        
         if (curr?.option == 'image') {
-            await createImages(curr, userId, undefined)
+            return await createImages(curr, userId, undefined)
         }
         return await TrainingCnt.create({
             author: userId,
@@ -43,7 +44,7 @@ async function createImages(curr, userId, cntId, idsForDeleting) {
             .toBuffer()
             .then(async (thumbnail) => {
                 return TrainingImage.create({
-                    image: y?.data,
+                    image: y?.data || y?.thumbnail,
                     thumbnail: `data:image/jpeg;base64,${thumbnail.toString("base64")}`,
                     author: userId,
                 })
