@@ -63,10 +63,6 @@
   gap: 1.5rem;
 }
 
-.add-program .choose-category select {
-  width: 100%;
-}
-
 .add-program .add-option {
   display: flex;
   flex-direction: column;
@@ -238,6 +234,10 @@
   }
 
   .add-program .add-option > div > input {
+    width: 100%;
+  }
+
+  .add-program .choose-category select {
     width: 100%;
   }
 }

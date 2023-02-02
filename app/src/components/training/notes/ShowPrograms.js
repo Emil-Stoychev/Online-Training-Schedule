@@ -13,7 +13,7 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
     })
 
     const deleteCategory = (categoryId) => {
-        
+
         trainingService.deleteCategory(categoryId, token)
             .then(res => {
                 if (!res.message) {
@@ -88,7 +88,7 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
                 {toggleDelCat
                     ?
                     <>
-                        <p>Are you sure, this will delete all items inside!</p>
+                        Are you sure, this will delete all items inside!
                         <i onClick={() => setToggleDelCat(false)}>X</i>
                         <i onClick={() => deleteCategory(x?._id)}>✓</i>
                     </>

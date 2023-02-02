@@ -23,7 +23,7 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer, categories
                 value: categories.length > 0 && categories[0].category
             }))
         }
-    }, [category.option])
+    }, [category.option, categories])
 
     return (
         <>
