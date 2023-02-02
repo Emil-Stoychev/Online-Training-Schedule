@@ -2,13 +2,13 @@ import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages.js'
 import { v4 as uuid } from 'uuid';
 import { useRef } from 'react';
 
-export const InputOptionsComponent = ({ current, setContainer, container }) => {
+export const InputOptionsComponent = ({ current, setContainer, container, setContainerIds, setDeleteImagesIds }) => {
     const uploadRef = useRef(null)
 
     const cntValueHandler = (e, id, option) => {
         setContainer(state => state.map((x) => {
             if (x?._id == id && option != 'image') {
-                x = { value: e.target.value, _id: id, option }
+                x = { value: e.target.value, _id: id, option, new: true }
             }
 
             return x
@@ -18,6 +18,7 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
 
     const removeFieldFromCnt = (id) => {
         setContainer(state => state.filter(x => x?._id != id))
+        setContainerIds(x => [...x, id])
     }
 
     const addImage = async (e, id, option) => {
@@ -30,21 +31,23 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
             setContainer(state => state.map((x) => {
                 if (x?._id == id && option == 'image') {
                     if (x?.image?.length < 6) {
-                        x = { image: [...x?.image, { _id: imageID, thumbnail: base64 }], _id: id, option }
+                        x = { image: [...x?.image, { _id: imageID, thumbnail: base64, new: true }], _id: id, option, new: x.new }
                     }
                 }
 
                 return x
             }))
         }
+
+        e.target.value = null
     }
 
-    const removeImage = (e, id, option) => {
-        let file = e.target.parentElement.childNodes[0].src
+    const removeImage = (imageId, id, option) => {
+        setDeleteImagesIds(state => [...state, imageId])
 
         setContainer(state => state.map((x) => {
             if (x?._id == id && option == 'image') {
-                x = { image: x?.image.filter(y => y.thumbnail != file), _id: id, option }
+                x = { image: x?.image.filter(y => y._id != imageId), _id: id, option, new: x?.new }
             }
 
             return x
@@ -96,7 +99,7 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
                                                     className="inputBox-UploadImage-Btn"
                                                     type="button"
                                                     value="X"
-                                                    onClick={(e) => removeImage(e, current?._id, current?.option)}
+                                                    onClick={() => removeImage(y._id, current?._id, current?.option)}
                                                 />
                                             </div>
                                         )

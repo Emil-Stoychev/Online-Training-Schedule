@@ -1,7 +1,7 @@
+import { useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 
-export const ProgramBtnsAdd = ({ setCategory, category, setContainer }) => {
-
+export const ProgramBtnsAdd = ({ setCategory, category, setContainer, categories }) => {
     const handleBtns = (option) => {
         let id = uuid()
         let obj = option == 'image' ? { [id]: { [option]: [], option, id } } : { [id]: { [option]: '', option, id } }
@@ -16,6 +16,15 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer }) => {
         }))
     }
 
+    useEffect(() => {
+        if (category.option == true) {
+            setCategory(state => ({
+                ...state,
+                value: categories.length > 0 && categories[0].category
+            }))
+        }
+    }, [category.option])
+
     return (
         <>
             <div className='add-program-buttons'>
@@ -27,16 +36,14 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer }) => {
             </div>
 
             <div className='choose-category'>
-                <button onClick={() => setCategory(x => ({ value: '', option: !x.option }))}>Choose category</button>
+                <button onClick={() => setCategory(x => ({ value: '', option: !x.option }))}>{!category.option ? 'Choose category' : 'Create category'}</button>
 
-                {category.option
+                {!category.option
                     ?
                     <input minLength='1' maxLength='21' value={category.value} onChange={(e) => categoryValue(e)} type='text' placeholder='Add category name' />
                     :
-                    <select onChange={(e) => categoryValue(e)}>
-                        <option>Body</option>
-                        <option>Cardio</option>
-                        <option>Outside</option>
+                    <select value={category.value} onChange={(e) => categoryValue(e)}>
+                        {categories.length > 0 && categories.map(x => <option value={x.category} key={x._id}>{x.category}</option>)}
                     </select>
                 }
             </div>

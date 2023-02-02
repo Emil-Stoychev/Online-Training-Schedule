@@ -10,6 +10,7 @@ import { ProgramBtnsAdd } from './ProgramBtnsAdd';
 export const EditProgramComponent = ({ token, userId, setCategories }) => {
     const [container, setContainer] = useState([])
     const [containerIds, setContainerIds] = useState([])
+    const [deleteImagesIds, setDeleteImagesIds] = useState([])
     const [mainInputValue, setMainInputValue] = useState('')
     const [category, setCategory] = useState({
         option: true,
@@ -23,7 +24,6 @@ export const EditProgramComponent = ({ token, userId, setCategories }) => {
         trainingService.getById(window.location.pathname.split('/training-edit-program/')[1])
             .then(res => {
                 if (!res.message) {
-                    setContainerIds(res.container)
                     setCategory({ option: true, value: res?.category.category })
                     setMainInputValue(res.mainTitle)
                     setContainer(res.container)
@@ -41,6 +41,7 @@ export const EditProgramComponent = ({ token, userId, setCategories }) => {
                 container,
                 category,
                 containerIds,
+                deleteImagesIds
             ]
 
             trainingService.editProgram(token, userId, data)
@@ -66,6 +67,7 @@ export const EditProgramComponent = ({ token, userId, setCategories }) => {
             <h1>Add program</h1>
 
             <ProgramBtnsAdd
+                userId={userId}
                 setCategory={setCategory}
                 category={category}
                 setContainer={setContainer}
@@ -80,10 +82,12 @@ export const EditProgramComponent = ({ token, userId, setCategories }) => {
                 {container.length > 0 &&
                     container.map((x) =>
                         <InputOptionsComponent
-                            key={x?._id}
+                            key={x?._id || x.id}
                             current={x}
                             setContainer={setContainer}
                             container={container}
+                            setContainerIds={setContainerIds}
+                            setDeleteImagesIds={setDeleteImagesIds}
                         />
                     )
                 }

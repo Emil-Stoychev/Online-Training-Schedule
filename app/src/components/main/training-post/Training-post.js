@@ -72,6 +72,18 @@ export const TrainingPostComponent = ({ token, _id }) => {
     return (
         <div className='training-post'>
 
+            <div className='training-post-profile' onClick={() => navigate(`/profile/${training?.author?._id}`)}>
+                <img src={training?.author?.image != ''
+                    ? training?.author?.image
+                    : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
+                <div>
+                    <h3>{training?.author?.username || ''}</h3>
+                    <p>{training?.author?.location || ''}</p>
+                </div>
+            </div>
+
+            <h3 className='training-post-category'>Category: {training?.category?.category}</h3>
+
             {fullImage != undefined &&
                 <div className="training-post-full-image">
                     <span className="btn-to-close-full-image" onClick={() => setFullImage(undefined)} >X</span>

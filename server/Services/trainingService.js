@@ -2,7 +2,7 @@ const { TrainingPrograms } = require('../Models/Training.js')
 const { TrainingImage } = require('../Models/TrainingImage.js')
 const { TrainingCategory } = require('../Models/TrainingCategory')
 
-const { trainingProgramValidator, checkAndMakeCategory, createImages } = require('../utils/trainingProgramValidator')
+const { trainingProgramValidator, checkAndMakeCategory, trainingEditProgramValidator, deleteImagesByCntIds } = require('../utils/trainingProgramValidator')
 const { getUserById, removeSavedIdsAfterDeletingTrainingProgram, addNewTrainingProgramToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
 const { TrainingCnt } = require('../Models/TrainingCnt.js')
 
@@ -82,7 +82,7 @@ const create = async (mainTitle, container, category, userId) => {
 }
 
 const editProgram = async (data, userId) => {
-    const [trainingId, mainInputTitle, container, category, containerIds] = data
+    const [trainingId, mainInputTitle, container, category, containerIds, deleteImagesIds] = data
     try {
         let user = await getUserById(userId)
 
@@ -90,17 +90,17 @@ const editProgram = async (data, userId) => {
             return { message: "This user doesn't exist!" }
         }
 
-        return { message: 'error' }
+        let categ = await checkAndMakeCategory(category, user?._id)
 
-        let categ = await checkAndMakeCategory(category, user?._id, option)
+        let data = await trainingEditProgramValidator(container, categ._id, user._id, mainInputTitle)
 
-        let data = await trainingProgramValidator(container, categ?._id, user?._id, mainTitle)
+        await deleteImagesByCntIds(containerIds)
 
-        let newCreatedTrainingProgram = await TrainingPrograms.create(data)
+        await TrainingImage.deleteMany({ _id: [...deleteImagesIds] })
 
-        await addNewTrainingProgramToUser(user, newCreatedTrainingProgram?._id)
+        let newCreatedTrainingProgram = await TrainingPrograms.findByIdAndUpdate(trainingId, data)
 
-        return await TrainingPrograms.findById(newCreatedTrainingProgram._id).populate('category')
+        return newCreatedTrainingProgram
     } catch (error) {
         console.error(error)
         return error
@@ -192,33 +192,6 @@ const editCntValue = async (cntValue, userId, cntId) => {
         await currCnt.update({ value: cntValue })
 
         return cntValue
-    } catch (error) {
-        console.error(error)
-        return error
-    }
-}
-
-const editImagesFromTrainingProgram = async (allImages, idsForDeleting, userId, trainingId, cntId) => {
-    try {
-        let curr = {
-            image: allImages.filter(x => x?.new == true)
-        }
-
-        let user = await getUserById(userId)
-
-        if (!user) {
-            return { message: "This user doesn't exist!" }
-        }
-
-        let training = await TrainingPrograms.findById(trainingId)
-
-        if (!training) {
-            return { message: "This training doesn't exist!" }
-        }
-
-        await TrainingImage.deleteMany({ _id: [...idsForDeleting] })
-
-        return await createImages(curr, userId, cntId, idsForDeleting)
     } catch (error) {
         console.error(error)
         return error
@@ -356,6 +329,5 @@ module.exports = {
     deleteCategory,
     editCategoryName,
     editCntValue,
-    editImagesFromTrainingProgram,
     editProgram
 }

@@ -13,6 +13,7 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
     })
 
     const deleteCategory = (categoryId) => {
+        
         trainingService.deleteCategory(categoryId, token)
             .then(res => {
                 if (!res.message) {

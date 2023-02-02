@@ -103,7 +103,7 @@ function App() {
 
             <Route path='/training' element={<TrainingComponent token={token.token} _id={token._id} />} />
 
-            <Route path='/training-edit-program/:trainingId' element={<EditProgramComponent token={token.token} _id={token._id} />} />
+            <Route path='/training-edit-program/:trainingId' element={<EditProgramComponent token={token.token} userId={token._id} />} />
 
             <Route path='/profile' element={<ProfileComponent token={token?.token} userId={token?._id} />} />
 

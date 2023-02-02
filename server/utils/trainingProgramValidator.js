@@ -8,7 +8,6 @@ const trainingProgramValidator = async (container, categoryId, userId, mainTitle
     container = await Promise.all(container.map(async (x) => {
         let curr = Object.values(x)[0]
 
-        
         if (curr?.option == 'image') {
             return await createImages(curr, userId, undefined)
         }
@@ -31,10 +30,77 @@ const trainingProgramValidator = async (container, categoryId, userId, mainTitle
     return data
 }
 
-async function createImages(curr, userId, cntId, idsForDeleting) {
+const trainingEditProgramValidator = async (container, categoryId, userId, mainTitle) => {
+
+    container = await Promise.all(container.map(async (x) => {
+
+        let findCnt
+
+        if (!x.new) {
+            findCnt = await TrainingCnt.findById(x._id)
+        }
+
+        if (findCnt?._id) {
+            if (x?.option == 'image') {
+                return await createImages(x, userId, findCnt?._id)
+            } else {
+                await findCnt.update({ value: x.value })
+            }
+
+            return findCnt._id
+        } else {
+            if (x?.option == 'image') {
+                return await createImages(x, userId, undefined)
+            }
+
+            return await TrainingCnt.create({
+                author: userId,
+                value: x.value,
+                option: x.option
+            })
+                .then(res => {
+                    return res?._id
+                })
+        }
+    }))
+
+    let data = {
+        container: [...container],
+        category: categoryId,
+        author: userId,
+        mainTitle
+    }
+
+    return data
+}
+
+async function deleteImagesByCntIds(cntForDeleting) {
+    cntForDeleting.forEach(async (x) => {
+        let currCnt = await TrainingCnt.findById(x)
+
+        if (currCnt.image.length > 0) {
+            await TrainingImage.deleteMany({ _id: [...currCnt.image] })
+        }
+
+        await TrainingCnt.findByIdAndDelete(x)
+    })
+}
+
+async function createImages(curr, userId, cntId) {
     let ids = []
 
     await Promise.all(curr?.image.map(async (y) => {
+
+        let findImage
+
+        if (!y.new) {
+            findImage = await TrainingImage.findById(y._id)
+        }
+
+        if (findImage?._id) {
+            return ids.push(findImage._id)
+        }
+
         let opt = y?.data ? y?.data.split(";base64,").pop() : y?.thumbnail.split(";base64,").pop()
 
         const buffer = Buffer.from(opt, "base64")
@@ -43,7 +109,7 @@ async function createImages(curr, userId, cntId, idsForDeleting) {
             .resize(120, 120, { fit: "inside" })
             .toBuffer()
             .then(async (thumbnail) => {
-                return TrainingImage.create({
+                return await TrainingImage.create({
                     image: y?.data || y?.thumbnail,
                     thumbnail: `data:image/jpeg;base64,${thumbnail.toString("base64")}`,
                     author: userId,
@@ -68,17 +134,11 @@ async function createImages(curr, userId, cntId, idsForDeleting) {
     } else {
         let currCnt = await TrainingCnt.findById(cntId)
 
-        currCnt.image = idsForDeleting.map(x => {
-            if (!currCnt.image.includes(x)) {
-                return x
-            }
-        })
-
-        currCnt.image = [...currCnt.image, ids]
+        currCnt.image = [...ids]
 
         currCnt.save()
 
-        return currCnt
+        return currCnt._id
     }
 }
 
@@ -110,5 +170,7 @@ const checkAndMakeCategory = async (categ, userId, option) => {
 module.exports = {
     trainingProgramValidator,
     checkAndMakeCategory,
-    createImages
+    createImages,
+    trainingEditProgramValidator,
+    deleteImagesByCntIds
 }

@@ -1,10 +1,13 @@
+import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
+import * as trainingService from '../../../services/trainingService.js'
 
-export const ProgramBtnsAdd = ({ setCategory, category, setContainer }) => {
+export const ProgramBtnsAdd = ({ userId, setCategory, category, setContainer }) => {
+    let [allCategories, setAllCategories] = useState([])
 
     const handleBtns = (option) => {
         let id = uuid()
-        let obj = option == 'image' ? { [option]: [], option, _id: id } : { [option]: '', option, _id: id }
+        let obj = option == 'image' ? { [option]: [], option, _id: id, new: true } : { [option]: '', option, _id: id, new: true }
 
         setContainer(state => [...state, obj])
     }
@@ -15,6 +18,15 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer }) => {
             value: e.target.value
         }))
     }
+
+    useEffect(() => {
+        trainingService.getAllCategories(userId)
+            .then(res => {
+                if (!res.message) {
+                    setAllCategories(res)
+                }
+            })
+    }, [category.option])
 
     return (
         <>
@@ -29,14 +41,12 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer }) => {
             <div className='choose-category'>
                 <button onClick={() => setCategory(x => ({ value: '', option: !x.option }))}>Choose category</button>
 
-                {category.option
+                {!category.option
                     ?
                     <input minLength='1' maxLength='21' value={category.value} onChange={(e) => categoryValue(e)} type='text' placeholder='Add category name' />
                     :
                     <select onChange={(e) => categoryValue(e)}>
-                        <option>Body</option>
-                        <option>Cardio</option>
-                        <option>Outside</option>
+                        {allCategories.map(x => <option key={x._id}>{x.category}</option>)}
                     </select>
                 }
             </div>

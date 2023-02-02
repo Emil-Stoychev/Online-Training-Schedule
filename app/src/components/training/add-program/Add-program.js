@@ -6,7 +6,7 @@ import * as trainingService from '../../../services/trainingService.js'
 import { InputOptionsComponent } from './InputOptions';
 import { ProgramBtnsAdd } from './ProgramBtnsAdd';
 
-export const AddProgramComponent = ({ token, userId, setCategories }) => {
+export const AddProgramComponent = ({ token, userId, setCategories, categories }) => {
     const [container, setContainer] = useState([])
     const [category, setCategory] = useState({
         option: true,
@@ -17,7 +17,7 @@ export const AddProgramComponent = ({ token, userId, setCategories }) => {
     const mainInputTitle = useRef(null)
 
     const onCreateBtnHandler = () => {
-        console.log(mainInputTitle?.current?.value);
+        console.log(category);
         if (category.value.trim() != '') {
             let data = {
                 mainInputTitle: mainInputTitle?.current?.value,
@@ -65,6 +65,7 @@ export const AddProgramComponent = ({ token, userId, setCategories }) => {
                 setCategory={setCategory}
                 category={category}
                 setContainer={setContainer}
+                categories={categories}
             />
 
             <div className='add-option'>

@@ -45,13 +45,6 @@ router.post('/editCntValue/:cntId', authMiddleware, async (req, res) => {
     res.json(editedCnt)
 })
 
-router.post('/editImagesFromTrainingProgram/:trainingId', authMiddleware, async (req, res) => {
-    let editedCnt = await trainingService.editImagesFromTrainingProgram(req.body.allImages, req.body.idsForDeleting, req.params?.user?._id, req.params.trainingId, req.body.cntId) || []
-
-    res.json(editedCnt)
-})
-
-
 router.delete('/delete/:trainingId', authMiddleware, async (req, res) => {
     let deletedProgram = await trainingService.deleteProgram(req.params.trainingId, req.params.user?._id) || { message: "404 Not found!" }
 
