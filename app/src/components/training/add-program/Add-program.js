@@ -17,8 +17,8 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories }
     const mainInputTitle = useRef(null)
 
     const onCreateBtnHandler = () => {
-        console.log(category);
         if (category.value.trim() != '') {
+
             let data = {
                 mainInputTitle: mainInputTitle?.current?.value,
                 container,
