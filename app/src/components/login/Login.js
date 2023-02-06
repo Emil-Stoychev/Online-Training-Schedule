@@ -1,14 +1,16 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { GlobalInfo } from '../../context/awesomeSnackbar/AwesomeSnackbar'
 import * as userService from '../../services/authService'
 import './login.css'
 
 export const LoginComponent = ({ setToken }) => {
-    const [errors, setErrors] = useState('')
     const [values, setValues] = useState({
         username: '',
         password: '',
     })
+
+    const { errors, setErrors } = useContext(GlobalInfo)
 
     const navigate = useNavigate()
 
@@ -25,8 +27,21 @@ export const LoginComponent = ({ setToken }) => {
         userService.login(values)
             .then(result => {
                 if (result.message != 'yes') {
-                    setErrors(result.message)
+                    if (errors.message == '') {
+                        setErrors({ message: result.message, type: '' })
+
+                        setTimeout(() => {
+                            setErrors({ message: '', type: '' })
+                        }, 2000);
+                    }
                 } else {
+                    if (errors.message == '') {
+                        setErrors({ message: 'Loading... please wait', type: 'loading' })
+
+                        setTimeout(() => {
+                            setErrors({ message: '', type: '' })
+                        }, 2000);
+                    }
                     localStorage.setItem('sessionStorage', result.token)
 
                     setToken({
@@ -45,8 +60,6 @@ export const LoginComponent = ({ setToken }) => {
                 <form className="form" onSubmit={onSubmitHandler}>
 
                     <h2>Sign in</h2>
-
-                    {errors != '' ? <h2>{errors}</h2> : ''}
 
                     <div className="inputBox">
                         <input type="text" name='username' required='required' value={values.username} onChange={changeHandler} />
