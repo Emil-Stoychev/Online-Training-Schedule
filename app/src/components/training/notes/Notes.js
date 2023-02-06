@@ -19,9 +19,11 @@ export const NotesComponent = ({ token, userId, setCategories, categories }) => 
 
         <article className='notes-category'>
             <h1 className='notes-category-main-header'>Your Categories</h1>
+            <hr />
 
-            {categories.length > 0 &&
-                categories.map(x => <ShowPrograms token={token} key={x._id} x={x} userId={userId} setCategories={setCategories} />)
+            {categories.length > 0
+                ? categories.map(x => <ShowPrograms token={token} key={x._id} x={x} userId={userId} setCategories={setCategories} />)
+                : <h1 className='notes-category-main-header'>You don't have categories yet!</h1>
             }
         </article >
     )

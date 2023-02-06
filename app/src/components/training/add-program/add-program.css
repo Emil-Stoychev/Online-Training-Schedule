@@ -232,6 +232,10 @@
     width: 100%;
   }
 
+  .add-program .add-option > input {
+    width: 100%;
+  }
+
   .add-program .add-option > div > input {
     width: 100%;
   }

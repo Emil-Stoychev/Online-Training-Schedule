@@ -6,7 +6,7 @@ import './training.css'
 import * as trainingService from '../../services/trainingService.js'
 
 
-export const TrainingComponent = ({ token, _id }) => {
+const TrainingComponent = ({ token, _id }) => {
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
@@ -33,3 +33,5 @@ export const TrainingComponent = ({ token, _id }) => {
         </>
     )
 }
+
+export default TrainingComponent

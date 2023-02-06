@@ -1,23 +1,27 @@
 import { Routes, Route } from 'react-router-dom'
+import { lazy, Suspense, useEffect, useState } from 'react';
 import './App.css';
 
 import * as userService from './services/authService.js'
 
 import { PageNotFound } from './components/core/page-not-found/PageNotFound';
-import { WelcomeComponent } from './components/welcome/Welcome';
 import { FooterComponent } from './components/core/footer/Footer';
 import { NavigationComponent } from './components/core/navigation/Navigation';
+
 import { LoginComponent } from './components/login/Login';
 import { RegisterComponent } from './components/register/Register';
-import { TrainingComponent } from './components/training/Training';
-import { AboutComponent } from './components/about/About';
-import { ProfileComponent } from './components/profile/Profile';
-import { MainComponent } from './components/main/Main';
-import { PostComponent } from './components/main/post/Post';
-import { TrainingPostComponent } from './components/main/training-post/Training-post';
-import { useEffect, useState } from 'react';
-import { ChatComponent } from './components/chat/Chat';
-import { EditProgramComponent } from './components/training/edit-program/Edit-program';
+
+import { LoadingSpinner } from './components/LoadingSpinner/LoadingSpinner';
+
+const LazyMainComponent = lazy(() => import('./components/main/Main'))
+const LazyWelcomeComponent = lazy(() => import('./components/welcome/Welcome'))
+const LazyTrainingComponent = lazy(() => import('./components/training/Training'))
+const LazyAboutComponent = lazy(() => import('./components/about/About'))
+const LazyProfileComponent = lazy(() => import('./components/profile/Profile'))
+const LazyPostComponent = lazy(() => import('./components/main/post/Post.js'))
+const LazyTrainingPostComponent = lazy(() => import('./components/main/training-post/Training-post'))
+const LazyChatComponent = lazy(() => import('./components/chat/Chat.js'))
+const LazyEditProgramComponent = lazy(() => import('./components/training/edit-program/Edit-program'))
 
 function App() {
   const [token, setToken] = useState(null)
@@ -29,6 +33,7 @@ function App() {
     if (getCookie != null) {
       userService.getUserById(getCookie, undefined)
         .then(res => {
+          console.log(res);
           if (!res.message) {
             setToken({
               token: getCookie,
@@ -63,6 +68,7 @@ function App() {
 
   // FINAL STEP IS TO CLEAN USER PASSWORD RETURNED FROM BACKEND AND TO SET LOADING SCREEN!!!
   // AND TO ADD AWESOME SNACKBAR TO SHOW ERROR AND SOME MESSAGES!!!
+
   return (
     <div className="App">
 
@@ -75,7 +81,7 @@ function App() {
         {token == null
           ?
           <>
-            <Route path='/' element={<WelcomeComponent />} />
+            <Route path='/' element={<Suspense fallback={<LoadingSpinner />}><LazyWelcomeComponent /></Suspense>} />
 
             <Route path='/login' element={<LoginComponent setToken={setToken} />} />
 
@@ -83,35 +89,37 @@ function App() {
           </>
           :
           <>
-            <Route path='/' element={<MainComponent userId={token?._id} token={token.token} image={token.image} />} />
+            <Route path='/' element={<Suspense fallback={<LoadingSpinner />}><LazyMainComponent userId={token?._id} token={token.token} image={token.image} /></Suspense>} />
 
             <Route path='/post/:id' element={
               <section className="container">
 
                 <article className="posts">
 
-                  <PostComponent x={undefined} userId={token?._id} token={token.token} image={token.image} />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <LazyPostComponent x={undefined} userId={token?._id} token={token.token} image={token.image} />
+                  </Suspense>
 
                 </article>
 
               </section>
             } />
 
-            <Route path='/chat' element={<ChatComponent token={token.token} _id={token._id} image={token.image} />} />
+            <Route path='/chat' element={<Suspense fallback={<LoadingSpinner />}><LazyChatComponent token={token.token} _id={token._id} image={token.image} /></Suspense>} />
 
-            <Route path='/training-post/:id' element={<TrainingPostComponent token={token.token} _id={token._id} />} />
+            <Route path='/training-post/:id' element={<Suspense fallback={<LoadingSpinner />}><LazyTrainingPostComponent token={token.token} _id={token._id} /></Suspense>} />
 
-            <Route path='/training' element={<TrainingComponent token={token.token} _id={token._id} />} />
+            <Route path='/training' element={<Suspense fallback={<LoadingSpinner />}><LazyTrainingComponent token={token.token} _id={token._id} /></Suspense>} />
 
-            <Route path='/training-edit-program/:trainingId' element={<EditProgramComponent token={token.token} userId={token._id} />} />
+            <Route path='/training-edit-program/:trainingId' element={<Suspense fallback={<LoadingSpinner />}><LazyEditProgramComponent token={token.token} userId={token._id} /></Suspense>} />
 
-            <Route path='/profile' element={<ProfileComponent token={token?.token} userId={token?._id} />} />
+            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} /></Suspense>} />
 
-            <Route path='/profile/:profileId' element={<ProfileComponent setToken={setToken} token={token?.token} userId={token?._id} />} />
+            <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} /></Suspense>} />
           </>
         }
 
-        <Route path='/about' element={<AboutComponent />} />
+        <Route path='/about' element={<Suspense fallback={<LoadingSpinner />}><LazyAboutComponent /></Suspense>} />
 
         <Route path='*' element={<PageNotFound />} />
 

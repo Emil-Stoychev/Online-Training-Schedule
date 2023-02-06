@@ -74,7 +74,7 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
                     current?.option == 'restTime'
                         ?
                         <div>
-                            <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='rest-time' placeholder='Rest time (min)' />
+                            <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='rest-time' placeholder='Rest time 02:24' />
                             <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                         </div>
                         :
@@ -106,7 +106,7 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
                             :
                             current?.option == 'exerciseTime' &&
                             <div>
-                                <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='exercise-time' placeholder='Exercise time (min)' />
+                                <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='exercise-time' placeholder='Exercise time 02:24' />
                                 <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                             </div>
             }</>

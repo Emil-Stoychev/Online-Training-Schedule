@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { AddCommentComponent } from './addComment/AddComment'
 import { EditPostComponent } from './editPost/EditPost'
 
-export const PostComponent = ({ x, userId, token, image, setPosts }) => {
+const PostComponent = ({ x, userId, token, image, setPosts }) => {
     const [post, setPost] = useState({})
     const [imageCount, setImageCount] = useState(0)
     const [showComments, setShowComments] = useState(false)
@@ -243,3 +243,5 @@ export const PostComponent = ({ x, userId, token, image, setPosts }) => {
         </>
     )
 }
+
+export default PostComponent

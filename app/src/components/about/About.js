@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import './about.css'
 
-export const AboutComponent = () => {
+const AboutComponent = () => {
     const navigate = useNavigate()
 
     return (
@@ -32,3 +32,5 @@ export const AboutComponent = () => {
         </div>
     )
 }
+
+export default AboutComponent

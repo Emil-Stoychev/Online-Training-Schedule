@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import './add-program.css'
 
 import * as trainingService from '../../../services/trainingService.js'
@@ -17,7 +17,7 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories }
     const mainInputTitle = useRef(null)
 
     const onCreateBtnHandler = () => {
-        if (category.value.trim() != '') {
+        if (category.value == '' || category.value.trim() != '') {
 
             let data = {
                 mainInputTitle: mainInputTitle?.current?.value,

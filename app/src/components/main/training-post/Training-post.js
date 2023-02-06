@@ -9,7 +9,7 @@ import { RestTimeComponent } from './trainingFieldOptions.js/RestTime';
 import { ExerciseTimeComponent } from './trainingFieldOptions.js/ExerciseTime';
 import { ImagesComponent } from './trainingFieldOptions.js/ImagesComponent';
 
-export const TrainingPostComponent = ({ token, _id }) => {
+const TrainingPostComponent = ({ token, _id }) => {
     const [training, setTraining] = useState(undefined)
     const [fullImage, setFullImage] = useState(undefined)
     const [toggleDelete, setToggleDelete] = useState(false)
@@ -130,3 +130,5 @@ export const TrainingPostComponent = ({ token, _id }) => {
         </div >
     )
 }
+
+export default TrainingPostComponent

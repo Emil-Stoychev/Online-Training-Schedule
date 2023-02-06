@@ -264,6 +264,7 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
   width: 80px;
   height: 80px;
   border-radius: 100%;
+  object-fit: cover;
 }
 
 .profile-info-followers

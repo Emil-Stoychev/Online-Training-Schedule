@@ -7,7 +7,7 @@ import { io } from 'socket.io-client'
 import { FullImageComponent } from './FullImage'
 import { LeftSideComponent } from './LeftSide'
 
-export const ChatComponent = ({ token, _id, image }) => {
+const ChatComponent = ({ token, _id, image }) => {
   const [chats, setChats] = useState([])
   const [spareChats, setSpareChats] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
@@ -114,3 +114,5 @@ export const ChatComponent = ({ token, _id, image }) => {
     </section>
   )
 }
+
+export default ChatComponent

@@ -9,7 +9,7 @@ import { OwnTrainingsComponent } from './OwnTrainings'
 import { OwnFollowersComponent } from './OwnFollowers'
 import { EditProfileComponent } from './EditProfile'
 
-export const ProfileComponent = ({ setToken, token, userId }) => {
+const ProfileComponent = ({ setToken, token, userId }) => {
     const [user, setUser] = useState({})
     const [viewOptions, setViewOptions] = useState({
         ownPosts: false,
@@ -128,3 +128,5 @@ export const ProfileComponent = ({ setToken, token, userId }) => {
         </>
     )
 }
+
+export default ProfileComponent

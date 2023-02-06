@@ -7,7 +7,7 @@ import * as trainingService from '../../../services/trainingService.js'
 import { InputOptionsComponent } from './InputOptions';
 import { ProgramBtnsAdd } from './ProgramBtnsAdd';
 
-export const EditProgramComponent = ({ token, userId, setCategories }) => {
+const EditProgramComponent = ({ token, userId, setCategories }) => {
     const [container, setContainer] = useState([])
     const [containerIds, setContainerIds] = useState([])
     const [deleteImagesIds, setDeleteImagesIds] = useState([])
@@ -101,3 +101,5 @@ export const EditProgramComponent = ({ token, userId, setCategories }) => {
         </section>
     )
 }
+
+export default EditProgramComponent

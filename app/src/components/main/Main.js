@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import "./main.css";
 
 import { CreatePost } from "./create-post/CreatePost";
-import { PostComponent } from "./post/Post";
+import PostComponent from "./post/Post";
 
 import * as postService from '../../services/postService.js'
 
-export const MainComponent = ({ userId, token, image }) => {
+const MainComponent = ({ userId, token, image }) => {
     const [posts, setPosts] = useState([])
     const [pageNum, setPageNum] = useState(0)
     const [loading, setLoading] = useState(true)
@@ -87,3 +87,5 @@ export const MainComponent = ({ userId, token, image }) => {
         </section >
     );
 };
+
+export default MainComponent

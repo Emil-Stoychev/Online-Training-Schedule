@@ -2,7 +2,7 @@ import './welcome.css'
 import { Typewriter } from 'react-simple-typewriter'
 import { useNavigate } from 'react-router-dom'
 
-export const WelcomeComponent = () => {
+const WelcomeComponent = () => {
     const navigate = useNavigate()
 
     return (
@@ -112,3 +112,5 @@ export const WelcomeComponent = () => {
         </>
     )
 }
+
+export default WelcomeComponent
