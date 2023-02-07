@@ -3,7 +3,7 @@ import './create-post.css'
 
 import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages.js'
 import * as postService from '../../../services/postService.js'
-
+import useGlobalErrorsHook from '../../../hooks/useGlobalErrors'
 
 export const CreatePost = ({ setPosts, image }) => {
     const uploadRef = useRef(null)
@@ -12,10 +12,10 @@ export const CreatePost = ({ setPosts, image }) => {
         images: [],
         select: 'Public'
     })
-    const [errors, setErrors] = useState()
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const changeValues = (word) => {
-
         setValues(state => ({
             ...state,
             [word.target.name]: word.target.value
@@ -24,24 +24,34 @@ export const CreatePost = ({ setPosts, image }) => {
 
     const submitHandler = () => {
         if (values.description.trim() != '' && values.description.length > 0) {
+            if (errors.type != 'loading') {
+                setErrors({ message: 'Your post is creating...', type: 'loading' })
 
-            let data = {
-                values,
-                token: localStorage.getItem('sessionStorage')
+                let data = {
+                    values,
+                    token: localStorage.getItem('sessionStorage')
+                }
+
+                postService.createPost(data)
+                    .then(res => {
+                        if (!res.message) {
+                            setValues({
+                                description: '',
+                                images: [],
+                                select: 'Public'
+                            })
+
+                            setErrors({ message: 'You successfully created a post!', type: '' })
+                            setPosts(state => [res, ...state])
+                        } else {
+                            setErrors({ message: res.message, type: '' })
+                        }
+                    })
+            } else {
+                setErrors({ message: 'Please wait, you already creating a post!', type: 'loading' })
             }
-
-            postService.createPost(data)
-                .then(res => {
-                    if (!res.message) {
-                        setValues({
-                            description: '',
-                            images: [],
-                            select: 'Public'
-                        })
-
-                        setPosts(state => [res, ...state])
-                    }
-                })
+        } else {
+            setErrors({ message: 'You must type something for description', type: '' })
         }
     }
 
@@ -53,6 +63,8 @@ export const CreatePost = ({ setPosts, image }) => {
         let file = e.target.files[0]
 
         if (file && imageTypes.includes(file.type)) {
+            setErrors({ message: 'Uploading...', type: '' })
+
             let base64 = await convertBase64(file)
 
             let newDate = new Date()
@@ -67,22 +79,10 @@ export const CreatePost = ({ setPosts, image }) => {
             }
 
             if (values.images.some(x => x.dataString == imageData.dataString)) {
-                if (errors !== 'This image already exist!') {
-                    setErrors('This image already exist!')
-
-                    setTimeout(() => {
-                        setErrors('')
-                    }, 2000);
-                }
+                setErrors({ message: 'This image already exist!', type: '' })
             } else {
                 if (values.images.length > 5) {
-                    if (errors !== 'You cannot upload more than 6 images!') {
-                        setErrors('You cannot upload more than 6 images!')
-
-                        setTimeout(() => {
-                            setErrors('')
-                        }, 2000);
-                    }
+                    setErrors({ message: 'You cannot upload more than 6 images!', type: '' })
                 } else {
                     setValues(state => ({
                         ...state,
@@ -91,13 +91,7 @@ export const CreatePost = ({ setPosts, image }) => {
                 }
             }
         } else {
-            if (errors !== 'File must be a image!') {
-                setErrors('File must be a image!')
-
-                setTimeout(() => {
-                    setErrors('')
-                }, 2000);
-            }
+            setErrors({ message: 'File must be a image! (png, jpeg, jpg, raw)', type: '' })
         }
         e.target.value = null
     }
@@ -109,6 +103,8 @@ export const CreatePost = ({ setPosts, image }) => {
             ...state,
             ['images']: state.images.filter(x => x.dataString !== file)
         }));
+
+        setErrors({ message: file, type: 'remove image' })
     }
 
     return (

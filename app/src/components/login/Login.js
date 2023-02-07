@@ -1,6 +1,6 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { GlobalInfo } from '../../context/awesomeSnackbar/AwesomeSnackbar'
+import useGlobalErrorsHook from '../../hooks/useGlobalErrors'
 import * as userService from '../../services/authService'
 import './login.css'
 
@@ -9,10 +9,9 @@ export const LoginComponent = ({ setToken }) => {
         username: '',
         password: '',
     })
-
-    const { errors, setErrors } = useContext(GlobalInfo)
-
     const navigate = useNavigate()
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const changeHandler = (e) => {
         setValues(oldState => ({
@@ -27,27 +26,15 @@ export const LoginComponent = ({ setToken }) => {
         userService.login(values)
             .then(result => {
                 if (result.message != 'yes') {
-                    if (errors.message == '') {
-                        setErrors({ message: result.message, type: '' })
-
-                        setTimeout(() => {
-                            setErrors({ message: '', type: '' })
-                        }, 2000);
-                    }
+                    setErrors({ message: result.message, type: '' })
                 } else {
-                    if (errors.message == '') {
-                        setErrors({ message: 'Loading... please wait', type: 'loading' })
-
-                        setTimeout(() => {
-                            setErrors({ message: '', type: '' })
-                        }, 2000);
-                    }
                     localStorage.setItem('sessionStorage', result.token)
 
                     setToken({
                         token: result.token,
                         _id: result._id
                     })
+                    setErrors({ message: 'Loading... please wait', type: 'loading' })
 
                     navigate('/')
                 }

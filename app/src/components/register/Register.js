@@ -1,9 +1,9 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { convertBase64, imageTypes } from '../../utils/AddRemoveImages'
 import * as userService from '../../services/authService'
 import './register.css'
 import { useNavigate } from 'react-router-dom'
-import { GlobalInfo } from '../../context/awesomeSnackbar/AwesomeSnackbar'
+import useGlobalErrorsHook from '../../hooks/useGlobalErrors'
 
 export const RegisterComponent = () => {
     const [values, setValues] = useState({
@@ -14,7 +14,7 @@ export const RegisterComponent = () => {
         image: ''
     })
 
-    const { errors, setErrors } = useContext(GlobalInfo)
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const navigate = useNavigate()
 
@@ -31,16 +31,9 @@ export const RegisterComponent = () => {
         userService.register(values)
             .then(result => {
                 if (result.message != 'yes') {
-                    if (errors.message == '') {
-                        setErrors({ message: result.message, type: '' })
-
-                        setTimeout(() => {
-                            setErrors({ message: '', type: '' })
-                        }, 2000);
-                    }
+                    setErrors({ message: result.message, type: '' })
                 } else {
                     setErrors({ message: 'Loading... please wait', type: 'loading' })
-
                     navigate('/login')
                 }
             })
@@ -54,22 +47,10 @@ export const RegisterComponent = () => {
             let base64 = await convertBase64(file)
 
             if (values.image === base64) {
-                if (errors?.message !== 'This image already exist!') {
-                    setErrors({ message: 'This image already exist!', type: '' })
-
-                    setTimeout(() => {
-                        setErrors({ message: '', type: '' })
-                    }, 2000);
-                }
+                setErrors({ message: 'This image already exist!', type: '' })
             } else {
                 if (values.image !== '') {
-                    if (errors?.message !== 'You cannot upload more than 1 image!') {
-                        setErrors({ message: 'You cannot upload more than 1 image!', type: '' })
-
-                        setTimeout(() => {
-                            setErrors({ message: '', type: '' })
-                        }, 2000);
-                    }
+                    setErrors({ message: 'You cannot upload more than 1 image!', type: '' })
                 } else {
                     setValues(state => ({
                         ...state,
@@ -78,13 +59,7 @@ export const RegisterComponent = () => {
                 }
             }
         } else {
-            if (errors?.message !== 'File must be a image!') {
-                setErrors({ message: 'File must be a image!', type: '' })
-
-                setTimeout(() => {
-                    setErrors({ message: '', type: '' })
-                }, 2000);
-            }
+            setErrors({ message: 'File must be a image! (png, jpeg, jpg, raw)', type: '' })
         }
 
         e.target.value = null
