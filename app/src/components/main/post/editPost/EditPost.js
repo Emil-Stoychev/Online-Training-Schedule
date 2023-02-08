@@ -2,9 +2,9 @@ import { useRef, useState } from 'react'
 import './editPost.css'
 
 import { convertBase64, imageTypes } from '../../../../utils/AddRemoveImages.js'
+import useGlobalErrorsHook from '../../../../hooks/useGlobalErrors'
 
 export const EditPostComponent = ({ toggleEditPost, setToggleEditPost, submitEditPost }) => {
-    const [errors, setErrors] = useState()
     const uploadRef = useRef(null)
 
     const editPostValues = (e) => {
@@ -14,6 +14,8 @@ export const EditPostComponent = ({ toggleEditPost, setToggleEditPost, submitEdi
         }))
     }
 
+    let [errors, setErrors] = useGlobalErrorsHook()
+
     const uploadFile = () => {
         uploadRef.current.click()
     }
@@ -22,6 +24,7 @@ export const EditPostComponent = ({ toggleEditPost, setToggleEditPost, submitEdi
         let file = e.target.files[0]
 
         if (file && imageTypes.includes(file.type)) {
+            setErrors({ message: 'Uploading...', type: '' })
             let base64 = await convertBase64(file)
 
             let newDate = new Date()
@@ -36,22 +39,10 @@ export const EditPostComponent = ({ toggleEditPost, setToggleEditPost, submitEdi
             }
 
             if (toggleEditPost.images.some(x => x.dataString == imageData.dataString)) {
-                if (errors !== 'This image already exist!') {
-                    setErrors('This image already exist!')
-
-                    setTimeout(() => {
-                        setErrors('')
-                    }, 2000);
-                }
+                setErrors({ message: 'This image already exist!', type: '' })
             } else {
                 if (toggleEditPost.images.length > 5) {
-                    if (errors !== 'You cannot upload more than 6 images!') {
-                        setErrors('You cannot upload more than 6 images!')
-
-                        setTimeout(() => {
-                            setErrors('')
-                        }, 2000);
-                    }
+                    setErrors({ message: 'You cannot upload more than 6 images!', type: '' })
                 } else {
                     setToggleEditPost(state => ({
                         ...state,
@@ -60,13 +51,7 @@ export const EditPostComponent = ({ toggleEditPost, setToggleEditPost, submitEdi
                 }
             }
         } else {
-            if (errors !== 'File must be a image!') {
-                setErrors('File must be a image!')
-
-                setTimeout(() => {
-                    setErrors('')
-                }, 2000);
-            }
+            setErrors({ message: 'File must be a image! (png, jpeg, jpg, raw)', type: '' })
         }
         e.target.value = null
     }
@@ -78,6 +63,8 @@ export const EditPostComponent = ({ toggleEditPost, setToggleEditPost, submitEdi
             ...state,
             ['images']: state.images.filter(x => x.dataString !== file)
         }));
+
+        setErrors({ message: file, type: 'remove image' })
     }
 
     return (

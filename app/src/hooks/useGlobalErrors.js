@@ -10,7 +10,6 @@ const useGlobalErrorsHook = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-
         if (errors.message == 'Unauthorized!') {
             localStorage.removeItem('sessionStorage')
 

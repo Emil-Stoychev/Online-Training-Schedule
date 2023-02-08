@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { CommentComponent } from './comments/Comment'
 import './post.css'
 
+import useGlobalErrorsHook from '../../../hooks/useGlobalErrors'
+
 import * as postService from '../../../services/postService.js'
 import { useNavigate } from 'react-router-dom'
 import { AddCommentComponent } from './addComment/AddComment'
@@ -20,6 +22,8 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
     })
     const navigate = useNavigate()
 
+    let [errors, setErrors] = useGlobalErrorsHook()
+
     useEffect(() => {
         if (x) {
             setPost(x)
@@ -36,8 +40,10 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
         if (post?.author != userId) {
             if (!e.currentTarget.className.includes('liked')) {
                 e.currentTarget.className = 'fa-solid fa-heart liked'
+                setErrors({ message: 'Liked', type: '' })
             } else {
                 e.currentTarget.className = 'fa-solid fa-heart'
+                setErrors({ message: 'Unliked', type: '' })
             }
         }
 
@@ -49,6 +55,7 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
                         likes: res.likes
                     }))
                 } else {
+                    setErrors({ message: res.message, type: '' })
                     console.log(res);
                 }
             })
@@ -59,8 +66,10 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
         if (post?.author != userId) {
             if (!e.currentTarget.className.includes('saved')) {
                 e.currentTarget.className = 'fa-solid fa-sd-card saved'
+                setErrors({ message: 'Saved', type: '' })
             } else {
                 e.currentTarget.className = 'fa-solid fa-sd-card'
+                setErrors({ message: 'Remove', type: '' })
             }
         }
 
@@ -72,20 +81,29 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
                         saved: res.saved
                     }))
                 } else {
+                    setErrors({ message: res.message, type: '' })
                     console.log(res);
                 }
             })
     }
 
     const onDeleteHandler = (e, postId) => {
+
         postService.deletePost(postId, token)
             .then(res => {
+                console.log(res);
                 if (!res.message) {
-                    if (!window.location.pathname.split('/post/')[1]) {
-                        setPosts(state => state.filter(x => x._id != postId))
-                    } else {
-                        navigate('/profile')
-                    }
+                    setErrors({ message: 'You successfully deleted this post!', type: '' })
+
+                    setTimeout(() => {
+                        if (!window.location.pathname.split('/post/')[1]) {
+                            setPosts(state => state.filter(x => x._id != postId))
+                        } else {
+                            navigate('/profile')
+                        }
+                    }, 0);
+                } else {
+                    setErrors({ message: res.message, type: '' })
                 }
             })
     }
@@ -103,15 +121,21 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
     }
 
     const submitEditPost = () => {
+        setErrors({ message: 'Editing, please wait...', type: 'loading' })
+
         postService.editPost(toggleEditPost, post?._id, token)
             .then(res => {
                 if (!res.message) {
+                    setErrors({ message: 'You successfully edit this post!', type: '' })
+
                     setPost(state => ({
                         ...state,
                         description: res.description,
                         images: res.images,
                         visible: res.select
                     }))
+                } else {
+                    setErrors({ message: res?.message, type: '' })
                 }
             })
         setToggleEditPost({

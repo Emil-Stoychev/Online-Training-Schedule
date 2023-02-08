@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import useGlobalErrorsHook from '../../../../hooks/useGlobalErrors.js'
 import * as postService from '../../../../services/postService.js'
 import './comment.css'
 import { NestedCommentComponent } from './NestedComments.js'
@@ -15,6 +16,8 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
         value: ''
     })
     const desc = useRef()
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const getNestedComments = (postId, commentId) => {
         setShowComments(true)
@@ -40,6 +43,8 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
         postService.deleteComment(commentId, token, parentId)
             .then(res => {
                 if (!res.message) {
+                    setErrors({ message: 'You successfully deleted this comment!', type: '' })
+
                     if (parentId == undefined) {
                         setPost(state => ({
                             ...state,
@@ -57,6 +62,8 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
                             })
                         }))
                     }
+                } else {
+                    setErrors({ message: res?.message, type: '' })
                 }
             })
         if (setNestedToggleDelete != undefined) setNestedToggleDelete(false)
@@ -67,6 +74,7 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
 
         postService.likeComment({ commentId, token })
             .then(res => {
+                console.log(res)
                 setPost(state => ({
                     ...state,
                     comments: state.comments.map(c => {
