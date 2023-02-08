@@ -109,6 +109,8 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
     }
 
     const getComments = () => {
+        if (post?.comments?.length > 0) setErrors({ message: 'Loading comments...', type: 'loading' })
+
         postService.getComments(post?._id, token)
             .then(res => {
                 setShowComments(true)
@@ -134,16 +136,17 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
                         images: res.images,
                         visible: res.select
                     }))
+
+                    setToggleEditPost({
+                        option: false,
+                        description: '' || post?.description,
+                        images: [],
+                        select: 'Public'
+                    })
                 } else {
                     setErrors({ message: res?.message, type: '' })
                 }
             })
-        setToggleEditPost({
-            option: false,
-            description: '' || post?.description,
-            images: [],
-            select: 'Public'
-        })
     }
 
     const nextImage = () => {

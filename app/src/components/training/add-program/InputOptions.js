@@ -1,9 +1,12 @@
 import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages.js'
 import { v4 as uuid } from 'uuid';
 import { useRef } from 'react';
+import useGlobalErrorsHook from '../../../hooks/useGlobalErrors.js';
 
 export const InputOptionsComponent = ({ current, setContainer, container }) => {
     const uploadRef = useRef(null)
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const cntValueHandler = (e, id, option) => {
         setContainer(state => state.map((x) => {
@@ -17,7 +20,10 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
     }
 
     const removeFieldFromCnt = (id) => {
-        setContainer(state => state.filter(x => Object.values(x)[0]?.id != id))
+        setTimeout(() => {
+            setContainer(state => state.filter(x => Object.values(x)[0]?.id != id))
+        }, 0);
+        setErrors({ message: 'Removed!', type: '' })
     }
 
     const addImage = async (e, id, option) => {
@@ -25,6 +31,7 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
         let imageID = uuid()
 
         if (file && imageTypes.includes(file.type)) {
+            setErrors({ message: 'Uploading...', type: 'loading' })
             let base64 = await convertBase64(file)
 
             setContainer(state => state.map((x) => {
@@ -36,11 +43,14 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
 
                 return x
             }))
+        } else {
+            setErrors({ message: 'File must be a image! (png, jpeg, jpg, raw)', type: '' })
         }
     }
 
     const removeImage = (e, id, option) => {
         let file = e.target.parentElement.childNodes[0].src
+        setErrors({ message: file, type: 'remove image' })
 
         setContainer(state => state.map((x) => {
             if (Object.values(x)[0]?.id == id && option == 'image') {

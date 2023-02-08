@@ -23,7 +23,7 @@ const useGlobalErrorsHook = () => {
         } else {
             if (errors?.type == 'loading') {
                 if (errors?.message != '') {
-                    new Snackbar(errors.message, { iconSrc: './loading-gif.gif' })
+                    new Snackbar(errors.message, { iconSrc: './loading-gif.gif', timeout: 1500 })
                 }
             } else if (errors?.type == 'remove image') {
                 new Snackbar(`Image has been removed!`, {

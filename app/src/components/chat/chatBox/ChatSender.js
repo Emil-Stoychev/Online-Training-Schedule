@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import InputEmoji from 'react-input-emoji'
+import useGlobalErrorsHook from '../../../hooks/useGlobalErrors.js'
 import * as chatService from '../../../services/chatService.js'
 
 import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages'
@@ -12,11 +13,12 @@ export const ChatSenderComponent = ({
     setMessages,
     setSendMessage
 }) => {
-    const [errors, setErrors] = useState('')
     const [newMessage, setNewMessage] = useState({
         text: '',
         image: ''
     });
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const sendMessageBtn = useRef(null)
     const imageRef = useRef();
@@ -33,6 +35,8 @@ export const ChatSenderComponent = ({
         e.preventDefault()
 
         if (newMessage.text?.trim() != '' || newMessage.image) {
+            if (newMessage.image) setErrors({ message: 'Sending...', type: 'loading' })
+
             const message = {
                 senderId: currentUser,
                 text: newMessage.text,
@@ -62,6 +66,7 @@ export const ChatSenderComponent = ({
         let file = e.target.files[0]
 
         if (file && imageTypes.includes(file.type)) {
+            setErrors({ message: 'Uploading...', type: '' })
             let base64 = await convertBase64(file)
 
             if (newMessage.image == base64) {
@@ -74,13 +79,7 @@ export const ChatSenderComponent = ({
                 }
             } else {
                 if (newMessage.image != '') {
-                    if (errors !== 'You cannot upload more than 1 image!') {
-                        setErrors('You cannot upload more than 1 image!')
-
-                        setTimeout(() => {
-                            setErrors('')
-                        }, 2000);
-                    }
+                    setErrors({ message: 'You cannot upload more than 1 image!', type: '' })
                 } else {
                     setNewMessage(state => ({
                         ...state,
@@ -89,13 +88,7 @@ export const ChatSenderComponent = ({
                 }
             }
         } else {
-            if (errors !== 'File must be a image!') {
-                setErrors('File must be a image!')
-
-                setTimeout(() => {
-                    setErrors('')
-                }, 2000);
-            }
+            setErrors({ message: 'File must be a image! (png, jpeg, jpg, raw)', type: '' })
         }
 
         e.target.value = null
@@ -106,6 +99,8 @@ export const ChatSenderComponent = ({
             ...state,
             image: ''
         }));
+
+        setErrors({ message: e, type: 'remove image' })
     }
     return (
         <>

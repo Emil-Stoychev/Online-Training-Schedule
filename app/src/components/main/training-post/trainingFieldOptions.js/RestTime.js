@@ -1,4 +1,5 @@
 import { useState } from "react"
+import useGlobalErrorsHook from "../../../../hooks/useGlobalErrors"
 import * as trainingService from '../../../../services/trainingService'
 
 export const RestTimeComponent = ({ x, _id, token, setTraining }) => {
@@ -6,6 +7,8 @@ export const RestTimeComponent = ({ x, _id, token, setTraining }) => {
         option: false,
         value: ''
     })
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const editValueHandler = (e) => {
         setToggleEdit(state => ({
@@ -16,6 +19,8 @@ export const RestTimeComponent = ({ x, _id, token, setTraining }) => {
 
     const submitEditHandler = () => {
         if (toggleEdit.value.trim() != '' && toggleEdit.value.length > 3) {
+            setErrors({ message: 'Editing...', type: 'loading' })
+
             trainingService.editCntValue(toggleEdit.value, x._id, token)
                 .then(res => {
                     if (!res.message) {
@@ -30,12 +35,18 @@ export const RestTimeComponent = ({ x, _id, token, setTraining }) => {
                             })
                         }))
 
+                        setErrors({ message: 'You successfully edited rest time!', type: '' })
+
                         setToggleEdit({
                             value: '',
                             option: false
                         })
+                    } else {
+                        setErrors({ message: res.message, type: '' })
                     }
                 })
+        } else {
+            setErrors({ message: 'Rest time must be at least 3 charaters!', type: '' })
         }
     }
 

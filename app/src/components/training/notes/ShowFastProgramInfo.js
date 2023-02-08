@@ -2,6 +2,7 @@ import { Fragment, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import * as trainingService from '../../../services/trainingService.js'
 import { format } from "timeago.js";
+import useGlobalErrorsHook from "../../../hooks/useGlobalErrors.js";
 
 
 export const ShowFastInfoAboutProgram = ({ y }) => {
@@ -9,13 +10,18 @@ export const ShowFastInfoAboutProgram = ({ y }) => {
     const [showMore, setShowMore] = useState(false)
     const navigate = useNavigate()
 
+    let [errors, setErrors] = useGlobalErrorsHook()
+
     const showFastInfoForCurrProgram = (trainingProgramId) => {
         setShowMore(true)
+        setErrors({ message: 'Loading...', type: 'loading' })
 
         trainingService.getFastInfoAboutProgram(trainingProgramId)
             .then(res => {
+                console.log(res);
                 if (!res.message) {
                     setTrainings(res)
+                    setErrors({ message: '', type: '' })
                 }
             })
     }

@@ -2,12 +2,15 @@ import { useState } from 'react'
 import './addComment.css'
 
 import * as postService from '../../../../services/postService'
+import useGlobalErrorsHook from '../../../../hooks/useGlobalErrors'
 
 export const AddCommentComponent = ({ userId, token, post, setPost, showComments, image }) => {
     const [values, setValues] = useState({
         description: '',
         image: [],
     })
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const changeValues = (word) => {
         setValues(state => ({
@@ -34,11 +37,15 @@ export const AddCommentComponent = ({ userId, token, post, setPost, showComments
                         comments: [...state.comments, showComments ? res : res?._id]
                     }))
 
+                    setErrors({ message: 'You successfully added a comment!', type: '' })
+
                     setValues({
                         description: '',
                         image: [],
                     })
                 })
+        } else {
+            setErrors({ message: 'Description must be at least 3 characters!', type: '' })
         }
     }
 

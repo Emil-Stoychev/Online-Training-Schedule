@@ -6,6 +6,7 @@ import * as trainingService from '../../../services/trainingService.js'
 
 import { InputOptionsComponent } from './InputOptions';
 import { ProgramBtnsAdd } from './ProgramBtnsAdd';
+import useGlobalErrorsHook from '../../../hooks/useGlobalErrors';
 
 const EditProgramComponent = ({ token, userId, setCategories }) => {
     const [container, setContainer] = useState([])
@@ -16,11 +17,13 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
         option: true,
         value: ''
     })
-    const [errors, setErrors] = useState(undefined)
+    let [errors, setErrors] = useGlobalErrorsHook()
     const navigate = useNavigate()
 
 
     useEffect(() => {
+        setErrors({ message: 'Loading...', type: 'loading' })
+
         trainingService.getById(window.location.pathname.split('/training-edit-program/')[1])
             .then(res => {
                 if (!res.message) {
@@ -35,6 +38,8 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
 
     const onCreateBtnHandler = () => {
         if (category.value.trim() != '' && container.length > 0 && mainInputTitle?.current?.value.trim() != '') {
+            setErrors({ message: 'Editing...', type: 'loading' })
+
             let data = [
                 window.location.pathname.split('/training-edit-program/')[1],
                 mainInputTitle?.current?.value,
@@ -48,17 +53,17 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
                 .then(res => {
                     console.log(res);
                     if (!res.message) {
-                        navigate(`/training-post/${window.location.pathname.split('/training-edit-program/')[1]}`)
-                    } else {
-                        if (errors == undefined) {
-                            setErrors(res.message)
+                        setErrors({ message: 'You successfully edited this training program!', type: '' })
 
-                            setTimeout(() => {
-                                setErrors(undefined)
-                            }, 3000);
-                        }
+                        setTimeout(() => {
+                            navigate(`/training-post/${window.location.pathname.split('/training-edit-program/')[1]}`)
+                        }, 0);
+                    } else {
+                        setErrors({ message: res.message, type: '' })
                     }
                 })
+        } else {
+            setErrors({ message: 'All inputs must be filled!', type: '' })
         }
     }
 
@@ -74,8 +79,6 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
             />
 
             <div className='add-option'>
-
-                {errors != undefined && <h3>{errors}</h3>}
 
                 {container.length > 0 && <input minLength='3' maxLength='30' value={mainInputValue} onChange={(e) => setMainInputValue(e.target.value)} ref={mainInputTitle} type='text' placeholder='Main title' />}
 

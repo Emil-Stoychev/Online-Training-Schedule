@@ -43,7 +43,10 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
         postService.deleteComment(commentId, token, parentId)
             .then(res => {
                 if (!res.message) {
-                    setErrors({ message: 'You successfully deleted this comment!', type: '' })
+
+                    setTimeout(() => {
+                        setErrors({ message: 'You successfully deleted this comment!', type: '' })
+                    }, 1);
 
                     if (parentId == undefined) {
                         setPost(state => ({
@@ -74,37 +77,40 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
 
         postService.likeComment({ commentId, token })
             .then(res => {
-                console.log(res)
-                setPost(state => ({
-                    ...state,
-                    comments: state.comments.map(c => {
-                        if (option == 'main') {
-                            if (c?._id == commentId && c?.authorId != userId) {
-                                if (c?.likes.includes(userId)) {
-                                    c.likes = c.likes.filter(x => x != userId)
-                                } else {
-                                    c?.likes.push(userId)
-                                }
-                            }
-                            return c
-                        } else {
-                            if (c?._id == parentId && c?.authorId != userId) {
-                                c.nestedComments = c.nestedComments.map(x => {
-                                    if (x._id == commentId && x.authorId != userId) {
-                                        if (x?.likes.includes(userId)) {
-                                            x.likes = x.likes.filter(x => x != userId)
-                                        } else {
-                                            x?.likes.push(userId)
-                                        }
+                if (!res.message) {
+                    setPost(state => ({
+                        ...state,
+                        comments: state.comments.map(c => {
+                            if (option == 'main') {
+                                if (c?._id == commentId && c?.authorId != userId) {
+                                    if (c?.likes.includes(userId)) {
+                                        c.likes = c.likes.filter(x => x != userId)
+                                    } else {
+                                        c?.likes.push(userId)
                                     }
+                                }
+                                return c
+                            } else {
+                                if (c?._id == parentId && c?.authorId != userId) {
+                                    c.nestedComments = c.nestedComments.map(x => {
+                                        if (x._id == commentId && x.authorId != userId) {
+                                            if (x?.likes.includes(userId)) {
+                                                x.likes = x.likes.filter(x => x != userId)
+                                            } else {
+                                                x?.likes.push(userId)
+                                            }
+                                        }
 
-                                    return x
-                                })
+                                        return x
+                                    })
+                                }
+                                return c
                             }
-                            return c
-                        }
-                    })
-                }))
+                        })
+                    }))
+                } else {
+                    setErrors({ message: res.message, type: '' })
+                }
             })
     }
 
@@ -137,6 +143,8 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
             postService.editComment(word, commentId, token)
                 .then(res => {
                     if (!res.message) {
+                        setErrors({ message: 'You successfully edited this comment!', type: '' })
+
                         setPost(state => ({
                             ...state,
                             comments: state.comments.map(c => {
@@ -159,15 +167,20 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
                                 }
                             })
                         }))
+
+                        if (setNestedToggleEdit) setNestedToggleEdit({ value: '', option: false })
+
+                        setToggleEdit({
+                            option: false,
+                            value: ''
+                        })
+                    } else {
+                        setErrors({ message: res.message, type: '' })
                     }
                 })
+        } else {
+            setErrors({ message: 'Comment must be at least 3 characters!', type: '' })
         }
-        if (setNestedToggleEdit) setNestedToggleEdit({ value: '', option: false })
-
-        setToggleEdit({
-            option: false,
-            value: ''
-        })
     }
 
     const onReplyClick = (commentId) => {
@@ -194,11 +207,16 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
                             return x
                         })
                     }))
+
+                    setErrors({ message: 'You successfully added a comment!', type: '' })
+
+                    setToggleReply({
+                        option: false,
+                        value: ''
+                    })
+                } else {
+                    setErrors({ message: res.message, type: '' })
                 }
-                setToggleReply({
-                    option: false,
-                    value: ''
-                })
             })
     }
 

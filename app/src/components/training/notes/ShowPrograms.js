@@ -2,6 +2,7 @@ import { useState } from "react"
 import * as trainingService from '../../../services/trainingService.js'
 import { format } from "timeago.js";
 import { ShowFastInfoAboutProgram } from "./ShowFastProgramInfo.js";
+import useGlobalErrorsHook from "../../../hooks/useGlobalErrors.js";
 
 
 export const ShowPrograms = ({ token, x, userId, setCategories }) => {
@@ -12,23 +13,37 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
         value: ''
     })
 
+    let [errors, setErrors] = useGlobalErrorsHook()
+
     const deleteCategory = (categoryId) => {
+        setErrors({ message: 'Deleting...', type: 'loading' })
 
         trainingService.deleteCategory(categoryId, token)
             .then(res => {
                 if (!res.message) {
-                    setCategories(state => state.filter(x => x._id != categoryId))
+                    setErrors({ message: 'You successfully deleted this category!', type: '' })
+
+                    setTimeout(() => {
+                        setCategories(state => state.filter(x => x._id != categoryId))
+                    }, 0);
+                } else {
+                    setErrors({ message: res.message, type: '' })
                 }
             })
     }
 
     const getTrainingsByCategory = (categoryId) => {
         if (trainings.length == 0) {
+            setErrors({ message: 'Loading...', type: 'loading' })
+
             trainingService.getTrainingsByCategory(categoryId)
                 .then(res => {
+
                     if (!res.message) {
                         setTrainings(res)
+                        setErrors({ message: `${res?.length} items found!`, type: '' })
                     } else {
+                        setErrors({ message: 'Empty!', type: '' })
                         setTrainings([])
                     }
                 })
@@ -46,6 +61,8 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
 
     const editCategoryName = (categoryId) => {
         if (toggleEditCat.value.trim() != '' && toggleEditCat.value.length > 3) {
+            setErrors({ message: 'Editing...', type: 'loading' })
+
             trainingService.editCategoryName(categoryId, toggleEditCat.value, token)
                 .then(res => {
                     if (!res.message) {
@@ -57,9 +74,15 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
                             return x
                         }))
 
+                        setErrors({ message: 'You successfully edited this category!', type: '' })
+
                         setToggleEditCat({ option: false, value: '' })
+                    } else {
+                        setErrors({ message: res.message, type: '' })
                     }
                 })
+        } else {
+            setErrors({ message: 'Category must be at least 3 characters!', type: '' })
         }
 
     }

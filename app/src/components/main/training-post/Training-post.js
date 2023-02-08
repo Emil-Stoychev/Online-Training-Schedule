@@ -8,6 +8,7 @@ import { DescComponent } from './trainingFieldOptions.js/Desc';
 import { RestTimeComponent } from './trainingFieldOptions.js/RestTime';
 import { ExerciseTimeComponent } from './trainingFieldOptions.js/ExerciseTime';
 import { ImagesComponent } from './trainingFieldOptions.js/ImagesComponent';
+import useGlobalErrorsHook from '../../../hooks/useGlobalErrors';
 
 const TrainingPostComponent = ({ token, _id }) => {
     const [training, setTraining] = useState(undefined)
@@ -16,26 +17,34 @@ const TrainingPostComponent = ({ token, _id }) => {
 
     const navigate = useNavigate()
 
+    let [errors, setErrors] = useGlobalErrorsHook()
+
     useEffect(() => {
         trainingService.getById(window.location.pathname.split('/training-post/')[1])
             .then(res => {
                 if (!res.message) {
                     console.log(res);
                     setTraining(res)
+                } else {
+                    navigate('/errorPage')
                 }
             })
     }, [])
 
     const openFullImage = (imageId) => {
+        setErrors({ message: 'Loading...', type: 'loading' })
+
         trainingService.getFullImage(imageId)
             .then(res => {
                 if (!res.message) {
                     setFullImage(res)
+                    setErrors({ message: '', type: '' })
                 }
             })
     }
 
     const toggleLikeTrainingProgram = (trainingId) => {
+        if (training?.author?._id == _id) setErrors({ message: 'You cannot like this training program!', type: '' })
 
         if (training?.author?._id != _id) {
             trainingService.toggleLikeTrainingProgram(trainingId, token)
@@ -47,12 +56,18 @@ const TrainingPostComponent = ({ token, _id }) => {
                                 ...state,
                                 likes: state.likes.filter(x => x != _id)
                             }))
+
+                            setErrors({ message: 'Unliked', type: '' })
                         } else {
                             setTraining(state => ({
                                 ...state,
                                 likes: [...state.likes, _id]
                             }))
+
+                            setErrors({ message: 'Liked', type: '' })
                         }
+                    } else {
+                        setErrors({ message: res.message, type: '' })
                     }
                 })
         }
@@ -60,10 +75,16 @@ const TrainingPostComponent = ({ token, _id }) => {
 
     const deleteTrainingProgram = (trainingId) => {
         if (training?.author?._id == _id) {
+            setErrors({ message: 'Deleting training program...', type: 'loading' })
+
             trainingService.deleteTrainingProgram(trainingId, token)
                 .then(res => {
                     if (!res.message) {
-                        navigate('/profile')
+                        setErrors({ message: 'You successfully deleted this training program!', type: '' })
+
+                        setTimeout(() => {
+                            navigate('/profile')
+                        }, 0);
                     }
                 })
         }

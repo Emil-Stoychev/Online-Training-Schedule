@@ -5,6 +5,7 @@ import * as trainingService from '../../../services/trainingService.js'
 
 import { InputOptionsComponent } from './InputOptions';
 import { ProgramBtnsAdd } from './ProgramBtnsAdd';
+import useGlobalErrorsHook from '../../../hooks/useGlobalErrors';
 
 export const AddProgramComponent = ({ token, userId, setCategories, categories }) => {
     const [container, setContainer] = useState([])
@@ -12,12 +13,14 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories }
         option: true,
         value: ''
     })
-    const [errors, setErrors] = useState(undefined)
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const mainInputTitle = useRef(null)
 
     const onCreateBtnHandler = () => {
         if (category.value == '' || category.value.trim() != '') {
+            setErrors({ message: 'Creating...', type: 'loading' })
 
             let data = {
                 mainInputTitle: mainInputTitle?.current?.value,
@@ -37,23 +40,13 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories }
                             setCategories(state => state.find(x => x._id == res.category._id) ? state : [...state, res.category])
                         }
 
-                        if (errors == undefined) {
-                            setErrors(`You have successfully created a ${res?.likes ? 'program' : 'category'}!`)
-
-                            setTimeout(() => {
-                                setErrors(undefined)
-                            }, 3000);
-                        }
+                        setErrors({ message: `You successfully created a ${res?.likes ? 'program' : 'category'}!`, type: '' })
                     } else {
-                        if (errors == undefined) {
-                            setErrors(res.message)
-
-                            setTimeout(() => {
-                                setErrors(undefined)
-                            }, 3000);
-                        }
+                        setErrors({ message: res.message, type: '' })
                     }
                 })
+        } else {
+            setErrors({ message: 'Choose category or create one!', type: '' })
         }
     }
 
@@ -69,8 +62,6 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories }
             />
 
             <div className='add-option'>
-
-                {errors != undefined && <h3>{errors}</h3>}
 
                 {container.length > 0 && <input minLength='3' maxLength='30' ref={mainInputTitle} type='text' placeholder='Main title' />}
 

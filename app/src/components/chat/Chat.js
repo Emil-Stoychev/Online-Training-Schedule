@@ -6,6 +6,7 @@ import { io } from 'socket.io-client'
 
 import { FullImageComponent } from './FullImage'
 import { LeftSideComponent } from './LeftSide'
+import useGlobalErrorsHook from '../../hooks/useGlobalErrors'
 
 const ChatComponent = ({ token, _id, image }) => {
   const [chats, setChats] = useState([])
@@ -21,7 +22,11 @@ const ChatComponent = ({ token, _id, image }) => {
   const leftSide = useRef()
   const rightSide = useRef()
 
+  let [errors, setErrors] = useGlobalErrorsHook()
+
   useEffect(() => {
+    setErrors({ message: 'Loading chats...', type: 'loading' })
+
     chatService.userChats(_id, token)
       .then(res => {
         setChats(res)

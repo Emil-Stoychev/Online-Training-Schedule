@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { convertBase64, imageTypes } from '../../utils/AddRemoveImages'
 import * as userService from '../../services/authService'
 import { useNavigate } from 'react-router-dom'
+import useGlobalErrorsHook from '../../hooks/useGlobalErrors'
 
 export const EditProfileComponent = ({ setToken, user, userId, token, setUser, setViewOptions, changeView }) => {
-    const [errors, setErrors] = useState('')
     const [values, setValues] = useState({
         username: user?.username || '',
         password: '',
@@ -13,6 +13,8 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
         image: user?.image || ''
     })
     const navigate = useNavigate()
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     const changeHandler = (e) => {
         setValues(oldState => ({
@@ -24,31 +26,31 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
     const onSubmitHandler = (e) => {
         e.preventDefault()
 
+        setErrors({ message: 'Editing...', type: 'loading' })
+
         userService.editProfile(values, userId, token)
             .then(result => {
                 if (result.message) {
-                    if (errors == '') {
-                        setErrors(result.message)
-
-                        setTimeout(() => {
-                            setErrors('')
-                        }, 2000);
-                    }
+                    setErrors({ message: result.message, type: '' })
                 } else {
-                    setUser(result)
-                    setViewOptions({
-                        ownPosts: false,
-                        trainings: false,
-                        savedPosts: false,
-                        savedTrainings: false,
-                        followers: false,
-                        following: false,
-                        edit: false
-                    })
-                    setToken(state => ({
-                        ...state,
-                        image: values.image
-                    }))
+                    setErrors({ message: 'You successfully edited your profile!', type: '' })
+
+                    setTimeout(() => {
+                        setUser(result)
+                        setViewOptions({
+                            ownPosts: false,
+                            trainings: false,
+                            savedPosts: false,
+                            savedTrainings: false,
+                            followers: false,
+                            following: false,
+                            edit: false
+                        })
+                        setToken(state => ({
+                            ...state,
+                            image: values.image
+                        }))
+                    }, 0);
                 }
             })
     }
@@ -73,6 +75,7 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
         let file = e.target.files[0]
 
         if (file && imageTypes.includes(file.type)) {
+            setErrors({ message: 'Uploading...', type: 'loading' })
             let base64 = await convertBase64(file)
 
             setValues(state => ({
@@ -80,23 +83,20 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
                 ['image']: base64
             }));
         } else {
-            if (errors !== 'File must be a image!') {
-                setErrors('File must be a image!')
-
-                setTimeout(() => {
-                    setErrors('')
-                }, 2000);
-            }
+            setErrors({ message: 'File must be a image! (png, jpeg, jpg, raw)', type: '' })
         }
 
         e.target.value = null
     }
 
     const removeImage = (e) => {
-        setValues(state => ({
-            ...state,
-            ['image']: ''
-        }));
+        setErrors({ message: e, type: 'remove image' })
+        setTimeout(() => {
+            setValues(state => ({
+                ...state,
+                ['image']: ''
+            }));
+        }, 0);
     }
 
     return (
@@ -105,8 +105,6 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
                 <form className="form" onSubmit={onSubmitHandler}>
 
                     <h2>Edit Profile</h2>
-
-                    {errors != '' ? <h2>{errors}</h2> : ''}
 
                     <div className="inputBox">
                         <input type="text" name='username' required='required' value={values.username} onChange={changeHandler} />

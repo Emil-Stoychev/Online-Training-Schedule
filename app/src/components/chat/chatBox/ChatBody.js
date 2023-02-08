@@ -2,12 +2,16 @@ import { useState } from "react";
 import * as imageServce from '../../../services/imageService.js'
 import * as chatService from '../../../services/chatService.js'
 import { format } from "timeago.js";
+import useGlobalErrorsHook from "../../../hooks/useGlobalErrors.js";
 
 
 export const ChatBodyComponent = ({ message, setFullImages, token, currentUser, setMessages }) => {
     const [toggleDeleteMsg, setToggleDeleteMsg] = useState(false);
 
+    let [errors, setErrors] = useGlobalErrorsHook()
+
     const openImageFullScreen = (imageId) => {
+        setErrors({ message: 'Loading...', type: 'loading' })
         imageServce.getFullImage(imageId, token)
             .then(res => {
                 setFullImages([res])
@@ -16,11 +20,18 @@ export const ChatBodyComponent = ({ message, setFullImages, token, currentUser, 
 
     const deleteMsg = (msgId) => {
         setToggleDeleteMsg(false)
+        setErrors({ message: 'Deleting...', type: 'loading' })
 
         chatService.deleteMessage(msgId, token)
             .then(res => {
                 if (!res.message) {
-                    setMessages(state => state.filter(x => x._id != msgId))
+                    setErrors({ message: 'Message deleted!', type: '' })
+
+                    setTimeout(() => {
+                        setMessages(state => state.filter(x => x._id != msgId))
+                    }, 0);
+                } else {
+                    setErrors({ message: res.message, type: '' })
                 }
             })
     }

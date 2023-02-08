@@ -152,21 +152,21 @@ export const CalendarComponent = () => {
                     <div className='event'>
                         <div className='title'>
                             <i className='fas fa-circle'></i>
-                            <h3 className='event-title'>Event 1</h3>
+                            <h3 className='event-title'>Coming soon</h3>
                         </div>
                         <div className='event-time'>10:00 - 12:00PM</div>
                     </div>
                     <div className='event'>
                         <div className='title'>
                             <i className='fas fa-circle'></i>
-                            <h3 className='event-title'>Event 2</h3>
+                            <h3 className='event-title'>Coming soon</h3>
                         </div>
                         <div className='event-time'>10:00 - 12:00PM</div>
                     </div>
                     <div className='event'>
                         <div className='title'>
                             <i className='fas fa-circle'></i>
-                            <h3 className='event-title'>Event 3</h3>
+                            <h3 className='event-title'>Coming soon</h3>
                         </div>
                         <div className='event-time'>10:00 - 12:00PM</div>
                     </div>
