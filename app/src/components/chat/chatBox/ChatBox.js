@@ -6,7 +6,6 @@ import { ChatHeaderComponent } from "./ChatHeader";
 import { ChatBodyComponent } from "./ChatBody";
 import { ChatSenderComponent } from "./ChatSender";
 
-
 const ChatBox = ({
     token,
     chat,
@@ -70,7 +69,7 @@ const ChatBox = ({
                         }
 
                         if (messages.length == 0) {
-                            scrollBody.current.addEventListener('scroll', handleScroll)
+                            if (scrollBody.current) scrollBody.current.addEventListener('scroll', handleScroll)
                         }
                     }
                 })
@@ -94,10 +93,11 @@ const ChatBox = ({
             <div className="ChatBox-container">
                 {chat ? (
                     <>
-                        <ChatHeaderComponent userData={userData} closeChat={closeChat} />
+                        < ChatHeaderComponent userData={userData} closeChat={closeChat} />
 
                         {/* chat-body */}
                         <div className="chat-body" ref={scrollBody} >
+                            {messages.length == 0 && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
                             {messages.map((message) => (
                                 <ChatBodyComponent
                                     key={message._id}
@@ -110,16 +110,18 @@ const ChatBox = ({
                             ))}
                         </div>
                         {/* chat-sender */}
-                        <i onClick={goToLastMsg} className="fa fa-arrow-up btn-to-up-in-chat" />
+                        {messages.length > 0 && <i onClick={goToLastMsg} className="fa fa-arrow-up btn-to-up-in-chat" />}
 
-                        <ChatSenderComponent
-                            token={token}
-                            currentUser={currentUser}
-                            chat={chat}
-                            messages={messages}
-                            setMessages={setMessages}
-                            setSendMessage={setSendMessage}
-                        />
+                        {messages.length > 0 &&
+                            <ChatSenderComponent
+                                token={token}
+                                currentUser={currentUser}
+                                chat={chat}
+                                messages={messages}
+                                setMessages={setMessages}
+                                setSendMessage={setSendMessage}
+                            />
+                        }
                     </>
                 ) : (
                     <div className="tap-on-chat">

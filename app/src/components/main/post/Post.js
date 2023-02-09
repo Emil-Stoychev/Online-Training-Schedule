@@ -8,6 +8,7 @@ import * as postService from '../../../services/postService.js'
 import { useNavigate } from 'react-router-dom'
 import { AddCommentComponent } from './addComment/AddComment'
 import { EditPostComponent } from './editPost/EditPost'
+import { LoadingPostTemplate } from './LoadingPostTemplate'
 
 const PostComponent = ({ x, userId, token, image, setPosts }) => {
     const [post, setPost] = useState({})
@@ -169,106 +170,112 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
 
     return (
         <>
-            <div className="post">
-                <div className="profile">
-                    <div className='post-info' onClick={() => navigate(`/profile/${post?.author}`)}>
-                        <img src={post?.profileImage?.length > 0 &&
-                            post?.profileImage[0]?.image != ''
-                            ? post?.profileImage[0]?.image
-                            : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
-                        <div>
-                            <h3>{post?.profileImage?.length > 0 ? post?.profileImage[0]?.username : ''}</h3>
-                            <p>{post?.profileImage?.length > 0 ? post?.profileImage[0]?.location : ''}</p>
+            {post._id ?
+                <>
+                    <div className="post">
+                        <div className="profile">
+                            <div className='post-info' onClick={() => navigate(`/profile/${post?.author}`)}>
+                                <img src={post?.profileImage?.length > 0 &&
+                                    post?.profileImage[0]?.image != ''
+                                    ? post?.profileImage[0]?.image
+                                    : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
+                                <div>
+                                    <h3>{post?.profileImage?.length > 0 ? post?.profileImage[0]?.username : ''}</h3>
+                                    <p>{post?.profileImage?.length > 0 ? post?.profileImage[0]?.location : ''}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                {post?.author == userId ?
+                                    toggleEditPost.option
+                                        ?
+                                        <>
+                                            <button className='editPostOptionBtn' onClick={() => submitEditPost()}>✓</button>
+                                            <button className='editPostOptionBtn' onClick={() => setToggleEditPost(x => ({ ...x, option: false }))}>X</button>
+                                        </>
+                                        :
+                                        <i onClick={() => setToggleEditPost(x => ({
+                                            option: true,
+                                            description: post?.description,
+                                            images: post?.images,
+                                            select: post?.visible
+                                        }))} className="fa-solid fa-pen-to-square"></i>
+                                    : ''}
+                            </div>
                         </div>
-                    </div>
 
-                    <div>
-                        {post?.author == userId ?
-                            toggleEditPost.option
-                                ?
-                                <>
-                                    <button className='editPostOptionBtn' onClick={() => submitEditPost()}>✓</button>
-                                    <button className='editPostOptionBtn' onClick={() => setToggleEditPost(x => ({ ...x, option: false }))}>X</button>
-                                </>
-                                :
-                                <i onClick={() => setToggleEditPost(x => ({
-                                    option: true,
-                                    description: post?.description,
-                                    images: post?.images,
-                                    select: post?.visible
-                                }))} className="fa-solid fa-pen-to-square"></i>
-                            : ''}
-                    </div>
-                </div>
-
-                {post?.images?.length > 0 && !toggleEditPost.option &&
-                    <div className='images'>
-                        {post?.images?.length > 1 &&
-                            <div className='sliders'>
-                                <button onClick={() => previousImage()}>&#8810;</button>
-                                <button onClick={() => nextImage()}>&#8811;</button>
+                        {post?.images?.length > 0 && !toggleEditPost.option &&
+                            <div className='images'>
+                                {post?.images?.length > 1 &&
+                                    <div className='sliders'>
+                                        <button onClick={() => previousImage()}>&#8810;</button>
+                                        <button onClick={() => nextImage()}>&#8811;</button>
+                                    </div>
+                                }
+                                {post?.images?.length > 0 &&
+                                    <div className='images-image'>
+                                        <img key={post?.images[imageCount]?._id} src={post?.images[imageCount]?.dataString} />
+                                    </div>
+                                }
                             </div>
                         }
-                        {post?.images?.length > 0 &&
-                            <div className='images-image'>
-                                <img key={post?.images[imageCount]?._id} src={post?.images[imageCount]?.dataString} />
-                            </div>
+
+
+                        {toggleEditPost.option
+                            ? <EditPostComponent toggleEditPost={toggleEditPost} setToggleEditPost={setToggleEditPost} submitEditPost={submitEditPost} />
+                            : <p>{post?.description}</p>
                         }
-                    </div>
-                }
-
-
-                {toggleEditPost.option
-                    ? <EditPostComponent toggleEditPost={toggleEditPost} setToggleEditPost={setToggleEditPost} submitEditPost={submitEditPost} />
-                    : <p>{post?.description}</p>
-                }
 
 
 
-                {!toggleEditPost.option && <div className='buttons'>
-                    <i onClick={(e) => onLikeHandler(e, post?._id)} className={`fa-solid fa-heart ${post?.likes?.includes(userId) && 'liked'}`}>{post?.likes?.length}</i>
-                    <i className="fa-sharp fa-solid fa-comments">{post?.comments?.length}</i>
-                    <i onClick={(e) => onSaveHandler(e, post?._id)} className={`fa-solid fa-sd-card ${post?.saved?.includes(userId) && 'saved'}`}>{post?.saved?.length}</i>
+                        {!toggleEditPost.option && <div className='buttons'>
+                            <i onClick={(e) => onLikeHandler(e, post?._id)} className={`fa-solid fa-heart ${post?.likes?.includes(userId) && 'liked'}`}>{post?.likes?.length}</i>
+                            <i className="fa-sharp fa-solid fa-comments">{post?.comments?.length}</i>
+                            <i onClick={(e) => onSaveHandler(e, post?._id)} className={`fa-solid fa-sd-card ${post?.saved?.includes(userId) && 'saved'}`}>{post?.saved?.length}</i>
 
-                    {post?.author == userId &&
-                        <>
-                            {toggleDelete
-                                ?
+                            {post?.author == userId &&
                                 <>
-                                    <button className='deleteOptionBtn' onClick={(e) => onDeleteHandler(e, post?._id)}>✓</button>
-                                    <button className='deleteOptionBtn' onClick={() => setToggleDelete(false)}>X</button>
+                                    {toggleDelete
+                                        ?
+                                        <>
+                                            <button className='deleteOptionBtn' onClick={(e) => onDeleteHandler(e, post?._id)}>✓</button>
+                                            <button className='deleteOptionBtn' onClick={() => setToggleDelete(false)}>X</button>
+                                        </>
+                                        :
+                                        <i onClick={() => setToggleDelete(true)} className="fa-solid fa-trash"></i>
+                                    }
                                 </>
-                                :
-                                <i onClick={() => setToggleDelete(true)} className="fa-solid fa-trash"></i>
                             }
-                        </>
-                    }
-                </div>}
+                        </div>}
 
-                {!toggleEditPost.option && <div className='comment-main-title'>
+                        {!toggleEditPost.option && <div className='comment-main-title'>
+                            <hr />
+                            <h2>COMMENTS</h2>
+                        </div>}
+
+                        {!toggleEditPost.option && <div className='comments'>
+
+                            <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} />
+
+                            {post?.comments?.length > 0 && showComments
+                                ?
+                                <>
+                                    <p onClick={() => setShowComments(false)} className='showComments'>Hide comments: {post?.comments?.length}</p>
+
+                                    {post?.comments?.map(x => <CommentComponent key={x?._id} x={x} token={token} userId={userId} setPost={setPost} />)}
+                                </>
+                                :
+                                <p onClick={() => getComments()} className='showComments'>Show comments: {post?.comments?.length}</p>
+                            }
+
+                        </div>}
+                    </div>
+
                     <hr />
-                    <h2>COMMENTS</h2>
-                </div>}
-
-                {!toggleEditPost.option && <div className='comments'>
-
-                    <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} />
-
-                    {post?.comments?.length > 0 && showComments
-                        ?
-                        <>
-                            <p onClick={() => setShowComments(false)} className='showComments'>Hide comments: {post?.comments?.length}</p>
-
-                            {post?.comments?.map(x => <CommentComponent key={x?._id} x={x} token={token} userId={userId} setPost={setPost} />)}
-                        </>
-                        :
-                        <p onClick={() => getComments()} className='showComments'>Show comments: {post?.comments?.length}</p>
-                    }
-
-                </div>}
-            </div>
-
-            <hr />
+                </>
+                :
+                <LoadingPostTemplate />
+            }
         </>
     )
 }

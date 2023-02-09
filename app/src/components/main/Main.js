@@ -5,6 +5,7 @@ import { CreatePost } from "./create-post/CreatePost";
 import PostComponent from "./post/Post";
 
 import * as postService from '../../services/postService.js'
+import { LoadingCreatePostTemplate } from "./create-post/LoadingCreatePostTemplate";
 
 const MainComponent = ({ userId, token, image }) => {
     const [posts, setPosts] = useState([])
@@ -58,7 +59,8 @@ const MainComponent = ({ userId, token, image }) => {
     return (
         <section className="container">
 
-            <CreatePost setPosts={setPosts} image={image} />
+
+            {token != null ? <CreatePost setPosts={setPosts} image={image} /> : <LoadingCreatePostTemplate />}
 
             <article className='different-posts-options'>
                 <ul role='list'>
@@ -80,7 +82,7 @@ const MainComponent = ({ userId, token, image }) => {
 
             </article>
 
-            {loading && <h1 className="loading-in-cnt">Loading...</h1>}
+            {loading && <h1 className="loading-in-cnt"><div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div></h1>}
 
             {posts.length == 0 && !loading && <h1 className="loading-in-cnt">{viewOptions.friends ? 'No friends posts!' : 'No posts!'}</h1>}
 

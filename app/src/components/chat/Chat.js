@@ -6,7 +6,7 @@ import { io } from 'socket.io-client'
 
 import { FullImageComponent } from './FullImage'
 import { LeftSideComponent } from './LeftSide'
-import useGlobalErrorsHook from '../../hooks/useGlobalErrors'
+import { LoadingLeftSide } from './LoadingLeftSide'
 
 const ChatComponent = ({ token, _id, image }) => {
   const [chats, setChats] = useState([])
@@ -17,18 +17,21 @@ const ChatComponent = ({ token, _id, image }) => {
   const [onlineUsers, setOnlineUsers] = useState([])
   const [searchChatValue, setSearchChatValue] = useState("")
   const [fullImages, setFullImages] = useState([]);
+  const [chatsEmpty, setChatsEmpty] = useState(false)
 
   const socket = useRef()
   const leftSide = useRef()
   const rightSide = useRef()
 
-  let [errors, setErrors] = useGlobalErrorsHook()
-
   useEffect(() => {
-    setErrors({ message: 'Loading chats...', type: 'loading' })
-
     chatService.userChats(_id, token)
       .then(res => {
+        if (res.length == 0) {
+          setChatsEmpty(true)
+        } else {
+          setChatsEmpty(false)
+        }
+
         setChats(res)
         setSpareChats(res)
       })
@@ -87,17 +90,20 @@ const ChatComponent = ({ token, _id, image }) => {
 
       <div className="Chat">
         {/* Left Side */}
-        <LeftSideComponent
-          _id={_id}
-          token={token}
-          leftSide={leftSide}
-          changeStyle={changeStyle}
-          onlineUsers={onlineUsers}
-          chats={chats}
-          setSearchChatValue={setSearchChatValue}
-          searchChatValue={searchChatValue}
-          setCurrentChat={setCurrentChat}
-        />
+        {chats.length > 0
+          ?
+          <LeftSideComponent
+            _id={_id}
+            token={token}
+            leftSide={leftSide}
+            changeStyle={changeStyle}
+            onlineUsers={onlineUsers}
+            chats={chats}
+            setSearchChatValue={setSearchChatValue}
+            searchChatValue={searchChatValue}
+            setCurrentChat={setCurrentChat}
+          />
+          : <LoadingLeftSide chatsEmpty={chatsEmpty} />}
         {/* Right Side */}
         <div className="Right-side-chat" ref={rightSide}>
           <div>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 
-export const ProgramBtnsAdd = ({ setCategory, category, setContainer, categories }) => {
+export const ProgramBtnsAdd = ({ setCategory, category, setContainer, categories, categoriesEmpty }) => {
     const handleBtns = (option) => {
         let id = uuid()
         let obj = option == 'image' ? { [id]: { [option]: [], option, id } } : { [id]: { [option]: '', option, id } }
@@ -36,7 +36,14 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer, categories
             </div>
 
             <div className='choose-category'>
-                <button onClick={() => setCategory(x => ({ value: '', option: !x.option }))}>{!category.option ? 'Choose category' : 'Create category'}</button>
+                <button onClick={() => setCategory(x => ({ value: '', option: !x.option }))}>
+                    {!category.option
+                        ? 'Choose category'
+                        : (categories.length > 0
+                            ? 'Create category'
+                            : categoriesEmpty &&
+                                !categories.length > 0 ? 'Create category' : 'Loading...')}
+                </button>
 
                 {!category.option
                     ?

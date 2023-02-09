@@ -7,7 +7,7 @@ import { InputOptionsComponent } from './InputOptions';
 import { ProgramBtnsAdd } from './ProgramBtnsAdd';
 import useGlobalErrorsHook from '../../../hooks/useGlobalErrors';
 
-export const AddProgramComponent = ({ token, userId, setCategories, categories }) => {
+export const AddProgramComponent = ({ token, userId, setCategories, categories, categoriesEmpty }) => {
     const [container, setContainer] = useState([])
     const [category, setCategory] = useState({
         option: true,
@@ -90,6 +90,7 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories }
                 category={category}
                 setContainer={setContainer}
                 categories={categories}
+                categoriesEmpty={categoriesEmpty}
             />
 
             <div className='add-option'>

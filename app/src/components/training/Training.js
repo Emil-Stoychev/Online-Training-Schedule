@@ -8,12 +8,20 @@ import * as trainingService from '../../services/trainingService.js'
 
 const TrainingComponent = ({ token, _id }) => {
     const [categories, setCategories] = useState([])
+    const [categoriesEmpty, setCategoriesEmpty] = useState(false)
 
     useEffect(() => {
         trainingService.getAllCategories(_id)
             .then(res => {
                 if (!res.message) {
+                    setCategoriesEmpty(false)
                     setCategories(res)
+                } else {
+                    if (res.message == 'Empty') {
+                        setCategoriesEmpty(true)
+                    } else {
+                        setCategoriesEmpty(false)
+                    }
                 }
             })
     }, [])
@@ -22,11 +30,11 @@ const TrainingComponent = ({ token, _id }) => {
         <>
             <CalendarComponent />
 
-            <AddProgramComponent token={token} userId={_id} setCategories={setCategories} categories={categories} />
+            <AddProgramComponent token={token} userId={_id} setCategories={setCategories} categories={categories} categoriesEmpty={categoriesEmpty} />
 
             <section className='training-notes'>
 
-                <NotesComponent token={token} userId={_id} setCategories={setCategories} categories={categories} />
+                <NotesComponent token={token} userId={_id} setCategories={setCategories} categories={categories} categoriesEmpty={categoriesEmpty} />
 
             </section>
 

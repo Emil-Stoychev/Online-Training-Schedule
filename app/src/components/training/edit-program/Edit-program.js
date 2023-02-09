@@ -131,7 +131,7 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
 
             <div>
                 <button className='last-btn' onClick={() => navigate(`/training-post/${window.location.pathname.split('/training-edit-program/')[1]}`)}>Cancel</button>
-                <button className='last-btn' onClick={() => onCreateBtnHandler()}>Edit</button>
+                {errors.type != 'loading' && <button className='last-btn' onClick={() => onCreateBtnHandler()}>Edit</button>}
             </div>
 
         </section>

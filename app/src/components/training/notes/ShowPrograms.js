@@ -12,6 +12,7 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
         option: false,
         value: ''
     })
+    const [toggleLoadingTrainings, setToggleLoadingTrainings] = useState(false)
 
     let [errors, setErrors] = useGlobalErrorsHook()
 
@@ -34,16 +35,18 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
 
     const getTrainingsByCategory = (categoryId) => {
         if (trainings.length == 0 && errors.type != 'loading') {
-            setErrors({ message: 'Loading...', type: 'loading' })
+            setToggleLoadingTrainings(true)
 
             trainingService.getTrainingsByCategory(categoryId)
                 .then(res => {
 
                     if (!res.message) {
                         setTrainings(res)
+                        setToggleLoadingTrainings(false)
                         setErrors({ message: `${res?.length} items found!`, type: '' })
                     } else {
                         setErrors({ message: 'Empty!', type: '' })
+                        setToggleLoadingTrainings(false)
                         setTrainings([])
                     }
                 })
@@ -126,6 +129,7 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
                     <ShowFastInfoAboutProgram key={y?._id} y={y} />
                 )
             }
+            {toggleLoadingTrainings && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
         </>
     )
 }

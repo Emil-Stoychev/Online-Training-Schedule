@@ -8,20 +8,21 @@ import useGlobalErrorsHook from "../../../hooks/useGlobalErrors.js";
 export const ShowFastInfoAboutProgram = ({ y }) => {
     const [trainings, setTrainings] = useState([])
     const [showMore, setShowMore] = useState(false)
+    const [toggleLoadingTrainings, setToggleLoadingTrainings] = useState(false)
+
     const navigate = useNavigate()
 
     let [errors, setErrors] = useGlobalErrorsHook()
 
     const showFastInfoForCurrProgram = (trainingProgramId) => {
         setShowMore(true)
-        setErrors({ message: 'Loading...', type: 'loading' })
+        setToggleLoadingTrainings(true)
 
         trainingService.getFastInfoAboutProgram(trainingProgramId)
             .then(res => {
-                console.log(res);
+                setToggleLoadingTrainings(false)
                 if (!res.message) {
                     setTrainings(res)
-                    setErrors({ message: '', type: '' })
                 }
             })
     }
@@ -42,7 +43,10 @@ export const ShowFastInfoAboutProgram = ({ y }) => {
                 :
                 <article className='notes' onClick={() => setShowMore(false)}>
                     <div>
-                        <h2>{y?.mainTitle}</h2>
+                        {toggleLoadingTrainings
+                            ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                            : <h2>{y?.mainTitle}</h2>
+                        }
 
                         <h3>-</h3>
                     </div>

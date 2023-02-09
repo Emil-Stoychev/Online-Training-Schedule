@@ -4,7 +4,7 @@ import './notes.css'
 import * as trainingService from '../../../services/trainingService.js'
 import { ShowPrograms } from './ShowPrograms'
 
-export const NotesComponent = ({ token, userId, setCategories, categories }) => {
+export const NotesComponent = ({ token, userId, setCategories, categories, categoriesEmpty }) => {
     useEffect(() => {
         trainingService.getAllCategories(userId)
             .then(res => {
@@ -23,7 +23,11 @@ export const NotesComponent = ({ token, userId, setCategories, categories }) => 
 
             {categories.length > 0
                 ? categories.map(x => <ShowPrograms token={token} key={x._id} x={x} userId={userId} setCategories={setCategories} />)
-                : <h1 className='notes-category-main-header'>You don't have categories yet!</h1>
+                :
+                categoriesEmpty
+                    ? <h1 className='notes-category-main-header'>You don't have categories yet!</h1>
+                    :
+                    !categories.length > 0 && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
             }
         </article >
     )

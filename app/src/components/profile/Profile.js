@@ -8,6 +8,7 @@ import { OwnPostsComponent } from './OwnPosts'
 import { OwnTrainingsComponent } from './OwnTrainings'
 import { OwnFollowersComponent } from './OwnFollowers'
 import { EditProfileComponent } from './EditProfile'
+import { LoadingProfile } from './LoadingProfile'
 
 const ProfileComponent = ({ setToken, token, userId }) => {
     const [user, setUser] = useState({})
@@ -20,6 +21,7 @@ const ProfileComponent = ({ setToken, token, userId }) => {
         following: false,
         edit: false
     })
+    const [loadingInfoDivs, setLoadingInfoDivs] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -47,6 +49,8 @@ const ProfileComponent = ({ setToken, token, userId }) => {
     }, [window.location.pathname])
 
     const changeView = (view) => {
+        setLoadingInfoDivs(true)
+
         setViewOptions({
             ownPosts: view == 'ownPosts' ? true : false,
             trainings: view == 'trainings' ? true : false,
@@ -63,6 +67,7 @@ const ProfileComponent = ({ setToken, token, userId }) => {
 
             userService.getByOption(token, view, profileId)
                 .then(res => {
+                    setLoadingInfoDivs(false)
                     if (!res.message && res.message != 'Empty!') {
                         setUser(state => ({
                             ...state,
@@ -70,6 +75,8 @@ const ProfileComponent = ({ setToken, token, userId }) => {
                         }))
                     }
                 })
+        } else {
+            setLoadingInfoDivs(false)
         }
     }
 
@@ -77,26 +84,29 @@ const ProfileComponent = ({ setToken, token, userId }) => {
         <>
             <section className='profile-cont'>
 
-                <ProfileInfoUpComponent
-                    token={token}
-                    user={user}
-                    setUser={setUser}
-                    setViewOptions={setViewOptions}
-                    changeView={changeView}
-                    userId={userId}
-                    viewOptions={viewOptions}
-                />
+                {user._id
+                    ?
+                    <ProfileInfoUpComponent
+                        token={token}
+                        user={user}
+                        setUser={setUser}
+                        setViewOptions={setViewOptions}
+                        changeView={changeView}
+                        userId={userId}
+                        viewOptions={viewOptions}
+                    />
+                    : <LoadingProfile />}
 
                 <hr />
 
-                <article className='profile-nav'>
+                <article className={`profile-nav ${!user._id && 'blurOverlay'}`}>
                     <ul role='list'>
-                        <li onClick={() => changeView('ownPosts')} className={viewOptions.ownPosts ? 'active' : ''}>Posts</li>
-                        <li onClick={() => changeView('trainings')} className={viewOptions.trainings ? 'active' : ''}>Trainings</li>
+                        <li disabled={!user._id} onClick={() => changeView('ownPosts')} className={viewOptions.ownPosts ? 'active' : ''}>Posts</li>
+                        <li disabled={!user._id} onClick={() => changeView('trainings')} className={viewOptions.trainings ? 'active' : ''}>Trainings</li>
                         {user?._id == userId &&
                             <>
-                                <li onClick={() => changeView('savedPosts')} className={viewOptions.savedPosts ? 'active' : ''}>Saved</li>
-                                <li onClick={() => changeView('savedTrainings')} className={viewOptions.savedTrainings ? 'active' : ''}>Saved Trainings</li>
+                                <li disabled={!user._id} onClick={() => changeView('savedPosts')} className={viewOptions.savedPosts ? 'active' : ''}>Saved</li>
+                                <li disabled={!user._id} onClick={() => changeView('savedTrainings')} className={viewOptions.savedTrainings ? 'active' : ''}>Saved Trainings</li>
                             </>
                         }
                     </ul>
@@ -105,25 +115,27 @@ const ProfileComponent = ({ setToken, token, userId }) => {
 
                 <article className='profile-info-main'>
 
-                    {!Object.values(viewOptions).some(x => x == true) &&
+
+                    {loadingInfoDivs && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
+
+                    {!loadingInfoDivs && !Object.values(viewOptions).some(x => x == true) &&
                         <article className='profile-info-posts'>
-                            <h2 className='noItems'>You can check your info!</h2>
+                            <h2 className={`noItems  ${!user._id && 'blurOverlay'}`}>You can check your info!</h2>
                         </article>
                     }
 
                     {viewOptions.edit && <EditProfileComponent setToken={setToken} user={user} userId={userId} token={token} setUser={setUser} setViewOptions={setViewOptions} changeView={changeView} />}
 
-                    {(viewOptions.ownPosts || viewOptions.savedPosts) &&
+                    {!loadingInfoDivs && (viewOptions.ownPosts || viewOptions.savedPosts) &&
                         <OwnPostsComponent user={user} navigate={navigate} optionWord={viewOptions.ownPosts ? 'ownPosts' : 'savedPosts'} />}
 
-                    {(viewOptions.trainings || viewOptions.savedTrainings) &&
+                    {!loadingInfoDivs && (viewOptions.trainings || viewOptions.savedTrainings) &&
                         <OwnTrainingsComponent user={user} navigate={navigate} optionWord={viewOptions.trainings ? 'trainings' : 'savedTrainings'} />}
 
-                    {(viewOptions.followers || viewOptions.following) &&
+                    {!loadingInfoDivs && (viewOptions.followers || viewOptions.following) &&
                         <OwnFollowersComponent user={user} userId={userId} navigate={navigate} optionWord={viewOptions.followers ? 'followers' : 'following'} />}
 
                 </article>
-
             </section>
         </>
     )
