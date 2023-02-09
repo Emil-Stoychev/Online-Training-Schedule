@@ -72,9 +72,6 @@ function App() {
     })
   }, [])
 
-  // FINAL STEP IS TO CLEAN USER PASSWORD RETURNED FROM BACKEND AND TO SET LOADING SCREEN!!!
-  // AND TO ADD AWESOME SNACKBAR TO SHOW ERROR AND SOME MESSAGES!!!
-
   return (
     <div className="App">
 

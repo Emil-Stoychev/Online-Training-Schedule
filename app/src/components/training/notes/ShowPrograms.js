@@ -33,7 +33,7 @@ export const ShowPrograms = ({ token, x, userId, setCategories }) => {
     }
 
     const getTrainingsByCategory = (categoryId) => {
-        if (trainings.length == 0) {
+        if (trainings.length == 0 && errors.type != 'loading') {
             setErrors({ message: 'Loading...', type: 'loading' })
 
             trainingService.getTrainingsByCategory(categoryId)

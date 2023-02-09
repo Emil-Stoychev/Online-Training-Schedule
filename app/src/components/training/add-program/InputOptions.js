@@ -46,6 +46,8 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
         } else {
             setErrors({ message: 'File must be a image! (png, jpeg, jpg, raw)', type: '' })
         }
+
+        e.target.value = null
     }
 
     const removeImage = (e, id, option) => {

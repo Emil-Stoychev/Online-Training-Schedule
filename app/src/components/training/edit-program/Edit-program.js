@@ -27,9 +27,12 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
         trainingService.getById(window.location.pathname.split('/training-edit-program/')[1])
             .then(res => {
                 if (!res.message) {
+                    setErrors({ message: '', type: '' })
                     setCategory({ option: true, value: res?.category.category })
                     setMainInputValue(res.mainTitle)
                     setContainer(res.container)
+                } else {
+                    setErrors({ message: res.message, type: '' })
                 }
             })
     }, [])
@@ -37,7 +40,37 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
     const mainInputTitle = useRef(null)
 
     const onCreateBtnHandler = () => {
+        if (errors.type == 'loading') return
         if (category.value.trim() != '' && container.length > 0 && mainInputTitle?.current?.value.trim() != '') {
+            let testInputs = false
+
+            if (container.length > 0) {
+                container.forEach(x => {
+
+                    if (x.option == 'image') {
+                        if (x.image.length == 0) {
+                            setErrors({ message: `You must upload at least 1 image or remove field!` })
+                            testInputs = true
+                            return
+                        } else {
+                            return
+                        }
+                    }
+
+                    let currInputValue = x?.[x.option] == undefined ? x?.value : x?.[x.option]
+
+                    if (currInputValue.trim() == '') {
+                        testInputs = true
+                        setErrors({ message: `${x.option} is required!` })
+                        return
+                    }
+                })
+            }
+
+            if (testInputs) {
+                return
+            }
+
             setErrors({ message: 'Editing...', type: 'loading' })
 
             let data = [

@@ -19,7 +19,38 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories }
     const mainInputTitle = useRef(null)
 
     const onCreateBtnHandler = () => {
+        if (errors.type == 'loading') return
         if (category.value == '' || category.value.trim() != '') {
+            let testInputs = false
+
+            if (container.length > 0) {
+                container.forEach(x => {
+                    let curr = Object.values(x)[0]
+
+                    if (curr.option == 'image') {
+                        if (curr.image.length == 0) {
+                            setErrors({ message: `You must upload at least 1 image or remove field!` })
+                            testInputs = true
+                            return
+                        } else {
+                            return
+                        }
+                    }
+
+                    let currInputValue = curr?.[curr.option] == undefined ? curr?.value : curr?.[curr.option]
+
+                    if (currInputValue.trim() == '') {
+                        testInputs = true
+                        setErrors({ message: `${curr.option} is required!` })
+                        return
+                    }
+                })
+            }
+
+            if (testInputs) {
+                return
+            }
+
             setErrors({ message: 'Creating...', type: 'loading' })
 
             let data = {

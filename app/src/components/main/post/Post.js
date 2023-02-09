@@ -123,6 +123,8 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
     }
 
     const submitEditPost = () => {
+        if (errors.type == 'loading') return
+
         setErrors({ message: 'Editing, please wait...', type: 'loading' })
 
         postService.editPost(toggleEditPost, post?._id, token)
