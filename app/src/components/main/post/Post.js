@@ -89,24 +89,27 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
     }
 
     const onDeleteHandler = (e, postId) => {
+        if (errors.type != 'loading') {
+            setErrors({ message: 'Deleting...', type: 'loading' })
 
-        postService.deletePost(postId, token)
-            .then(res => {
-                console.log(res);
-                if (!res.message) {
-                    setErrors({ message: 'You successfully deleted this post!', type: '' })
+            postService.deletePost(postId, token)
+                .then(res => {
+                    console.log(res);
+                    if (!res.message) {
+                        setErrors({ message: 'You successfully deleted this post!', type: '' })
 
-                    setTimeout(() => {
-                        if (!window.location.pathname.split('/post/')[1]) {
-                            setPosts(state => state.filter(x => x._id != postId))
-                        } else {
-                            navigate('/profile')
-                        }
-                    }, 0);
-                } else {
-                    setErrors({ message: res.message, type: '' })
-                }
-            })
+                        setTimeout(() => {
+                            if (!window.location.pathname.split('/post/')[1]) {
+                                setPosts(state => state.filter(x => x._id != postId))
+                            } else {
+                                navigate('/profile')
+                            }
+                        }, 0);
+                    } else {
+                        setErrors({ message: res.message, type: '' })
+                    }
+                })
+        }
     }
 
     const getComments = () => {
