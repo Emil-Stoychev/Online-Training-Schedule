@@ -1,18 +1,37 @@
 import { useEffect, useState } from 'react'
 import './calendar.css'
+import * as calendarService from '../../../services/calendarService.js'
 
-export const CalendarComponent = () => {
+import { initialCalendar } from './initCalendar'
+import { AddEventComponent } from './addEvent'
+
+export const CalendarComponent = ({ token, userId }) => {
     const [days, setDays] = useState([])
     const [cont, setCont] = useState({
         today: new Date(),
         month: new Date().getMonth(),
         year: new Date().getFullYear()
     })
+    const [events, setEvents] = useState([])
     const [toggleActive, setToggleActive] = useState(false)
+    const [currDayNumber, setCurrDayNumber] = useState(false)
+    let currDayValue = undefined
 
     useEffect(() => {
-        initCalendar()
+        initialCalendar(setDays, cont, addActiveCurrDay, currDayValue)
     }, [cont])
+
+    useEffect(() => {
+        setCurrDayNumber(new Date().getDate())
+
+        calendarService.initCalendar(token, cont.year, months[cont.month])
+            .then(res => {
+                console.log(res);
+                if (!res.message) {
+
+                }
+            })
+    }, [])
 
     const months = [
         'January',
@@ -29,77 +48,61 @@ export const CalendarComponent = () => {
         'December'
     ]
 
-    const initCalendar = (currDayValue) => {
-        setDays([])
-
-        const firstDay = new Date(cont.year, cont.month, 1)
-        const lastDay = new Date(cont.year, cont.month + 1, 0)
-        const prevLastDay = new Date(cont.year, cont.month, 0)
-
-        const prevDays = prevLastDay?.getDate()
-        const lastDate = lastDay?.getDate()
-        const day = firstDay?.getDay()
-        const nextDays = 7 - lastDay?.getDay() - 1
-
-        for (let x = day; x > 0; x--) {
-            setDays(state => [...state, <div className='day prev-date ' onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 100}>{prevDays - x + 1}</div>])
+    function prevMonth(currDayValue) {
+        if (cont.year == 2022) {
+            return
         }
-
-        for (let i = 1; i <= lastDate; i++) {
-
-            if (
-                i == new Date().getDate() &&
-                cont.year == new Date().getFullYear() &&
-                cont.month == new Date().getMonth() &&
-                currDayValue == undefined
-            ) {
-                setDays(state => [...state, <div className={'day today active'} onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 50}>{i}</div>])
-            } else {
-                setDays(state => [...state, <div className={'day ' + (currDayValue == i ? 'active' : '')} onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 30}>{i}</div>])
-            }
-        }
-
-        for (let j = 1; j <= nextDays; j++) {
-            setDays(state => [...state, <div className='day next-date ' onClick={(e) => addActiveCurrDay(e)} key={Math.random() * 67}>{j}</div>])
-        }
-    }
-
-    const prevMonth = (currDayValue) => {
         cont.month--;
 
         if (cont.month < 0) {
             cont.month = 11;
             cont.year--;
         }
-        initCalendar(currDayValue)
+        initialCalendar(setDays, cont, addActiveCurrDay, currDayValue)
     }
 
-    const nextMonth = (currDayValue) => {
+    function nextMonth(currDayValue) {
         cont.month++;
 
         if (cont.month > 11) {
             cont.month = 0;
             cont.year++;
         }
-        initCalendar(currDayValue)
+        initialCalendar(setDays, cont, addActiveCurrDay, currDayValue)
     }
 
-    const todayBtn = () => {
+    function todayBtn() {
+        setCurrDayNumber(new Date().getDate())
+
         setCont({
             today: new Date(),
             month: new Date().getMonth(),
             year: new Date().getFullYear()
         })
-        initCalendar()
+        initialCalendar(setDays, cont, addActiveCurrDay, currDayValue)
     }
 
-    const toggle = () => {
+    function toggle() {
         setToggleActive(x => !x)
     }
 
-    const addActiveCurrDay = (e) => {
+    useEffect(() => {
+        calendarService.getCurrDay(token, cont.year, months[cont.month], currDayNumber)
+            .then(res => {
+                if (!res.message) {
+                    setEvents([...res])
+                } else {
+                    setEvents([])
+                }
+            })
+    }, [currDayNumber])
+
+    function addActiveCurrDay(e) {
         let currDayValue = e.currentTarget
         let allDays = e.currentTarget.parentElement.childNodes
+
+        setCurrDayNumber(Number(currDayValue.innerHTML))
+
         allDays.forEach(x => {
             x.classList.remove('active')
         })
@@ -111,6 +114,24 @@ export const CalendarComponent = () => {
         }
 
         currDayValue.classList.add('active')
+    }
+
+    const toggleFinishEvent = (eventId, finish) => {
+
+        if (eventId && token) {
+            calendarService.toggleFinishEvent(eventId, finish, token)
+                .then(res => {
+                    if (!res.message) {
+                        setEvents(state => state.map(x => {
+                            if (x._id == eventId) {
+                                x.finish = !finish
+                            }
+
+                            return x
+                        }))
+                    }
+                })
+        }
     }
 
     return (
@@ -149,51 +170,31 @@ export const CalendarComponent = () => {
                     <div className='event-date'>{new Date().getDate()} {months[cont.month]} {cont.year}</div>
                 </div>
                 <div className='events'>
-                    <div className='event'>
-                        <div className='title'>
-                            <i className='fas fa-circle'></i>
-                            <h3 className='event-title'>Coming soon</h3>
-                        </div>
-                        <div className='event-time'>10:00 - 12:00PM</div>
-                    </div>
-                    <div className='event'>
-                        <div className='title'>
-                            <i className='fas fa-circle'></i>
-                            <h3 className='event-title'>Coming soon</h3>
-                        </div>
-                        <div className='event-time'>10:00 - 12:00PM</div>
-                    </div>
-                    <div className='event'>
-                        <div className='title'>
-                            <i className='fas fa-circle'></i>
-                            <h3 className='event-title'>Coming soon</h3>
-                        </div>
-                        <div className='event-time'>10:00 - 12:00PM</div>
-                    </div>
+
+                    {events.length > 0
+                        ? events.map(x =>
+                            <div className={`event ${x.finish && 'event-finished'}`} key={x._id} onClick={() => toggleFinishEvent(x._id, x.finish)}>
+                                <div className='title'>
+                                    <i className='fas fa-circle'></i>
+                                    <h3 className='event-title'>{x.name}</h3>
+                                </div>
+                                <div className='event-time'>{x.timeFrom} - {x.timeTo}PM</div>
+                                <i className='event-finish-i'>{x.finish && 'Finished'}</i>
+                            </div>
+                        )
+                        : <h3>No events!</h3>}
+
                 </div>
 
-                <div className={"add-event-wrapper " + (toggleActive ? 'active' : '')}>
-                    <div className='add-event-header'>
-                        <div className='title'>Add Event</div>
-                        <i className='fas fa-times close' onClick={() => setToggleActive(false)}></i>
-                    </div>
-
-                    <div className='add-event-body'>
-                        <div className='add-event-input'>
-                            <input type='text' placeholder='Event Name' className='event-name'></input>
-                        </div>
-                        <div className='add-event-input'>
-                            <input type='text' placeholder='Event Time From' className='event-time-from'></input>
-                        </div>
-                        <div className='add-event-input'>
-                            <input type='text' placeholder='Event Time To' className='event-time-to'></input>
-                        </div>
-                    </div>
-
-                    <div className='add-event-footer'>
-                        <button className='add-event-btn'>Add Event</button>
-                    </div>
-                </div>
+                <AddEventComponent
+                    token={token}
+                    toggleActive={toggleActive}
+                    setToggleActive={setToggleActive}
+                    year={cont.year}
+                    month={months[cont.month]}
+                    day={currDayNumber}
+                    setEvents={setEvents}
+                />
                 <button className='add-event' onClick={() => toggle()}>
                     <i className='fas fa-plus'></i>
                 </button>

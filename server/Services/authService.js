@@ -30,6 +30,73 @@ const getAllUsersByIds = async (ids) => {
     }
 }
 
+const getUserByIdInitCalendar = async (userId, year, month) => {
+    try {
+        let userAcc = await User.findById(userId).populate({
+            path: 'calendar',
+            match: { year },
+            populate: {
+                path: 'months',
+                match: { month },
+                model: 'Month'
+            }
+        })
+
+        if (!userAcc) {
+            return { message: "User doesn't exist!" }
+        }
+
+        return userAcc
+    } catch (error) {
+        return error
+    }
+}
+
+const getUserByIdCalendarCurrDay = async (userId, year, month, day) => {
+    try {
+        let userAcc = await User.findById(userId).populate({
+            path: 'calendar',
+            match: { year },
+            populate: {
+                path: 'months',
+                match: { month },
+                model: 'Month',
+                populate: {
+                    path: 'days',
+                    match: { day },
+                    model: 'Day',
+                    populate: {
+                        path: 'events',
+                        model: 'DayEvent'
+                    }
+                }
+            }
+        })
+
+        if (!userAcc) {
+            return { message: "User doesn't exist!" }
+        }
+
+        return userAcc
+    } catch (error) {
+        return error
+    }
+}
+
+const addNewCalendarYearToUser = async (userId, calendarId) => {
+    try {
+        let userAcc = await User.findByIdAndUpdate({ _id: userId }, { $push: { calendar: calendarId } })
+
+        if (!userAcc) {
+            return { message: "User doesn't exist!" }
+        }
+
+        return userAcc
+    } catch (error) {
+        return error
+    }
+}
+
 const getByOption = async (userId, option, tokenUserId) => {
     try {
         let filteredItems
@@ -363,5 +430,8 @@ module.exports = {
     deleteAcc,
     addNewTrainingProgramToUser,
     getAllUsersByIds,
-    removeSavedIdsAfterDeletingTrainingProgram
+    removeSavedIdsAfterDeletingTrainingProgram,
+    getUserByIdInitCalendar,
+    addNewCalendarYearToUser,
+    getUserByIdCalendarCurrDay
 }
