@@ -37,7 +37,6 @@ function App() {
     if (getCookie != null) {
       userService.getUserById(getCookie, undefined)
         .then(res => {
-          console.log(res);
           if (!res.message) {
             setToken({
               token: getCookie,

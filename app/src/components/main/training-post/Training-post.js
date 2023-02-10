@@ -109,10 +109,10 @@ const TrainingPostComponent = ({ token, _id }) => {
                             </div>
                             <p className={`notes-${training?.visible}-p training-post-visible`}>{training?.visible}</p>
                         </div>
-                        
+
                         <time className='training-post-time-format'>{format(training?.createdAt) || ''}</time>
 
-                        <h3 className='training-post-category'>Category: {training?.category?.category}</h3>
+                        {training?.author?._id == _id && <h3 className='training-post-category'>Category: {training?.category?.category}</h3>}
 
                         {fullImage != undefined &&
                             <div className="training-post-full-image">
