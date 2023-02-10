@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
     savedTrainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingPrograms' }],
     chat: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],
+    calendar: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Calendar' }],
     releasedDate: String
 })
 
