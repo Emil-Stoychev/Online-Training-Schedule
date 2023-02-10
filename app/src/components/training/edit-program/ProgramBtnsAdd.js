@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import * as trainingService from '../../../services/trainingService.js'
 
-export const ProgramBtnsAdd = ({ userId, setCategory, category, setContainer }) => {
+export const ProgramBtnsAdd = ({ userId, setCategory, category, setContainer, setVisible, visible }) => {
     let [allCategories, setAllCategories] = useState([])
 
     const handleBtns = (option) => {
@@ -28,6 +28,10 @@ export const ProgramBtnsAdd = ({ userId, setCategory, category, setContainer }) 
             })
     }, [category.option])
 
+    const visibleHandler = (e) => {
+        setVisible({ value: e.target.value })
+    }
+
     return (
         <>
             <div className='add-program-buttons'>
@@ -49,6 +53,12 @@ export const ProgramBtnsAdd = ({ userId, setCategory, category, setContainer }) 
                         {allCategories.map(x => <option key={x._id}>{x.category}</option>)}
                     </select>
                 }
+
+                <select value={visible.value} onChange={(e) => visibleHandler(e)}>
+                    <option value='Public' >Public</option>
+                    <option value='Friends' >Friends</option>
+                    <option value='Private' >Private</option>
+                </select>
             </div>
         </>
     )

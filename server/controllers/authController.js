@@ -20,7 +20,7 @@ router.get('/:token/:userId', authMiddleware, async (req, res) => {
 })
 
 router.get('/own/:token/:option/:userId', authMiddleware, async (req, res) => {
-    let result = await authService.getByOption(req.params?.userId, req.params.option)
+    let result = await authService.getByOption(req.params?.userId, req.params.option, req.params.user._id)
 
     result.length > 0 ? res.json(result) : res.json({ message: "Empty!" })
 })

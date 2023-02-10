@@ -3,7 +3,7 @@ const { TrainingImage } = require('../Models/TrainingImage')
 const { TrainingCnt } = require('../Models/TrainingCnt')
 const sharp = require("sharp");
 
-const trainingProgramValidator = async (container, categoryId, userId, mainTitle) => {
+const trainingProgramValidator = async (container, categoryId, userId, mainTitle, visible) => {
 
     container = await Promise.all(container.map(async (x) => {
         let curr = Object.values(x)[0]
@@ -24,13 +24,14 @@ const trainingProgramValidator = async (container, categoryId, userId, mainTitle
         container: [...container],
         category: categoryId,
         author: userId,
-        mainTitle
+        mainTitle,
+        'visible': visible
     }
 
     return data
 }
 
-const trainingEditProgramValidator = async (container, categoryId, userId, mainTitle) => {
+const trainingEditProgramValidator = async (container, categoryId, userId, mainTitle, visible) => {
 
     container = await Promise.all(container.map(async (x) => {
 
@@ -68,7 +69,8 @@ const trainingEditProgramValidator = async (container, categoryId, userId, mainT
         container: [...container],
         category: categoryId,
         author: userId,
-        mainTitle
+        mainTitle,
+        'visible': visible
     }
 
     return data

@@ -17,6 +17,9 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
         option: true,
         value: ''
     })
+    const [visible, setVisible] = useState({
+        value: 'Loading...'
+    })
     let [errors, setErrors] = useGlobalErrorsHook()
     const navigate = useNavigate()
 
@@ -31,6 +34,7 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
                     setCategory({ option: true, value: res?.category.category })
                     setMainInputValue(res.mainTitle)
                     setContainer(res.container)
+                    setVisible({ value: res.visible })
                 } else {
                     setErrors({ message: res.message, type: '' })
                 }
@@ -79,7 +83,8 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
                 container,
                 category,
                 containerIds,
-                deleteImagesIds
+                deleteImagesIds,
+                visible.value
             ]
 
             trainingService.editProgram(token, userId, data)
@@ -109,6 +114,8 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
                 setCategory={setCategory}
                 category={category}
                 setContainer={setContainer}
+                setVisible={setVisible}
+                visible={visible}
             />
 
             <div className='add-option'>

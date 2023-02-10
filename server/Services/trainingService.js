@@ -44,7 +44,7 @@ const getFullImage = async (imageId) => {
     }
 }
 
-const create = async (mainTitle, container, category, userId) => {
+const create = async (mainTitle, container, category, userId, visible) => {
     try {
         let user = await getUserById(userId)
 
@@ -68,7 +68,7 @@ const create = async (mainTitle, container, category, userId) => {
             return categ
         }
 
-        let data = await trainingProgramValidator(container, categ?._id, user?._id, mainTitle)
+        let data = await trainingProgramValidator(container, categ?._id, user?._id, mainTitle, visible)
 
         let newCreatedTrainingProgram = await TrainingPrograms.create(data)
 
@@ -82,7 +82,7 @@ const create = async (mainTitle, container, category, userId) => {
 }
 
 const editProgram = async (data, userId) => {
-    const [trainingId, mainInputTitle, container, category, containerIds, deleteImagesIds] = data
+    const [trainingId, mainInputTitle, container, category, containerIds, deleteImagesIds, visible] = data
     try {
         let user = await getUserById(userId)
 
@@ -92,7 +92,7 @@ const editProgram = async (data, userId) => {
 
         let categ = await checkAndMakeCategory(category, user?._id)
 
-        let data = await trainingEditProgramValidator(container, categ._id, user._id, mainInputTitle)
+        let data = await trainingEditProgramValidator(container, categ._id, user._id, mainInputTitle, visible)
 
         await deleteImagesByCntIds(containerIds)
 

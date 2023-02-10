@@ -22,7 +22,7 @@ router.get('/fullImage/:imageId', async (req, res) => {
 })
 
 router.post('/create', authMiddleware, async (req, res) => {
-    let createdProgram = await trainingService.create(req.body.data.mainInputTitle, req.body.data.container, req.body.data.category, req.params?.user?._id) || []
+    let createdProgram = await trainingService.create(req.body.data.mainInputTitle, req.body.data.container, req.body.data.category, req.params?.user?._id, req.body.data.visible) || []
 
     res.json(createdProgram)
 })

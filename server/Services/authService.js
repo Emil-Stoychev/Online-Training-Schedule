@@ -30,9 +30,31 @@ const getAllUsersByIds = async (ids) => {
     }
 }
 
-const getByOption = async (userId, option) => {
+const getByOption = async (userId, option, tokenUserId) => {
     try {
-        let filteredItems = await User.findById(userId).populate(option)
+        let filteredItems
+
+        filteredItems = await User.findById(userId).populate(option)
+
+        if (userId == tokenUserId) {
+            filteredItems = await User.findById(userId).populate(option)
+        } else {
+            let user = await User.findById(userId)
+
+            if (user.followers.includes(tokenUserId) || user.following.includes(tokenUserId)) {
+                filteredItems = await User.findById(userId)
+                    .populate({
+                        path: option,
+                        match: { visible: { $in: ['Public', 'Friends'] } }
+                    })
+            } else {
+                filteredItems = await User.findById(userId)
+                    .populate({
+                        path: option,
+                        match: { visible: 'Public' }
+                    })
+            }
+        }
 
         return filteredItems?.[option]
     } catch (error) {

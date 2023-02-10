@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import './training-post.css'
+import { format } from "timeago.js";
 
 import * as trainingService from '../../../services/trainingService'
 import { TitleComponent } from './trainingFieldOptions.js/Title';
@@ -106,7 +107,10 @@ const TrainingPostComponent = ({ token, _id }) => {
                                 <h3>{training?.author?.username || ''}</h3>
                                 <p>{training?.author?.location || ''}</p>
                             </div>
+                            <p className={`notes-${training?.visible}-p training-post-visible`}>{training?.visible}</p>
                         </div>
+                        
+                        <time className='training-post-time-format'>{format(training?.createdAt) || ''}</time>
 
                         <h3 className='training-post-category'>Category: {training?.category?.category}</h3>
 

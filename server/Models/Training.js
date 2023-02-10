@@ -7,8 +7,8 @@ const trainingSchema = new mongoose.Schema({
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     visible: {
         type: String,
-        enum: ['public', 'friends', 'private'],
-        default: 'public'
+        enum: ['Public', 'Friends', 'Private'],
+        default: 'Public'
     },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'TrainingCategory' },
 },

@@ -13,6 +13,9 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories, 
         option: true,
         value: ''
     })
+    const [visible, setVisible] = useState({
+        value: 'Public'
+    })
 
     let [errors, setErrors] = useGlobalErrorsHook()
 
@@ -56,7 +59,8 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories, 
             let data = {
                 mainInputTitle: mainInputTitle?.current?.value,
                 container,
-                category
+                category,
+                visible: visible.value
             }
 
             trainingService.createProgram(token, userId, data)
@@ -91,6 +95,8 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories, 
                 setContainer={setContainer}
                 categories={categories}
                 categoriesEmpty={categoriesEmpty}
+                setVisible={setVisible}
+                visible={visible}
             />
 
             <div className='add-option'>

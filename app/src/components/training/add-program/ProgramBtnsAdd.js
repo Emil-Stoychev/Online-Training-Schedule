@@ -1,7 +1,15 @@
 import { useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 
-export const ProgramBtnsAdd = ({ setCategory, category, setContainer, categories, categoriesEmpty }) => {
+export const ProgramBtnsAdd = ({
+    setCategory,
+    category,
+    setContainer,
+    categories,
+    categoriesEmpty,
+    setVisible,
+    visible
+}) => {
     const handleBtns = (option) => {
         let id = uuid()
         let obj = option == 'image' ? { [id]: { [option]: [], option, id } } : { [id]: { [option]: '', option, id } }
@@ -24,6 +32,10 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer, categories
             }))
         }
     }, [category.option, categories])
+
+    const visibleHandler = (e) => {
+        setVisible({ value: e.target.value })
+    }
 
     return (
         <>
@@ -53,6 +65,12 @@ export const ProgramBtnsAdd = ({ setCategory, category, setContainer, categories
                         {categories.length > 0 && categories.map(x => <option value={x.category} key={x._id}>{x.category}</option>)}
                     </select>
                 }
+
+                <select value={visible.value} onChange={(e) => visibleHandler(e)}>
+                    <option value='Public' >Public</option>
+                    <option value='Friends' >Friends</option>
+                    <option value='Private' >Private</option>
+                </select>
             </div>
         </>
     )
