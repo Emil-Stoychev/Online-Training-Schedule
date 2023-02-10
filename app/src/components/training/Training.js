@@ -28,7 +28,7 @@ const TrainingComponent = ({ token, _id }) => {
 
     return (
         <>
-            <CalendarComponent />
+            <CalendarComponent token={token} userId={_id} />
 
             <AddProgramComponent token={token} userId={_id} setCategories={setCategories} categories={categories} categoriesEmpty={categoriesEmpty} />
 
