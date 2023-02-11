@@ -284,6 +284,8 @@ div.container .right {
 } */
 
 .deleteEventIbtns {
+  position: absolute;
+  right: 1.5rem;
   display: flex;
   gap: 2rem;
   z-index: 5;
@@ -293,7 +295,7 @@ div.container .right {
   user-select: none;
   position: absolute;
   right: 12%;
-  bottom: 0;
+  bottom: -18%;
 }
 
 .events .event .title {

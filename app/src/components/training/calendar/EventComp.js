@@ -56,31 +56,30 @@ export const EventComp = ({ x, token, setEvents }) => {
                 <h3 className='event-title'>{x.name}</h3>
             </div>
 
-            {x.finish
-                ? <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-bell toggleFinishBtn' />
-                : <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-circle-check toggleFinishBtn' />
-            }
-
-            <div className='event-time'>{x.timeFrom}{Number(x.timeFrom.slice(0, 2)) < 12 ? 'AM' : 'PM'} - {x.timeTo}{Number(x.timeTo.slice(0, 2)) < 12 ? 'AM' : 'PM'}</div>
-            <i className='event-finish-i'>
-                {loadingCompleteEvent && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
-            </i>
-
-
-            {!deleteToggle
-                ? <i onClick={() => setDeleteToggle(true)} className="fa-solid fa-trash trashBtnForEvent"></i>
-                :
+            {deleteToggle
+                ?
                 <div className='deleteEventIbtns'>
-                    {loadingDelete
-                        ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-                        :
+                    {!loadingDelete &&
                         <>
                             <i onClick={() => setDeleteToggle(false)}>X</i>
                             <i onClick={() => deleteEventHandler(x?._id)}>✓</i>
                         </>
                     }
                 </div>
+                :
+                x.finish
+                    ? <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-circle toggleFinishBtn' />
+                    : <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-circle-check toggleFinishBtn' />
             }
+
+            <div className='event-time'>{x.timeFrom}{Number(x.timeFrom.slice(0, 2)) < 12 ? 'AM' : 'PM'} - {x.timeTo}{Number(x.timeTo.slice(0, 2)) < 12 ? 'AM' : 'PM'}</div>
+            <i className='event-finish-i'>
+                {loadingCompleteEvent && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
+                {loadingDelete && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
+            </i>
+
+
+            {!deleteToggle && <i onClick={() => setDeleteToggle(true)} className="fa-solid fa-trash trashBtnForEvent" />}
         </div>
     )
 }
