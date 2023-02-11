@@ -62,6 +62,7 @@ export const NavigationComponent = ({ token, setToken }) => {
                             <li onClick={() => navigate('/training')}>Training</li>
                             <li onClick={() => navigate('/profile')}>Profile</li>
                             <li onClick={() => navigate('/chat')}>Chat</li>
+                            <li onClick={() => navigate('/search')}><i className="fa-solid fa-magnifying-glass"></i></li>
                         </>
                         :
                         ''

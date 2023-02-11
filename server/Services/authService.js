@@ -22,6 +22,16 @@ const getUserById = async (userId) => {
     }
 }
 
+const getUserByUsernames = async (searchValue) => {
+    try {
+        let users = await User.find({ username: { $regex: ("^" + searchValue) } })
+
+        return users
+    } catch (error) {
+        return error
+    }
+}
+
 const getAllUsersByIds = async (ids) => {
     try {
         return await User.find({ _id: { $in: [ids] } })
@@ -390,6 +400,8 @@ const addNewTrainingProgramToUser = async (user, trainingId) => {
 
 const deleteAcc = async (password, userId) => {
     try {
+        console.log('========= STARTING ==========');
+
         if (!password || password.length < 3 || password.trim() === '') {
             return { message: 'Password must be at least 3 characters!' }
         }
@@ -405,6 +417,8 @@ const deleteAcc = async (password, userId) => {
         if (!isValidPassword) {
             return { message: "Wrong password!" }
         }
+
+        console.log(user);
 
         let allUsersIds = new Set(...[user?.following], ...[user.followers])
 
@@ -437,5 +451,6 @@ module.exports = {
     removeSavedIdsAfterDeletingTrainingProgram,
     getUserByIdInitCalendar,
     addNewCalendarYearToUser,
-    getUserByIdCalendarCurrDay
+    getUserByIdCalendarCurrDay,
+    getUserByUsernames
 }

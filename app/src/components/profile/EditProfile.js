@@ -153,7 +153,7 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
                     <div className='profile-btnOptions'>
                         <input type="submit" className='profile-saveBtn' value="Save" />
                         <input type="button" className='profile-cancelBtn' value="Cancel" onClick={() => changeView('edit')} />
-                        <input type="button" className='profile-deleteBtn' value="Delete Acc" onClick={() => deleteAcc()} />
+                        {/* <input type="button" className='profile-deleteBtn' value="Delete Acc" onClick={() => deleteAcc()} /> */}
                     </div>
 
                 </form>

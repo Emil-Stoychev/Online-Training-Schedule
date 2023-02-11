@@ -24,6 +24,7 @@ const LazyPostComponent = lazy(() => import('./components/main/post/Post.js'))
 const LazyTrainingPostComponent = lazy(() => import('./components/main/training-post/Training-post'))
 const LazyChatComponent = lazy(() => import('./components/chat/Chat.js'))
 const LazyEditProgramComponent = lazy(() => import('./components/training/edit-program/Edit-program'))
+const LazySearchComponent = lazy(() => import('./components/search/SearchComponent.js'))
 
 function App() {
   const [token, setToken] = useState(null)
@@ -106,6 +107,8 @@ function App() {
 
               </section>
             } />
+
+            <Route path='/search' element={<Suspense fallback={<LoadingSpinner />}><LazySearchComponent token={token.token} _id={token._id} /></Suspense>} />
 
             <Route path='/chat' element={<Suspense fallback={<LoadingSpinner />}><LazyChatComponent token={token.token} _id={token._id} image={token.image} /></Suspense>} />
 

@@ -1,0 +1,119 @@
+section.container .search-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1% 0 5% 0;
+  background-color: #28292d;
+  width: 100%;
+  padding: 4rem;
+  border-radius: 1rem;
+}
+
+.noUsersFound {
+  text-align: center;
+  color: white;
+  user-select: none;
+}
+
+section.container .search-cont > input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+
+section.container .search-cont > button {
+  padding: 0.2rem 1rem;
+  border-radius: 1rem;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  border: none;
+  font-weight: 600;
+}
+
+section.container .search-cont > button:hover {
+  transform: scale(1.1);
+  background-color: rgba(245, 222, 179, 0.103);
+  color: #45f3ff;
+}
+
+/* USERS CONTAINER */
+
+.search-users-cont {
+  position: relative;
+  width: 100%;
+  min-height: 700px;
+  padding: 2rem;
+
+  background-color: #28292d7c;
+  border-radius: 1rem;
+  padding: 2rem 1rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-users-cont > article > h2.noItems {
+  text-align: center;
+  width: 100%;
+  letter-spacing: 1px;
+  user-select: none;
+}
+
+.search-users-cont .search-users-curr {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #28292de8;
+  cursor: pointer;
+  border-radius: 2rem;
+  transition: all 300ms ease-in-out;
+  padding: 1rem;
+}
+
+.search-users-cont .search-users-curr:hover {
+  transform: scale(1.01);
+}
+
+.search-users-cont .search-users-curr-cnt {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.search-users-cont .search-users-curr-cnt .search-users-curr-leftSide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-users-cont .search-users-curr-cnt .search-users-curr-leftSide img {
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  object-fit: cover;
+}
+
+.search-users-cont .search-users-curr-cnt .search-users-curr-rightSide i {
+  font-size: 32px;
+  transition: all 300ms ease-in-out;
+  padding-right: 1.5rem;
+}
+
+.search-users-cont .search-users-curr-cnt .search-users-curr-rightSide i:hover {
+  transform: scale(1.1);
+}
+
+@media screen and (max-width: 450px) {
+  section.container .search-cont {
+    flex-direction: column;
+    padding: 1rem;
+  }
+}
