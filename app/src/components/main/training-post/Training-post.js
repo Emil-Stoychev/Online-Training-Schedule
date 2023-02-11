@@ -25,7 +25,6 @@ const TrainingPostComponent = ({ token, _id }) => {
         trainingService.getById(window.location.pathname.split('/training-post/')[1])
             .then(res => {
                 if (!res.message) {
-                    console.log(res);
                     setTraining(res)
                 } else {
                     navigate('/errorPage')
@@ -51,7 +50,6 @@ const TrainingPostComponent = ({ token, _id }) => {
         if (training?.author?._id != _id) {
             trainingService.toggleLikeTrainingProgram(trainingId, token)
                 .then(res => {
-                    console.log(res);
                     if (!res.message) {
                         if (training?.likes.includes(_id)) {
                             setTraining(state => ({

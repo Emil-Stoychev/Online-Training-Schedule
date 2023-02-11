@@ -57,7 +57,6 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
                     }))
                 } else {
                     setErrors({ message: res.message, type: '' })
-                    console.log(res);
                 }
             })
     }
@@ -83,7 +82,6 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
                     }))
                 } else {
                     setErrors({ message: res.message, type: '' })
-                    console.log(res);
                 }
             })
     }
@@ -94,7 +92,6 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
 
             postService.deletePost(postId, token)
                 .then(res => {
-                    console.log(res);
                     if (!res.message) {
                         setErrors({ message: 'You successfully deleted this post!', type: '' })
 

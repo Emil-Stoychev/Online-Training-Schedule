@@ -78,13 +78,15 @@ const trainingEditProgramValidator = async (container, categoryId, userId, mainT
 
 async function deleteImagesByCntIds(cntForDeleting) {
     cntForDeleting.forEach(async (x) => {
-        let currCnt = await TrainingCnt.findById(x)
+        if (!x.includes('-')) {
+            let currCnt = await TrainingCnt.findById(x)
 
-        if (currCnt.image.length > 0) {
-            await TrainingImage.deleteMany({ _id: [...currCnt.image] })
+            if (currCnt.image.length > 0) {
+                await TrainingImage.deleteMany({ _id: [...currCnt.image] })
+            }
+
+            await TrainingCnt.findByIdAndDelete(x)
         }
-
-        await TrainingCnt.findByIdAndDelete(x)
     })
 }
 
