@@ -19,6 +19,7 @@ const ChatBox = ({
     const [userData, setUserData] = useState(null);
     const [messages, setMessages] = useState([]);
     const [skipNumber, setSkipNumber] = useState(0);
+    const [loadingMsg, setLoadingMsg] = useState(false);
 
     let moreMessages = useRef(true)
     const scrollBody = useRef()
@@ -54,8 +55,11 @@ const ChatBox = ({
     // fetch messages
     useEffect(() => {
         if (chat != null && moreMessages.current) {
+            setLoadingMsg(true)
+
             chatService.getMessages(chat?._id, skipNumber)
                 .then(res => {
+                    setLoadingMsg(false)
                     if (res.length == 0) {
                         moreMessages.current = false
                     } else {
@@ -97,22 +101,29 @@ const ChatBox = ({
 
                         {/* chat-body */}
                         <div className="chat-body" ref={scrollBody} >
-                            {messages.length == 0 && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
-                            {messages.map((message) => (
-                                <ChatBodyComponent
-                                    key={message._id}
-                                    message={message}
-                                    setFullImages={setFullImages}
-                                    token={token}
-                                    currentUser={currentUser}
-                                    setMessages={setMessages}
-                                />
-                            ))}
+                            {messages.length == 0 && !loadingMsg && <h2 className="chat-body-noMsg-h2">No messages yet!</h2>}
+
+                            {messages.length == 0
+                                &&
+                                loadingMsg
+                                ?
+                                <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                                :
+                                messages.map((message) => (
+                                    <ChatBodyComponent
+                                        key={message._id}
+                                        message={message}
+                                        setFullImages={setFullImages}
+                                        token={token}
+                                        currentUser={currentUser}
+                                        setMessages={setMessages}
+                                    />
+                                ))}
                         </div>
                         {/* chat-sender */}
                         {messages.length > 0 && <i onClick={goToLastMsg} className="fa fa-arrow-up btn-to-up-in-chat" />}
 
-                        {messages.length > 0 &&
+                        {!loadingMsg &&
                             <ChatSenderComponent
                                 token={token}
                                 currentUser={currentUser}

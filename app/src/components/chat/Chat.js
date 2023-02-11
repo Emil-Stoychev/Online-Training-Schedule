@@ -6,7 +6,6 @@ import { io } from 'socket.io-client'
 
 import { FullImageComponent } from './FullImage'
 import { LeftSideComponent } from './LeftSide'
-import { LoadingLeftSide } from './LoadingLeftSide'
 
 const ChatComponent = ({ token, _id, image }) => {
   const [chats, setChats] = useState([])
@@ -18,14 +17,17 @@ const ChatComponent = ({ token, _id, image }) => {
   const [searchChatValue, setSearchChatValue] = useState("")
   const [fullImages, setFullImages] = useState([]);
   const [chatsEmpty, setChatsEmpty] = useState(false)
+  const [loadingChats, setLoadingChats] = useState(false)
 
   const socket = useRef()
   const leftSide = useRef()
   const rightSide = useRef()
 
   useEffect(() => {
+    setLoadingChats(true)
     chatService.userChats(_id, token)
       .then(res => {
+        setLoadingChats(false)
         if (res.length == 0) {
           setChatsEmpty(true)
         } else {
@@ -90,20 +92,18 @@ const ChatComponent = ({ token, _id, image }) => {
 
       <div className="Chat">
         {/* Left Side */}
-        {chats.length > 0
-          ?
-          <LeftSideComponent
-            _id={_id}
-            token={token}
-            leftSide={leftSide}
-            changeStyle={changeStyle}
-            onlineUsers={onlineUsers}
-            chats={chats}
-            setSearchChatValue={setSearchChatValue}
-            searchChatValue={searchChatValue}
-            setCurrentChat={setCurrentChat}
-          />
-          : <LoadingLeftSide chatsEmpty={chatsEmpty} />}
+        <LeftSideComponent
+          _id={_id}
+          token={token}
+          leftSide={leftSide}
+          changeStyle={changeStyle}
+          onlineUsers={onlineUsers}
+          chats={chats}
+          setSearchChatValue={setSearchChatValue}
+          searchChatValue={searchChatValue}
+          setCurrentChat={setCurrentChat}
+          loadingChats={loadingChats}
+        />
         {/* Right Side */}
         <div className="Right-side-chat" ref={rightSide}>
           <div>

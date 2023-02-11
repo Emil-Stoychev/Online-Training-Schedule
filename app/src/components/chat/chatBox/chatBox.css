@@ -23,6 +23,14 @@ i.deleteMsgFromChat {
   cursor: pointer;
 }
 
+.chat-body-noMsg-h2 {
+  text-align: center;
+  color: white;
+  user-select: none;
+  letter-spacing: 2px;
+  opacity: 0.5;
+}
+
 .inputBox-uploadImages-chat {
   width: 10%;
   left: 0;
@@ -111,25 +119,47 @@ div.Chat .Right-side-chat .ChatBox-container .chat-body div.message {
   background-color: rgba(255, 255, 255, 0.082);
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.deleteMsgBtns {
+div.Chat
+  .Right-side-chat
+  .ChatBox-container
+  .chat-body
+  div.message
+  > div.deleteMsgBtns {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.deleteMsgBtns > button {
+div.Chat
+  .Right-side-chat
+  .ChatBox-container
+  .chat-body
+  div.message
+  > div.deleteMsgBtns
+  > button {
   border-radius: 0.5rem;
   cursor: pointer;
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.timeAndDelete {
+div.Chat
+  .Right-side-chat
+  .ChatBox-container
+  .chat-body
+  div.message
+  > div.timeAndDelete {
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.timeAndDelete > span {
+div.Chat
+  .Right-side-chat
+  .ChatBox-container
+  .chat-body
+  div.message
+  > div.timeAndDelete
+  > span {
   font-size: 0.7rem;
   color: white;
 }
@@ -147,7 +177,13 @@ div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > img {
   cursor: pointer;
 }
 
-div.Chat .Right-side-chat .ChatBox-container .chat-body div.own > div.timeAndDelete > span {
+div.Chat
+  .Right-side-chat
+  .ChatBox-container
+  .chat-body
+  div.own
+  > div.timeAndDelete
+  > span {
   align-self: end;
 }
 
@@ -331,7 +367,13 @@ div.Chat
     margin-left: -50%;
   }
 
-  div.Chat .Right-side-chat .ChatBox-container .chat-body div.message > div.deleteMsgBtns > button {
+  div.Chat
+    .Right-side-chat
+    .ChatBox-container
+    .chat-body
+    div.message
+    > div.deleteMsgBtns
+    > button {
     font-size: 10px;
   }
 }

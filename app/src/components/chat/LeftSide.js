@@ -9,7 +9,8 @@ export const LeftSideComponent = ({
     chats,
     setSearchChatValue,
     searchChatValue,
-    setCurrentChat
+    setCurrentChat,
+    loadingChats
 }) => {
 
     const checkOnlineStatus = (chat) => {
@@ -25,6 +26,9 @@ export const LeftSideComponent = ({
                 <h2 className='chat-main-header' >Chats</h2>
                 <hr />
                 <div className="Chat-list">
+                    {loadingChats && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
+
+                    {!loadingChats && chats.length == 0 && <h2 className='chat-body-noMsg-h2'>No chats!</h2>}
                     {chats.map((chat) => (
                         <div
                             key={chat._id}
