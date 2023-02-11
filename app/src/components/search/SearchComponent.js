@@ -15,6 +15,12 @@ const SearchComponent = ({ token, _id }) => {
         setSearchValue(e.currentTarget.value)
     }
 
+    const onEnterClick = (e) => {
+        if (e.key == 'Enter') {
+            searchUsers()
+        }
+    }
+
     const searchUsers = () => {
         if (searchValue.trim() != '') {
             setLoadingUsers(true)
@@ -36,7 +42,7 @@ const SearchComponent = ({ token, _id }) => {
     return (
         <section className='container'>
             <div className="search-cont">
-                <input type='search' value={searchValue} onChange={(e) => onChangeValueHandler(e)} placeholder='Search' />
+                <input type='search' value={searchValue} onChange={(e) => onChangeValueHandler(e)} onKeyDown={onEnterClick} placeholder='Search' />
                 <button onClick={() => searchUsers()} >Search</button>
             </div>
 
