@@ -4,6 +4,13 @@ import * as calendarService from '../../../services/calendarService.js'
 
 import { initialCalendar } from './initCalendar'
 import { AddEventComponent } from './addEvent'
+import { EventComp } from './EventComp'
+import { CalendarTable } from './CalendarTable'
+import useGlobalErrorsHook from '../../../hooks/useGlobalErrors'
+
+const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 export const CalendarComponent = ({ token, userId }) => {
     const [days, setDays] = useState([])
@@ -14,39 +21,24 @@ export const CalendarComponent = ({ token, userId }) => {
     })
     const [events, setEvents] = useState([])
     const [toggleActive, setToggleActive] = useState(false)
-    const [currDayNumber, setCurrDayNumber] = useState(false)
+    const [currDayNumber, setCurrDayNumber] = useState(new Date().getDate())
+    const [loadingEvents, setLoadingEvents] = useState(false)
     let currDayValue = undefined
+
+    let [errors, setErrors] = useGlobalErrorsHook()
 
     useEffect(() => {
         initialCalendar(setDays, cont, addActiveCurrDay, currDayValue)
     }, [cont])
 
     useEffect(() => {
-        setCurrDayNumber(new Date().getDate())
-
         calendarService.initCalendar(token, cont.year, months[cont.month])
             .then(res => {
-                console.log(res);
                 if (!res.message) {
 
                 }
             })
     }, [])
-
-    const months = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December'
-    ]
 
     function prevMonth(currDayValue) {
         if (cont.year == 2022) {
@@ -87,8 +79,13 @@ export const CalendarComponent = ({ token, userId }) => {
     }
 
     useEffect(() => {
+        setEvents([])
+        setLoadingEvents(true)
+
         calendarService.getCurrDay(token, cont.year, months[cont.month], currDayNumber)
             .then(res => {
+                setLoadingEvents(false)
+
                 if (!res.message) {
                     setEvents([...res])
                 } else {
@@ -116,74 +113,32 @@ export const CalendarComponent = ({ token, userId }) => {
         currDayValue.classList.add('active')
     }
 
-    const toggleFinishEvent = (eventId, finish) => {
-
-        if (eventId && token) {
-            calendarService.toggleFinishEvent(eventId, finish, token)
-                .then(res => {
-                    if (!res.message) {
-                        setEvents(state => state.map(x => {
-                            if (x._id == eventId) {
-                                x.finish = !finish
-                            }
-
-                            return x
-                        }))
-                    }
-                })
-        }
-    }
-
     return (
         <div className="container">
             <div className="left">
-                <div className="calendar">
-                    <div className="month">
-                        <i className='fa fa-angle-left prev' onClick={() => prevMonth()}></i>
-                        <div className="date">{months[cont.month]} {cont.year}</div>
-                        <i className='fa fa-angle-right next' onClick={() => nextMonth()}></i>
-                    </div>
-
-                    <div className="weekdays">
-                        <div>sun</div>
-                        <div>mon</div>
-                        <div>tue</div>
-                        <div>wed</div>
-                        <div>thu</div>
-                        <div>fri</div>
-                        <div>sat</div>
-                    </div>
-
-                    <div className="days">
-                        {days?.length > 0 ? days.map(x => x) : ''}
-                    </div>
-
-                    <div className="goto-today">
-                        <button className='today-btn' onClick={() => todayBtn()}>Today</button>
-                    </div>
-                </div>
+                <CalendarTable
+                    prevMonth={prevMonth}
+                    months={months}
+                    nextMonth={nextMonth}
+                    cont={cont}
+                    days={days}
+                    todayBtn={todayBtn}
+                />
             </div>
 
             <div className='right'>
                 <div className='today-date'>
-                    <div className='event-day'>Wed</div>
-                    <div className='event-date'>{new Date().getDate()} {months[cont.month]} {cont.year}</div>
+                    <div className='event-day'>{weekDays[new Date(`${cont.year}-${cont.month + 1}-${currDayNumber}`).getDay()]}</div>
+                    <div className='event-date'>{currDayNumber} {months[cont.month]} {cont.year}</div>
                 </div>
+
                 <div className='events'>
-
                     {events.length > 0
-                        ? events.map(x =>
-                            <div className={`event ${x.finish && 'event-finished'}`} key={x._id} onClick={() => toggleFinishEvent(x._id, x.finish)}>
-                                <div className='title'>
-                                    <i className='fas fa-circle'></i>
-                                    <h3 className='event-title'>{x.name}</h3>
-                                </div>
-                                <div className='event-time'>{x.timeFrom} - {x.timeTo}PM</div>
-                                <i className='event-finish-i'>{x.finish && 'Finished'}</i>
-                            </div>
-                        )
-                        : <h3>No events!</h3>}
-
+                        ? events.map(x => <EventComp key={x._id} x={x} token={token} setEvents={setEvents} />)
+                        : loadingEvents
+                            ? <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                            : <h3 className='no-events-h3'>No events!</h3>
+                    }
                 </div>
 
                 <AddEventComponent

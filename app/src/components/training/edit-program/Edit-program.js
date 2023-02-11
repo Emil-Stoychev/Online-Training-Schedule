@@ -89,7 +89,6 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
 
             trainingService.editProgram(token, userId, data)
                 .then(res => {
-                    console.log(res);
                     if (!res.message) {
                         setErrors({ message: 'You successfully edited this training program!', type: '' })
 

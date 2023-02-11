@@ -33,3 +33,14 @@ export const toggleFinishEvent = (eventId, finish, token) => {
     })
         .then(res => res.json())
 }
+
+export const deleteEvent = (eventId, token) => {
+    return fetch(`${URL}/deleteEvent/${eventId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ eventId, token })
+    })
+        .then(res => res.json())
+}

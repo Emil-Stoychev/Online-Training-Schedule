@@ -38,7 +38,11 @@ const getUserByIdInitCalendar = async (userId, year, month) => {
             populate: {
                 path: 'months',
                 match: { month },
-                model: 'Month'
+                model: 'Month',
+                populate: {
+                    path: 'days',
+                    model: 'Day'
+                }
             }
         })
 

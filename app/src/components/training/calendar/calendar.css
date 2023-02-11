@@ -242,6 +242,7 @@ div.container .right {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  user-select: none;
   padding: 4px;
 }
 
@@ -268,10 +269,39 @@ div.container .right {
   background: linear-gradient(90deg, #34b0b9, transparent);
 }
 
+.no-events-h3 {
+  padding-left: 1rem;
+}
+
+.trashBtnForEvent {
+  padding-bottom: 0.5rem;
+  position: absolute;
+  left: 1rem;
+}
+
+/* .events .event-finished {
+  background: #000000;
+} */
+
+.deleteEventIbtns {
+  display: flex;
+  gap: 2rem;
+  z-index: 5;
+}
+
+.event-finish-i {
+  user-select: none;
+  position: absolute;
+  right: 12%;
+  bottom: 0;
+}
+
 .events .event .title {
   display: flex;
   align-items: center;
   pointer-events: none;
+  width: 95%;
+  word-break: break-word;
 }
 
 .events .event .title .event-title {
@@ -531,6 +561,17 @@ div.container .right {
   .calendar .weekdays {
     font-size: 0.8rem;
   }
+
+  .today-date .event-day {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 410px) {
+  .event-finish-i {
+    position: relative;
+    margin-left: 90%;
+  }
 }
 
 @media (max-width: 385px) {
@@ -543,6 +584,10 @@ div.container .right {
   .calendar .weekdays {
     font-size: 0.6rem;
   }
+
+  .today-date .event-day {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 300px) {
@@ -554,5 +599,10 @@ div.container .right {
 @media (max-width: 250px) {
   .calendar .month {
     font-size: 0.5rem;
+  }
+
+  .event-finish-i {
+    position: relative;
+    margin-left: 80%;
   }
 }

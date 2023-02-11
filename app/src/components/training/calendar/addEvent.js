@@ -1,4 +1,5 @@
 import { useState } from "react"
+import useGlobalErrorsHook from "../../../hooks/useGlobalErrors.js"
 import * as calendarService from '../../../services/calendarService.js'
 
 export const AddEventComponent = ({ token, toggleActive, setToggleActive, year, month, day, setEvents }) => {
@@ -8,6 +9,8 @@ export const AddEventComponent = ({ token, toggleActive, setToggleActive, year, 
         timeTo: ''
     })
 
+    let [errors, setErrors] = useGlobalErrorsHook()
+
     const changeValueHandler = (e, name) => {
         setContainer(state => ({
             ...state,
@@ -16,8 +19,11 @@ export const AddEventComponent = ({ token, toggleActive, setToggleActive, year, 
     }
 
     const onSubmitHandler = () => {
+        if (errors.type == 'loading') return
         if (container.name.trim() != '' && container.timeFrom.trim() != '' && container.timeTo.trim() != '') {
-            if (container.name.length > 2 && container.timeFrom.length > 2 && container.timeTo.length > 2) {
+            if (container.name.length > 2 && container.timeFrom.length > 1 && container.timeTo.length > 1) {
+                setErrors({ message: 'Creating event...', type: 'loading' })
+
                 let data = {
                     token,
                     container,
@@ -28,15 +34,28 @@ export const AddEventComponent = ({ token, toggleActive, setToggleActive, year, 
 
                 calendarService.createEvent(data)
                     .then(res => {
-                        console.log(res);
                         if (!res.message) {
                             setEvents(state => [...state, res])
 
+                            setErrors({ message: 'You successfully created event!', type: '' })
+
                             setContainer({ name: '', timeFrom: '', timeTo: '' })
                             setToggleActive(false)
+                        } else {
+                            setErrors({ message: res.message, type: '' })
                         }
                     })
+            } else {
+                if (container.name.length <= 2) {
+                    setErrors({ message: 'Name must be at least 3 characters', type: '' })
+                } else if (container.timeFrom.length < 2) {
+                    setErrors({ message: 'Time from must be at least 2 characters', type: '' })
+                } else if (container.timeTo.length < 2) {
+                    setErrors({ message: 'Time to must be at least 2 characters', type: '' })
+                }
             }
+        } else {
+            setErrors({ message: 'All inputs are required!', type: '' })
         }
     }
 

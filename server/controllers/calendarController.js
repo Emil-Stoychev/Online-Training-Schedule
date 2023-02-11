@@ -28,5 +28,11 @@ router.post('/toggleFinishEvent/:eventId', authMiddleware, async (req, res) => {
     return res.status(200).json(result)
 })
 
+router.delete('/deleteEvent/:eventId', authMiddleware, async (req, res) => {
+    let result = await calendarService.deleteEvent(req.params.eventId, req.params.user._id)
+
+    return res.status(200).json(result)
+})
+
 
 module.exports = router

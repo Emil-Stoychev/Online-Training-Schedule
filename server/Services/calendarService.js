@@ -103,10 +103,30 @@ const toggleFinishEvent = async (eventId, oldFinish, userId) => {
         return error
     }
 }
+
+const deleteEvent = async (eventId, userId) => {
+    try {
+        let event = await DayEvent.findById(eventId).populate('dayId')
+
+        if (event.author != userId) {
+            return { message: 'You cannot delete this event!' }
+        }
+
+        await DayEvent.findByIdAndDelete(eventId)
+
+        await Day.findByIdAndUpdate({ _id: event.dayId._id }, { $pull: { events: eventId } })
+
+        return eventId
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
 module.exports = {
     initCalendar,
     getCurrDay,
     createEvent,
-    toggleFinishEvent
+    toggleFinishEvent,
+    deleteEvent
 }
 

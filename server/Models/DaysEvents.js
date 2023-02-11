@@ -6,7 +6,7 @@ const dayEventSchema = new mongoose.Schema({
     timeFrom: String,
     timeTo: String,
     finish: Boolean,
-    dayId: { type: mongoose.Schema.Types.ObjectId, ref: 'Days' }
+    dayId: { type: mongoose.Schema.Types.ObjectId, ref: 'Day' }
 },
     { timestamps: true },
 )
