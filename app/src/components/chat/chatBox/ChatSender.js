@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import InputEmoji from 'react-input-emoji'
 import useGlobalErrorsHook from '../../../hooks/useGlobalErrors.js'
 import * as chatService from '../../../services/chatService.js'
@@ -22,6 +22,12 @@ export const ChatSenderComponent = ({
 
     const sendMessageBtn = useRef(null)
     const imageRef = useRef();
+
+    const onEnterClick = (e) => {
+        if (e.key == 'Enter') {
+            handleSend(e)
+        }
+    }
 
     const handleChange = (e) => {
         setNewMessage(state => ({
@@ -122,6 +128,7 @@ export const ChatSenderComponent = ({
                 <InputEmoji
                     value={newMessage.text}
                     onChange={(e) => handleChange(e)}
+                    onKeyDown={onEnterClick}
                 />
                 <div ref={sendMessageBtn} className="send-button-chat" onClick={handleSend}>✓</div>
                 <input

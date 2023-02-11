@@ -25,6 +25,7 @@ const ProfileComponent = ({ setToken, token, userId }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        window.onload = window.scrollTo(0, 0)
         let urlId = window.location.pathname.split('/profile/')[1]
         let profileId = urlId != null ? urlId : userId
 

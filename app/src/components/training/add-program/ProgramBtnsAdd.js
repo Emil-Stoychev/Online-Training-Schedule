@@ -61,9 +61,13 @@ export const ProgramBtnsAdd = ({
                     ?
                     <input minLength='1' maxLength='21' value={category.value} onChange={(e) => categoryValue(e)} type='text' placeholder='Add category name' />
                     :
-                    <select value={category.value} onChange={(e) => categoryValue(e)}>
-                        {categories.length > 0 && categories.map(x => <option value={x.category} key={x._id}>{x.category}</option>)}
-                    </select>
+                    categories.length > 0
+                        ?
+                        <select value={category.value} onChange={(e) => categoryValue(e)}>
+                            {categories.length > 0 && categories.map(x => <option value={x.category} key={x._id}>{x.category}</option>)}
+                        </select>
+                        : <h4>No categories!</h4>
+
                 }
 
                 <select value={visible.value} onChange={(e) => visibleHandler(e)}>

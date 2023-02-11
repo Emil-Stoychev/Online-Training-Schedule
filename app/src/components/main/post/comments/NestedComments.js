@@ -1,4 +1,5 @@
 import { useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export const NestedCommentComponent = ({ x, y, userId, updateComment, likeComment, deleteComment }) => {
     const [nestedToggleDelete, setNestedToggleDelete] = useState(false)
@@ -7,6 +8,7 @@ export const NestedCommentComponent = ({ x, y, userId, updateComment, likeCommen
         value: ''
     })
     const nestedDesc = useRef()
+    const navigate = useNavigate()
 
     const editNestedCommentHandler = () => {
         setNestedToggleEdit(state => ({
@@ -25,7 +27,7 @@ export const NestedCommentComponent = ({ x, y, userId, updateComment, likeCommen
     return (
         <>
             <div className='nested-comment'>
-                <div className='top'>
+                <div className='top' onClick={() => navigate(`/profile/${y?.profileImage[0]?._id}`)}>
                     <img src={y?.profileImage?.length > 0 &&
                         y?.profileImage[0]?.image != ''
                         ? y?.profileImage[0]?.image

@@ -25,6 +25,7 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
 
 
     useEffect(() => {
+        window.onload = window.scrollTo(0, 0)
         setErrors({ message: 'Loading...', type: 'loading' })
 
         trainingService.getById(window.location.pathname.split('/training-edit-program/')[1])

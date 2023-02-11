@@ -19,6 +19,12 @@ export const AddCommentComponent = ({ userId, token, post, setPost, showComments
         }))
     }
 
+    const onEnterClick = (e) => {
+        if (e.key == 'Enter') {
+            submitHandler()
+        }
+    }
+
     const submitHandler = () => {
         if (values.description.trim() != '' && values.description.length > 3) {
 
@@ -46,6 +52,10 @@ export const AddCommentComponent = ({ userId, token, post, setPost, showComments
                 })
         } else {
             setErrors({ message: 'Description must be at least 3 characters!', type: '' })
+            setValues({
+                description: '',
+                image: [],
+            })
         }
     }
 
@@ -55,7 +65,7 @@ export const AddCommentComponent = ({ userId, token, post, setPost, showComments
                 <div className="info">
                     <div className="profile-image">
                         <img src={image != '' && image != undefined ? image : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
-                        <textarea name='description' value={values.description} onChange={(e) => changeValues(e)} placeholder="Text something here..."></textarea>
+                        <textarea name='description' value={values.description} onChange={(e) => changeValues(e)} onKeyDown={onEnterClick} placeholder="Text something here..."></textarea>
                     </div>
 
                     <div className='buttons'>

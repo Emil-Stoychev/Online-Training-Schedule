@@ -11,6 +11,8 @@ const TrainingComponent = ({ token, _id }) => {
     const [categoriesEmpty, setCategoriesEmpty] = useState(false)
 
     useEffect(() => {
+        window.onload = window.scrollTo(0, 0)
+
         trainingService.getAllCategories(_id)
             .then(res => {
                 if (!res.message) {

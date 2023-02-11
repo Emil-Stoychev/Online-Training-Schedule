@@ -88,6 +88,10 @@ select {
   }
 }
 
+i {
+  user-select: none;
+}
+
 i.btn-to-up {
   position: fixed;
   color: #45f3ff;

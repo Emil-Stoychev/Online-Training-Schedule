@@ -53,6 +53,7 @@ section.container .comments .nested-comments > .nested-comment > .top {
   padding: 1rem 1rem;
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem;
+  cursor: pointer;
 }
 
 section.container .comments .nested-comments > .nested-comment {

@@ -50,15 +50,20 @@ export const EventComp = ({ x, token, setEvents }) => {
     }
 
     return (
-        <div className={`event ${x.finish && 'event-finished'}`} key={x._id} onClick={() => toggleFinishEvent(x._id, x.finish)}>
+        <div className={`event ${x.finish && 'event-finished'}`} key={x._id} >
             <div className='title' >
                 <i className='fas fa-circle'></i>
                 <h3 className='event-title'>{x.name}</h3>
             </div>
-            <div className='event-time'>{x.timeFrom} - {x.timeTo}PM</div>
+
+            {x.finish
+                ? <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-bell toggleFinishBtn' />
+                : <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-circle-check toggleFinishBtn' />
+            }
+
+            <div className='event-time'>{x.timeFrom}{Number(x.timeFrom.slice(0, 2)) < 12 ? 'AM' : 'PM'} - {x.timeTo}{Number(x.timeTo.slice(0, 2)) < 12 ? 'AM' : 'PM'}</div>
             <i className='event-finish-i'>
                 {loadingCompleteEvent && <div className="lds-ellipsis"><div></div><div></div><div></div><div></div></div>}
-                {x.finish && 'Finished'}
             </i>
 
 

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useGlobalErrorsHook from '../../../../hooks/useGlobalErrors.js'
 import * as postService from '../../../../services/postService.js'
 import './comment.css'
@@ -16,6 +17,7 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
         value: ''
     })
     const desc = useRef()
+    const navigate = useNavigate()
 
     let [errors, setErrors] = useGlobalErrorsHook()
 
@@ -223,7 +225,7 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
     return (
         <>
             <div className='comment'>
-                <div className='top'>
+                <div className='top' onClick={() => navigate(`/profile/${x?.profileImage[0]?._id}`)}>
                     <img src={x?.profileImage?.length > 0 &&
                         x?.profileImage[0]?.image != ''
                         ? x?.profileImage[0]?.image
