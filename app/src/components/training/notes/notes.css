@@ -45,7 +45,7 @@ section.training-notes .notes-category {
   width: 100%;
 }
 
-section.training-notes .notes-category > h2 {
+section.training-notes .notes-category>h2 {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -55,13 +55,13 @@ section.training-notes .notes-category > h2 {
   width: 90%;
 }
 
-section.training-notes .notes-category > h2 p {
+section.training-notes .notes-category>h2 p {
   cursor: pointer;
   left: 5%;
   position: absolute;
 }
 
-section.training-notes .notes-category > h2 i {
+section.training-notes .notes-category>h2 i {
   position: absolute;
   font-size: 42px;
   cursor: pointer;
@@ -69,22 +69,22 @@ section.training-notes .notes-category > h2 i {
   right: 0;
 }
 
-section.training-notes .notes-category > h2 i:nth-child(2) {
+section.training-notes .notes-category>h2 i:nth-child(2) {
   margin-right: 4rem;
 }
 
-section.training-notes .notes-category > h2 i:first-child:hover {
+section.training-notes .notes-category>h2 i:first-child:hover {
   transform: rotate(-120deg);
 }
 
-section.training-notes .notes > div {
+section.training-notes .notes>div {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 42rem;
 }
 
-section.training-notes .notes > div h3 {
+section.training-notes .notes>div h3 {
   font-size: 42px;
   margin: 0;
   padding-right: 1rem;
@@ -92,17 +92,17 @@ section.training-notes .notes > div h3 {
   transition: all 300ms ease-in-out;
 }
 
-section.training-notes .notes > div h3:hover {
+section.training-notes .notes>div h3:hover {
   transform: scale(1.1) rotate(-90deg);
 }
 
-section.training-notes .notes > time {
+section.training-notes .notes>time {
   font-size: 14px;
   margin: 0;
   padding: 0;
 }
 
-section.training-notes .notes > p {
+section.training-notes .notes>p {
   text-align: center;
   position: absolute;
   bottom: 0;
@@ -112,7 +112,7 @@ section.training-notes .notes > p {
   font-size: 12px;
 }
 
-section.training-notes .notes > .notes-more {
+section.training-notes .notes>.notes-more {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -124,7 +124,7 @@ section.training-notes .notes > .notes-more {
   /* display: none; */
 }
 
-section.training-notes .notes > .notes-more > .notes-more-buttons {
+section.training-notes .notes>.notes-more>.notes-more-buttons {
   display: flex;
   justify-content: flex-end;
   align-content: center;
@@ -132,7 +132,7 @@ section.training-notes .notes > .notes-more > .notes-more-buttons {
   gap: 1rem;
 }
 
-section.training-notes .notes > .notes-more > .notes-more-buttons > i {
+section.training-notes .notes>.notes-more>.notes-more-buttons>i {
   padding: 0.2rem 1rem;
   border-radius: 1rem;
   font-size: 16px;
@@ -142,23 +142,23 @@ section.training-notes .notes > .notes-more > .notes-more-buttons > i {
   font-weight: 600;
 }
 
-section.training-notes .notes > .notes-more > .notes-more-buttons > i:hover {
+section.training-notes .notes>.notes-more>.notes-more-buttons>i:hover {
   transform: scale(1.1);
   background-color: rgba(245, 222, 179, 0.103);
   color: #45f3ff;
 }
 
-section.training-notes .notes > .notes-more h2 {
+section.training-notes .notes>.notes-more h2 {
   padding-left: 3rem;
   font-size: 18px;
 }
 
-section.training-notes .notes > .notes-more p {
+section.training-notes .notes>.notes-more p {
   padding-left: 5rem;
   font-size: 14px;
 }
 
-section.training-notes .notes > .notes-more .timeForExercise {
+section.training-notes .notes>.notes-more .timeForExercise {
   font-size: 16px;
 }
 
@@ -185,92 +185,92 @@ section.training-notes .notes > .notes-more .timeForExercise {
     padding: 2rem;
   }
 
-  section.training-notes .notes > div {
+  section.training-notes .notes>div {
     gap: 0;
   }
 
-  section.training-notes .notes > .notes-more {
+  section.training-notes .notes>.notes-more {
     width: 100%;
   }
 
-  section.training-notes .notes-category > h2 i {
+  section.training-notes .notes-category>h2 i {
     font-size: 24px;
   }
 
-  section.training-notes .notes-category > h2 p {
+  section.training-notes .notes-category>h2 p {
     font-size: 14px;
   }
 }
 
 @media screen and (max-width: 730px) {
-  section.training-notes .notes > .notes-more h2 {
+  section.training-notes .notes>.notes-more h2 {
     padding-left: 1.5rem;
   }
 
-  section.training-notes .notes > .notes-more p {
+  section.training-notes .notes>.notes-more p {
     padding-left: 3rem;
   }
 
-  section.training-notes .notes-category > h2 i:nth-child(2) {
+  section.training-notes .notes-category>h2 i:nth-child(2) {
     margin-right: 3rem;
   }
 
-  section.training-notes .notes-category > h2 i {
+  section.training-notes .notes-category>h2 i {
     font-size: 22px;
   }
 
-  section.training-notes .notes-category > h2 {
+  section.training-notes .notes-category>h2 {
     font-size: 20px;
   }
 }
 
 @media screen and (max-width: 555px) {
-  section.training-notes .notes-category > h2 {
+  section.training-notes .notes-category>h2 {
     padding: 0 2rem;
   }
 
-  section.training-notes .notes > .notes-more h2 {
+  section.training-notes .notes>.notes-more h2 {
     padding-left: 1rem;
   }
 
-  section.training-notes .notes-category > h2 p {
+  section.training-notes .notes-category>h2 p {
     font-size: 12px;
     width: 65%;
   }
 
-  section.training-notes .notes-category > h2 i:nth-child(2) {
+  section.training-notes .notes-category>h2 i:nth-child(2) {
     margin-right: 2.5rem;
   }
 }
 
 @media screen and (max-width: 430px) {
-  section.training-notes .notes-category > h2 {
+  section.training-notes .notes-category>h2 {
     font-size: 16px;
   }
 }
 
 @media screen and (max-width: 370px) {
-  section.training-notes .notes-category > h2 {
+  section.training-notes .notes-category>h2 {
     font-size: 14px;
   }
 
-  section.training-notes .notes-category > h2 i {
+  section.training-notes .notes-category>h2 i {
     font-size: 16px;
   }
 }
 
 @media screen and (max-width: 335px) {
-  section.training-notes .notes-category > h2 {
+  section.training-notes .notes-category>h2 {
     font-size: 12px;
   }
 }
 
 @media screen and (max-width: 300px) {
-  section.training-notes .notes-category > h2 p {
+  section.training-notes .notes-category>h2 p {
     width: 55%;
   }
 
-  section.training-notes .notes-category > h2 {
+  section.training-notes .notes-category>h2 {
     font-size: 10px;
     word-break: break-all;
     padding-right: 5rem;
