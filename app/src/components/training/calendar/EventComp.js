@@ -68,8 +68,8 @@ export const EventComp = ({ x, token, setEvents }) => {
                 </div>
                 :
                 x.finish
-                    ? <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-circle toggleFinishBtn' />
-                    : <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-circle-check toggleFinishBtn' />
+                    ? <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-circle-check toggleFinishBtn' />
+                    : <i onClick={() => toggleFinishEvent(x._id, x.finish)} className='fa-regular fa-circle toggleFinishBtn' />
             }
 
             <div className='event-time'>{x.timeFrom}{Number(x.timeFrom.slice(0, 2)) < 12 ? 'AM' : 'PM'} - {x.timeTo}{Number(x.timeTo.slice(0, 2)) < 12 ? 'AM' : 'PM'}</div>

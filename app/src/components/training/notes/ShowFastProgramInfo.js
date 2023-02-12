@@ -38,7 +38,7 @@ export const ShowFastInfoAboutProgram = ({ y }) => {
                     </div>
 
                     <time>{format(y?.createdAt) || ''}</time>
-                    <p className={`notes-${y?.visible}-p`}>{y?.visible}</p>
+                    <p id={`notes-${y?.visible}-p`}>{y?.visible}</p>
                 </article>
                 :
                 <article className='notes' onClick={() => setShowMore(false)}>
@@ -52,7 +52,7 @@ export const ShowFastInfoAboutProgram = ({ y }) => {
                     </div>
 
                     <time>{format(y?.createdAt) || ''}</time>
-                    <p className={`notes-${y?.visible}-p`}>{y?.visible}</p>
+                    <p id={`notes-${y?.visible}-p`}>{y?.visible}</p>
 
                     <div className='notes-more'>
 
