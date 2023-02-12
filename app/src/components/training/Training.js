@@ -28,6 +28,10 @@ const TrainingComponent = ({ token, _id }) => {
             })
     }, [])
 
+    useEffect(() => {
+        if (categories.length == 0) return setCategoriesEmpty(true)
+    }, [categories])
+
     return (
         <>
             <CalendarComponent token={token} userId={_id} />
@@ -36,7 +40,7 @@ const TrainingComponent = ({ token, _id }) => {
 
             <section className='training-notes'>
 
-                <NotesComponent token={token} userId={_id} setCategories={setCategories} categories={categories} categoriesEmpty={categoriesEmpty} />
+                <NotesComponent token={token} userId={_id} setCategories={setCategories} categories={categories} categoriesEmpty={categoriesEmpty} setCategoriesEmpty={setCategoriesEmpty} />
 
             </section>
 

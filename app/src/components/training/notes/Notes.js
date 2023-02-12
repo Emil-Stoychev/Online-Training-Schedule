@@ -3,6 +3,7 @@ import './notes.css'
 
 import * as trainingService from '../../../services/trainingService.js'
 import { ShowPrograms } from './ShowPrograms'
+import { useFetcher } from 'react-router-dom'
 
 export const NotesComponent = ({ token, userId, setCategories, categories, categoriesEmpty }) => {
     useEffect(() => {
@@ -13,7 +14,6 @@ export const NotesComponent = ({ token, userId, setCategories, categories, categ
                 }
             })
     }, [])
-
 
     return (
 

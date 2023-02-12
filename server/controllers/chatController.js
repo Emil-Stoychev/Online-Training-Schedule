@@ -9,6 +9,7 @@ router.post('/', authMiddleware, async (req, res) => {
 
     return res.status(200).json(result) || res.status(500).json(result)
 })
+
 router.get('/:userId', async (req, res) => {
     let result = await userChats(req.params.userId)
 

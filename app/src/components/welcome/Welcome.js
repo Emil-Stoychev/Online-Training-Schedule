@@ -1,9 +1,11 @@
 import './welcome.css'
 import { Typewriter } from 'react-simple-typewriter'
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 const WelcomeComponent = () => {
     const navigate = useNavigate()
+    const array = ['./postMaker.gif', './calendarEvent.gif', './createCategoryAndTrainingProgram.gif', './galaxy.gif', './gymBuddies.gif']
 
     return (
         <>
@@ -30,7 +32,7 @@ const WelcomeComponent = () => {
                     </div>
 
                     <div>
-                        <img src="https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1" />
+                        <img src={[array[4]]} />
                     </div>
                 </article>
 
@@ -40,7 +42,7 @@ const WelcomeComponent = () => {
                             Set your {' '}
                             <span>
                                 <Typewriter
-                                    words={['events.', 'training programs.', 'own profile.']}
+                                    words={['post.', 'comment.', 'and more...']}
                                     loop={false}
                                     cursor
                                     cursorStyle='_'
@@ -51,11 +53,61 @@ const WelcomeComponent = () => {
                             </span>
                         </h1>
 
-                        <h2>Here you can set your events, customizable training programs and see month programs!</h2>
+                        <h2>Here you can set your post to your friends, add comment, save post and more!</h2>
                     </div>
 
                     <div>
-                        <img src="https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1" />
+                        <img src={array[0]} />
+                    </div>
+                </article>
+
+                <article className="welcome-art">
+                    <div>
+                        <h1>
+                            Your calendar {' '}
+                            <span>
+                                <Typewriter
+                                    words={['events.', 'days.', 'months.', 'years.']}
+                                    loop={false}
+                                    cursor
+                                    cursorStyle='_'
+                                    typeSpeed={100}
+                                    deleteSpeed={70}
+                                    delaySpeed={1000}
+                                />
+                            </span>
+                        </h1>
+
+                        <h2>So simple app, quick and easy to use! Can add events for different days, to always be up to date</h2>
+                    </div>
+
+                    <div>
+                        <img src={[array[1]]} />
+                    </div>
+                </article>
+
+                <article className="welcome-art">
+                    <div>
+                        <h1>
+                            Set your {' '}
+                            <span>
+                                <Typewriter
+                                    words={['training programs.', 'category.']}
+                                    loop={false}
+                                    cursor
+                                    cursorStyle='_'
+                                    typeSpeed={100}
+                                    deleteSpeed={70}
+                                    delaySpeed={1000}
+                                />
+                            </span>
+                        </h1>
+
+                        <h2>Here you can set your category, customizable training programs and see it and fast edit!</h2>
+                    </div>
+
+                    <div>
+                        <img src={array[2]} />
                     </div>
                 </article>
 
@@ -76,11 +128,11 @@ const WelcomeComponent = () => {
                             </span>
                         </h1>
 
-                        <h2>So simple app, quick and easy to use!</h2>
+                        <h2>So simple app, quick and easy to use from everywhere and when you want!</h2>
                     </div>
 
                     <div>
-                        <img src="https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1" />
+                        <img src={array[3]} />
                     </div>
                 </article>
 
