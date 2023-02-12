@@ -387,7 +387,314 @@ Send a ```GET``` request with ```imageId``` and ```token``` to ```/images/:image
 #
 
 
+## Chat Service
+- [x] **Create new chat**
+
+Send ```POST``` request to ```/chat```
+
+And the body must contains ```token```, ```senderId``` and ```receiverId```
+
+> Example
+```
+    senderId: 62e90e2e061f1a3c90bab941,
+    receiverId: 62e90e2e061f1a3c90bab991,
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```
+#
+- [x] **Get all chats for curr user**
+
+Send a ```GET``` request with ```userId``` to ```/chat/:userId```
+
+**POSSIBLE ERRORS:** ```User doesn't exist!```,```Chats not found!```
+#
+- [x] **Get curr chat**
+
+Send a ```GET``` request with ```firstId``` and ```secondId``` to ```/chat/find/:firstId/:secondId```
+
+**POSSIBLE ERRORS:** ```User doesn't exist!```,```Chats not found!```
+#
+- [x] **Get messages for curr chat**
+
+Send a ```GET``` request with ```chatId``` and ```skipNumber``` to ```/chat/message/:chatId/:skipNumber```
+
+Skip number = Skip messages
+if u send 0 u will get first 10 messages, if u send 10 u will skip first 10 and get after this and tc..
+
+**POSSIBLE ERRORS:** ```User doesn't exist!```,```Chats not found!```
+#
+- [x] **Create message**
+
+Send a ```POST``` request to ```/chat/message```
+
+And the body must contains ```token``` and ```message```
+
+> Example
+```
+message = {
+          senderId: 62e90e2e061f1a3c90bab991,
+          text: Your message here,
+          chatId: 62e90e2e061f1a3c90bab941,
+          image: Your upload image here
+          },
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```User doesn't exist!```,```Chats not found!```
+#
+- [x] **Delete message**
+
+Send a ```DELETE``` request with ```messageId``` to ```/chat/deleteMessage/:messageId```
+
+And the body must contains ```token```
+
+> Example
+```
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```User doesn't exist!```,```Chats not found!``` and ```Message not found!```
+#
+
+## Calendar Service
+- [x] **Init calendar**
+
+If doesn't exist curr year for curr user, u can:
+
+Send ```GET``` request with ```token```, ```year``` and ```month``` to ```/calendar/:token/:year/:month```
+
+> Example
+```
+    year: 2023,
+    month: OPTIONAL || 'February',
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```
+#
+- [x] **Get curr day**
+
+If doesn't exist this day, then will automatically create a new one!
+
+Send ```GET``` request with ```token```, ```year```, ```month``` and ```day``` to ```/calendar/:token/:year/:month/:day```
+
+> Example
+```
+    day: 7,
+    year: 2023,
+    month: 'February',
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```
+#
+- [x] **Create new event**
+
+If doesn't exist this day, then will automatically create a new one!
+
+Send ```POST``` request with ```token``` to ```/calendar/createEvent/:token```
+
+And the body must contain object with ```token```, ```day```, ```year```, ```month```, ```container```
+
+Container is for event data!
+
+> Example
+```
+data = {
+        container: {
+               name: Event name,
+               timeFrom: 12:35,
+               timeTo: 15:00
+        },
+        day: 7,
+        year: 2023,
+        month: 'February',
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+      }
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```
+#
+- [x] **Toggle finish event**
+
+Send ```POST``` request with ```eventId``` to ```/calendar/toggleFinishEvent/:eventId```
+
+And the body must contain object with ```eventId```, ```finish```, ```token```
+
+If finish is true, then send to DB finish: true and the DB will automaticaly convert the opposite of the given
+
+> Example
+```
+    eventId: 62e90e2e061f1a3c90bab991,
+    finish: false/true,
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```
+#
+- [x] **Delete event**
+
+Send ```DELETE``` request with ```eventId``` to ```/calendar/deleteEvent/:eventId```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```Event not found!```
+
+## Training Service
+- [x] **Get curr Training**
+
+Send ```GET``` request with ```trainingId``` to ```/training/:trainingId```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```Training not found/doesn't exist!```
+#
+- [x] **Get fast info for curr Training**
+
+Send ```GET``` request with ```trainingId``` to ```/training/fastInfo/:trainingId```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```Training not found/doesn't exist!```
+#
+- [x] **Get fast info for curr Training**
+
+Send ```GET``` request with ```imageId``` to ```/training/fullImage/:imageId```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```Training not found/doesn't exist!```, ```Training image doesn't exist!```
+#
+- [x] **Create Training Program**
+
+Send ```POST``` request to ```/training/create```
+
+And the body must contain data with ```mainInputTitle```, ```container```, ```category```, ```visible``` and separately ```token```, ```userId```
+
+mainInputTitle: Training program name
+visible: Public/Friends/Private
+container: this is for all created inputs like title, desc, restTime, exerciseTime, image...
+
+> Example
+```
+data = {
+        mainInputTitle: Training program name,
+        container,
+        category: Your category name,
+        visible: Public/Friends/Private,
+        },
+    userId: 62e90e2e061f1a3c90bab991,
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```User doesn't exist!``` or some of values can be incorrect in container!
+#
+- [x] **Like/Unlike Training program**
+
+Send ```POST``` request with ```trainingId``` to ```/training/toggleLike/:trainingId```
+
+And the body must contains ```token```, ```trainingId```
+
+> Example
+```
+    trainingId: 62e90e2e061f1a3c90bab991,
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```User doesn't exist!``` or some of values can be incorrect in container!
+#
+- [x] **Edit training program**
+
+Send ```POST``` request with ```trainingId``` to ```/training/edit-program/:trainingId```
+
+And the body must contain data with ```mainInputTitle```, ```container```, ```category```, ```visible``` and separately ```token```, ```userId```
+
+mainInputTitle: Training program name
+visible: Public/Friends/Private
+container: this is for all created inputs like title, desc, restTime, exerciseTime, image...
+
+> Example
+```
+  data = [
+      trainingId: 62e90e2e061f1a3c90bab991,
+      mainInputTitle: Training program name,
+      container,
+      category: Your category name,
+      containerIds: OPTIONAL [62e90e2e061f1a3c90bab993, 62e90e2e061f1a3c90bab992],
+      deleteImagesIds: OPTIONAL [62e90e2e061f1a3c90bab993, 62e90e2e061f1a3c90bab992],
+      visible: Public/Friends/Private,
+      ]
+    userId: 62e90e2e061f1a3c90bab991,
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```User doesn't exist!``` or some of values can be incorrect in container!
+#
+- [x] **Edit training program curr container**
+
+Send ```POST``` request with ```cntId``` to ```/training/editCntValue/:cntId```
+
+And the body must contains ```value```, ```cntId```, ```token```
+
+> Example
+```
+  cntId: 62e90e2e061f1a3c90bab991,
+  value: Cnt value here,
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```User doesn't exist!``` or some of values can be incorrect!
+#
+- [x] **Delete Training program**
+
+Send ```DELETE``` request with ```trainingId``` to ```/training/delete/:trainingId```
+
+And the body must contain ```token```
+
+> Example
+```
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```User doesn't exist!``` or ```Training program not found!```
+#
+
+## Category Service
+- [x] **Get all categories for curr user**
+
+Send ```GET``` request with ```author``` to ```/training/categories/:author```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```Training not found/doesn't exist!```
+#
+- [x] **Get all trainings by category**
+
+Send ```GET``` request with ```categoryId``` to ```/training/trainingsByCategory/:categoryId```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```Training not found/doesn't exist!```
+#
+- [x] **Edit Category name**
+
+Send ```POST``` request with ```categoryId``` to ```/training/editCategoryName/:categoryId```
+
+And the body must contains ```categoryId```, ```token```, ```value```
+
+> Example
+```
+  categoryId: 62e90e2e061f1a3c90bab991,
+  value: New category value here,
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```User doesn't exist!``` or some of values can be incorrect!
+#
+- [x] **Delete Category**
+
+Send ```DELETE``` request with ```categoryId``` to ```/training/deleteCategory/:categoryId```
+
+And the body must contain ```token```
+
+NOTE: THIS WILL DELETE ALL TRAINING PROGRAMS INSIDE THE CATEGORY!!!
+
+> Example
+```
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2...
+```
+
+**POSSIBLE ERRORS:** ```Invalid access token```, ```User doesn't exist!``` or ```Category not found!```
 
 
 
-
+### For all wrong paths, server will respond with ```{ message: 'Error page' }```!
