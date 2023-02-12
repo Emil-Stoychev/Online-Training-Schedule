@@ -23,6 +23,13 @@ npm i
 npm start
 ```
 
+## To start chat socket
+### Go to socket folder and then type
+```bash
+npm start
+```
+
+## Base URL
 The base URL is: **localhost:3030/** and depending on what you need, there are different paths.
 There are 6 different main paths, which are:
 -  **baseURL/users**
