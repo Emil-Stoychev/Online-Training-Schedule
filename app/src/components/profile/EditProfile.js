@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { convertBase64, imageTypes } from '../../utils/AddRemoveImages'
 import * as userService from '../../services/authService'
 import { useNavigate } from 'react-router-dom'
@@ -12,9 +12,15 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
         location: user?.location || '',
         image: user?.image || ''
     })
+    const uploadRef = useRef(null)
+
     const navigate = useNavigate()
 
     let [errors, setErrors] = useGlobalErrorsHook()
+
+    const uploadFile = () => {
+        uploadRef.current.click()
+    }
 
     const changeHandler = (e) => {
         setValues(oldState => ({
@@ -131,7 +137,8 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
                     </div>
 
                     <div className="inputBox">
-                        <input type="file" onChange={(e) => addImage(e)} />
+                        <input type="file" style={{ display: 'none' }} onChange={(e) => addImage(e)} ref={uploadRef} />
+                        <input type="button" defaultValue='Upload image' className='' onClick={() => uploadFile()} />
                         <span>Profile image (optional)</span>
                         <i></i>
                     </div>
