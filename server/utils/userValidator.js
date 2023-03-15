@@ -3,7 +3,11 @@ const emailPattern = '^(?:[A-Za-z]+[0-9]+|[A-Za-z]+|[0-9]+[A-Za-z]+)\\@[A-Za-z]+
 const emailRegex = new RegExp(emailPattern)
 
 const userValidator = (user) => {
-    let { username, password, rePassword, location, image } = user
+    let { email, username, password, rePassword, location, image } = user
+
+    if (email.length < 3 || email.trim() === '') {
+        return { message: 'Email is not valid!' }
+    }
 
     if (username.length < 3 || username.trim() === '' || username.length > 12) {
         return { message: 'Username is not valid! (3-12 characters)' }
@@ -23,7 +27,7 @@ const userValidator = (user) => {
         }
     }
 
-    return { username, password, location, image }
+    return { email, username, password, location, image }
 }
 
 const editUserValidator = (user) => {

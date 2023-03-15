@@ -43,7 +43,7 @@
 .box-edit,
 .box-edit::before,
 .box-edit::after {
-  height: 850px;
+  min-height: 1000px;
 }
 
 @keyframes animate {

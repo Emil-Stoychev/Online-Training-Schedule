@@ -1,13 +1,10 @@
 const router = require('express').Router()
 
 const { authMiddleware } = require('../Middlewares/authMiddleware')
-const { sendEmail } = require('../Services/emailService')
 const postService = require('../Services/postService')
 
 router.get('/:pageNum', async (req, res) => {
     let posts = await postService.getAll(req.params.pageNum)
-
-    sendEmail()
 
     res.json(posts.length > 0 ? posts : { message: "Empty" })
 })

@@ -7,6 +7,7 @@ import useGlobalErrorsHook from '../../hooks/useGlobalErrors'
 
 export const RegisterComponent = () => {
     const [values, setValues] = useState({
+        email: '',
         username: '',
         password: '',
         rePassword: '',
@@ -78,6 +79,12 @@ export const RegisterComponent = () => {
                 <form className="form" onSubmit={onSubmitHandler}>
 
                     <h2>Sign up</h2>
+
+                    <div className="inputBox">
+                        <input type="email" name='email' required='required' value={values.email} onChange={changeHandler} />
+                        <span>Email</span>
+                        <i></i>
+                    </div>
 
                     <div className="inputBox">
                         <input type="text" name='username' required='required' value={values.username} onChange={changeHandler} />

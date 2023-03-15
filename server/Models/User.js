@@ -1,15 +1,20 @@
 const mongoose = require('mongoose')
 
 const userSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: [true, 'Email is required'],
+        unique: true
+    },
     username: {
         type: String,
         required: [true, 'Username is required'],
-        unique: true
     },
     password: {
         type: String,
         required: [true, 'Password is required'],
     },
+    verification: String,
     image: String,
     ownPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
     trainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingPrograms' }],

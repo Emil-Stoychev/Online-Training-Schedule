@@ -50,6 +50,17 @@ export const login = (data) => {
         .then(res => res.json())
 }
 
+export const emailVerification = (data) => {
+    return fetch(`${URL}/emailVerification`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(res => res.json())
+}
+
 export const logout = (token) => {
     return fetch(`${URL}/logout/${token}`)
         .then(res => res.json())

@@ -6,9 +6,11 @@ import './login.css'
 
 export const LoginComponent = ({ setToken }) => {
     const [values, setValues] = useState({
-        username: '',
+        email: '',
         password: '',
+        verificationId: ''
     })
+    const [isVerified, setIsVerified] = useState(false)
     const navigate = useNavigate()
 
     let [errors, setErrors] = useGlobalErrorsHook()
@@ -25,6 +27,10 @@ export const LoginComponent = ({ setToken }) => {
 
         userService.login(values)
             .then(result => {
+                if (result.message == 'Email is not verified!') {
+                    setIsVerified(true)
+                }
+
                 if (result.message != 'yes') {
                     setErrors({ message: result.message, type: '' })
                 } else {
@@ -35,6 +41,7 @@ export const LoginComponent = ({ setToken }) => {
                         _id: result._id
                     })
                     setErrors({ message: 'Loading... please wait', type: 'loading' })
+                    setIsVerified(false)
 
                     navigate('/')
                 }
@@ -49,8 +56,8 @@ export const LoginComponent = ({ setToken }) => {
                     <h2>Sign in</h2>
 
                     <div className="inputBox">
-                        <input type="text" name='username' required='required' value={values.username} onChange={changeHandler} />
-                        <span>Username</span>
+                        <input type="email" name='email' required='required' value={values.email} onChange={changeHandler} />
+                        <span>Email</span>
                         <i></i>
                     </div>
 
@@ -59,6 +66,13 @@ export const LoginComponent = ({ setToken }) => {
                         <span>Password</span>
                         <i></i>
                     </div>
+
+                    {isVerified &&
+                        <div className="inputBox">
+                            <input type="text" name='verificationId' required='required' value={values.verificationId} onChange={changeHandler} />
+                            <span>Verification code</span>
+                            <i></i>
+                        </div>}
 
                     <a onClick={() => navigate('/register')}>Sign up</a>
 

@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const sharp = require("sharp");
+const shortid = require('shortid');
 
 const { User } = require('../Models/User')
-const { userValidator, editUserValidator } = require('../utils/userValidator')
+const { userValidator, editUserValidator } = require('../utils/userValidator');
+const { sendEmail } = require('./emailService');
 
 let sessionName = 'sessionStorage'
 let secret = 'asdkamsioj321hj01jpdomasdx]c[;zc-3-='
@@ -200,18 +202,34 @@ const getAll = async () => {
 
 const login = async (data) => {
     try {
-        let { username, password } = data
+        let { email, password, verificationId } = data
 
-        let user = await User.findOne({ username })
+        let user = await User.findOne({ email })
 
         if (!user) {
-            return { message: "Username or password don't match!" }
+            return { message: "Email or password don't match!" }
         }
 
         let isValidPassword = await bcrypt.compare(password, user.password)
 
         if (!isValidPassword) {
-            return { message: "Username or password don't match!" }
+            return { message: "Email or password don't match!" }
+        }
+
+        if (verificationId != '') {
+            if (user.verification != verificationId) {
+                return { message: "Wrong verification code!" }
+            }
+
+            await sendEmail('Verification complete!', user.email, verificationId)
+
+            user.verification = 'True'
+
+            user.save()
+        }
+
+        if (user.verification != 'True') {
+            return { message: "Email is not verified!" }
         }
 
         let result = await new Promise((resolve, reject) => {
@@ -238,10 +256,10 @@ const register = async (data) => {
             return user
         }
 
-        let isExist = await User.findOne({ username: user.username })
+        let isExist = await User.findOne({ email: user.email })
 
         if (isExist) {
-            return { message: "Username already exist!" }
+            return { message: "Email already exist!" }
         }
 
         if (user.image != '') {
@@ -255,15 +273,24 @@ const register = async (data) => {
                 });
         }
 
-
         let hashedPassword = await bcrypt.hash(user.password, 10)
 
         let newDate = new Date()
         let date = newDate.toLocaleString()
 
+        let verificationId = shortid.generate()
+
+        let isReadyEmail = await sendEmail('sendCode', user.email, verificationId)
+
+        if (isReadyEmail.message == 'An error has occured!') {
+            return { message: 'Email is not valid!' }
+        }
+
         let createdUser = {
+            email: user.email,
             username: user.username,
             password: hashedPassword,
+            verification: verificationId,
             image: user.image || '',
             ownPosts: [],
             followers: [],
@@ -452,5 +479,5 @@ module.exports = {
     getUserByIdInitCalendar,
     addNewCalendarYearToUser,
     getUserByIdCalendarCurrDay,
-    getUserByUsernames
+    getUserByUsernames,
 }

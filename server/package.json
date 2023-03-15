@@ -16,7 +16,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.3",
     "nodemailer": "^6.9.1",
-    "sharp": "^0.31.3"
+    "sharp": "^0.31.3",
+    "shortid": "^2.2.16"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
