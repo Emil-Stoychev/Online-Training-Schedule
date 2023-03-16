@@ -34,8 +34,11 @@ export const RegisterComponent = () => {
                 if (result.message != 'yes') {
                     setErrors({ message: result.message, type: '' })
                 } else {
-                    setErrors({ message: 'Loading... please wait', type: 'loading' })
-                    navigate('/login')
+                    setErrors({ message: 'Successfully registered! Please login!', type: '' })
+
+                    setTimeout(() => {
+                        navigate('/login')
+                    }, 1);
                 }
             })
     }
