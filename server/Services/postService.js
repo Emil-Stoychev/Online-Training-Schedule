@@ -3,7 +3,7 @@ const { Post } = require('../Models/Post')
 const { Comment } = require('../Models/Comment')
 const { addCommentService } = require('../utils/CommentEngine')
 const { postValidator } = require('../utils/postValidator')
-const { checkUserExisting, getUserById, addNewPostToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
+const { getUserById, addNewPostToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
 
 const getAll = async (pageNum) => {
     try {
@@ -38,7 +38,6 @@ const getAllFriendsPosts = async (pageNum, userId) => {
 
 const getAllFilteredByIds = async (ids) => {
     try {
-
         return await Product.find({ _id: ids })
     } catch (error) {
         console.error(error)

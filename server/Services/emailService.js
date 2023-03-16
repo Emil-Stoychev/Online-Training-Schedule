@@ -1,7 +1,8 @@
 const nodemailer = require('nodemailer')
-const shortid = require('shortid');
 const { verificationComplete } = require('../utils/emailtemplate/completeVerification');
-const { emailTemplate } = require('../utils/emailtemplate/emailtemplate')
+const { emailTemplate } = require('../utils/emailtemplate/emailtemplate');
+const { passwordChanged } = require('../utils/emailtemplate/passwordChanged');
+const { profileEdited } = require('../utils/emailtemplate/profileEdited');
 
 const user = 'gymbuddiesteamservice@gmail.com'
 const pass = 'nknceofvfrmyajup'
@@ -17,14 +18,7 @@ function sendEmail(option, email, id) {
             }
         })
 
-        const mail_configs = {
-            from: user,
-            to: email,
-            subject: option == 'sendCode' ? 'Email verification!' : 'Verification successful!',
-            html: option == 'sendCode' ? emailTemplate(id) : verificationComplete()
-        }
-
-        transporter.sendMail(mail_configs, function (error, info) {
+        transporter.sendMail(messageByOption(option, email, id), function (error, info) {
             try {
                 return resolve({ message: 'Email sent successfully!' })
             } catch (error) {
@@ -34,6 +28,32 @@ function sendEmail(option, email, id) {
         })
 
     })
+}
+
+function messageByOption(option, email, id) {
+    let subject = ''
+    let html
+
+    if (option == 'sendCode') {
+        subject = 'Email verification!'
+        html = emailTemplate(id)
+    } else if (option == 'Verification complete!') {
+        subject = 'Verification successful!'
+        html = verificationComplete()
+    } else if (option == 'Change password!') {
+        subject = 'Your password was changed!'
+        html = passwordChanged()
+    } else if (option == 'Profile edit!') {
+        subject = 'Your profile was edited!'
+        html = profileEdited()
+    }
+
+    return {
+        from: user,
+        to: email,
+        subject,
+        html
+    }
 }
 
 module.exports = {
