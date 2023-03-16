@@ -145,14 +145,6 @@ const getByOption = async (userId, option, tokenUserId) => {
     }
 }
 
-const checkUserExisting = async (username) => {
-    try {
-        return await User.findOne({ username })
-    } catch (error) {
-        return error
-    }
-}
-
 const removeSavedIdsAfterDeletingPost = async (ids, postId) => {
     try {
         let allUsers = await User.find({ _id: [...ids] })
@@ -233,7 +225,7 @@ const login = async (data) => {
         }
 
         let result = await new Promise((resolve, reject) => {
-            jwt.sign({ _id: user._id, username: user.username }, secret, { expiresIn: '2d' }, (err, token) => {
+            jwt.sign({ _id: user._id, username: user.username, email: user.email }, secret, { expiresIn: '2d' }, (err, token) => {
                 if (err) {
                     return reject(err)
                 }
@@ -242,7 +234,7 @@ const login = async (data) => {
             })
         })
 
-        return { message: 'yes', token: result, _id: user?._id }
+        return { message: 'yes', token: result, _id: user?._id, email: user?.email }
     } catch (error) {
         return error
     }
@@ -315,7 +307,7 @@ const toggleFollowPerson = async (userId, ownId) => {
         let targetUser = await getUserById(userId)
         let myUser = await getUserById(ownId)
 
-        if (!targetUser.username || !myUser.username) {
+        if (!targetUser.email || !myUser.email) {
             return { message: "User doesn't exist!" }
         }
 
@@ -347,12 +339,6 @@ const editProfile = async (data) => {
             return { message: "User not found!" }
         }
 
-        let newUser = await User.findOne({ username: values.username })
-
-        if (newUser != null && user.username != newUser.username) {
-            return { message: "User already exist!" }
-        }
-
         let oldPass = await bcrypt.compare(values.password, user?.password)
 
         if (!oldPass) {
@@ -376,6 +362,12 @@ const editProfile = async (data) => {
                 .then(async (thumbnail) => {
                     return `data:image/jpeg;base64,${thumbnail.toString("base64")}`
                 });
+        }
+
+        if (values.newPassword != '') {
+            await sendEmail('Change password!', user.email, '')
+        } else {
+            await sendEmail('Profile edit!', user.email, '')
         }
 
         user.username = values.username
@@ -465,7 +457,6 @@ module.exports = {
     register,
     getUserById,
     getAll,
-    checkUserExisting,
     editProfile,
     addNewPostToUser,
     getByOption,

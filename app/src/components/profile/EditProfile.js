@@ -4,7 +4,7 @@ import * as userService from '../../services/authService'
 import { useNavigate } from 'react-router-dom'
 import useGlobalErrorsHook from '../../hooks/useGlobalErrors'
 
-export const EditProfileComponent = ({ setToken, user, userId, token, setUser, setViewOptions, changeView }) => {
+export const EditProfileComponent = ({ email, setToken, user, userId, token, setUser, setViewOptions, changeView }) => {
     const [values, setValues] = useState({
         username: user?.username || '',
         password: '',
@@ -111,6 +111,11 @@ export const EditProfileComponent = ({ setToken, user, userId, token, setUser, s
                 <form className="form" onSubmit={onSubmitHandler}>
 
                     <h2>Edit Profile</h2>
+
+                    <div className="inputBox">
+                        <input id="disabledEmail" type="button" name='email' required='required' defaultValue={email} disabled/>
+                        <i></i>
+                    </div>
 
                     <div className="inputBox">
                         <input type="text" name='username' required='required' value={values.username} onChange={changeHandler} />

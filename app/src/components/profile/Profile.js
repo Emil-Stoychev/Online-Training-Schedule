@@ -10,7 +10,7 @@ import { OwnFollowersComponent } from './OwnFollowers'
 import { EditProfileComponent } from './EditProfile'
 import { LoadingProfile } from './LoadingProfile'
 
-const ProfileComponent = ({ setToken, token, userId }) => {
+const ProfileComponent = ({ setToken, token, userId, email }) => {
     const [user, setUser] = useState({})
     const [viewOptions, setViewOptions] = useState({
         ownPosts: false,
@@ -125,7 +125,7 @@ const ProfileComponent = ({ setToken, token, userId }) => {
                         </article>
                     }
 
-                    {viewOptions.edit && <EditProfileComponent setToken={setToken} user={user} userId={userId} token={token} setUser={setUser} setViewOptions={setViewOptions} changeView={changeView} />}
+                    {viewOptions.edit && <EditProfileComponent email={email} setToken={setToken} user={user} userId={userId} token={token} setUser={setUser} setViewOptions={setViewOptions} changeView={changeView} />}
 
                     {!loadingInfoDivs && (viewOptions.ownPosts || viewOptions.savedPosts) &&
                         <OwnPostsComponent user={user} navigate={navigate} optionWord={viewOptions.ownPosts ? 'ownPosts' : 'savedPosts'} />}

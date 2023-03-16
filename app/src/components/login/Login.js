@@ -28,7 +28,9 @@ export const LoginComponent = ({ setToken }) => {
         userService.login(values)
             .then(result => {
                 if (result.message == 'Email is not verified!') {
+                    setErrors({ message: 'Not verified! Please check your email for code!', type: '' })
                     setIsVerified(true)
+                    return
                 }
 
                 if (result.message != 'yes') {
@@ -38,7 +40,8 @@ export const LoginComponent = ({ setToken }) => {
 
                     setToken({
                         token: result.token,
-                        _id: result._id
+                        _id: result._id,
+                        email: result.email
                     })
                     setErrors({ message: 'Loading... please wait', type: 'loading' })
                     setIsVerified(false)

@@ -17,7 +17,7 @@ const Conversation = ({ token, chat, currentUser, online }) => {
                     className="followerImage"
                 />
             </div>
-            <div className="name" >
+            <div className="" >
                 <h3>{userData?.username?.slice(0, 10)}</h3>
                 <h5 className={online ? "onlineOrOfflineA" : "onlineOrOffline"}>{online ? "Online" : "Offline"}</h5>
             </div>

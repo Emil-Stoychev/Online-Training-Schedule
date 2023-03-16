@@ -42,6 +42,7 @@ function App() {
             setToken({
               token: getCookie,
               _id: res?._id,
+              email: res?.email,
               image: res?.image
             })
           } else {
@@ -118,7 +119,7 @@ function App() {
 
             <Route path='/training-edit-program/:trainingId' element={<Suspense fallback={<LoadingSpinner />}><LazyEditProgramComponent token={token.token} userId={token._id} /></Suspense>} />
 
-            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} /></Suspense>} />
+            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} email={token?.email} /></Suspense>} />
 
             <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} /></Suspense>} />
           </>

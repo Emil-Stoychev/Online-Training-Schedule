@@ -283,6 +283,14 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
   transform: scale(1.1);
 }
 
+/* This is for email input box in profile edit */
+
+#disabledEmail {
+  user-select: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor:not-allowed
+}
+
 @media screen and (max-width: 1000px) {
   section.profile-cont {
     width: 900px;
