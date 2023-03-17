@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     verification: String,
     image: String,
+    notifications: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Notification' }],
     ownPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
     trainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingPrograms' }],
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
