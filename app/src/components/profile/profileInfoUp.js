@@ -56,6 +56,7 @@ export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, c
                 </div>
 
                 <div className='profile-bio'>
+                    <p>{user?.location}</p>
                 </div>
 
                 <div className='profile-name'>
