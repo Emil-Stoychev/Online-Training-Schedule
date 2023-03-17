@@ -1,9 +1,11 @@
 const { authMiddleware } = require('../Middlewares/authMiddleware')
 const { Post } = require('../Models/Post')
+const { User } = require('../Models/User')
 const { Comment } = require('../Models/Comment')
 const { addCommentService } = require('../utils/CommentEngine')
 const { postValidator } = require('../utils/postValidator')
 const { getUserById, addNewPostToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
+const { addNotification } = require('../utils/notification')
 
 const getAll = async (pageNum) => {
     try {
@@ -112,6 +114,12 @@ const addComment = async (data) => {
 
         let resComment = await Comment.findById(newComment._id)
             .populate('profileImage', ['image', 'username', 'location'])
+
+        if (userId != post?.author) {
+            let newNotificationId = await addNotification(post?.author, userId, 'comment', postId)
+
+            await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })
+        }
 
         return resComment
     } catch (error) {

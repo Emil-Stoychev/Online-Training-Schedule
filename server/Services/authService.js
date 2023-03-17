@@ -5,6 +5,7 @@ const shortid = require('shortid');
 
 const { User } = require('../Models/User')
 const { userValidator, editUserValidator } = require('../utils/userValidator');
+const { addNotification } = require('../utils/notification');
 const { sendEmail } = require('./emailService');
 
 let sessionName = 'sessionStorage'
@@ -19,6 +20,23 @@ const getUserById = async (userId) => {
         }
 
         return userAcc
+    } catch (error) {
+        return error
+    }
+}
+
+const getAllNotifications = async (userId) => {
+    try {
+        let userAcc = await User.findById(userId).populate({
+            path: 'notifications',
+            populate: { path: 'from', select: ['username', 'image'] },
+        })
+
+        if (!userAcc) {
+            return { message: "User doesn't exist!" }
+        }
+
+        return userAcc.notifications.reverse()
     } catch (error) {
         return error
     }
@@ -317,6 +335,10 @@ const toggleFollowPerson = async (userId, ownId) => {
         } else {
             targetUser.followers.push(ownId)
             myUser.following.push(userId)
+
+            let newNotificationId = await addNotification(targetUser._id, myUser._id, 'follow')
+
+            targetUser.notifications.push(newNotificationId)
         }
 
         targetUser.save()
@@ -471,4 +493,5 @@ module.exports = {
     addNewCalendarYearToUser,
     getUserByIdCalendarCurrDay,
     getUserByUsernames,
+    getAllNotifications
 }
