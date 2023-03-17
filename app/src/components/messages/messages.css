@@ -1,0 +1,119 @@
+.messagesContainer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  right: 2rem;
+  background-color: #28292d;
+  padding: 2rem;
+  border-radius: 1rem;
+  color: whitesmoke;
+  box-shadow: 10px 10px 28px 0px rgba(0, 0, 0, 0.75);
+  z-index: 50;
+}
+
+.messagesContainer > h2 {
+  text-align: center;
+  user-select: none;
+  padding-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.messagesContainer .messagesMainInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  height: 600px;
+  width: 450px;
+  gap: 1rem;
+  user-select: none;
+  padding-right: 1rem;
+}
+
+.messagesContainer .messagesMainInfo .messagesBox {
+  width: 100%;
+}
+
+.messagesContainer .messagesMainInfo .messagesBox .messageBoxUp {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  width: 100%;
+  background-color: rgba(245, 222, 179, 0.103);
+  padding: 0.5rem;
+  border-radius: 1rem;
+}
+
+.messagesContainer .messagesMainInfo .messagesBox .messageBoxImg img {
+  min-width: 50px;
+  max-width: 50px;
+  height: 50px;
+  border-radius: 100%;
+}
+
+.messagesContainer .messagesMainInfo .messagesBox .messageBoxImgEnd img {
+  width: 55px;
+  height: 40px;
+}
+
+.messagesContainer .messagesMainInfo .messagesBox .messagesBoxP {
+  letter-spacing: 0.5px;
+  padding-right: 0.5rem;
+  width: 100%;
+}
+
+.messagesContainer .messagesMainInfo .messagesBox .messagesBoxP p {
+  word-wrap: break-word;
+  line-height: normal;
+}
+
+@media screen and (max-width: 580px) {
+  .messagesContainer .messagesMainInfo {
+    width: 400px;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .messagesContainer {
+    right: 0.5rem;
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 470px) {
+  .messagesContainer .messagesMainInfo {
+    width: 350px;
+  }
+
+  .messagesContainer .messagesMainInfo .messagesBox .messagesBoxP p {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .messagesContainer .messagesMainInfo {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .messagesContainer .messagesMainInfo {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 280px) {
+  .messagesContainer .messagesMainInfo {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 230px) {
+  .messagesContainer .messagesMainInfo {
+    width: 150px;
+  }
+}

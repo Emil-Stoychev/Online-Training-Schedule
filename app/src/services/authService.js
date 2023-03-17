@@ -23,6 +23,11 @@ export const getByOption = (token, option, userId) => {
         .then(res => res.json())
 }
 
+export const getAllNotifications = (userId, token) => {
+    return fetch(`${URL}/getAllNotifications/${userId}/${token}`)
+        .then(res => res.json())
+}
+
 export const toggleFollowPerson = (token, userId) => {
     return fetch(`${URL}/toggleFollow/${token}/${userId}`)
         .then(res => res.json())

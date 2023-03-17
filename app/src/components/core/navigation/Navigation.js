@@ -1,10 +1,11 @@
 import './navigation.css'
 import { useNavigate } from 'react-router-dom'
-import * as userService from '../../../services/authService'
 import { useEffect, useRef, useState } from 'react'
+import { MessagesComponent } from '../../messages/Messages'
 
-export const NavigationComponent = ({ token, setToken }) => {
+export const NavigationComponent = ({ token, setToken, userId }) => {
     const [toggleBtn, setToggleBtn] = useState(false)
+    const [messages, setMessages] = useState(false)
     let navigate = useNavigate()
     const navTogBtn1 = useRef()
     const navTogBtnMiddle = useRef()
@@ -51,48 +52,53 @@ export const NavigationComponent = ({ token, setToken }) => {
     }, [])
 
     return (
-        <nav className="nav">
-            <ul role='list' ref={navUL}>
-                <div className="main">
-                    <li onClick={() => navigate('/')}>Home</li>
+        <>
+            <nav className="nav">
+                <ul role='list' ref={navUL}>
+                    <div className="main">
+                        <li onClick={() => navigate('/')}>Home</li>
 
-                    {token != null
-                        ?
-                        <>
-                            <li onClick={() => navigate('/training')}>Training</li>
-                            <li onClick={() => navigate('/profile')}>Profile</li>
-                            <li onClick={() => navigate('/chat')}>Chat</li>
-                            <li onClick={() => navigate('/search')}><i className="fa-solid fa-magnifying-glass"></i></li>
-                        </>
-                        :
-                        ''
-                    }
+                        {token != null
+                            ?
+                            <>
+                                <li onClick={() => navigate('/training')}>Training</li>
+                                <li onClick={() => navigate('/profile')}>Profile</li>
+                                <li onClick={() => navigate('/chat')}>Chat</li>
+                                <li onClick={() => navigate('/search')}><i className="fa-solid fa-magnifying-glass"></i></li>
+                            </>
+                            :
+                            ''
+                        }
+                    </div>
+
+                    <span className='navigationSpan'>|</span>
+
+                    <div className="auth">
+                        <li onClick={() => navigate('/about')}>About</li>
+
+                        {token != null
+                            ?
+                            <>
+                                <li onClick={() => setMessages(state => !state)}><i className="fa-sharp fa-regular fa-message"></i></li>
+                                <li onClick={() => logout()}>Logout</li>
+                            </>
+                            :
+                            <>
+                                <li onClick={() => navigate('/login')}>Login</li>
+                                <li onClick={() => navigate('/register')}>Register</li>
+                            </>
+                        }
+                    </div>
+                </ul>
+
+                <div className='navigation-toggle' onClick={toggleNav} ref={toggleNavDiv}>
+                    <button ref={navTogBtn1} className='nav-tog-btn'></button>
+                    <button ref={navTogBtnMiddle} className='nav-tog-btn'></button>
+                    <button ref={navTogBtn2} className='nav-tog-btn'></button>
                 </div>
+            </nav>
 
-                <span className='navigationSpan'>|</span>
-
-                <div className="auth">
-                    <li onClick={() => navigate('/about')}>About</li>
-
-                    {token != null
-                        ?
-                        <>
-                            <li onClick={() => logout()}>Logout</li>
-                        </>
-                        :
-                        <>
-                            <li onClick={() => navigate('/login')}>Login</li>
-                            <li onClick={() => navigate('/register')}>Register</li>
-                        </>
-                    }
-                </div>
-            </ul>
-
-            <div className='navigation-toggle' onClick={toggleNav} ref={toggleNavDiv}>
-                <button ref={navTogBtn1} className='nav-tog-btn'></button>
-                <button ref={navTogBtnMiddle} className='nav-tog-btn'></button>
-                <button ref={navTogBtn2} className='nav-tog-btn'></button>
-            </div>
-        </nav>
+            {messages && <MessagesComponent userId={userId} />}
+        </>
     )
 }
