@@ -34,7 +34,7 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
                     setPost(res)
                 })
         }
-    }, [])
+    }, [window.location.pathname])
 
     const onLikeHandler = (e, postId) => {
 

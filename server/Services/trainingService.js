@@ -1,10 +1,12 @@
 const { TrainingPrograms } = require('../Models/Training.js')
 const { TrainingImage } = require('../Models/TrainingImage.js')
 const { TrainingCategory } = require('../Models/TrainingCategory')
+const { User } = require('../Models/User')
 
 const { trainingProgramValidator, checkAndMakeCategory, trainingEditProgramValidator, deleteImagesByCntIds } = require('../utils/trainingProgramValidator')
 const { getUserById, removeSavedIdsAfterDeletingTrainingProgram, addNewTrainingProgramToUser, removeSavedIdsAfterDeletingPost, removePostAfterDeletingPost } = require('./authService')
 const { TrainingCnt } = require('../Models/TrainingCnt.js')
+const { addNotification } = require('../utils/notification.js')
 
 const getById = async (trainingId) => {
     try {
@@ -131,6 +133,12 @@ const toggleLike = async (trainingId, userId) => {
         } else {
             await program.update({ $push: { likes: user._id } });
             await user.update({ $push: { savedTrainings: program._id } });
+        }
+
+        if (userId != program?.author) {
+            let newNotificationId = await addNotification(program?.author, userId, 'like training program', undefined, program?._id)
+
+            await User.findByIdAndUpdate(program?.author, { $push: { notifications: newNotificationId } })
         }
 
         return { trainingId, userId }

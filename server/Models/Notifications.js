@@ -3,7 +3,10 @@ const mongoose = require('mongoose')
 const notificationSchema = new mongoose.Schema({
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     title: String,
-    read: Boolean,
+    read: {
+        type: Boolean,
+        default: false
+    },
     from: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     postId: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
     trainingId: { type: mongoose.Schema.Types.ObjectId, ref: 'TrainingPrograms' },

@@ -173,6 +173,12 @@ const likeComment = async (commentId, userId) => {
 
         isCommentExist.save()
 
+        if (userId != isCommentExist?.authorId) {
+            let newNotificationId = await addNotification(isCommentExist?.authorId, userId, 'like your comment on this post!', isCommentExist?.postId)
+
+            await User.findByIdAndUpdate(isCommentExist?.authorId, { $push: { notifications: newNotificationId } })
+        }
+
         return isCommentExist
     } catch (error) {
         return error
@@ -210,6 +216,20 @@ const addReplyComment = async (commentValue, image, commentId, userId, postId, u
 
         let resComment = await Comment.findById(newComment._id)
             .populate('profileImage', ['image', 'username', 'location'])
+
+        let post = await Post.findById(postId)
+
+        if (userId != post?.author) {
+            let newNotificationId = await addNotification(post?.author, userId, 'reply comment on your post', postId)
+
+            await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })
+        }
+
+        if (userId != isCommentExist?.authorId) {
+            let newNotificationId = await addNotification(isCommentExist?.authorId, userId, 'reply on your comment on this post!', isCommentExist?.postId)
+
+            await User.findByIdAndUpdate(isCommentExist?.authorId, { $push: { notifications: newNotificationId } })
+        }
 
         return resComment
     } catch (error) {
@@ -397,6 +417,12 @@ const toggleLikePost = async (postId, userId) => {
             post.likes.push(userId)
         }
 
+        if (userId != post?.author) {
+            let newNotificationId = await addNotification(post?.author, userId, 'like post', postId)
+
+            await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })
+        }
+
         post.save()
 
         return post
@@ -430,6 +456,12 @@ const toggleSavePost = async (postId, userId) => {
         } else {
             post.saved.push(userId)
             user.savedPosts.push(postId)
+        }
+
+        if (userId != post?.author) {
+            let newNotificationId = await addNotification(post?.author, userId, 'save post', postId)
+
+            await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })
         }
 
         post.save()

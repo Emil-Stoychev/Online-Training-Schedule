@@ -93,11 +93,14 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
                                 }
                                 return c
                             } else {
-                                if (c?._id == parentId && c?.authorId != userId) {
+                                if (c?._id == parentId) {
+                                    console.log('inside');
+                                    console.log(c.nestedComments);
                                     c.nestedComments = c.nestedComments.map(x => {
+
                                         if (x._id == commentId && x.authorId != userId) {
                                             if (x?.likes.includes(userId)) {
-                                                x.likes = x.likes.filter(x => x != userId)
+                                                x.likes = x.likes.filter(y => y != userId)
                                             } else {
                                                 x?.likes.push(userId)
                                             }

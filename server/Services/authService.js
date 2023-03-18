@@ -29,7 +29,17 @@ const getAllNotifications = async (userId) => {
     try {
         let userAcc = await User.findById(userId).populate({
             path: 'notifications',
-            populate: { path: 'from', select: ['username', 'image'] },
+            populate: [
+                { path: 'from', select: ['username', 'image'] },
+                {
+                    path: 'postId',
+                    select: { 'images': { $slice: 1 } },
+                    populate: {
+                        path: 'images'
+                    },
+                },
+                { path: 'trainingId', select: ['mainTitle'] },
+            ]
         })
 
         if (!userAcc) {
