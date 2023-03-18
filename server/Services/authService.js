@@ -4,6 +4,7 @@ const sharp = require("sharp");
 const shortid = require('shortid');
 
 const { User } = require('../Models/User')
+const { Notification } = require('../Models/Notifications')
 const { userValidator, editUserValidator } = require('../utils/userValidator');
 const { addNotification } = require('../utils/notification');
 const { sendEmail } = require('./emailService');
@@ -25,11 +26,13 @@ const getUserById = async (userId) => {
     }
 }
 
-const getAllNotifications = async (userId) => {
+const getAllNotifications = async (userId, skipNum) => {
     try {
-        let userAcc = await User.findById(userId).populate({
-            path: 'notifications',
-            populate: [
+        let notifications = await Notification.find({ author: userId })
+            .sort('-createdAt')
+            .limit(10)
+            .skip(skipNum)
+            .populate([
                 { path: 'from', select: ['username', 'image'] },
                 {
                     path: 'postId',
@@ -39,14 +42,17 @@ const getAllNotifications = async (userId) => {
                     },
                 },
                 { path: 'trainingId', select: ['mainTitle'] },
-            ]
-        })
+            ])
 
-        if (!userAcc) {
+        if (!notifications) {
             return { message: "User doesn't exist!" }
         }
 
-        return userAcc.notifications.reverse()
+        if (notifications.length == 0) {
+            return { message: 'Empty!' }
+        }
+
+        return notifications
     } catch (error) {
         return error
     }

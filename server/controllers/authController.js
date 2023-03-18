@@ -19,8 +19,8 @@ router.get('/:token/:userId', authMiddleware, async (req, res) => {
     }
 })
 
-router.get('/getAllNotifications/:userId/:token', authMiddleware, async (req, res) => {
-    res.json(await authService.getAllNotifications(req.params.userId))
+router.get('/getAllNotifications/:userId/:token/:skipNum', authMiddleware, async (req, res) => {
+    res.json(await authService.getAllNotifications(req.params.userId, req.params.skipNum))
 })
 
 router.get('/getUserByUsernames/:token/:searchValue', authMiddleware, async (req, res) => {

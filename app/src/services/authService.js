@@ -23,8 +23,8 @@ export const getByOption = (token, option, userId) => {
         .then(res => res.json())
 }
 
-export const getAllNotifications = (userId, token) => {
-    return fetch(`${URL}/getAllNotifications/${userId}/${token}`)
+export const getAllNotifications = (userId, token, skipNum) => {
+    return fetch(`${URL}/getAllNotifications/${userId}/${token}/${skipNum}`)
         .then(res => res.json())
 }
 
