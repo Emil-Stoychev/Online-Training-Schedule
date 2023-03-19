@@ -51,6 +51,12 @@ export const NavigationComponent = ({ token, setToken, userId }) => {
         })
     }, [])
 
+    const toggleMessageShow = () => {
+        setTimeout(() => {
+            setMessages(true)
+        }, 0);
+    }
+
     return (
         <>
             <nav className="nav">
@@ -79,7 +85,7 @@ export const NavigationComponent = ({ token, setToken, userId }) => {
                         {token != null
                             ?
                             <>
-                                <li onClick={() => setMessages(state => !state)}><i className="fa-sharp fa-regular fa-message"></i></li>
+                                <li onClick={() => toggleMessageShow()}><i onClick={() => toggleMessageShow()} className="fa-sharp fa-regular fa-message"></i></li>
                                 <li onClick={() => logout()}>Logout</li>
                             </>
                             :
@@ -98,7 +104,7 @@ export const NavigationComponent = ({ token, setToken, userId }) => {
                 </div>
             </nav>
 
-            {messages && <MessagesComponent userId={userId} />}
+            {messages && <MessagesComponent userId={userId} setMessages={setMessages} messages={messages} toggleNav={toggleNav} />}
         </>
     )
 }
