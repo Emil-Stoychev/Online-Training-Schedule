@@ -7,7 +7,7 @@ import PostComponent from "./post/Post";
 import * as postService from '../../services/postService.js'
 import { LoadingCreatePostTemplate } from "./create-post/LoadingCreatePostTemplate";
 
-const MainComponent = ({ userId, token, image }) => {
+const MainComponent = ({ socket, userId, token, image }) => {
     const [posts, setPosts] = useState([])
     const [pageNum, setPageNum] = useState(0)
     const [loading, setLoading] = useState(true)
@@ -76,7 +76,7 @@ const MainComponent = ({ userId, token, image }) => {
 
                 {posts.length > 0 &&
                     posts.map((x, i) => {
-                        return <PostComponent key={x._id + `${i}`} x={x} userId={userId} token={token} image={image} setPosts={setPosts} />
+                        return <PostComponent socket={socket} key={x._id + `${i}`} x={x} userId={userId} token={token} image={image} setPosts={setPosts} />
                     })
                 }
 

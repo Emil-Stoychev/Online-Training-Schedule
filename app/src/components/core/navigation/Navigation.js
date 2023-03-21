@@ -2,8 +2,9 @@ import './navigation.css'
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { MessagesComponent } from '../../messages/Messages'
+import * as userService from '../../../services/authService'
 
-export const NavigationComponent = ({ token, setToken, userId }) => {
+export const NavigationComponent = ({ token, setToken, userId, newNot, setNewNot, socket }) => {
     const [toggleBtn, setToggleBtn] = useState(false)
     const [messages, setMessages] = useState(false)
     let navigate = useNavigate()
@@ -21,6 +22,19 @@ export const NavigationComponent = ({ token, setToken, userId }) => {
         navigate('/login')
     }
 
+    useEffect(() => {
+        socket.current?.on('getNotification', (data) => {
+            setNewNot(state => state + 1)
+        })
+    }, [socket.current])
+
+    useEffect(() => {
+        if (messages == true) {
+            setNewNot(0)
+            userService.readAllNotifications(userId, localStorage.getItem('sessionStorage'))
+        }
+    }, [messages])
+
     const toggleNav = () => {
         setToggleBtn(x => !x)
 
@@ -36,6 +50,15 @@ export const NavigationComponent = ({ token, setToken, userId }) => {
             navTogBtnMiddle.current.style.display = 'none'
         }
     }
+
+    useEffect(() => {
+        if (userId) {
+            userService.getAllNotificationsNumber(userId, localStorage.getItem('sessionStorage'))
+                .then(res => {
+                    setNewNot(res)
+                })
+        }
+    }, [token])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -85,7 +108,7 @@ export const NavigationComponent = ({ token, setToken, userId }) => {
                         {token != null
                             ?
                             <>
-                                <li onClick={() => toggleMessageShow()}><i onClick={() => toggleMessageShow()} className="fa-sharp fa-regular fa-message"></i></li>
+                                <li onClick={() => toggleMessageShow()}><i onClick={() => toggleMessageShow()} className='fa-sharp fa-regular fa-message'></i>{newNot > 0 ? <b className={`showNewNotification${newNot > 0 ? 'A' : ''}`}>{newNot}</b> : ''}</li>
                                 <li onClick={() => logout()}>Logout</li>
                             </>
                             :

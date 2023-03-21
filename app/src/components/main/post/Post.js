@@ -10,7 +10,7 @@ import { AddCommentComponent } from './addComment/AddComment'
 import { EditPostComponent } from './editPost/EditPost'
 import { LoadingPostTemplate } from './LoadingPostTemplate'
 
-const PostComponent = ({ x, userId, token, image, setPosts }) => {
+const PostComponent = ({ socket, x, userId, token, image, setPosts, setNewNot }) => {
     const [post, setPost] = useState({})
     const [imageCount, setImageCount] = useState(0)
     const [showComments, setShowComments] = useState(false)
@@ -38,19 +38,29 @@ const PostComponent = ({ x, userId, token, image, setPosts }) => {
 
     const onLikeHandler = (e, postId) => {
 
+        let option = false
+
         if (post?.author != userId) {
             if (!e.currentTarget.className.includes('liked')) {
                 e.currentTarget.className = 'fa-solid fa-heart liked'
                 setErrors({ message: 'Liked', type: '' })
+                option = true
             } else {
                 e.currentTarget.className = 'fa-solid fa-heart'
                 setErrors({ message: 'Unliked', type: '' })
+                option = false
             }
         }
 
         postService.toggleLikePost({ postId, token: localStorage.getItem('sessionStorage') })
             .then(res => {
                 if (!res.message) {
+                    if (option) {
+                        socket.current?.emit("sendNotification", {
+                            senderId: userId,
+                            receiverId: post?.author.toString(),
+                        })
+                    }
                     setPost(state => ({
                         ...state,
                         likes: res.likes

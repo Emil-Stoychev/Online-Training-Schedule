@@ -17,7 +17,7 @@ export const MessageBoxComponent = ({ x }) => {
                     </div>
 
                     {x?.postId && <div className='messageBoxImgEnd' onClick={() => navigate(`/post/${x?.postId?._id}`)}>
-                        <img src={x?.postId?.images?.length > 0 ? x?.postId?.images[0]?.dataString : ''} alt='Post image...' />
+                        <img src={x?.postId?.images?.length > 0 ? x?.postId?.images[0]?.dataString : 'https://static.vecteezy.com/system/resources/thumbnails/016/808/173/small/camera-not-allowed-no-photography-image-not-available-concept-icon-in-line-style-design-isolated-on-white-background-editable-stroke-vector.jpg'} alt='Post image...' />
                     </div>}
                 </div>
 

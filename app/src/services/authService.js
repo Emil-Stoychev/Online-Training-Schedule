@@ -28,6 +28,23 @@ export const getAllNotifications = (userId, token, skipNum) => {
         .then(res => res.json())
 }
 
+export const getAllNotificationsNumber = (userId, token) => {
+    return fetch(`${URL}/getAllNotificationsNumber/${userId}/${token}`)
+        .then(res => res.json())
+}
+
+export const readAllNotifications = (userId, token) => {
+    return fetch(`${URL}/readAllNotifications`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ userId, token })
+    })
+        .then(res => res.json())
+}
+
+
 export const toggleFollowPerson = (token, userId) => {
     return fetch(`${URL}/toggleFollow/${token}/${userId}`)
         .then(res => res.json())

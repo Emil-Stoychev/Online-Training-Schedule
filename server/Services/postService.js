@@ -169,15 +169,15 @@ const likeComment = async (commentId, userId) => {
             isCommentExist.likes = isCommentExist.likes.filter(x => x != userId)
         } else {
             isCommentExist.likes.push(userId)
+
+            if (userId != isCommentExist?.authorId) {
+                let newNotificationId = await addNotification(isCommentExist?.authorId, userId, 'like your comment on this post!', isCommentExist?.postId)
+
+                await User.findByIdAndUpdate(isCommentExist?.authorId, { $push: { notifications: newNotificationId } })
+            }
         }
 
         isCommentExist.save()
-
-        if (userId != isCommentExist?.authorId) {
-            let newNotificationId = await addNotification(isCommentExist?.authorId, userId, 'like your comment on this post!', isCommentExist?.postId)
-
-            await User.findByIdAndUpdate(isCommentExist?.authorId, { $push: { notifications: newNotificationId } })
-        }
 
         return isCommentExist
     } catch (error) {
@@ -415,13 +415,14 @@ const toggleLikePost = async (postId, userId) => {
             post.likes = post.likes.filter(x => x != userId)
         } else {
             post.likes.push(userId)
+
+            if (userId != post?.author) {
+                let newNotificationId = await addNotification(post?.author, userId, 'like post', postId)
+
+                await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })
+            }
         }
 
-        if (userId != post?.author) {
-            let newNotificationId = await addNotification(post?.author, userId, 'like post', postId)
-
-            await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })
-        }
 
         post.save()
 

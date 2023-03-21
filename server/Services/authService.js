@@ -58,6 +58,25 @@ const getAllNotifications = async (userId, skipNum) => {
     }
 }
 
+const getAllNotificationsNumber = async (userId) => {
+    try {
+        let notifications = await Notification.find({ author: userId, read: false })
+            .sort('-createdAt')
+
+        return notifications.length
+    } catch (error) {
+        return error
+    }
+}
+
+const readAllNotifications = async (userId) => {
+    try {
+        await Notification.updateMany({ author: userId }, { $set: { read: true } })
+    } catch (error) {
+        return error
+    }
+}
+
 const getUserByUsernames = async (searchValue) => {
     try {
         let users = await User.find({ username: { $regex: ("^" + searchValue) } })
@@ -509,5 +528,7 @@ module.exports = {
     addNewCalendarYearToUser,
     getUserByIdCalendarCurrDay,
     getUserByUsernames,
-    getAllNotifications
+    getAllNotifications,
+    getAllNotificationsNumber,
+    readAllNotifications
 }
