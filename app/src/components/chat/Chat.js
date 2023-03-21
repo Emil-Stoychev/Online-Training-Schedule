@@ -7,19 +7,17 @@ import { io } from 'socket.io-client'
 import { FullImageComponent } from './FullImage'
 import { LeftSideComponent } from './LeftSide'
 
-const ChatComponent = ({ token, _id, image }) => {
+const ChatComponent = ({ token, _id, image, onlineUsers, socket }) => {
   const [chats, setChats] = useState([])
   const [spareChats, setSpareChats] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
   const [sendMessage, setSendMessage] = useState(null)
   const [receivedMessage, setReceivedMessage] = useState(null)
-  const [onlineUsers, setOnlineUsers] = useState([])
   const [searchChatValue, setSearchChatValue] = useState("")
   const [fullImages, setFullImages] = useState([]);
   const [chatsEmpty, setChatsEmpty] = useState(false)
   const [loadingChats, setLoadingChats] = useState(false)
 
-  const socket = useRef()
   const leftSide = useRef()
   const rightSide = useRef()
 
@@ -40,21 +38,13 @@ const ChatComponent = ({ token, _id, image }) => {
   }, [])
 
   useEffect(() => {
-    socket.current = io(`http://${window.location.hostname}:8800`)
-    socket.current.emit('new-user-add', _id)
-    socket.current.on('get-users', (users) => {
-      setOnlineUsers(users)
-    })
-  }, [_id])
-
-  useEffect(() => {
     if (sendMessage != null) {
-      socket.current.emit('send-message', sendMessage)
+      socket.current?.emit('send-message', sendMessage)
     }
   }, [sendMessage])
 
   useEffect(() => {
-    socket.current.on('receive-message', (data) => {
+    socket.current?.on('receive-message', (data) => {
       setReceivedMessage(data)
     })
   }, [])

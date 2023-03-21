@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import './App.css';
+
+import { io } from 'socket.io-client'
 
 import useGlobalErrorsHook from './hooks/useGlobalErrors';
 
@@ -29,9 +31,11 @@ const LazySearchComponent = lazy(() => import('./components/search/SearchCompone
 function App() {
   const [token, setToken] = useState(null)
   const [ontop, setOntop] = useState(false)
+  const [newNot, setNewNot] = useState(0)
+  const [onlineUsers, setOnlineUsers] = useState([])
+  const socket = useRef(null)
 
   let [errors, setErrors] = useGlobalErrorsHook()
-
   useEffect(() => {
     let getCookie = localStorage.getItem('sessionStorage')
 
@@ -61,6 +65,16 @@ function App() {
     window.onload = window.scrollTo(0, 0)
   }
 
+  console.log(onlineUsers);
+
+  useEffect(() => {
+    socket.current = io(`http://${window.location.hostname}:8800`)
+    socket.current?.emit("newUser", token?._id)
+    socket.current?.on('get-users', (users) => {
+      setOnlineUsers(users)
+    })
+  }, [socket, token])
+
   useEffect(() => {
     window.addEventListener('scroll', () => {
       if (document.documentElement.scrollTop > 1000) {
@@ -76,7 +90,7 @@ function App() {
   return (
     <div className="App">
 
-      <NavigationComponent token={token?.token} setToken={setToken} userId={token?._id} />
+      <NavigationComponent token={token?.token} setToken={setToken} userId={token?._id} newNot={newNot} setNewNot={setNewNot} socket={socket} />
 
       {ontop && <i onClick={() => goToTop()} className="fa fa-arrow-up btn-to-up"></i>}
 
@@ -93,7 +107,7 @@ function App() {
           </>
           :
           <>
-            <Route path='/' element={<Suspense fallback={<LoadingSpinner />}><LazyMainComponent userId={token?._id} token={token.token} image={token.image} /></Suspense>} />
+            <Route path='/' element={<Suspense fallback={<LoadingSpinner />}><LazyMainComponent socket={socket} userId={token?._id} token={token.token} image={token.image} /></Suspense>} />
 
             <Route path='/post/:id' element={
               <section className="container">
@@ -101,7 +115,7 @@ function App() {
                 <article className="posts">
 
                   <Suspense fallback={<LoadingSpinner />}>
-                    <LazyPostComponent x={undefined} userId={token?._id} token={token.token} image={token.image} />
+                    <LazyPostComponent socket={socket} x={undefined} userId={token?._id} token={token.token} image={token.image} setNewNot={setNewNot} />
                   </Suspense>
 
                 </article>
@@ -111,7 +125,7 @@ function App() {
 
             <Route path='/search' element={<Suspense fallback={<LoadingSpinner />}><LazySearchComponent token={token.token} _id={token._id} /></Suspense>} />
 
-            <Route path='/chat' element={<Suspense fallback={<LoadingSpinner />}><LazyChatComponent token={token.token} _id={token._id} image={token.image} /></Suspense>} />
+            <Route path='/chat' element={<Suspense fallback={<LoadingSpinner />}><LazyChatComponent token={token.token} _id={token._id} image={token.image} onlineUsers={onlineUsers} socket={socket} /></Suspense>} />
 
             <Route path='/training-post/:id' element={<Suspense fallback={<LoadingSpinner />}><LazyTrainingPostComponent token={token.token} _id={token._id} /></Suspense>} />
 

@@ -15,7 +15,7 @@ export const LeftSideComponent = ({
 
     const checkOnlineStatus = (chat) => {
         const chatMember = chat.members.find(x => x._id != _id)
-        const online = onlineUsers.find(x => x.userId == chatMember._id)
+        const online = onlineUsers.find(x => x._id == chatMember._id)
         return online ? true : false
     }
 
