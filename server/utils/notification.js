@@ -10,7 +10,7 @@ const addNotification = async (author, from, option, postId, trainingId) => {
         title = 'comment your post.'
     } else if (option == 'like post') {
         title = 'like your post.'
-    } else if (option == 'reply comment on your post') {
+    } else if (option == 'reply comment on your post!') {
         title = 'reply comment on your post.'
     } else if (option == 'like comment on your post!') {
         title = 'like comment on your post.'
@@ -20,6 +20,8 @@ const addNotification = async (author, from, option, postId, trainingId) => {
         title = 'like your comment on this post.'
     } else if (option == 'reply on your comment on this post!') {
         title = 'reply on your comment on this post.'
+    } else if (option == 'reply on your comment on your post!') {
+        title = 'reply on your comment on your post.'
     } else if (option == 'save post') {
         title = 'save your post.'
     }

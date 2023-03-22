@@ -10,7 +10,7 @@ import { AddCommentComponent } from './addComment/AddComment'
 import { EditPostComponent } from './editPost/EditPost'
 import { LoadingPostTemplate } from './LoadingPostTemplate'
 
-const PostComponent = ({ socket, x, userId, token, image, setPosts, setNewNot }) => {
+const PostComponent = ({ socket, x, userId, token, image, setPosts }) => {
     const [post, setPost] = useState({})
     const [imageCount, setImageCount] = useState(0)
     const [showComments, setShowComments] = useState(false)
@@ -48,7 +48,6 @@ const PostComponent = ({ socket, x, userId, token, image, setPosts, setNewNot })
             } else {
                 e.currentTarget.className = 'fa-solid fa-heart'
                 setErrors({ message: 'Unliked', type: '' })
-                option = false
             }
         }
 
@@ -73,10 +72,13 @@ const PostComponent = ({ socket, x, userId, token, image, setPosts, setNewNot })
 
     const onSaveHandler = (e, postId) => {
 
+        let option = false
+
         if (post?.author != userId) {
             if (!e.currentTarget.className.includes('saved')) {
                 e.currentTarget.className = 'fa-solid fa-sd-card saved'
                 setErrors({ message: 'Saved', type: '' })
+                option = true
             } else {
                 e.currentTarget.className = 'fa-solid fa-sd-card'
                 setErrors({ message: 'Remove', type: '' })
@@ -86,6 +88,12 @@ const PostComponent = ({ socket, x, userId, token, image, setPosts, setNewNot })
         postService.toggleSavePost({ postId, token: localStorage.getItem('sessionStorage') })
             .then(res => {
                 if (!res.message) {
+                    if (option) {
+                        socket.current?.emit("sendNotification", {
+                            senderId: userId,
+                            receiverId: post?.author.toString(),
+                        })
+                    }
                     setPost(state => ({
                         ...state,
                         saved: res.saved
@@ -265,14 +273,14 @@ const PostComponent = ({ socket, x, userId, token, image, setPosts, setNewNot })
 
                         {!toggleEditPost.option && <div className='comments'>
 
-                            <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} />
+                            <AddCommentComponent userId={userId} token={token} post={post} setPost={setPost} showComments={showComments} image={image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} socket={socket} />
 
                             {post?.comments?.length > 0 && showComments
                                 ?
                                 <>
                                     <p onClick={() => setShowComments(false)} className='showComments'>Hide comments: {post?.comments?.length}</p>
 
-                                    {post?.comments?.map(x => <CommentComponent key={x?._id} x={x} token={token} userId={userId} setPost={setPost} />)}
+                                    {post?.comments?.map(x => <CommentComponent key={x?._id} x={x} token={token} userId={userId} setPost={setPost} socket={socket} />)}
                                 </>
                                 :
                                 <p onClick={() => getComments()} className='showComments'>Show comments: {post?.comments?.length}</p>

@@ -219,13 +219,15 @@ const addReplyComment = async (commentValue, image, commentId, userId, postId, u
 
         let post = await Post.findById(postId)
 
-        if (userId != post?.author) {
-            let newNotificationId = await addNotification(post?.author, userId, 'reply comment on your post', postId)
+        if (userId != post?.author && userId != isCommentExist?.authorId) {
+            let newNotificationId = await addNotification(post?.author, userId, 'reply on your comment on your post!', postId)
 
             await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })
-        }
+        } else if (userId != post?.author) {
+            let newNotificationId = await addNotification(post?.author, userId, 'reply comment on your post!', postId)
 
-        if (userId != isCommentExist?.authorId) {
+            await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })
+        } else if (userId != isCommentExist?.authorId) {
             let newNotificationId = await addNotification(isCommentExist?.authorId, userId, 'reply on your comment on this post!', isCommentExist?.postId)
 
             await User.findByIdAndUpdate(isCommentExist?.authorId, { $push: { notifications: newNotificationId } })
@@ -457,9 +459,7 @@ const toggleSavePost = async (postId, userId) => {
         } else {
             post.saved.push(userId)
             user.savedPosts.push(postId)
-        }
 
-        if (userId != post?.author) {
             let newNotificationId = await addNotification(post?.author, userId, 'save post', postId)
 
             await User.findByIdAndUpdate(post?.author, { $push: { notifications: newNotificationId } })

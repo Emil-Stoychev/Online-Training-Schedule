@@ -115,7 +115,7 @@ function App() {
                 <article className="posts">
 
                   <Suspense fallback={<LoadingSpinner />}>
-                    <LazyPostComponent socket={socket} x={undefined} userId={token?._id} token={token.token} image={token.image} setNewNot={setNewNot} />
+                    <LazyPostComponent socket={socket} x={undefined} userId={token?._id} token={token.token} image={token.image} />
                   </Suspense>
 
                 </article>
@@ -127,15 +127,15 @@ function App() {
 
             <Route path='/chat' element={<Suspense fallback={<LoadingSpinner />}><LazyChatComponent token={token.token} _id={token._id} image={token.image} onlineUsers={onlineUsers} socket={socket} /></Suspense>} />
 
-            <Route path='/training-post/:id' element={<Suspense fallback={<LoadingSpinner />}><LazyTrainingPostComponent token={token.token} _id={token._id} /></Suspense>} />
+            <Route path='/training-post/:id' element={<Suspense fallback={<LoadingSpinner />}><LazyTrainingPostComponent token={token.token} _id={token._id} socket={socket} /></Suspense>} />
 
             <Route path='/training' element={<Suspense fallback={<LoadingSpinner />}><LazyTrainingComponent token={token.token} _id={token._id} /></Suspense>} />
 
             <Route path='/training-edit-program/:trainingId' element={<Suspense fallback={<LoadingSpinner />}><LazyEditProgramComponent token={token.token} userId={token._id} /></Suspense>} />
 
-            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} email={token?.email} /></Suspense>} />
+            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} email={token?.email} socket={socket} /></Suspense>} />
 
-            <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} /></Suspense>} />
+            <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} socket={socket} /></Suspense>} />
           </>
         }
 

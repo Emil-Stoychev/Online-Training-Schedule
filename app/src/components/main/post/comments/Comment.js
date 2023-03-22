@@ -5,7 +5,7 @@ import * as postService from '../../../../services/postService.js'
 import './comment.css'
 import { NestedCommentComponent } from './NestedComments.js'
 
-export const CommentComponent = ({ x, token, userId, setPost }) => {
+export const CommentComponent = ({ x, token, userId, setPost, socket }) => {
     const [showComments, setShowComments] = useState(false)
     const [toggleDelete, setToggleDelete] = useState(false)
     const [toggleReply, setToggleReply] = useState({
@@ -89,20 +89,27 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
                                         c.likes = c.likes.filter(x => x != userId)
                                     } else {
                                         c?.likes.push(userId)
+
+                                        socket.current?.emit("sendNotification", {
+                                            senderId: userId,
+                                            receiverId: c.authorId.toString(),
+                                        })
                                     }
                                 }
                                 return c
                             } else {
                                 if (c?._id == parentId) {
-                                    console.log('inside');
-                                    console.log(c.nestedComments);
                                     c.nestedComments = c.nestedComments.map(x => {
-
                                         if (x._id == commentId && x.authorId != userId) {
                                             if (x?.likes.includes(userId)) {
                                                 x.likes = x.likes.filter(y => y != userId)
                                             } else {
                                                 x?.likes.push(userId)
+
+                                                socket.current?.emit("sendNotification", {
+                                                    senderId: userId,
+                                                    receiverId: x.authorId.toString(),
+                                                })
                                             }
                                         }
 
@@ -207,6 +214,18 @@ export const CommentComponent = ({ x, token, userId, setPost }) => {
                         comments: state.comments.map(x => {
                             if (x._id == commentId) {
                                 x.nestedComments.push(res)
+
+                                if (x.authorId.toString() != userId) {
+                                    socket.current?.emit("sendNotification", {
+                                        senderId: userId,
+                                        receiverId: x.authorId.toString(),
+                                    })
+                                } else {
+                                    // socket.current?.emit("sendNotification", {
+                                    //     senderId: userId,
+                                    //     receiverId: x.postId.toString(),
+                                    // })
+                                }
                             }
 
                             return x

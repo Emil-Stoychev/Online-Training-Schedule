@@ -4,7 +4,7 @@ import './addComment.css'
 import * as postService from '../../../../services/postService'
 import useGlobalErrorsHook from '../../../../hooks/useGlobalErrors'
 
-export const AddCommentComponent = ({ userId, token, post, setPost, showComments, image }) => {
+export const AddCommentComponent = ({ userId, token, post, setPost, showComments, image, socket }) => {
     const [values, setValues] = useState({
         description: '',
         image: [],
@@ -42,6 +42,13 @@ export const AddCommentComponent = ({ userId, token, post, setPost, showComments
                         ...state,
                         comments: [...state.comments, showComments ? res : res?._id]
                     }))
+
+                    if (post?.author != userId) {
+                        socket.current?.emit("sendNotification", {
+                            senderId: userId,
+                            receiverId: post?.author.toString(),
+                        })
+                    }
 
                     setErrors({ message: 'You successfully added a comment!', type: '' })
 

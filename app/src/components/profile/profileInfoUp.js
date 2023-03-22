@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import * as userService from '../../services/authService'
 import * as chatService from '../../services/chatService'
 
-export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, changeView, userId, viewOptions }) => {
+export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, changeView, userId, viewOptions, socket }) => {
     const navigate = useNavigate()
 
     const toggleFollowProcess = () => {
@@ -13,6 +13,13 @@ export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, c
                         ...state,
                         followers: res
                     }))
+
+                    if (res.length > 0) {
+                        socket.current?.emit("sendNotification", {
+                            senderId: userId,
+                            receiverId: user?._id,
+                        })
+                    }
 
                     setViewOptions({
                         ownPosts: false,

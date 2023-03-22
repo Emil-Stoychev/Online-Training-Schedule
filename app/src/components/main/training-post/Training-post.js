@@ -12,7 +12,7 @@ import { ImagesComponent } from './trainingFieldOptions.js/ImagesComponent';
 import useGlobalErrorsHook from '../../../hooks/useGlobalErrors';
 import { LoadingTraninigPost } from './LoadingTraninigPost';
 
-const TrainingPostComponent = ({ token, _id }) => {
+const TrainingPostComponent = ({ token, _id, socket }) => {
     const [training, setTraining] = useState(undefined)
     const [fullImage, setFullImage] = useState(undefined)
     const [toggleDelete, setToggleDelete] = useState(false)
@@ -59,6 +59,11 @@ const TrainingPostComponent = ({ token, _id }) => {
 
                             setErrors({ message: 'Unliked', type: '' })
                         } else {
+                            socket.current?.emit("sendNotification", {
+                                senderId: _id,
+                                receiverId: training?.author?._id.toString(),
+                            })
+
                             setTraining(state => ({
                                 ...state,
                                 likes: [...state.likes, _id]

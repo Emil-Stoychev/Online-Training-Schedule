@@ -10,7 +10,7 @@ import { OwnFollowersComponent } from './OwnFollowers'
 import { EditProfileComponent } from './EditProfile'
 import { LoadingProfile } from './LoadingProfile'
 
-const ProfileComponent = ({ setToken, token, userId, email }) => {
+const ProfileComponent = ({ setToken, token, userId, email, socket }) => {
     const [user, setUser] = useState({})
     const [viewOptions, setViewOptions] = useState({
         ownPosts: false,
@@ -95,6 +95,7 @@ const ProfileComponent = ({ setToken, token, userId, email }) => {
                         changeView={changeView}
                         userId={userId}
                         viewOptions={viewOptions}
+                        socket={socket}
                     />
                     : <LoadingProfile />}
 
