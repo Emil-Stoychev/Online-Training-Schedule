@@ -30,6 +30,7 @@ section.container .create-post .info .profile-image img {
   width: 80px;
   height: 80px;
   border-radius: 100%;
+  object-fit: cover;
 }
 
 section.container .create-post .info .profile-image textarea {

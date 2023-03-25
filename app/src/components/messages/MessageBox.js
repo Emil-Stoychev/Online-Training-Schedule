@@ -9,7 +9,7 @@ export const MessageBoxComponent = ({ x }) => {
             <div className='messagesBox'>
                 <div className={x?.read ? 'messageBoxUpRead' : 'messageBoxUp'}>
                     <div className='messageBoxImg' onClick={() => navigate(`/profile/${x?.from?._id}`)}>
-                        <img src={x?.from ? x?.from?.image : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
+                        <img src={x?.from?.image ? x?.from?.image : 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
                     </div>
 
                     <div className='messagesBoxP'>

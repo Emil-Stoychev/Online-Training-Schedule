@@ -65,8 +65,6 @@ function App() {
     window.onload = window.scrollTo(0, 0)
   }
 
-  console.log(onlineUsers);
-
   useEffect(() => {
     socket.current = io(`http://${window.location.hostname}:8800`)
     socket.current?.emit("newUser", token?._id)
@@ -133,9 +131,9 @@ function App() {
 
             <Route path='/training-edit-program/:trainingId' element={<Suspense fallback={<LoadingSpinner />}><LazyEditProgramComponent token={token.token} userId={token._id} /></Suspense>} />
 
-            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} email={token?.email} socket={socket} /></Suspense>} />
+            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} email={token?.email} socket={socket} onlineUsers={onlineUsers} /></Suspense>} />
 
-            <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} socket={socket} /></Suspense>} />
+            <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} socket={socket} onlineUsers={onlineUsers} /></Suspense>} />
           </>
         }
 

@@ -23,10 +23,6 @@ io.on('connection', (socket) => {
         console.log('connected', socket.id);
     })
 
-    setTimeout(() => {
-        console.log(activeUsers);
-    }, 1000);
-
     socket.on("sendNotification", ({ senderId, receiverId }) => {
         const receiver = getUser(receiverId)
 
