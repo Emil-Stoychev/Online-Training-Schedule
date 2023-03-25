@@ -47,7 +47,7 @@ const ChatComponent = ({ token, _id, image, onlineUsers, socket }) => {
     socket.current?.on('receive-message', (data) => {
       setReceivedMessage(data)
     })
-  }, [])
+  }, [receivedMessage])
 
   const changeStyle = () => {
     leftSide.current.className = 'Left-side-chat clickedChat'
@@ -103,12 +103,13 @@ const ChatComponent = ({ token, _id, image, onlineUsers, socket }) => {
           <ChatBox
             token={token}
             chat={currentChat}
-            currentUser={_id}
+            _id={_id}
             setSendMessage={setSendMessage}
             receivedMessage={receivedMessage}
             closeCurrentChat={closeCurrentChat}
             setFullImages={setFullImages}
             setSearchChatValue={setSearchChatValue}
+            onlineUsers={onlineUsers}
           />
         </div>
       </div>

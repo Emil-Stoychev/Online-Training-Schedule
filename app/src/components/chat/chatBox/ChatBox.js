@@ -9,12 +9,13 @@ import { ChatSenderComponent } from "./ChatSender";
 const ChatBox = ({
     token,
     chat,
-    currentUser,
+    _id,
     setSendMessage,
     receivedMessage,
     closeCurrentChat,
     setFullImages,
-    setSearchChatValue
+    setSearchChatValue,
+    onlineUsers
 }) => {
     const [userData, setUserData] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -49,8 +50,8 @@ const ChatBox = ({
     // fetching data for header
     useEffect(() => {
         closeChat(true)
-        setUserData(chat?.members?.find((x) => x._id != currentUser))
-    }, [chat, currentUser]);
+        setUserData(chat?.members?.find((x) => x._id != _id))
+    }, [chat, _id]);
 
     // fetch messages
     useEffect(() => {
@@ -83,9 +84,24 @@ const ChatBox = ({
     // Receive Message from parent component
     useEffect(() => {
         if (receivedMessage != null && receivedMessage?.chatId == chat?._id) {
-            setMessages([...messages, receivedMessage]);
-        }
+            if (receivedMessage.type == 'delete') {
+                setMessages(state => state.map(x => {
+                    if (x._id != receivedMessage.msgId) {
+                        return x
+                    } else {
+                        x.type = 'deleted'
 
+                        return x
+                    }
+                }))
+            } else {
+                setMessages([...messages, receivedMessage]);
+
+                setTimeout(() => {
+                    goToLastMsg()
+                }, 1);
+            }
+        }
     }, [receivedMessage])
 
     const goToLastMsg = () => {
@@ -97,7 +113,7 @@ const ChatBox = ({
             <div className="ChatBox-container">
                 {chat ? (
                     <>
-                        < ChatHeaderComponent userData={userData} closeChat={closeChat} />
+                        < ChatHeaderComponent userData={userData} closeChat={closeChat} onlineUsers={onlineUsers}/>
 
                         {/* chat-body */}
                         <div className="chat-body" ref={scrollBody} >
@@ -115,8 +131,10 @@ const ChatBox = ({
                                         message={message}
                                         setFullImages={setFullImages}
                                         token={token}
-                                        currentUser={currentUser}
+                                        _id={_id}
                                         setMessages={setMessages}
+                                        setSendMessage={setSendMessage}
+                                        chat={chat}
                                     />
                                 ))}
                         </div>
@@ -126,11 +144,12 @@ const ChatBox = ({
                         {!loadingMsg &&
                             <ChatSenderComponent
                                 token={token}
-                                currentUser={currentUser}
+                                _id={_id}
                                 chat={chat}
                                 messages={messages}
                                 setMessages={setMessages}
                                 setSendMessage={setSendMessage}
+                                goToLastMsg={goToLastMsg}
                             />
                         }
                     </>

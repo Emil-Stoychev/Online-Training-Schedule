@@ -242,6 +242,14 @@ div.Chat
   max-height: 70px;
 }
 
+h4.removedMessage {
+  user-select: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+  letter-spacing: 1px;
+  font-style: oblique;
+}
+
 @media screen and (max-width: 1000px) {
   .inputBox-uploadImages-chat {
     width: 15%;

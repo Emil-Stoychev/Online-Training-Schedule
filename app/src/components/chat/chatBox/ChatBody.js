@@ -5,7 +5,7 @@ import { format } from "timeago.js";
 import useGlobalErrorsHook from "../../../hooks/useGlobalErrors.js";
 
 
-export const ChatBodyComponent = ({ message, setFullImages, token, currentUser, setMessages }) => {
+export const ChatBodyComponent = ({ message, setFullImages, token, _id, setMessages, setSendMessage, chat }) => {
     const [toggleDeleteMsg, setToggleDeleteMsg] = useState(false);
 
     let [errors, setErrors] = useGlobalErrorsHook()
@@ -27,9 +27,17 @@ export const ChatBodyComponent = ({ message, setFullImages, token, currentUser, 
                 if (!res.message) {
                     setErrors({ message: 'Message deleted!', type: '' })
 
-                    setTimeout(() => {
-                        setMessages(state => state.filter(x => x._id != msgId))
-                    }, 0);
+                    setSendMessage({ msgId, receiverId: chat.members.find(x => x._id != _id)._id, type: 'delete', chatId: chat?._id })
+
+                    setMessages(state => state.map(x => {
+                        if (x._id != msgId) {
+                            return x
+                        } else {
+                            x.type = 'deleted'
+
+                            return x
+                        }
+                    }))
                 } else {
                     setErrors({ message: res.message, type: '' })
                 }
@@ -39,25 +47,31 @@ export const ChatBodyComponent = ({ message, setFullImages, token, currentUser, 
     return (
         <div
             className={
-                message.senderId == currentUser
+                message.senderId == _id
                     ? "message own"
                     : "message"
             }
         >
-            <h2>{message?.text}</h2>{" "}
-            {message?.image && <img onClick={() => openImageFullScreen(message?.image?._id)} src={message?.image?.thumbnail} />}
-            <div className="timeAndDelete">
-                <span>{format(message.createdAt)}</span>
-                {message.senderId == currentUser && !toggleDeleteMsg &&
-                    <i onClick={() => setToggleDeleteMsg(x => !x)} className="fa-solid fa-trash deleteMsgFromChat"></i>
-                }
-            </div>
+            {message.type == 'deleted'
+                ? <h4 className="removedMessage">This message was removed!</h4>
+                :
+                <>
+                    <h2>{message?.text}</h2>{" "}
+                    {message?.image && <img onClick={() => openImageFullScreen(message?.image?._id)} src={message?.image?.thumbnail} />}
+                    <div className="timeAndDelete">
+                        <span>{format(message.createdAt)}</span>
+                        {message.senderId == _id && !toggleDeleteMsg &&
+                            <i onClick={() => setToggleDeleteMsg(x => !x)} className="fa-solid fa-trash deleteMsgFromChat"></i>
+                        }
+                    </div>
 
-            {toggleDeleteMsg && message?.senderId == currentUser &&
-                <div className="deleteMsgBtns">
-                    <button onClick={() => deleteMsg(message?._id)} >✓</button>
-                    <button onClick={() => setToggleDeleteMsg(false)}>X</button>
-                </div>
+                    {toggleDeleteMsg && message?.senderId == _id &&
+                        <div className="deleteMsgBtns">
+                            <button onClick={() => deleteMsg(message?._id)} >✓</button>
+                            <button onClick={() => setToggleDeleteMsg(false)}>X</button>
+                        </div>
+                    }
+                </>
             }
         </div>
     )

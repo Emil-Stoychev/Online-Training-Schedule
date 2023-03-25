@@ -7,11 +7,12 @@ import { convertBase64, imageTypes } from '../../../utils/AddRemoveImages'
 
 export const ChatSenderComponent = ({
     token,
-    currentUser,
+    _id,
     chat,
     messages,
     setMessages,
-    setSendMessage
+    setSendMessage,
+    goToLastMsg
 }) => {
     const [newMessage, setNewMessage] = useState({
         text: '',
@@ -44,7 +45,7 @@ export const ChatSenderComponent = ({
             if (newMessage.image) setErrors({ message: 'Sending...', type: 'loading' })
 
             const message = {
-                senderId: currentUser,
+                senderId: _id,
                 text: newMessage.text,
                 chatId: chat?._id,
                 image: newMessage.image
@@ -54,7 +55,7 @@ export const ChatSenderComponent = ({
             // send message to database
             chatService.addMessage(message, token)
                 .then(res => {
-                    const receiverId = chat?.members.find((x) => x._id != currentUser);
+                    const receiverId = chat?.members.find((x) => x._id != _id);
                     // send message to socket server
                     setSendMessage({ res, receiverId: receiverId._id })
 
@@ -63,6 +64,10 @@ export const ChatSenderComponent = ({
                         text: '',
                         image: ''
                     });
+
+                    setTimeout(() => {
+                        goToLastMsg()
+                    }, 1);
                 })
         }
     }
