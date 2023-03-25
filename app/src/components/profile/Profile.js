@@ -136,7 +136,7 @@ const ProfileComponent = ({ setToken, token, userId, email, socket, onlineUsers 
                         <OwnTrainingsComponent user={user} navigate={navigate} optionWord={viewOptions.trainings ? 'trainings' : 'savedTrainings'} />}
 
                     {!loadingInfoDivs && (viewOptions.followers || viewOptions.following) &&
-                        <OwnFollowersComponent user={user} userId={userId} navigate={navigate} optionWord={viewOptions.followers ? 'followers' : 'following'} />}
+                        <OwnFollowersComponent user={user} userId={userId} navigate={navigate} optionWord={viewOptions.followers ? 'followers' : 'following'} onlineUsers={onlineUsers} />}
 
                 </article>
             </section>

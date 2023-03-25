@@ -121,7 +121,7 @@ function App() {
               </section>
             } />
 
-            <Route path='/search' element={<Suspense fallback={<LoadingSpinner />}><LazySearchComponent token={token.token} _id={token._id} /></Suspense>} />
+            <Route path='/search' element={<Suspense fallback={<LoadingSpinner />}><LazySearchComponent token={token.token} _id={token._id} onlineUsers={onlineUsers} /></Suspense>} />
 
             <Route path='/chat' element={<Suspense fallback={<LoadingSpinner />}><LazyChatComponent token={token.token} _id={token._id} image={token.image} onlineUsers={onlineUsers} socket={socket} /></Suspense>} />
 

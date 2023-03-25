@@ -5,7 +5,7 @@ import './search.css'
 import * as authService from '../../services/authService.js'
 
 
-const SearchComponent = ({ token, _id }) => {
+const SearchComponent = ({ token, _id, onlineUsers }) => {
     const [users, setUsers] = useState([])
     const [searchValue, setSearchValue] = useState('')
     const [loadingUsers, setLoadingUsers] = useState(false)
@@ -56,7 +56,9 @@ const SearchComponent = ({ token, _id }) => {
                     <article className='search-users-curr' key={x._id + `${i}`} onClick={() => navigate(`/profile/${x._id}`)}>
                         <div className="search-users-curr-cnt" >
                             <div className='search-users-curr-leftSide'>
-                                <img src={x?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
+                                <img
+                                    id={onlineUsers.find(y => y._id == x._id) ? 'onlineOrOffline1' : 'onlineOrOffline2'}
+                                    src={x?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'} alt='Profile image...' />
 
                                 <div>
                                     <h3>{x?.username} {x?._id == _id && '(you)'}</h3>

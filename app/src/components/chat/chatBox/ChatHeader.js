@@ -7,7 +7,7 @@ export const ChatHeaderComponent = ({ userData, closeChat, onlineUsers }) => {
         <div className="chat-header" >
             <div className="follower">
                 <img
-                    style={{ boxShadow: `0px 0px 0px 3px ${onlineUsers.find(x => x._id == userData?._id) ? 'rgb(60, 255, 0)' : 'rgb(253, 0, 0)'}` }}
+                    id={onlineUsers.find(y => y._id == userData?._id) ? 'onlineOrOffline1' : 'onlineOrOffline2'}
                     src={userData?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}
                     alt="Profile"
                     className="followerImage"

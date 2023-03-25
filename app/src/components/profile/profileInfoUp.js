@@ -47,7 +47,7 @@ export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, c
         <article className='profile-info-up'>
             <div>
                 <img
-                    style={{ boxShadow: `0px 0px 0px 3px ${onlineUsers.some(x => x._id == user?._id) ? 'rgb(60, 255, 0)' : 'rgb(253, 0, 0)'}` }}
+                    id={onlineUsers.find(y => y._id == user?._id) ? 'onlineOrOffline1' : 'onlineOrOffline2'}
                     src={user?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}
                 />
             </div>
