@@ -31,6 +31,9 @@ const PostComponent = ({ socket, x, userId, token, image, setPosts }) => {
         } else {
             postService.getPostById(window.location.pathname.split('/post/')[1], localStorage.getItem('sessionStorage'))
                 .then(res => {
+                    if (res.message == '404 Not found!') {
+                        return navigate('/pageNotFound')
+                    }
                     setPost(res)
                 })
         }
