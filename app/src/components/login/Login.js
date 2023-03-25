@@ -41,7 +41,8 @@ export const LoginComponent = ({ setToken }) => {
                     setToken({
                         token: result.token,
                         _id: result._id,
-                        email: result.email
+                        email: result.email,
+                        username: result.username
                     })
                     setErrors({ message: 'Loading... please wait', type: 'loading' })
                     setIsVerified(false)

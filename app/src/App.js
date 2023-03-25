@@ -47,6 +47,7 @@ function App() {
               token: getCookie,
               _id: res?._id,
               email: res?.email,
+              username: res?.username,
               image: res?.image
             })
           } else {
@@ -72,6 +73,12 @@ function App() {
       setOnlineUsers(users)
     })
   }, [socket, token])
+
+  useEffect(() => {
+    if (token != null) {
+      setErrors({ message: token?.username, type: 'logged' })
+    }
+  }, [token])
 
   useEffect(() => {
     window.addEventListener('scroll', () => {

@@ -37,6 +37,14 @@ const useGlobalErrorsHook = () => {
                     }
                 })
 
+            } else if (errors?.type == 'logged') {
+                new Snackbar(`Welcome, `, {
+                    position: 'bottom-center',
+                    theme: 'dark',
+                    position: 'top-center',
+                    actionText: `${errors.message}! 😇`,
+                })
+
             } else {
                 if (errors?.message != '') {
                     new Snackbar(errors.message)

@@ -287,7 +287,7 @@ const login = async (data) => {
             })
         })
 
-        return { message: 'yes', token: result, _id: user?._id, email: user?.email }
+        return { message: 'yes', token: result, _id: user?._id, email: user?.email, username: user.username }
     } catch (error) {
         return error
     }
