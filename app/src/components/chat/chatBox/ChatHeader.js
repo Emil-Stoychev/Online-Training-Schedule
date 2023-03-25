@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom"
 
-export const ChatHeaderComponent = ({ userData, closeChat }) => {
+export const ChatHeaderComponent = ({ userData, closeChat, onlineUsers }) => {
     const navigate = useNavigate()
 
     return (
         <div className="chat-header" >
             <div className="follower">
                 <img
+                    style={{ boxShadow: `0px 0px 0px 3px ${onlineUsers.find(x => x._id == userData?._id) ? 'rgb(60, 255, 0)' : 'rgb(253, 0, 0)'}` }}
                     src={userData?.image || 'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}
                     alt="Profile"
                     className="followerImage"
