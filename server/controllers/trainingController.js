@@ -9,6 +9,10 @@ router.get('/:trainingId', async (req, res) => {
     res.json(trainingProgram?._id ? trainingProgram : { message: "Empty" })
 })
 
+router.get('/', async (req, res) => {
+    res.json(await trainingService.numbersCount())
+})
+
 router.get('/fastInfo/:trainingId', async (req, res) => {
     let trainingProgram = await trainingService.getFastInfoAboutProgram(req.params.trainingId)
 

@@ -26,6 +26,19 @@ const getById = async (trainingId) => {
     }
 }
 
+const numbersCount = async () => {
+    try {
+        let tp = await TrainingPrograms.find()
+        let us = await User.find()
+
+        return { trainingPrograms: tp.length, users: us.length, fiveStars: us.length }
+        return {}
+    } catch (error) {
+        console.error(error)
+        return error
+    }
+}
+
 const getFastInfoAboutProgram = async (trainingId) => {
     try {
         return await TrainingPrograms.findById(trainingId)
@@ -337,5 +350,6 @@ module.exports = {
     deleteCategory,
     editCategoryName,
     editCntValue,
-    editProgram
+    editProgram,
+    numbersCount
 }

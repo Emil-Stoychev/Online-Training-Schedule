@@ -8,6 +8,11 @@ export const getById = (trainingId) => {
         .then(res => res.json())
 }
 
+export const gymBuddiesInNumbers = (token) => {
+    return fetch(`${URL}`)
+        .then(res => res.json())
+}
+
 export const getFullImage = (imageId) => {
     return fetch(`${URL}/fullImage/${imageId}`)
         .then(res => res.json())
