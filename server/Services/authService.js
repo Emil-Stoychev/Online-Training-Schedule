@@ -301,7 +301,8 @@ const register = async (data) => {
             return user
         }
 
-        let isExist = await User.findOne({ email: user.email })
+        // let isExist = await User.findOne({ email: user.email })
+        let isExist = await User.findOne({ "email": { "$regex": user.email, "$options": "i" } })
 
         if (isExist) {
             return { message: "Email already exist!" }

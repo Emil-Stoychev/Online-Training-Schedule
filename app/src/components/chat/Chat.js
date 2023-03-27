@@ -37,10 +37,14 @@ const ChatComponent = ({ token, _id, image, onlineUsers, socket }) => {
       })
   }, [])
 
+  // console.log(sendMessage);
+
   useEffect(() => {
-    if (sendMessage != null) {
+    // if (sendMessage != null) {
+    //   setChats(state => state.filter(x => {
+    //     if(x.rec)
+    //   } ))
       socket.current?.emit('send-message', sendMessage)
-    }
   }, [sendMessage])
 
   useEffect(() => {

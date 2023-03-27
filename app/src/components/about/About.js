@@ -9,7 +9,7 @@ const AboutComponent = () => {
     const [countCont, setCountCont] = useState([0, 0, 0])
 
     let valueDisplays = document.querySelectorAll(".num");
-    let interval = 3500;
+    let interval = 2000;
 
     useEffect(() => {
         trainingService.gymBuddiesInNumbers()
@@ -49,7 +49,7 @@ const AboutComponent = () => {
                 </div>
                 <div className="numberCounting">
                     <i className="fas fa-star"></i>
-                    <span className="num" data-val={countCont[2]}>0</span>
+                    <span className="num" data-val={countCont[2] * 0.95}>0</span>
                     <span className="text">Five Stars</span>
                 </div>
             </div>
