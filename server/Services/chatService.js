@@ -1,20 +1,25 @@
+const { User } = require("../Models/User.js")
 const { Chat } = require("../Models/Chat.js")
 const { MessageModel } = require("../Models/MessageModel")
 const { createImage } = require("./chatImageService.js")
 
 const createChat = async (senderId, receiverId) => {
-
-    let currChat = await findChat(senderId, receiverId)
-
-    if (currChat) {
-        return { message: 'This chat already exist!' }
-    }
-
-    const newChat = new Chat({
-        members: [senderId, receiverId]
-    })
-
     try {
+        let currChat = await findChat(senderId, receiverId)
+
+
+        if (currChat) {
+            await Chat.findByIdAndUpdate(currChat._id, { $set: { updatedAt: new Date() } })
+
+            return { message: 'This chat already exist!' }
+        }
+
+        const newChat = new Chat({
+            members: [senderId, receiverId]
+        })
+
+        await Chat.findByIdAndUpdate(newChat._id, { $set: { updatedAt: new Date() } })
+
         return await newChat.save()
     } catch (error) {
         console.error(error)
@@ -24,8 +29,9 @@ const createChat = async (senderId, receiverId) => {
 
 const userChats = async (userId) => {
     try {
-        const chat = await Chat.find({ members: { $in: [userId] } })
+        let chat = await Chat.find({ members: { $in: [userId] } })
             .populate('members', ['image', 'username', 'location'])
+            .sort('-updatedAt')
 
         return chat
     } catch (error) {
@@ -48,23 +54,29 @@ const findChat = async (firstId, secondId) => {
 }
 
 const addMessage = async (chatId, senderId, text, image) => {
-
-    let imageData
-
-    if (image) {
-        imageData = await createImage(senderId, image)
-    }
-
-    const message = new MessageModel({
-        chatId,
-        senderId,
-        text,
-        image: imageData?._id || undefined
-    })
-
-    let newMessage = await message.save()
-
     try {
+        let imageData
+
+        if (image) {
+            imageData = await createImage(senderId, image)
+        }
+
+        const message = new MessageModel({
+            chatId,
+            senderId,
+            text,
+            image: imageData?._id || undefined
+        })
+
+        let newMessage = await message.save()
+
+        let currChat = await Chat.findByIdAndUpdate(chatId, { $set: { updatedAt: new Date() } })
+
+        // await User.findByIdAndUpdate(currChat.members[0], { $pull: { chat: chatId } })
+        // await User.findByIdAndUpdate(currChat.members[1], { $pull: { chat: chatId } })
+
+        // await User.findByIdAndUpdate(currChat.members[0], { $push: { chat: chatId } })
+        // await User.findByIdAndUpdate(currChat.members[1], { $push: { chat: chatId } })
 
         return await MessageModel.findById(newMessage._id)
             .populate('image', ['thumbnail'])
