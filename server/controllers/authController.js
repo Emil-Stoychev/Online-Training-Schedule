@@ -31,6 +31,10 @@ router.post('/readAllNotifications', async (req, res) => {
     await authService.readAllNotifications(req.body.userId)
 })
 
+router.post('/toggleSoundNot/:token', authMiddleware, async (req, res) => {
+    res.json(await authService.toggleSoundNot(req.body.soundNotification, req.params.user?._id))
+})
+
 router.get('/getUserByUsernames/:token/:searchValue', authMiddleware, async (req, res) => {
     res.json(await authService.getUserByUsernames(req.params.searchValue))
 })

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import * as userService from '../../services/authService'
 import * as chatService from '../../services/chatService'
 
-export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, changeView, userId, viewOptions, socket, onlineUsers }) => {
+export const ProfileInfoUpComponent = ({ setToken, token, user, setUser, setViewOptions, changeView, userId, viewOptions, socket, onlineUsers, soundNotification, setSoundNotification }) => {
     const navigate = useNavigate()
 
     const toggleFollowProcess = () => {
@@ -34,6 +34,16 @@ export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, c
             })
     }
 
+    const toggleSoundNotification = () => {
+        userService.toggleSoundNot(token, soundNotification)
+            .then(res => {
+                if (!res.message) {
+                    setSoundNotification(res?.sound)
+                }
+            })
+
+    }
+
     const createNewChat = () => {
         if (user._id != userId && user._id != '' && userId != '') {
             chatService.createChat(userId, user._id, token)
@@ -57,6 +67,7 @@ export const ProfileInfoUpComponent = ({ token, user, setUser, setViewOptions, c
                 <div className='profile-name'>
                     <h1>{user?.username}</h1>
                     {user._id == userId && <button onClick={() => changeView('edit')}>{viewOptions.edit ? 'Cancel' : 'Edit'}</button>}
+                    {user._id == userId && <button onClick={() => toggleSoundNotification()}>{soundNotification ? <i className="fa-regular fa-bell"></i> : <i className="fa-solid fa-bell-slash"></i>}</button>}
                 </div>
 
                 <div className='profile-statistic'>

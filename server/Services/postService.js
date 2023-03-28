@@ -60,6 +60,12 @@ const getById = async (postId) => {
 
 const getComments = async (id) => {
     try {
+        let post = await Post.findById(id)
+
+        if (post == null) {
+            return { message: 'Post not found!' }
+        }
+
         let allComments = await Comment.find({ postId: id, option: 'main' })
             .populate('profileImage', ['image', 'username', 'location'])
 
@@ -96,17 +102,17 @@ const addComment = async (data) => {
             return { message: "User doesn't exist!" }
         }
 
+        let post = await Post.findById(postId)
+
+        if (post == null) {
+            return { message: "Post not found!" }
+        }
+
         if (description.trim() == '' || description.length < 3) {
             return { message: "Comment must be at least 3 character!" }
         }
 
         let newComment = await addCommentService(isUserExist?.username, description, image, userId, postId)
-
-        let post = await Post.findById(postId)
-
-        if (!post._id) {
-            return { message: "Post not found!" }
-        }
 
         post.comments.push(newComment._id)
 
@@ -193,6 +199,12 @@ const addReplyComment = async (commentValue, image, commentId, userId, postId, u
             return { message: "This comment doesn't exist!" }
         }
 
+        let post = await Post.findById(postId)
+
+        if (post == null) {
+            return { message: "Post not found!" }
+        }
+
         if (commentValue.trim() == '' || commentValue.length < 3) {
             return { message: "Comment must be at least 3 character!" }
         }
@@ -216,8 +228,6 @@ const addReplyComment = async (commentValue, image, commentId, userId, postId, u
 
         let resComment = await Comment.findById(newComment._id)
             .populate('profileImage', ['image', 'username', 'location'])
-
-        let post = await Post.findById(postId)
 
         if (userId != post?.author && userId != isCommentExist?.authorId) {
             let newNotificationId = await addNotification(post?.author, userId, 'reply on your comment on your post!', postId)

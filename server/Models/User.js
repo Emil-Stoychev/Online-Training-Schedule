@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     location: String,
+    soundNotification: {
+        type: Boolean,
+        default: true
+    },
     savedPosts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
     savedTrainings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TrainingPrograms' }],
     chat: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Chat' }],

@@ -31,6 +31,7 @@ const LazySearchComponent = lazy(() => import('./components/search/SearchCompone
 function App() {
   const [token, setToken] = useState(null)
   const [ontop, setOntop] = useState(false)
+  const [soundNotification, setSoundNotification] = useState(false)
   const [newNot, setNewNot] = useState(0)
   const [onlineUsers, setOnlineUsers] = useState([])
   const socket = useRef(null)
@@ -48,8 +49,10 @@ function App() {
               _id: res?._id,
               email: res?.email,
               username: res?.username,
-              image: res?.image
+              image: res?.image,
             })
+            console.log(res?.soundNotification);
+            setSoundNotification(res?.soundNotification)
           } else {
             setErrors({ message: res.message, type: '' })
 
@@ -95,7 +98,7 @@ function App() {
   return (
     <div className="App">
 
-      <NavigationComponent token={token?.token} setToken={setToken} userId={token?._id} newNot={newNot} setNewNot={setNewNot} socket={socket} />
+      <NavigationComponent token={token?.token} setToken={setToken} userId={token?._id} newNot={newNot} setNewNot={setNewNot} socket={socket} soundNotification={soundNotification} />
 
       {ontop && <i onClick={() => goToTop()} className="fa fa-arrow-up btn-to-up"></i>}
 
@@ -138,9 +141,9 @@ function App() {
 
             <Route path='/training-edit-program/:trainingId' element={<Suspense fallback={<LoadingSpinner />}><LazyEditProgramComponent token={token.token} userId={token._id} /></Suspense>} />
 
-            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} email={token?.email} socket={socket} onlineUsers={onlineUsers} /></Suspense>} />
+            <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} email={token?.email} socket={socket} onlineUsers={onlineUsers} setSoundNotification={setSoundNotification} soundNotification={soundNotification} /></Suspense>} />
 
-            <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} socket={socket} onlineUsers={onlineUsers} /></Suspense>} />
+            <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} socket={socket} onlineUsers={onlineUsers} setSoundNotification={setSoundNotification} soundNotification={soundNotification} /></Suspense>} />
           </>
         }
 

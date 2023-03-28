@@ -33,6 +33,17 @@ export const getAllNotificationsNumber = (userId, token) => {
         .then(res => res.json())
 }
 
+export const toggleSoundNot = (token, soundNotification) => {
+    return fetch(`${URL}/toggleSoundNot/${token}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ soundNotification })
+    })
+        .then(res => res.json())
+}
+
 export const readAllNotifications = (userId, token) => {
     return fetch(`${URL}/readAllNotifications`, {
         method: "POST",

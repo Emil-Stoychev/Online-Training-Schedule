@@ -77,6 +77,16 @@ const readAllNotifications = async (userId) => {
     }
 }
 
+const toggleSoundNot = async (soundNot, userId) => {
+    try {
+        await User.findByIdAndUpdate(userId, { $set: { soundNotification: !soundNot } })
+
+        return { sound: !soundNot }
+    } catch (error) {
+        return error
+    }
+}
+
 const getUserByUsernames = async (searchValue) => {
     try {
         let users = await User.find({ username: { $regex: ("^" + searchValue) } })
@@ -543,5 +553,6 @@ module.exports = {
     getUserByUsernames,
     getAllNotifications,
     getAllNotificationsNumber,
-    readAllNotifications
+    readAllNotifications,
+    toggleSoundNot
 }

@@ -38,24 +38,28 @@ export const AddCommentComponent = ({ userId, token, post, setPost, showComments
 
             postService.addComment(data)
                 .then(res => {
-                    setPost(state => ({
-                        ...state,
-                        comments: [...state.comments, showComments ? res : res?._id]
-                    }))
+                    if (!res.message) {
+                        setPost(state => ({
+                            ...state,
+                            comments: [...state.comments, showComments ? res : res?._id]
+                        }))
 
-                    if (post?.author != userId) {
-                        socket.current?.emit("sendNotification", {
-                            senderId: userId,
-                            receiverId: post?.author.toString(),
+                        if (post?.author != userId) {
+                            socket.current?.emit("sendNotification", {
+                                senderId: userId,
+                                receiverId: post?.author.toString(),
+                            })
+                        }
+
+                        setErrors({ message: 'You successfully added a comment!', type: '' })
+
+                        setValues({
+                            description: '',
+                            image: [],
                         })
+                    } else {
+                        setErrors({ message: res.message, type: '' })
                     }
-
-                    setErrors({ message: 'You successfully added a comment!', type: '' })
-
-                    setValues({
-                        description: '',
-                        image: [],
-                    })
                 })
         } else {
             setErrors({ message: 'Description must be at least 3 characters!', type: '' })

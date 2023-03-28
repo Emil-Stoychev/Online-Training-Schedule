@@ -135,12 +135,16 @@ const PostComponent = ({ socket, x, userId, token, image, setPosts }) => {
 
         postService.getComments(post?._id, token)
             .then(res => {
-                setShowComments(true)
+                if (!res.message) {
+                    setShowComments(true)
 
-                setPost(state => ({
-                    ...state,
-                    comments: res
-                }))
+                    setPost(state => ({
+                        ...state,
+                        comments: res
+                    }))
+                } else {
+                    setErrors({ message: res.message, type: '' })
+                }
             })
     }
 

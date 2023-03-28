@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { MessagesComponent } from '../../messages/Messages'
 import * as userService from '../../../services/authService'
 
-export const NavigationComponent = ({ token, setToken, userId, newNot, setNewNot, socket }) => {
+export const NavigationComponent = ({ token, setToken, userId, newNot, setNewNot, socket, soundNotification }) => {
     const [toggleBtn, setToggleBtn] = useState(false)
     const [messages, setMessages] = useState(false)
     let navigate = useNavigate()
@@ -23,9 +23,14 @@ export const NavigationComponent = ({ token, setToken, userId, newNot, setNewNot
     }
 
     useEffect(() => {
-        socket.current?.on('getNotification', (data) => {
+        socket.current?.on('getNotification', async (data) => {
             setNewNot(state => state + 1)
+
+            if (soundNotification) {
+                await new Audio('./msgAudio.mp3').play()
+            }
         })
+
     }, [socket.current])
 
     useEffect(() => {
