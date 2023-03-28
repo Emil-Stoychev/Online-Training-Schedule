@@ -37,20 +37,39 @@ const ChatComponent = ({ token, _id, image, onlineUsers, socket }) => {
       })
   }, [])
 
-  // console.log(sendMessage);
+  function setCurrChatOnTop(chatId) {
+    let savedChat
+
+    if (sendMessage != null) {
+      setChats(state => state.filter(x => {
+        if (x._id == chatId) {
+          savedChat = x
+          return
+        }
+
+        return x
+      }))
+    }
+
+    if (sendMessage != null) {
+      setChats(state => [savedChat, ...state])
+    }
+  }
 
   useEffect(() => {
-    // if (sendMessage != null) {
-    //   setChats(state => state.filter(x => {
-    //     if(x.rec)
-    //   } ))
-      socket.current?.emit('send-message', sendMessage)
+    socket.current?.emit('send-message', sendMessage)
+    if (sendMessage != null) {
+      setCurrChatOnTop(sendMessage?.res?.chatId || sendMessage?.chatId)
+    }
   }, [sendMessage])
 
   useEffect(() => {
     socket.current?.on('receive-message', (data) => {
       setReceivedMessage(data)
     })
+    if (receivedMessage != null) {
+      setCurrChatOnTop(receivedMessage?.chatId)
+    }
   }, [receivedMessage])
 
   const changeStyle = () => {
