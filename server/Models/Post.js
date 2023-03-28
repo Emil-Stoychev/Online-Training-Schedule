@@ -22,8 +22,9 @@ const postSchema = new mongoose.Schema({
     savedCount: {
         type: Array
     },
-    createdOn: Date
-})
+},
+    { timestamps: true },
+)
 
 const Post = mongoose.model('Post', postSchema)
 

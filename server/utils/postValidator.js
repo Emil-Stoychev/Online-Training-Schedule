@@ -19,7 +19,6 @@ const postValidator = (data, user) => {
         post.author = user._id
         post.username = user.username
         post.profileImage = user._id
-        post.createdOn = new Date()
     }
 
     return post

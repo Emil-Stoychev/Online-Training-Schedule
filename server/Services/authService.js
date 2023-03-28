@@ -173,7 +173,15 @@ const getByOption = async (userId, option, tokenUserId) => {
         filteredItems = await User.findById(userId).populate(option)
 
         if (userId == tokenUserId) {
-            filteredItems = await User.findById(userId).populate(option)
+            if (option == 'ownPosts' || option == 'trainings') {
+                filteredItems = await User.findById(userId)
+                    .populate({
+                        path: option,
+                        options: { sort: { 'createdAt': -1 } }
+                    })
+            } else {
+                filteredItems = await User.findById(userId).populate(option)
+            }
         } else {
             let user = await User.findById(userId)
 
@@ -181,15 +189,19 @@ const getByOption = async (userId, option, tokenUserId) => {
                 filteredItems = await User.findById(userId)
                     .populate({
                         path: option,
-                        match: { visible: { $in: ['Public', 'Friends'] } }
+                        match: { visible: { $in: ['Public', 'Friends'] } },
                     })
             } else {
                 filteredItems = await User.findById(userId)
                     .populate({
                         path: option,
-                        match: { visible: 'Public' }
+                        match: { visible: 'Public' },
                     })
             }
+        }
+
+        if (option == 'savedPosts' || option == 'savedTrainings') {
+            return filteredItems?.[option]?.reverse()
         }
 
         return filteredItems?.[option]

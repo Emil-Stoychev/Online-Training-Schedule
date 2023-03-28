@@ -10,7 +10,7 @@ const { addNotification } = require('../utils/notification')
 const getAll = async (pageNum) => {
     try {
         return await Post.find({ visible: 'Public' })
-            .sort('-createdOn')
+            .sort('-createdAt')
             .limit(10)
             .skip(pageNum)
             .populate('profileImage', ['image', 'username', 'location'])
@@ -28,7 +28,7 @@ const getAllFriendsPosts = async (pageNum, userId) => {
         let allIds = new Set(...[user?.following], ...[user.followers])
 
         return await Post.find({ author: { $in: [...allIds] }, $or: [{ visible: 'Public' }, { visible: 'Friends' }] })
-            .sort('-createdOn')
+            .sort('-createdAt')
             .limit(10)
             .skip(pageNum)
             .populate('profileImage', ['image', 'username', 'location'])
