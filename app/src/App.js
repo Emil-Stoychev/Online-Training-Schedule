@@ -97,8 +97,7 @@ function App() {
 
   return (
     <div className="App">
-
-      <NavigationComponent token={token?.token} setToken={setToken} userId={token?._id} newNot={newNot} setNewNot={setNewNot} socket={socket} soundNotification={soundNotification} />
+      <NavigationComponent token={token?.token} setToken={setToken} userId={token?._id} newNot={newNot} setNewNot={setNewNot} socket={socket} soundNotification={soundNotification} setSoundNotification={setSoundNotification} />
 
       {ontop && <i onClick={() => goToTop()} className="fa fa-arrow-up btn-to-up"></i>}
 

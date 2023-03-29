@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { MessagesComponent } from '../../messages/Messages'
 import * as userService from '../../../services/authService'
 
-export const NavigationComponent = ({ token, setToken, userId, newNot, setNewNot, socket, soundNotification }) => {
+export const NavigationComponent = ({ token, setToken, userId, newNot, setNewNot, socket, soundNotification, setSoundNotification }) => {
     const [toggleBtn, setToggleBtn] = useState(false)
     const [messages, setMessages] = useState(false)
     let navigate = useNavigate()
@@ -22,15 +22,19 @@ export const NavigationComponent = ({ token, setToken, userId, newNot, setNewNot
         navigate('/login')
     }
 
+    const audioRef = useRef(null)
+
     useEffect(() => {
-        socket.current?.on('getNotification', async (data) => {
+        if (soundNotification && audioRef.current != null && newNot != 0) {
+            audioRef.current.currentTime = 0;
+            audioRef.current.play();
+        }
+    }, [newNot])
+
+    useEffect(() => {
+        socket.current?.on('getNotification', (data) => {
             setNewNot(state => state + 1)
-
-            if (soundNotification) {
-                await new Audio('./msgAudio.mp3').play()
-            }
         })
-
     }, [socket.current])
 
     useEffect(() => {
@@ -88,6 +92,7 @@ export const NavigationComponent = ({ token, setToken, userId, newNot, setNewNot
     return (
         <>
             <nav className="nav">
+                <audio ref={audioRef} src="./msgAudio.mp3" />
                 <ul role='list' ref={navUL}>
                     <div className="main">
                         <li onClick={() => navigate('/')}>Home</li>
