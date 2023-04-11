@@ -27,6 +27,9 @@ const LazyTrainingPostComponent = lazy(() => import('./components/main/training-
 const LazyChatComponent = lazy(() => import('./components/chat/Chat.js'))
 const LazyEditProgramComponent = lazy(() => import('./components/training/edit-program/Edit-program'))
 const LazySearchComponent = lazy(() => import('./components/search/SearchComponent.js'))
+const LazyPaymentComponent = lazy(() => import('./components/payment/PaymentComponent.js'))
+const LazySuccessComponent = lazy(() => import('./components/payment/SuccessComponent.js'))
+const LazyCancelComponent = lazy(() => import('./components/payment/CancelComponent.js'))
 
 function App() {
   const [token, setToken] = useState(null)
@@ -143,6 +146,12 @@ function App() {
             <Route path='/profile' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent token={token?.token} userId={token?._id} email={token?.email} socket={socket} onlineUsers={onlineUsers} setSoundNotification={setSoundNotification} soundNotification={soundNotification} /></Suspense>} />
 
             <Route path='/profile/:profileId' element={<Suspense fallback={<LoadingSpinner />}><LazyProfileComponent setToken={setToken} token={token?.token} userId={token?._id} socket={socket} onlineUsers={onlineUsers} setSoundNotification={setSoundNotification} soundNotification={soundNotification} /></Suspense>} />
+
+            <Route path='/payment' element={<Suspense fallback={<LoadingSpinner />}><LazyPaymentComponent token={token.token} _id={token._id} image={token.image} onlineUsers={onlineUsers} /></Suspense>} />
+
+            <Route path='/success' element={<Suspense fallback={<LoadingSpinner />}><LazySuccessComponent token={token.token} _id={token._id} image={token.image} onlineUsers={onlineUsers} /></Suspense>} />
+
+            <Route path='/cancel' element={<Suspense fallback={<LoadingSpinner />}><LazyCancelComponent token={token.token} _id={token._id} image={token.image} onlineUsers={onlineUsers} /></Suspense>} />
           </>
         }
 

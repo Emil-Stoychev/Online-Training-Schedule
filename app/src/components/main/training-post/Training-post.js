@@ -125,8 +125,10 @@ const TrainingPostComponent = ({ token, _id, socket }) => {
                         }
 
                         <h1>{training?.mainTitle}</h1>
-
                         <hr />
+                        
+                        {training.payment && <span className="paymentSpanPrice">{training.price} {training.currency}</span>}
+
 
                         <div className='training-post-btns'>
                             <i onClick={() => toggleLikeTrainingProgram(training?._id)} className={`fa-solid fa-heart ${training?.likes?.includes(_id) && 'liked'}`}>{training?.likes?.length}</i>

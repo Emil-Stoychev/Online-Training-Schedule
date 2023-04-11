@@ -11,6 +11,17 @@ const trainingSchema = new mongoose.Schema({
         default: 'Public'
     },
     category: { type: mongoose.Schema.Types.ObjectId, ref: 'TrainingCategory' },
+    buyIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    payment: {
+        type: Boolean,
+        default: false
+    },
+    price: Number,
+    currency: {
+        type: String,
+        enum: ['BGN', 'EURO', 'USD'],
+        default: 'BGN'
+    }
 },
     { timestamps: true },
 )

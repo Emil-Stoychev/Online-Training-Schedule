@@ -291,6 +291,15 @@ section.profile-cont .profile-info-main .profile-info-posts > div > h2 {
   cursor:not-allowed
 }
 
+.paymentSpanPrice {
+  font-size: 20px;
+  color: white;
+  background-color: red;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
 @media screen and (max-width: 1000px) {
   section.profile-cont {
     width: 900px;
