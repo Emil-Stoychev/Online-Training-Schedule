@@ -8,7 +8,9 @@ export const ProgramBtnsAdd = ({
     categories,
     categoriesEmpty,
     setVisible,
-    visible
+    visible,
+    setPrice,
+    price
 }) => {
     const handleBtns = (option) => {
         let id = uuid()
@@ -45,6 +47,7 @@ export const ProgramBtnsAdd = ({
                 <button onClick={() => handleBtns('restTime')}>Rest Time +</button>
                 <button onClick={() => handleBtns('exerciseTime')}>Exercise Time +</button>
                 <button onClick={() => handleBtns('image')}>Image + </button>
+                <button onClick={!price.option ? () => setPrice({ value: '', option: true, currency: 'BGN' }) : (e) => (e)}>Price</button>
             </div>
 
             <div className='choose-category'>

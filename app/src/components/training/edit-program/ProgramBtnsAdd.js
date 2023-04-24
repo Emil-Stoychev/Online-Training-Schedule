@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import * as trainingService from '../../../services/trainingService.js'
 
-export const ProgramBtnsAdd = ({ userId, setCategory, category, setContainer, setVisible, visible }) => {
+export const ProgramBtnsAdd = ({ userId, setCategory, category, setContainer, setVisible, visible, setPrice, price }) => {
     let [allCategories, setAllCategories] = useState([])
 
     const handleBtns = (option) => {
@@ -40,6 +40,7 @@ export const ProgramBtnsAdd = ({ userId, setCategory, category, setContainer, se
                 <button onClick={() => handleBtns('restTime')}>Rest Time +</button>
                 <button onClick={() => handleBtns('exerciseTime')}>Exercise Time +</button>
                 <button onClick={() => handleBtns('image')}>Image + </button>
+                <button onClick={!price.option ? () => setPrice({ value: '', option: true, currency: 'BGN' }) : (e) => (e)}>Price</button>
             </div>
 
             <div className='choose-category'>

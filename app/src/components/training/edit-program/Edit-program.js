@@ -17,6 +17,11 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
         option: true,
         value: ''
     })
+    const [price, setPrice] = useState({
+        option: false,
+        value: '',
+        currency: 'BGN'
+    })
     const [visible, setVisible] = useState({
         value: 'Loading...'
     })
@@ -36,6 +41,10 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
                     setMainInputValue(res.mainTitle)
                     setContainer(res.container)
                     setVisible({ value: res.visible })
+
+                    if (res.payment == true) {
+                        setPrice({ option: true, value: res.price, currency: res.currency })
+                    }
                 } else {
                     setErrors({ message: res.message, type: '' })
                 }
@@ -88,6 +97,16 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
                 visible.value
             ]
 
+            if (price.option) {
+                if (price.value <= 0) {
+                    setErrors({ message: `Price is required!` })
+                    return
+                } else {
+                    data.push(price.value)
+                    data.push(price.currency)
+                }
+            }
+
             trainingService.editProgram(token, userId, data)
                 .then(res => {
                     if (!res.message) {
@@ -105,6 +124,16 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
         }
     }
 
+    const priceValueHandler = (e) => {
+        let vl = e.currentTarget.value
+
+        if (vl != 'BGN' && vl != 'EURO' && vl != 'USD') {
+            setPrice(state => ({ value: vl, option: state.option, currency: state.currency }))
+        } else {
+            setPrice(state => ({ value: state.value, option: state.option, currency: vl }))
+        }
+    }
+
     return (
         <section className='add-program'>
             <h1>Add program</h1>
@@ -116,6 +145,8 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
                 setContainer={setContainer}
                 setVisible={setVisible}
                 visible={visible}
+                setPrice={setPrice}
+                price={price}
             />
 
             <div className='add-option'>
@@ -135,6 +166,19 @@ const EditProgramComponent = ({ token, userId, setCategories }) => {
                     )
                 }
             </div>
+
+            {price.option &&
+                <div className='price-input-optional'>
+                    <input minLength='0' value={price.value} onChange={(e) => priceValueHandler(e)} type='number' placeholder='Price' />
+                    <h2 onClick={() => setPrice({ value: '', option: false, currency: '' })}>&#x2715;</h2>
+
+                    <select value={price.currency} onChange={(e) => priceValueHandler(e)}>
+                        <option value='BGN' >BGN</option>
+                        <option value='EURO' >EURO</option>
+                        <option value='USD' >USD</option>
+                    </select>
+                </div>
+            }
 
             <div>
                 <button className='last-btn' onClick={() => navigate(`/training-post/${window.location.pathname.split('/training-edit-program/')[1]}`)}>Cancel</button>

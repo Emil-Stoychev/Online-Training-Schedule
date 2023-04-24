@@ -151,6 +151,17 @@
   cursor: pointer;
 }
 
+.add-program .price-input-optional {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.add-program .price-input-optional input {
+  border-color: rgb(226, 188, 188);
+}
+
 @media screen and (max-width: 1250px) {
   .add-program {
     width: 90%;

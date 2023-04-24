@@ -90,37 +90,37 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
                             <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                         </div>
                         :
-                        current?.option == 'image'
-                            ?
-                            <div className='image-cnt'>
-                                <div className='image-input-file'>
-                                    <input ref={uploadRef} style={{ display: 'none' }} onChange={(e) => addImage(e, current?.id, current?.option)} type='file' />
-                                    <button className='' onClick={() => uploadFile()}>Upload image</button>
+                            current?.option == 'image'
+                                ?
+                                <div className='image-cnt'>
+                                    <div className='image-input-file'>
+                                        <input ref={uploadRef} style={{ display: 'none' }} onChange={(e) => addImage(e, current?.id, current?.option)} type='file' />
+                                        <button className='' onClick={() => uploadFile()}>Upload image</button>
+                                        <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
+                                    </div>
+
+                                    <div className='image-cnt-uploadImages'>
+                                        {current?.image.length > 0 &&
+                                            current?.image?.map(y =>
+                                                <div key={y.id}>
+                                                    <img src={y.data} />
+                                                    <input
+                                                        className="inputBox-UploadImage-Btn"
+                                                        type="button"
+                                                        value="X"
+                                                        onClick={(e) => removeImage(e, current?.id, current?.option)}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                    </div>
+                                </div>
+                                :
+                                current?.option == 'exerciseTime' &&
+                                <div>
+                                    <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='exercise-time' placeholder='Exercise time 02:24' />
                                     <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                                 </div>
-
-                                <div className='image-cnt-uploadImages'>
-                                    {current?.image.length > 0 &&
-                                        current?.image?.map(y =>
-                                            <div key={y.id}>
-                                                <img src={y.data} />
-                                                <input
-                                                    className="inputBox-UploadImage-Btn"
-                                                    type="button"
-                                                    value="X"
-                                                    onClick={(e) => removeImage(e, current?.id, current?.option)}
-                                                />
-                                            </div>
-                                        )
-                                    }
-                                </div>
-                            </div>
-                            :
-                            current?.option == 'exerciseTime' &&
-                            <div>
-                                <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='exercise-time' placeholder='Exercise time 02:24' />
-                                <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
-                            </div>
             }</>
     )
 }
