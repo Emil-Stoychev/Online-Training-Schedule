@@ -90,6 +90,12 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories, 
                             setCategories(state => state.find(x => x._id == res.category._id) ? state : [...state, res.category])
                         }
 
+                        setPrice({
+                            option: false,
+                            value: '',
+                            currency: ''
+                        })
+
                         setErrors({ message: `You successfully created a ${res?.likes ? 'program' : 'category'}!`, type: '' })
                     } else {
                         setErrors({ message: res.message, type: '' })

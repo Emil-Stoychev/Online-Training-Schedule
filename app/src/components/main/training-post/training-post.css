@@ -234,6 +234,7 @@
   color: white;
   background-color: red;
   width: 100%;
+  max-width: 100%;
   display: inline-block;
   border-radius: 1rem;
   text-align: center;

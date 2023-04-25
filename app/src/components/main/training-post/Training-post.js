@@ -95,6 +95,12 @@ const TrainingPostComponent = ({ token, _id, socket }) => {
         }
     }
 
+    const buyThisTrainingProgram = () => {
+        if (training?.author?._id != _id) {
+            navigate('/payment', { state: { trainingId: training._id, trainingProgramName: training.mainTitle, price: training.price, currency: training.currency, _id } })
+        }
+    }
+
     return (
         <>
             {training
@@ -126,9 +132,8 @@ const TrainingPostComponent = ({ token, _id, socket }) => {
 
                         <h1>{training?.mainTitle}</h1>
                         <hr />
-                        
-                        {training.payment && <span className="paymentSpanPrice">{training.price} {training.currency}</span>}
 
+                        {training.payment && <span onClick={() => buyThisTrainingProgram()} className="paymentSpanPrice">{training.price} {training.currency}</span>}
 
                         <div className='training-post-btns'>
                             <i onClick={() => toggleLikeTrainingProgram(training?._id)} className={`fa-solid fa-heart ${training?.likes?.includes(_id) && 'liked'}`}>{training?.likes?.length}</i>

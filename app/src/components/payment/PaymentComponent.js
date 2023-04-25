@@ -1,25 +1,24 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './payment.css'
 import * as paymentService from '../../services/payment'
 
 const PaymentComponent = ({ token, userId, onlineUsers }) => {
     const navigate = useNavigate()
+    const { state } = useLocation()
 
-    let test = [
-        { id: 1, name: 'Kardio', price: 1 },
-        { id: 2, name: 'Biceps', price: 1 }
-    ]
+    useEffect(() => {
+        if (state == null) {
+            navigate('/404-not-found')
+        }
+    }, [])
 
     const payNow = (e) => {
         e.preventDefault()
 
-        let items = [
-            { id: 1, quantity: 3 },
-            { id: 2, quantity: 1 }
-        ]
+        let data = state
 
-        paymentService.createSession(token, items)
+        paymentService.createSession(token, data)
             .then(res => {
                 console.log(res)
                 if (res.url) {
@@ -34,7 +33,10 @@ const PaymentComponent = ({ token, userId, onlineUsers }) => {
         <>
             <section className='container'>
                 <form id="payment-form">
-                    <div id="card-element">{test.map(x => <b key={x.id}>{x.price}, </b>)} BGN</div>
+                    <div id="card-element">
+                        <p>{state?.trainingProgramName}</p>
+                        <h3>{state?.price} {state?.currency}</h3>
+                    </div>
                     <button id="submit-payment" onClick={(e) => payNow(e)}>
                         <div className="spinner hidden" id="spinner"></div>
                         <span id="button-text">Pay now</span>
