@@ -72,55 +72,67 @@ export const InputOptionsComponent = ({ current, setContainer, container }) => {
             {current?.option == 'title'
                 ?
                 <div>
-                    <input minLength='3' maxLength='16' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='text' placeholder='Exercise name' />
+                    <div>
+                        <label htmlFor='title'>Title</label>
+                        <input id='title' minLength='3' maxLength='16' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='text' placeholder='Exercise name' />
+                    </div>
                     <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                 </div>
                 :
                 current?.option == 'description'
                     ?
                     <div>
-                        <textarea minLength='3' maxLength='550' onChange={(e) => cntValueHandler(e, current?.id, current?.option)} placeholder='More info here'>{container[current?.id]?.value}</textarea>
+                        <div>
+                            <label htmlFor='description'>Description</label>
+                            <textarea id='description' minLength='3' maxLength='550' onChange={(e) => cntValueHandler(e, current?.id, current?.option)} placeholder='More info here'>{container[current?.id]?.value}</textarea>
+                        </div>
                         <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                     </div>
                     :
                     current?.option == 'restTime'
                         ?
                         <div>
-                            <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='rest-time' placeholder='Rest time 02:24' />
+                            <div>
+                                <label htmlFor='rest-time'>Rest Time</label>
+                                <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='rest-time' placeholder='Rest time 02:24' />
+                            </div>
                             <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                         </div>
                         :
-                            current?.option == 'image'
-                                ?
-                                <div className='image-cnt'>
-                                    <div className='image-input-file'>
-                                        <input ref={uploadRef} style={{ display: 'none' }} onChange={(e) => addImage(e, current?.id, current?.option)} type='file' />
-                                        <button className='' onClick={() => uploadFile()}>Upload image</button>
-                                        <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
-                                    </div>
-
-                                    <div className='image-cnt-uploadImages'>
-                                        {current?.image.length > 0 &&
-                                            current?.image?.map(y =>
-                                                <div key={y.id}>
-                                                    <img src={y.data} />
-                                                    <input
-                                                        className="inputBox-UploadImage-Btn"
-                                                        type="button"
-                                                        value="X"
-                                                        onClick={(e) => removeImage(e, current?.id, current?.option)}
-                                                    />
-                                                </div>
-                                            )
-                                        }
-                                    </div>
-                                </div>
-                                :
-                                current?.option == 'exerciseTime' &&
-                                <div>
-                                    <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='exercise-time' placeholder='Exercise time 02:24' />
+                        current?.option == 'image'
+                            ?
+                            <div className='image-cnt'>
+                                <div className='image-input-file'>
+                                    <input ref={uploadRef} style={{ display: 'none' }} onChange={(e) => addImage(e, current?.id, current?.option)} type='file' />
+                                    <button className='' onClick={() => uploadFile()}>Upload image</button>
                                     <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                                 </div>
+
+                                <div className='image-cnt-uploadImages'>
+                                    {current?.image.length > 0 &&
+                                        current?.image?.map(y =>
+                                            <div key={y.id}>
+                                                <img src={y.data} />
+                                                <input
+                                                    className="inputBox-UploadImage-Btn"
+                                                    type="button"
+                                                    value="X"
+                                                    onClick={(e) => removeImage(e, current?.id, current?.option)}
+                                                />
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                            :
+                            current?.option == 'exerciseTime' &&
+                            <div>
+                                <div>
+                                    <label htmlFor='exercise-time'>Exercise Time</label>
+                                    <input minLength='0' value={container[current?.id]?.value} onChange={(e) => cntValueHandler(e, current?.id, current?.option)} type='number' id='exercise-time' placeholder='Exercise time 02:24' />
+                                </div>
+                                <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
+                            </div>
             }</>
     )
 }

@@ -128,7 +128,7 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories, 
 
             <div className='add-option'>
 
-                {container.length > 0 && <input minLength='3' maxLength='30' ref={mainInputTitle} type='text' placeholder='Main title' />}
+                {container.length > 0 && <input className='add-option-main-title' minLength='3' maxLength='30' ref={mainInputTitle} type='text' placeholder='Main title' />}
 
                 {container.length > 0 &&
                     container.map((x) =>
@@ -145,13 +145,13 @@ export const AddProgramComponent = ({ token, userId, setCategories, categories, 
             {price.option &&
                 <div className='price-input-optional'>
                     <input minLength='0' value={price.value} onChange={(e) => priceValueHandler(e)} type='number' placeholder='Price' />
-                    <h2 onClick={() => setPrice({ value: '', option: false, currency: '' })}>&#x2715;</h2>
 
                     <select value={price.currency} onChange={(e) => priceValueHandler(e)}>
                         <option value='BGN' >BGN</option>
                         <option value='EURO' >EURO</option>
                         <option value='USD' >USD</option>
                     </select>
+                    <h2 onClick={() => setPrice({ value: '', option: false, currency: '' })}>&#x2715;</h2>
                 </div>
             }
 

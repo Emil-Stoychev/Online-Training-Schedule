@@ -74,22 +74,31 @@ export const InputOptionsComponent = ({ current, setContainer, container, setCon
             {current?.option == 'title'
                 ?
                 <div>
-                    <input minLength='3' maxLength='16' value={container.find(x => x._id == current._id).value || ''} onChange={(e) => cntValueHandler(e, current?._id, current?.option)} type='text' placeholder='Exercise name' />
+                    <div>
+                        <label htmlFor='title'>Title</label>
+                        <input minLength='3' maxLength='16' value={container.find(x => x._id == current._id).value || ''} onChange={(e) => cntValueHandler(e, current?._id, current?.option)} type='text' placeholder='Exercise name' />
+                    </div>
                     <h2 onClick={() => removeFieldFromCnt(current?._id)}>&#x2715;</h2>
                 </div>
                 :
                 current?.option == 'description'
                     ?
                     <div>
-                        <textarea minLength='3' maxLength='550' onChange={(e) => cntValueHandler(e, current?._id, current?.option)} placeholder='More info here' value={container.find(x => x._id == current._id).value || ''} ></textarea>
-                        <h2 onClick={() => removeFieldFromCnt(current?._id)}>&#x2715;</h2>
+                        <div>
+                            <label htmlFor='description'>Description</label>
+                            <textarea minLength='3' maxLength='550' onChange={(e) => cntValueHandler(e, current?._id, current?.option)} placeholder='More info here' value={container.find(x => x._id == current._id).value || ''} ></textarea>
+                        </div>
+                        <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                     </div>
                     :
                     current?.option == 'restTime'
                         ?
                         <div>
-                            <input minLength='0' value={container.find(x => x._id == current._id).value || ''} onChange={(e) => cntValueHandler(e, current?._id, current?.option)} type='number' id='rest-time' placeholder='Rest time (min)' />
-                            <h2 onClick={() => removeFieldFromCnt(current?._id)}>&#x2715;</h2>
+                            <div>
+                                <label htmlFor='rest-time'>Rest Time</label>
+                                <input minLength='0' value={container.find(x => x._id == current._id).value || ''} onChange={(e) => cntValueHandler(e, current?._id, current?.option)} type='number' id='rest-time' placeholder='Rest time (min)' />
+                            </div>
+                            <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                         </div>
                         :
                         current?.option == 'image'
@@ -120,8 +129,11 @@ export const InputOptionsComponent = ({ current, setContainer, container, setCon
                             :
                             current?.option == 'exerciseTime' &&
                             <div>
-                                <input minLength='0' value={container.find(x => x._id == current._id).value || ''} onChange={(e) => cntValueHandler(e, current?._id, current?.option)} type='number' id='exercise-time' placeholder='Exercise time (min)' />
-                                <h2 onClick={() => removeFieldFromCnt(current?._id)}>&#x2715;</h2>
+                                <div>
+                                    <label htmlFor='exercise-time'>Exercise Time</label>
+                                    <input minLength='0' value={container.find(x => x._id == current._id).value || ''} onChange={(e) => cntValueHandler(e, current?._id, current?.option)} type='number' id='exercise-time' placeholder='Exercise time (min)' />
+                                </div>
+                                <h2 onClick={() => removeFieldFromCnt(current?.id)}>&#x2715;</h2>
                             </div>
             }</>
     )

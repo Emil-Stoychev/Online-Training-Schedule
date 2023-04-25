@@ -97,7 +97,6 @@ const create = async (mainTitle, container, category, userId, visible, price, cu
 }
 
 const editProgram = async (data, userId) => {
-    console.log(data);
     const [trainingId, mainInputTitle, container, category, containerIds, deleteImagesIds, visible, price, currency] = data
     try {
         let user = await getUserById(userId)
